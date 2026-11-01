@@ -120,7 +120,8 @@ export default function ServiceEngagementModels() {
       {/* Background radial accent glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-[#FFD400]/[0.03] rounded-full blur-[140px] pointer-events-none" />
 
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
+      <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
+        <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/60 border border-[#FFD400]/40 text-[#FFD400] backdrop-blur-md shadow-sm">
@@ -258,6 +259,7 @@ export default function ServiceEngagementModels() {
             <Users className="w-4 h-4 text-[#FFD400]" />
             <span>Flexible Scaling With Zero Cancellation Penalties</span>
           </div>
+        </div>
         </div>
       </div>
     </section>

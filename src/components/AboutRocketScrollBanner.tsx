@@ -350,7 +350,7 @@ export default function AboutRocketScrollBanner({
                   </div>
 
                   {/* 2. Primary Headline with Dynamic Futuristic Typewriter Effect */}
-                  <h2 className="text-2xl sm:text-4xl lg:text-[40px] font-extrabold text-white tracking-[-0.01em] leading-[1.16] font-[family-name:var(--font-syne)] min-h-[2.35em]">
+                  <h2 className="text-2xl sm:text-4xl lg:text-[40px] font-extrabold text-white tracking-[-0.01em] leading-[1.24] font-[family-name:var(--font-syne)] min-h-[2.35em]">
                     {renderedLine1}
                     {line2Chars > 0 && <br />}
                     <span className="text-[#FFD400]">{renderedLine2}</span>

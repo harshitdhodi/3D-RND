@@ -115,14 +115,15 @@ export default function ServiceConversionCTA({
       {/* Ambient glow backdrop */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[550px] bg-gradient-to-r from-blue-600/10 via-[#FFD400]/12 to-purple-600/10 rounded-full blur-[170px] pointer-events-none" />
 
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
+      <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
+        <div className="max-w-7xl mx-auto">
         <div className="relative rounded-[32px] sm:rounded-[40px] overflow-hidden bg-gradient-to-br from-[#0d1017]/95 via-[#090b10]/95 to-[#0d1017]/95 border border-white/15 p-6 sm:p-12 lg:p-16 shadow-[0_25px_80px_rgba(0,0,0,0.85)]">
           {/* Subtle Cyber Grid Texture */}
           <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
 
           {/* Top Section Header */}
           <div className="relative z-10 text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/60 border border-[#FFD400]/40 text-[#FFD400] backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
               <Sparkles className="w-3.5 h-3.5" />
               <span>{badge}</span>
             </div>
@@ -255,7 +256,7 @@ export default function ServiceConversionCTA({
             </div>
 
             {/* Right Column: Interactive Direct CTA Form */}
-            <div className="lg:col-span-7 bg-[#0b0c10]/95 backdrop-blur-xl p-6 sm:p-9 rounded-2xl sm:rounded-3xl border border-white/15 shadow-2xl relative">
+            <div className="lg:col-span-7 bg-[#0c0e14] p-6 sm:p-9 rounded-2xl sm:rounded-3xl border border-white/15 shadow-2xl relative transform-gpu [backface-visibility:hidden]">
               {/* Corner Flare */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-[#FFD400]/5 blur-3xl rounded-full pointer-events-none" />
 
@@ -514,6 +515,7 @@ export default function ServiceConversionCTA({
               <span className="text-[11px] text-neutral-400">Transparent advisory</span>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>

@@ -62,7 +62,8 @@ export const technologySubCategories: TechnologySubCategorySummary[] = [
     sla: "1.2s CHECKOUT SPEED",
     tags: ["Headless Shopify", "Stripe API", "Next.js Edge", "Algolia Search"],
     href: "/technology-solution/ecommerce-platform-engineering",
-    image: "/images/service_branding.jpg",
+    badge: "SHOPIFY PLUS",
+    image: "/images/service_ecommerce_color.jpg",
   },
   {
     id: "mobile-applications",

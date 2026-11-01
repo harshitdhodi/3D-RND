@@ -122,7 +122,7 @@ export default function ServicesPage() {
 
       <main className="relative z-20 w-full -mt-10 sm:-mt-14 md:-mt-18 rounded-t-[32px] sm:rounded-t-[44px] bg-[#050608]/90 backdrop-blur-xl border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)] overflow-hidden">
         {/* Section 2.1: Capabilities Overview Header & Live Metrics */}
-        <section className="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 pt-14 pb-8">
+        <section className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-14 pb-8">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-10 border-b border-white/10">
             <div className="max-w-4xl">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/60 border border-[#FFD400]/40 text-[#FFD400] backdrop-blur-md">
@@ -220,7 +220,7 @@ export default function ServicesPage() {
         {/* =========================================================================
             INTERACTIVE SERVICE SEARCH & FULL BENTO DIRECTORY GRID
             ========================================================================= */}
-        <section id="directory" className="py-24 max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 scroll-mt-24 border-t border-white/10">
+        <section id="directory" className="py-24 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 scroll-mt-24 border-t border-white/10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-white/10">
             <div>
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-3 bg-black/60 border border-[#FFD400]/40 text-[#FFD400] backdrop-blur-md">

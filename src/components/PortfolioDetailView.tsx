@@ -117,11 +117,12 @@ export default function PortfolioDetailView({
         </div>
       )}
 
-      <main className="relative z-10">
+      <main className="relative z-10 w-full px-4 sm:px-8 lg:px-12">
+        <div className="max-w-7xl mx-auto">
         {/* =========================================================================
             1. HERO HEADER
             ========================================================================= */}
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 mb-12 sm:mb-16">
+        <div className="w-full mb-12 sm:mb-16">
 
           {/* Hero Header Card */}
           <div className="relative rounded-[32px] sm:rounded-[40px] overflow-hidden bg-gradient-to-br from-[#0e111a]/95 via-[#090b10]/95 to-[#0e111a]/95 border border-white/15 p-6 sm:p-12 lg:p-16 shadow-[0_25px_80px_rgba(0,0,0,0.85)]">
@@ -200,7 +201,7 @@ export default function PortfolioDetailView({
             2. VERIFIED RESULTS METRICS (When Data Available)
             ========================================================================= */}
         {project.results && project.results.length > 0 && (
-          <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 mb-16">
+          <div className="w-full mb-16">
             <div className="flex items-center justify-between mb-4">
               <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#FFD400] font-bold flex items-center gap-2">
                 <TrendingUp className="w-4 h-4" />
@@ -238,7 +239,7 @@ export default function PortfolioDetailView({
         {/* =========================================================================
             3. MAIN SHOWCASE THUMBNAIL & VIDEO PREVIEW
             ========================================================================= */}
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 mb-20">
+        <div className="w-full mb-20">
           <div className="relative rounded-3xl overflow-hidden aspect-[16/9] md:aspect-[21/9] border border-white/15 shadow-2xl group">
             <Image
               src={project.image}
@@ -280,7 +281,7 @@ export default function PortfolioDetailView({
         {/* =========================================================================
             4. THE STRATEGIC NARRATIVE: BRIEF, CHALLENGE, SOLUTION & DELIVERABLES
             ========================================================================= */}
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 mb-20">
+        <div className="w-full mb-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             {/* The Brief */}
             <div className="p-8 sm:p-10 rounded-3xl bg-[#0c0e14]/90 border border-white/10 hover:border-[#FFD400]/40 transition-colors shadow-xl">
@@ -369,7 +370,7 @@ export default function PortfolioDetailView({
             5. INTERACTIVE MULTI-IMAGE GALLERY
             ========================================================================= */}
         {project.galleryImages && project.galleryImages.length > 0 && (
-          <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 mb-20">
+          <div className="w-full mb-20">
             <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/10">
               <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#FFD400] font-bold">
                 SHOWCASE GALLERY &amp; SCREENSHOTS ({project.galleryImages.length})
@@ -405,7 +406,7 @@ export default function PortfolioDetailView({
         {/* =========================================================================
             6. ARCHITECTURAL SCOPE MODULES & TECH STACK
             ========================================================================= */}
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 mb-20">
+        <div className="w-full mb-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
             {/* Scope Steps */}
             <div className="lg:col-span-8">
@@ -496,7 +497,7 @@ export default function PortfolioDetailView({
             7. RELATED PROJECTS (Same Category or Stack)
             ========================================================================= */}
         {relatedProjects.length > 0 && (
-          <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 mb-24">
+          <div className="w-full mb-24">
             <div className="flex items-center justify-between mb-8 pb-3 border-b border-white/10">
               <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#FFD400] font-bold">
                 EXPLORE RELATED CASE STUDIES
@@ -556,7 +557,7 @@ export default function PortfolioDetailView({
         {/* =========================================================================
             8. PREVIOUS / NEXT MISSION NAVIGATION
             ========================================================================= */}
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 mb-20">
+        <div className="w-full mb-20">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-6 rounded-2xl bg-white/[0.02] border border-white/10">
             {prevProject ? (
               <Link
@@ -605,7 +606,7 @@ export default function PortfolioDetailView({
         {/* =========================================================================
             9. SIMILAR-PROJECT ENQUIRY CTA FORM
             ========================================================================= */}
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 pb-24">
+        <div className="w-full pb-24">
           <ServiceConversionCTA
             id="inquire-form"
             defaultService={project.title}
@@ -614,6 +615,7 @@ export default function PortfolioDetailView({
             title={`Ready to Commission a Project Similar to ${project.title}?`}
             subtitle={`Whether you need the same performance architecture, headless storefront, or digital acquisition engine, our engineering leadership is ready to review your brief.`}
           />
+        </div>
         </div>
       </main>
 

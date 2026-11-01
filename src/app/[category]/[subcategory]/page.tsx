@@ -191,17 +191,17 @@ const CATEGORY_META: Record<
     categoryName: "Technology Solutions",
   },
   "digital-marketing": {
-    parentPath: "/services#digital-marketing",
+    parentPath: "/digital-marketing",
     parentLabel: "Digital Marketing",
     categoryName: "Digital Marketing",
   },
   "branding-design": {
-    parentPath: "/services#branding-design",
+    parentPath: "/branding-design",
     parentLabel: "Branding & Design",
     categoryName: "Branding & Design",
   },
   "media-production": {
-    parentPath: "/services#media-production",
+    parentPath: "/media-production",
     parentLabel: "Media Production",
     categoryName: "Media Production",
   },

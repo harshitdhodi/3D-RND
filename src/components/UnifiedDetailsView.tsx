@@ -205,7 +205,7 @@ export default function UnifiedDetailsView({
             ========================================================================= */}
                 {type !== "portfolio" && (
                     <div className="border-b border-white/10 bg-[#0c0e14]/95 backdrop-blur-xl sticky top-16 sm:top-20 z-30 shadow-2xl rounded-t-[32px] sm:rounded-t-[44px]">
-                        <div className="max-w-[1360px] mx-auto px-6 sm:px-8 lg:px-12 py-3.5 flex items-center justify-between">
+                        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-3.5 flex items-center justify-between">
                             {/* Left: Back Link */}
                             <Link
                                 href={parentPath}
@@ -249,7 +249,7 @@ export default function UnifiedDetailsView({
                 {/* =========================================================================
             3. MAIN 2-COLUMN SPLIT SECTION (7 Cols Left / 5 Cols Sticky Right)
             ========================================================================= */}
-                <section className="max-w-[1360px] mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24">
+                <section className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-20 items-start">
 
                         {/* Left Column (7 cols): Methodology, Overview, Quote Card & Gallery */}
@@ -463,7 +463,7 @@ export default function UnifiedDetailsView({
                 {/* =========================================================================
             4. DETAILED SCOPE OF WORKS (3-Column Execution Matrix)
             ========================================================================= */}
-                <section className="max-w-[1360px] mx-auto px-6 sm:px-8 lg:px-12 py-16 border-t border-white/10">
+                <section className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 border-t border-white/10">
                     <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
                         <span className="text-xs font-mono uppercase tracking-[0.22em] text-[#FFD400] font-semibold">
                             Comprehensive Execution Matrix
@@ -514,7 +514,7 @@ export default function UnifiedDetailsView({
                 {/* =========================================================================
             5. SERVICE CLARIFICATIONS & FAQ ACCORDION (Matching Reference Page)
             ========================================================================= */}
-                <section className="max-w-[1360px] mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24 border-t border-white/10">
+                <section className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24 border-t border-white/10">
                     <div className="max-w-3xl mx-auto space-y-8">
                         <div className="text-center space-y-3">
                             <span className="text-xs font-mono uppercase tracking-[0.22em] text-[#FFD400] font-semibold">
@@ -569,7 +569,7 @@ export default function UnifiedDetailsView({
                 {/* =========================================================================
             6. PREVIOUS / NEXT NAVIGATION BAR (Matching Reference Page)
             ========================================================================= */}
-                <section className="max-w-[1360px] mx-auto px-6 sm:px-8 lg:px-12 py-12 border-t border-white/10">
+                <section className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12 border-t border-white/10">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         {prevItem ? (
                             <Link
@@ -639,7 +639,7 @@ export default function UnifiedDetailsView({
             8. RECENT & RELATED DATA SECTION (Matching Reference Page)
             ========================================================================= */}
                 {allServicesOrItems.length > 0 && (
-                    <section className="max-w-[1360px] mx-auto px-6 sm:px-8 lg:px-12 pb-24 border-t border-white/10 pt-16">
+                    <section className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pb-24 border-t border-white/10 pt-16">
                         <div className="flex flex-col sm:flex-row items-baseline justify-between mb-10 gap-4">
                             <div>
                                 <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#FFD400] font-semibold block mb-1">

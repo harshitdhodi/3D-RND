@@ -257,14 +257,15 @@ export default function PortfoliosPage() {
       {/* Main Content Area - Solid bg-[#050608] to isolate compositor and prevent WebGL redraw flashes */}
       <main className="relative z-20 w-full -mt-10 sm:-mt-14 md:-mt-18 rounded-t-[32px] sm:rounded-t-[44px] bg-[#050608] border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)] overflow-hidden">
         {/* Top Header Section */}
-        <section className="bg-black max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 pt-14 pb-6">
+        <section className="bg-black w-full px-4 sm:px-8 lg:px-12 pt-14 pb-6">
+          <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2">
             <div>
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/60 border border-[#FFD400]/40 text-[#FFD400] backdrop-blur-md">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>PORTFOLIO DIRECTORY // 2025 - 2026 ARCHIVE</span>
               </div>
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-[family-name:var(--font-bebas)] tracking-wide uppercase leading-[0.95] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.02] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
                 SELECTED WORKS &amp;{" "}
                 <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.45)]">
                   CASE STUDIES
@@ -306,12 +307,13 @@ export default function PortfoliosPage() {
               </Link>
             </div>
           </div>
+          </div>
         </section>
 
         {/* Admin Dashboard Bar (Only when Admin Mode is ON) */}
         {isAdminMode && (
           <section className="bg-[#0e111a] border-y border-[#FFD400]/40 px-4 sm:px-8 lg:px-12 py-3.5">
-            <div className="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-4 text-xs font-mono">
+            <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 text-xs font-mono">
               <div className="flex items-center gap-3">
                 <span className="px-2.5 py-1 rounded-md bg-[#FFD400]/15 text-[#FFD400] border border-[#FFD400]/30 font-bold uppercase tracking-wider">
                   ADMIN CONSOLE
@@ -350,7 +352,8 @@ export default function PortfoliosPage() {
         )}
 
         {/* Filter and Content Grid Section */}
-        <div className="relative pt-8 pb-20 px-4 sm:px-8 lg:px-12 max-w-[1600px] mx-auto">
+        <div className="relative pt-8 pb-20 px-4 sm:px-8 lg:px-12 w-full">
+          <div className="max-w-7xl mx-auto">
           {/* Category Tabs: The 5 Requested Categories */}
           <div className="relative z-10 mb-6 pb-4 border-b border-white/10 overflow-x-auto scrollbar-none">
             <div className="flex items-center gap-2.5 min-w-max">
@@ -677,7 +680,8 @@ export default function PortfoliosPage() {
             />
           </div>
         </div>
-      </main>
+          </div>
+        </main>
 
       {/* Global RnD Footer */}
       <RnDFooter />

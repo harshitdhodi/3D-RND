@@ -15,15 +15,15 @@ const CATEGORY_CONFIG: Record<
   },
   "digital-marketing": {
     name: "Digital Marketing",
-    redirectTo: "/services#digital-marketing",
+    redirectTo: "/digital-marketing",
   },
   "branding-design": {
     name: "Branding & Design",
-    redirectTo: "/services#branding-design",
+    redirectTo: "/branding-design",
   },
   "media-production": {
     name: "Media Production",
-    redirectTo: "/services#media-production",
+    redirectTo: "/media-production",
   },
 };
 

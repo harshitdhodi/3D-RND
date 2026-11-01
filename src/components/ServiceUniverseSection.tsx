@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import {
   Sparkles,
@@ -602,26 +602,28 @@ const SERVICE_DIVISIONS: ServiceDivision[] = [
 export default function ServiceUniverseSection() {
   const [activeTab, setActiveTab] = useState<string>("all");
 
-  // Filter divisions based on active tab
-  const displayedDivisions =
-    activeTab === "all"
+  // Filter divisions based on active tab (memoized to avoid re-filtering on render)
+  const displayedDivisions = useMemo(() => {
+    return activeTab === "all"
       ? SERVICE_DIVISIONS
       : SERVICE_DIVISIONS.filter((d) => d.id === activeTab);
+  }, [activeTab]);
 
   return (
     <section
       id="service-universe"
-      className="relative py-20 sm:py-28 lg:py-32 text-white overflow-hidden scroll-mt-20 select-none"
+      className="relative py-20 sm:py-28 lg:py-32 text-white overflow-hidden scroll-mt-20 select-none bg-[#050608] transform-gpu"
     >
       {/* Background Celestial Mist */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1000px] bg-gradient-to-b from-[#38bdf8]/[0.025] via-[#FFD400]/[0.02] to-transparent rounded-full blur-[220px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1000px] bg-[radial-gradient(ellipse_at_center,_rgba(56,189,248,0.035)_0%,_rgba(255,212,0,0.025)_40%,_transparent_70%)] pointer-events-none transform-gpu" />
 
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
+      <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
+        <div className="max-w-7xl mx-auto">
         {/* =========================================================================
             HEADER: TITLE & DARK CYBER BADGE
             ========================================================================= */}
         <div className="text-center max-w-4xl mx-auto mb-10 sm:mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/70 border border-[#FFD400]/40 text-[#FFD400] backdrop-blur-md shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
             <Sparkles className="w-3.5 h-3.5" />
             <span>2.2 SERVICE UNIVERSE // INTEGRATED TECHNOLOGY ARCHITECTURE</span>
           </div>
@@ -695,7 +697,7 @@ export default function ServiceUniverseSection() {
               return (
                 <div
                   key={division.id}
-                  className={`relative rounded-3xl p-6 sm:p-8 bg-[#08090d]/85 border transition-all duration-300 shadow-xl ${
+                  className={`relative rounded-3xl p-6 sm:p-8 bg-[#0c0e14] border transition-colors duration-300 shadow-xl transform-gpu [backface-visibility:hidden] ${
                     activeTab === division.id
                       ? "border-[#FFD400]/70 shadow-[0_0_35px_rgba(255,212,0,0.18)]"
                       : "border-white/10 hover:border-white/30"
@@ -743,7 +745,7 @@ export default function ServiceUniverseSection() {
                         <span>Explore Category</span>
                         <ArrowUpRight className="w-3 h-3" />
                       </Link>
-                      <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-white/10 text-white border border-white/10">
+                      <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-black/60 text-white border border-white/10">
                         {division.tools.length} Logos
                       </span>
                     </div>
@@ -754,7 +756,7 @@ export default function ServiceUniverseSection() {
                     {division.tools.map((t) => (
                       <div
                         key={t.id}
-                        className="group relative aspect-square rounded-2xl bg-white/[0.04] hover:bg-white/[0.09] border border-white/15 hover:border-[#FFD400]/70 flex flex-col items-center justify-center p-3 transition-all duration-300 hover:scale-105 shadow-md hover:shadow-[0_0_20px_rgba(255,212,0,0.2)] cursor-default"
+                        className="group relative aspect-square rounded-2xl bg-white/[0.04] hover:bg-white/[0.09] border border-white/15 hover:border-[#FFD400]/70 flex flex-col items-center justify-center p-3 transition-transform duration-200 hover:scale-105 shadow-md hover:shadow-[0_0_20px_rgba(255,212,0,0.2)] cursor-default transform-gpu [backface-visibility:hidden]"
                         title={t.name}
                       >
                         {/* ACTUAL BRAND LOGO IN FULL OFFICIAL COLOR */}
@@ -791,6 +793,7 @@ export default function ServiceUniverseSection() {
               );
             })}
           </div>
+        </div>
         </div>
       </div>
     </section>

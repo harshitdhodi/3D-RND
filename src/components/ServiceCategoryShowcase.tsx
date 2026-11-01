@@ -200,7 +200,8 @@ const CATEGORIES: ServiceCategoryItem[] = [
 
 export default function ServiceCategoryShowcase() {
   return (
-    <div className="space-y-24 sm:space-y-32">
+    <div className="w-full px-4 sm:px-8 lg:px-12">
+      <div className="max-w-7xl mx-auto space-y-24 sm:space-y-32">
       {CATEGORIES.map((category, catIdx) => {
         const isReversed = catIdx % 2 !== 0;
         const Icon = category.icon;
@@ -215,11 +216,11 @@ export default function ServiceCategoryShowcase() {
             <div
               className={`absolute top-1/3 ${
                 isReversed ? "right-10" : "left-10"
-              } w-[650px] h-[450px] bg-[#FFD400]/4 blur-[180px] rounded-full pointer-events-none -z-10`}
+              } w-[650px] h-[450px] bg-[radial-gradient(circle,_rgba(255,212,0,0.03)_0%,_transparent_70%)] pointer-events-none -z-10 transform-gpu`}
             />
 
             {/* Division Card Container */}
-            <div className="rounded-[32px] sm:rounded-[40px] bg-black/30 backdrop-blur-md border border-white/10 hover:border-[#FFD400]/40 transition-all duration-500 p-6 sm:p-10 lg:p-14 shadow-2xl relative overflow-hidden group">
+            <div className="rounded-[32px] sm:rounded-[40px] bg-[#0c0e14] border border-white/10 hover:border-[#FFD400]/40 transition-colors duration-300 p-6 sm:p-10 lg:p-14 shadow-2xl relative overflow-hidden group transform-gpu [backface-visibility:hidden]">
               {/* Top Accent Gradient Line */}
               <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD400] to-transparent opacity-60 shadow-[0_0_15px_#FFD400]" />
 
@@ -244,16 +245,15 @@ export default function ServiceCategoryShowcase() {
                       src={category.visual}
                       alt={category.title}
                       fill
-                      unoptimized
-                      priority
-                      loading="eager"
+                      priority={catIdx === 0}
+                      quality={80}
                       sizes="(max-width: 1024px) 100vw, 550px"
-                      className="object-cover group-hover/media:scale-105 transition-transform duration-700 ease-out"
+                      className="object-cover group-hover/media:scale-105 transition-transform duration-700 ease-out transform-gpu"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
 
                     {/* Floating HUD Badge */}
-                    <div className="absolute bottom-4 left-4 right-4 p-3.5 rounded-xl bg-black/85 backdrop-blur-md border border-white/15 flex items-center justify-between shadow-xl">
+                    <div className="absolute bottom-4 left-4 right-4 p-3.5 rounded-xl bg-black/90 border border-white/15 flex items-center justify-between shadow-xl">
                       <div className="flex items-center space-x-2.5">
                         <div className="w-2.5 h-2.5 rounded-full bg-[#FFD400] animate-ping" />
                         <div>
@@ -396,6 +396,7 @@ export default function ServiceCategoryShowcase() {
           </section>
         );
       })}
+    </div>
     </div>
   );
 }

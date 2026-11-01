@@ -112,7 +112,7 @@ export default function SpaceBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0 opacity-90 w-full h-full"
+      className="fixed inset-0 pointer-events-none z-0 opacity-90 w-full h-full transform-gpu [backface-visibility:hidden] will-change-transform"
     />
   );
 }

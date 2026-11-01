@@ -59,7 +59,7 @@ export default function BrandIntroSection() {
             <span>ABOUT US // RND TECHNOSOFT</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-[family-name:var(--font-bebas)] tracking-tight leading-[0.92] uppercase text-white mb-3">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-[family-name:var(--font-syne)] font-bold tracking-tight leading-[1.08] uppercase text-white mb-3">
             OVER A DECADE OF ENGINEERING{" "}
             <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.35)]">
               DIGITAL FRONTIERS
@@ -94,7 +94,7 @@ export default function BrandIntroSection() {
 
               {/* Center Brand Title */}
               <div className="my-auto py-0.5 sm:py-1">
-                <h3 className="text-sm sm:text-xl md:text-2xl lg:text-3xl font-[family-name:var(--font-bebas)] tracking-wider uppercase text-white drop-shadow-[0_2px_15px_rgba(0,0,0,0.9)] leading-tight">
+                <h3 className="text-sm sm:text-xl md:text-2xl lg:text-3xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase text-white drop-shadow-[0_2px_15px_rgba(0,0,0,0.9)] leading-tight">
                   RND <span className="text-[#FFD400]">TECHNOSOFT</span>
                 </h3>
                 <p className="text-[7px] sm:text-[9px] md:text-xs text-white/70 font-light line-clamp-1 mt-0.5">

@@ -123,11 +123,12 @@ export default function ServiceCaseStudies() {
 
   return (
     <section id="case-studies" className="relative py-24 sm:py-32 scroll-mt-20">
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
+      <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
+        <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12 sm:mb-16">
           <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/60 border border-[#FFD400]/40 text-[#FFD400] backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
               <Sparkles className="w-3.5 h-3.5" />
               <span>2.8 RELATED CASE STUDIES // PROVEN IMPACT</span>
             </div>
@@ -165,7 +166,7 @@ export default function ServiceCaseStudies() {
           {displayedStudies.map((study) => (
             <div
               key={study.id}
-              className="group relative rounded-3xl overflow-hidden bg-[#0a0c12]/90 border border-white/10 hover:border-[#FFD400]/60 transition-all duration-500 shadow-2xl flex flex-col justify-between"
+              className="group relative rounded-3xl overflow-hidden bg-[#0c0e14] border border-white/10 hover:border-[#FFD400]/60 transition-colors duration-300 shadow-2xl flex flex-col justify-between transform-gpu [backface-visibility:hidden]"
             >
               {/* Media Preview Aspect Container */}
               <div className="relative h-64 sm:h-72 w-full overflow-hidden">
@@ -173,23 +174,22 @@ export default function ServiceCaseStudies() {
                   src={study.image}
                   alt={study.title}
                   fill
-                  unoptimized
-                  priority
-                  loading="eager"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  quality={80}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 transform-gpu"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0c12] via-[#0a0c12]/50 to-transparent" />
 
                 {/* Division Badge */}
                 <div className="absolute top-5 left-5 z-10">
-                  <span className="font-mono text-xs uppercase tracking-widest text-[#FFD400] px-3 py-1 rounded-full bg-black/75 backdrop-blur-md border border-[#FFD400]/40 shadow-lg">
+                  <span className="font-mono text-xs uppercase tracking-widest text-[#FFD400] px-3 py-1 rounded-full bg-black/85 border border-[#FFD400]/40 shadow-lg">
                     {study.divisionBadge}
                   </span>
                 </div>
 
                 {/* Client Label */}
                 <div className="absolute top-5 right-5 z-10">
-                  <span className="font-mono text-xs text-white/80 px-2.5 py-1 rounded bg-black/60 backdrop-blur-md border border-white/10">
+                  <span className="font-mono text-xs text-white/80 px-2.5 py-1 rounded bg-black/80 border border-white/10">
                     {study.client}
                   </span>
                 </div>
@@ -259,6 +259,7 @@ export default function ServiceCaseStudies() {
           </Link>
         </div>
       </div>
+        </div>
     </section>
   );
 }

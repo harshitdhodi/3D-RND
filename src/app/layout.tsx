@@ -44,9 +44,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${plusJakarta.variable} ${geistMono.variable} ${bebasNeue.variable} ${syne.variable} scroll-smooth dark`}
     >
-      <body className="min-h-screen bg-[#06070a] text-white antialiased font-[family-name:var(--font-jakarta)] selection:bg-[#FFD400] selection:text-black">
+      <body suppressHydrationWarning className="min-h-screen bg-[#06070a] text-white antialiased font-[family-name:var(--font-jakarta)] selection:bg-[#FFD400] selection:text-black">
         {children}
       </body>
     </html>

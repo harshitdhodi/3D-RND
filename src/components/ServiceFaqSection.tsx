@@ -72,10 +72,11 @@ export default function ServiceFaqSection() {
 
   return (
     <section id="faqs" className="relative py-24 sm:py-32 scroll-mt-20">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
+      <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
+        <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/60 border border-[#FFD400]/40 text-[#FFD400] backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
             <HelpCircle className="w-3.5 h-3.5" />
             <span>2.9 SERVICE FAQS // CLARITY &amp; STANDARDS</span>
           </div>
@@ -97,8 +98,8 @@ export default function ServiceFaqSection() {
                 key={faq.id}
                 className={`rounded-2xl transition-all duration-300 overflow-hidden border ${
                   isOpen
-                    ? "bg-[#0d1017]/95 border-[#FFD400]/50 shadow-[0_4px_30px_rgba(255,212,0,0.12)]"
-                    : "bg-[#08090d]/80 border-white/10 hover:border-white/25 hover:bg-[#0c0e14]/90"
+                    ? "bg-[#0e1118] border-[#FFD400]/50 shadow-[0_4px_30px_rgba(255,212,0,0.12)] transform-gpu"
+                    : "bg-[#0a0c12] border-white/10 hover:border-white/25 hover:bg-[#0e1118] transform-gpu"
                 }`}
               >
                 <button
@@ -164,6 +165,7 @@ export default function ServiceFaqSection() {
               <ArrowUpRight className="w-4 h-4 text-[#FFD400] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </div>
           </Link>
+        </div>
         </div>
       </div>
     </section>

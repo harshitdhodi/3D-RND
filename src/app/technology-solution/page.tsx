@@ -173,7 +173,7 @@ export default function TechnologySolutionCategoryPage() {
             STICKY SUB-NAVIGATION & JUMP BAR
             ========================================================================= */}
         <div className="border-b border-white/10 bg-[#0c0e14]/95 backdrop-blur-xl sticky top-16 sm:top-20 z-30 shadow-2xl">
-          <div className="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 py-3 flex items-center justify-between gap-4 overflow-x-auto scrollbar-none">
+          <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-3 flex items-center justify-between gap-4 overflow-x-auto scrollbar-none">
             {/* Left: Back Link to Services */}
             <Link
               href="/services"
@@ -241,7 +241,7 @@ export default function TechnologySolutionCategoryPage() {
         {/* =========================================================================
             SECTION 1: OVERVIEW & STRATEGIC TELEMETRY
             ========================================================================= */}
-        <section id="overview" className="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 pt-14 pb-16">
+        <section id="overview" className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-14 pb-16">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-10 border-b border-white/10">
             <div className="max-w-4xl space-y-4">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase bg-black/60 border border-[#FFD400]/40 text-[#FFD400] backdrop-blur-md">
@@ -306,7 +306,7 @@ export default function TechnologySolutionCategoryPage() {
             ========================================================================= */}
         <section
           id="disciplines"
-          className="py-20 max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 border-t border-white/10 scroll-mt-24"
+          className="py-20 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 border-t border-white/10 scroll-mt-24"
         >
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 pb-6 border-b border-white/10">
             <div>
@@ -430,7 +430,7 @@ export default function TechnologySolutionCategoryPage() {
         {/* =========================================================================
             SECTION 3: THE ENTERPRISE TECH STACK MATRIX
             ========================================================================= */}
-        <section id="tech-stack" className="py-20 max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 border-t border-white/10 scroll-mt-24">
+        <section id="tech-stack" className="py-20 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 border-t border-white/10 scroll-mt-24">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-white/10">
             <div>
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-3 bg-black/60 border border-[#FFD400]/40 text-[#FFD400]">
@@ -489,7 +489,7 @@ export default function TechnologySolutionCategoryPage() {
         {/* =========================================================================
             SECTION 4: ARCHITECTURAL PILLARS & ENGINEERING PRINCIPLES
             ========================================================================= */}
-        <section id="pillars" className="py-20 max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 border-t border-white/10 scroll-mt-24">
+        <section id="pillars" className="py-20 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 border-t border-white/10 scroll-mt-24">
           <div className="mb-12 pb-6 border-b border-white/10">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-3 bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400]">
               <Layers className="w-3.5 h-3.5" />
@@ -552,7 +552,7 @@ export default function TechnologySolutionCategoryPage() {
         {/* =========================================================================
             SECTION 6: 4-PHASE DELIVERY FRAMEWORK
             ========================================================================= */}
-        <section id="process" className="py-20 max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 border-t border-white/10 scroll-mt-24">
+        <section id="process" className="py-20 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 border-t border-white/10 scroll-mt-24">
           <div className="mb-12 pb-6 border-b border-white/10">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-3 bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400]">
               <Workflow className="w-3.5 h-3.5" />
@@ -610,7 +610,7 @@ export default function TechnologySolutionCategoryPage() {
         {/* =========================================================================
             SECTION 7: CATEGORY FAQS
             ========================================================================= */}
-        <section id="faqs" className="py-20 max-w-[1200px] mx-auto px-4 sm:px-8 lg:px-12 border-t border-white/10 scroll-mt-24">
+        <section id="faqs" className="py-20 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 border-t border-white/10 scroll-mt-24">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-3 bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400]">
               <Sparkles className="w-3.5 h-3.5" />

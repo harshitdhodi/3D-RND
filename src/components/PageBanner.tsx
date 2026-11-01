@@ -17,6 +17,7 @@ export interface PageBannerProps {
   imagePosition?: string;
   imageClassName?: string;
   imageStyle?: React.CSSProperties;
+  size?: "default" | "compact";
 }
 
 export default function PageBanner({
@@ -29,6 +30,7 @@ export default function PageBanner({
   imagePosition = "object-bottom",
   imageClassName = "",
   imageStyle,
+  size = "default",
 }: PageBannerProps) {
   const bannerRef = useRef<HTMLElement>(null);
   const imageWrapperRef = useRef<HTMLDivElement>(null);
@@ -185,15 +187,22 @@ export default function PageBanner({
     return () => ctx.revert();
   }, [firstLine, secondLine, imagePosition, imageClassName]);
 
+  const isCompact = size === "compact";
   const isLong = secondLine.length > 22;
-  const titleSizeClass = isLong
+  const titleSizeClass = isCompact
+    ? "text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl"
+    : isLong
     ? "text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl"
     : "text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl";
+
+  const heightClass = isCompact
+    ? "h-[54vh] sm:h-[60vh] min-h-[460px] max-h-[620px] pb-[55px] sm:pb-[75px] pt-20"
+    : "h-[76vh] mb-[7%] min-h-[640px] max-h-[820px] pb-[75px] sm:pb-[105px] pt-24";
 
   return (
     <section
       ref={bannerRef}
-      className={`relative z-10 w-full h-[76vh] mb-[7%] min-h-[640px] max-h-[820px] bg-[#050608] text-white flex flex-col justify-end overflow-hidden select-none px-6 sm:px-10 lg:px-16 pb-[75px] sm:pb-[105px] pt-24 ${className}`}
+      className={`relative z-10 w-full ${heightClass} bg-[#050608] text-white flex flex-col justify-end overflow-hidden select-none px-4 sm:px-8 lg:px-12 ${className}`}
     >
       {/* Background Image: Smooth Slow Zoom on Open + Scroll Parallax */}
       <div

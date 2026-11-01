@@ -63,6 +63,7 @@ export default function PortfolioDetailView({
         title={project.title}
         breadcrumb={project.category}
         parentBreadcrumb={{ label: "Portfolios", href: "/portfolios" }}
+        imageSrc="/banner/portfolio.png"
       />
 
       {/* Lightbox Modal for Gallery Images */}

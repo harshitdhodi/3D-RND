@@ -11,7 +11,7 @@ export default function ContactCastBanner() {
       {/* Background Image: Full-width hero image matching About Us banner style */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/banner.png"
+          src="/banner/contact.png"
           alt="Contact RnD Technosoft Banner"
           fill
           priority

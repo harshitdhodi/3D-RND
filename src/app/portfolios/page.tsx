@@ -244,7 +244,7 @@ export default function PortfoliosPage() {
       <Navbar />
 
       {/* Page Banner */}
-      <PageBanner title="PORTFOLIO ARCHIVE" breadcrumb="PORTFOLIOS" />
+      <PageBanner title="PORTFOLIO ARCHIVE" breadcrumb="PORTFOLIOS" imageSrc="/banner/portfolio.png" />
 
       {/* Admin Notification Toast */}
       {adminToast && (
@@ -255,7 +255,7 @@ export default function PortfoliosPage() {
       )}
 
       {/* Main Content Area - Solid bg-[#050608] to isolate compositor and prevent WebGL redraw flashes */}
-      <main className="relative z-20 w-full -mt-10 sm:-mt-14 md:-mt-18 rounded-t-[32px] sm:rounded-t-[44px] bg-[#050608] border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)] overflow-hidden">
+      <main className="relative z-20 w-full mt-[50px] rounded-t-[32px] sm:rounded-t-[44px] bg-[#050608] border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)] overflow-hidden">
         {/* Top Header Section */}
         <section className="bg-black w-full px-4 sm:px-8 lg:px-12 pt-14 pb-6">
           <div className="max-w-7xl mx-auto">

@@ -1,5 +1,14 @@
 "use client";
 
+function getCategoryBanner(parentPath: string | undefined, type: string | undefined): string {
+    if (parentPath?.includes("technology-solution")) return "/banner/technology.png";
+    if (parentPath?.includes("digital-marketing")) return "/banner/digital-marketing.png";
+    if (parentPath?.includes("branding-design")) return "/banner/branding-design.png";
+    if (parentPath?.includes("media-production")) return "/banner/media-production.png";
+    if (type === "portfolio") return "/banner/portfolio.png";
+    return "/banner/service.png";
+}
+
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -192,13 +201,12 @@ export default function UnifiedDetailsView({
             <Navbar />
 
             {/* Page Banner - Compact 2-line title matching Contact Us banner height */}
-            <PageBanner
-                title={item.title}
+            <PageBanner title={item.title}
                 breadcrumb={item.title}
                 parentBreadcrumb={{ label: parentLabel, href: parentPath }}
-            />
+             imageSrc={getCategoryBanner(parentPath, type)} />
 
-            <main className="relative z-20 w-full -mt-10 sm:-mt-14 md:-mt-18 rounded-t-[32px] sm:rounded-t-[44px] bg-[#050608] border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)] overflow-hidden">
+            <main className="relative z-20 w-full mt-[50px] rounded-t-[32px] sm:rounded-t-[44px] bg-[#050608] border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)] overflow-hidden">
 
                 {/* =========================================================================
             2. STICKY SUB-HEADER ACTION BAR (Hidden on Portfolio Details)

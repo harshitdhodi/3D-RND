@@ -27,7 +27,7 @@ export default function PageBanner({
   parentBreadcrumb,
   imageSrc = "/banner.png",
   className = "",
-  imagePosition = "object-bottom",
+  imagePosition = "object-[center_62%]",
   imageClassName = "",
   imageStyle,
   size = "default",
@@ -197,7 +197,7 @@ export default function PageBanner({
 
   const heightClass = isCompact
     ? "h-[54vh] sm:h-[60vh] min-h-[460px] max-h-[620px] pb-[55px] sm:pb-[75px] pt-20"
-    : "h-[76vh] mb-[7%] min-h-[640px] max-h-[820px] pb-[75px] sm:pb-[105px] pt-24";
+    : "h-[76vh] min-h-[640px] max-h-[820px] pb-[75px] sm:pb-[105px] pt-24";
 
   return (
     <section

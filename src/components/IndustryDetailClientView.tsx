@@ -147,14 +147,12 @@ export default function IndustryDetailClientView({
             <Navbar />
 
             {/* Page Banner with Typewriter Title, Slow Zoom & Parallax */}
-            <PageBanner
-                title={industry.title}
+            <PageBanner title={industry.title}
                 breadcrumb={industry.title}
-                parentBreadcrumb={{ label: "INDUSTRIES", href: "/industries" }}
-            />
+                parentBreadcrumb={{ label: "INDUSTRIES", href: "/industries" }} imageSrc="/banner/industries.png" />
 
             {/* Overlapping Main Content */}
-            <main className="relative z-20 w-full -mt-10 sm:-mt-14 md:-mt-18 rounded-t-[32px] sm:rounded-t-[44px] bg-transparent 
+            <main className="relative z-20 w-full mt-[50px] rounded-t-[32px] sm:rounded-t-[44px] bg-transparent 
              shadow-[0_-25px_60px_rgba(0,0,0,0.85)]">
                 {/* =========================================================================
             1. SHORT INFO & ARCHITECTURAL SUMMARY SECTION

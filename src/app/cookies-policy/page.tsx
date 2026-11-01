@@ -112,6 +112,7 @@ export default function CookiesPolicyPage() {
         title="COOKIES POLICY"
         breadcrumb="COOKIES POLICY"
         size="compact"
+        imageSrc="/banner/legal.png"
       />
 
       <main className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 py-16 sm:py-20">

@@ -199,7 +199,7 @@ export default function AboutUsPage() {
         breadcrumb="ABOUT US"
         imageSrc="/banner/about.png"
         imagePosition="object-right"
-        imageStyle={{ objectPosition: "88% center" }}
+        imageStyle={{ objectPosition: "88% 62%" }}
         imageClassName="scale-105 -translate-x-3 sm:-translate-x-6 md:-translate-x-10"
       />
 

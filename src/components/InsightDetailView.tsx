@@ -189,6 +189,7 @@ export default function InsightDetailView({
         title={bannerTitle}
         breadcrumb={bannerTitle}
         parentBreadcrumb={{ label: "Insights", href: "/insights" }}
+        imageSrc="/banner/insights.png"
       />
 
       <main className="relative z-10 w-full">

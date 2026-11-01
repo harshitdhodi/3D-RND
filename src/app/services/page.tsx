@@ -118,9 +118,10 @@ export default function ServicesPage() {
       <PageBanner
         title="INTEGRATED CAPABILITIES"
         breadcrumb="SERVICES"
+        imageSrc="/banner/service.png"
       />
 
-      <main className="relative z-20 w-full -mt-10 sm:-mt-14 md:-mt-18 rounded-t-[32px] sm:rounded-t-[44px] bg-[#050608]/90 backdrop-blur-xl border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)] overflow-hidden">
+      <main className="relative z-20 w-full mt-[50px] rounded-t-[32px] sm:rounded-t-[44px] bg-[#050608]/90 backdrop-blur-xl border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)] overflow-hidden">
         {/* Section 2.1: Capabilities Overview Header & Live Metrics */}
         <section className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-14 pb-8">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-10 border-b border-white/10">

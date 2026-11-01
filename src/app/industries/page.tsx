@@ -225,12 +225,13 @@ export default function IndustriesIndexPage() {
             <PageBanner
                 title="INDUSTRIES & DOMAINS"
                 breadcrumb="INDUSTRIES"
+                imageSrc="/banner/industries.png"
             />
 
             {/* Main Content with Layered Overlap over the Banner */}
             <main
                 ref={mainRef}
-                className="relative z-20 w-full -mt-10 sm:-mt-14 md:-mt-18 rounded-t-[32px] sm:rounded-t-[44px] bg-[#050.85)]"
+                className="relative z-20 w-full mt-[50px] rounded-t-[32px] sm:rounded-t-[44px] bg-[#050.85)]"
             >
                 {/* =========================================================================
             1. ENTERPRISE ENGINEERING PHILOSOPHY HERO BAR

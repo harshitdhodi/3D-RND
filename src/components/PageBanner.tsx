@@ -193,7 +193,7 @@ export default function PageBanner({
   return (
     <section
       ref={bannerRef}
-      className={`relative z-10 w-full h-[76vh] min-h-[640px] max-h-[820px] bg-[#050608] text-white flex flex-col justify-end overflow-hidden select-none px-6 sm:px-10 lg:px-16 pb-[75px] sm:pb-[105px] pt-24 ${className}`}
+      className={`relative z-10 w-full h-[76vh] mb-[7%] min-h-[640px] max-h-[820px] bg-[#050608] text-white flex flex-col justify-end overflow-hidden select-none px-6 sm:px-10 lg:px-16 pb-[75px] sm:pb-[105px] pt-24 ${className}`}
     >
       {/* Background Image: Smooth Slow Zoom on Open + Scroll Parallax */}
       <div

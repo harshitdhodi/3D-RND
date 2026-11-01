@@ -59,6 +59,50 @@ export default function IndustryDetailClientView({
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
+
+    // Dynamic responsive grid helper based on item count
+    // 2 items: 2 columns full width
+    // 3 items: 3 columns full width
+    // 4 items: 2 columns x 2 rows
+    // 5 items: 3 upper, 2 lower (6-col grid: top 3 span 2 cols each, bottom 2 span 3 cols each)
+    // 6 items: 3 columns x 2 rows (3x3 grid layout)
+    const getResponsiveGridConfig = (count: number) => {
+        if (count === 2) {
+            return {
+                containerClass: "grid grid-cols-1 md:grid-cols-2 gap-6",
+                getItemClass: (_idx: number) => "",
+            };
+        }
+        if (count === 3) {
+            return {
+                containerClass: "grid grid-cols-1 md:grid-cols-3 gap-6",
+                getItemClass: (_idx: number) => "",
+            };
+        }
+        if (count === 4) {
+            return {
+                containerClass: "grid grid-cols-1 md:grid-cols-2 gap-6",
+                getItemClass: (_idx: number) => "",
+            };
+        }
+        if (count === 5) {
+            return {
+                containerClass: "grid grid-cols-1 md:grid-cols-6 gap-6",
+                getItemClass: (idx: number) => (idx < 3 ? "md:col-span-2" : "md:col-span-3"),
+            };
+        }
+        if (count >= 6) {
+            return {
+                containerClass: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",
+                getItemClass: (_idx: number) => "",
+            };
+        }
+        return {
+            containerClass: "grid grid-cols-1 md:grid-cols-3 gap-6",
+            getItemClass: (_idx: number) => "",
+        };
+    };
+
     const handleFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
@@ -110,7 +154,8 @@ export default function IndustryDetailClientView({
             />
 
             {/* Overlapping Main Content */}
-            <main className="relative z-20 w-full -mt-10 sm:-mt-14 md:-mt-18 rounded-t-[32px] sm:rounded-t-[44px] bg-transparent border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)]">
+            <main className="relative z-20 w-full -mt-10 sm:-mt-14 md:-mt-18 rounded-t-[32px] sm:rounded-t-[44px] bg-transparent 
+             shadow-[0_-25px_60px_rgba(0,0,0,0.85)]">
                 {/* =========================================================================
             1. SHORT INFO & ARCHITECTURAL SUMMARY SECTION
             ========================================================================= */}
@@ -199,37 +244,44 @@ export default function IndustryDetailClientView({
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {industry.challenges?.map((challenge, cIdx) => (
-                            <div
-                                key={cIdx}
-                                className="group p-6 sm:p-7 bg-gradient-to-b from-white/[0.03] to-[#0c0e14] border border-white/10 hover:border-red-500/40 transition-all duration-300 relative flex flex-col justify-between"
-                            >
-                                <div className="space-y-4">
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-500">
-                                            CHALLENGE 0{cIdx + 1}
-                                        </span>
-                                        <span className="px-2.5 py-0.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 text-[10px] font-mono font-bold">
-                                            {challenge.impactMetric}
-                                        </span>
+                    {(() => {
+                        const challengesCount = industry.challenges?.length || 0;
+                        const gridConfig = getResponsiveGridConfig(challengesCount);
+
+                        return (
+                            <div className={gridConfig.containerClass}>
+                                {industry.challenges?.map((challenge, cIdx) => (
+                                    <div
+                                        key={cIdx}
+                                        className={`group p-6 sm:p-7 bg-gradient-to-b from-white/[0.03] to-[#0c0e14] border border-white/10 hover:border-red-500/40 transition-all duration-300 relative flex flex-col justify-between ${gridConfig.getItemClass(cIdx)}`}
+                                    >
+                                        <div className="space-y-4">
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-500">
+                                                    CHALLENGE 0{cIdx + 1}
+                                                </span>
+                                                <span className="px-2.5 py-0.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 text-[10px] font-mono font-bold">
+                                                    {challenge.impactMetric}
+                                                </span>
+                                            </div>
+
+                                            <h3 className="font-[family-name:var(--font-syne)] text-lg sm:text-xl font-bold text-white group-hover:text-red-300 transition-colors uppercase leading-snug">
+                                                {challenge.title}
+                                            </h3>
+
+                                            <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
+                                                {challenge.description}
+                                            </p>
+                                        </div>
+
+                                        <div className="pt-4 mt-4 border-t border-white/5 flex items-center text-[10px] font-mono text-neutral-400">
+                                            <span className="text-red-400 mr-2">▲</span> High Operational Risk
+                                        </div>
                                     </div>
-
-                                    <h3 className="font-[family-name:var(--font-syne)] text-lg sm:text-xl font-bold text-white group-hover:text-red-300 transition-colors uppercase leading-snug">
-                                        {challenge.title}
-                                    </h3>
-
-                                    <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
-                                        {challenge.description}
-                                    </p>
-                                </div>
-
-                                <div className="pt-4 mt-4 border-t border-white/5 flex items-center text-[10px] font-mono text-neutral-400">
-                                    <span className="text-red-400 mr-2">▲</span> High Operational Risk
-                                </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
+                        );
+                    })()}
                 </section>
 
                 {/* =========================================================================
@@ -249,55 +301,62 @@ export default function IndustryDetailClientView({
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {industry.serviceCombinations?.map((combo, sIdx) => (
-                            <div
-                                key={sIdx}
-                                className="group p-6 sm:p-7 bg-[#0c0e14]/60 backdrop-blur-md border border-white/10 hover:border-[#FFD400]/50 transition-all duration-300 relative flex flex-col justify-between"
-                            >
-                                <div className="space-y-4">
-                                    <div className="flex items-center justify-between">
-                                        <span className="px-2.5 py-0.5 rounded-full bg-[#FFD400]/15 border border-[#FFD400]/30 text-[#FFD400] text-[10px] font-mono font-bold tracking-wider uppercase">
-                                            {combo.badge}
-                                        </span>
-                                        <Link
-                                            href={combo.serviceHref}
-                                            className="text-neutral-400 group-hover:text-[#FFD400] transition-colors"
-                                            title={`Explore ${combo.serviceTitle}`}
-                                        >
-                                            <ArrowUpRight className="w-4 h-4" />
-                                        </Link>
-                                    </div>
+                    {(() => {
+                        const servicesCount = industry.serviceCombinations?.length || 0;
+                        const gridConfig = getResponsiveGridConfig(servicesCount);
 
-                                    <div>
-                                        <Link
-                                            href={combo.serviceHref}
-                                            className="font-[family-name:var(--font-syne)] text-lg sm:text-xl font-bold text-white group-hover:text-[#FFD400] transition-colors uppercase leading-tight block"
-                                        >
-                                            {combo.serviceTitle}
-                                        </Link>
-                                        <span className="text-xs font-mono text-[#FFD400] block mt-1">
-                                            {combo.role}
-                                        </span>
-                                    </div>
-
-                                    <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
-                                        {combo.deliverablesSummary}
-                                    </p>
-                                </div>
-
-                                <div className="pt-4 mt-4 border-t border-white/5 flex items-center justify-between">
-                                    <Link
-                                        href={combo.serviceHref}
-                                        className="text-[11px] font-mono uppercase tracking-wider text-neutral-400 group-hover:text-white flex items-center gap-1 transition-colors"
+                        return (
+                            <div className={gridConfig.containerClass}>
+                                {industry.serviceCombinations?.map((combo, sIdx) => (
+                                    <div
+                                        key={sIdx}
+                                        className={`group p-6 sm:p-7 bg-[#0c0e14]/60 backdrop-blur-md border border-white/10 hover:border-[#FFD400]/50 transition-all duration-300 relative flex flex-col justify-between ${gridConfig.getItemClass(sIdx)}`}
                                     >
-                                        <span>Inspect Service Capabilities</span>
-                                        <ArrowRight className="w-3 h-3 text-[#FFD400]" />
-                                    </Link>
-                                </div>
+                                        <div className="space-y-4">
+                                            <div className="flex items-center justify-between">
+                                                <span className="px-2.5 py-0.5 rounded-full bg-[#FFD400]/15 border border-[#FFD400]/30 text-[#FFD400] text-[10px] font-mono font-bold tracking-wider uppercase">
+                                                    {combo.badge}
+                                                </span>
+                                                <Link
+                                                    href={combo.serviceHref}
+                                                    className="text-neutral-400 group-hover:text-[#FFD400] transition-colors"
+                                                    title={`Explore ${combo.serviceTitle}`}
+                                                >
+                                                    <ArrowUpRight className="w-4 h-4" />
+                                                </Link>
+                                            </div>
+
+                                            <div>
+                                                <Link
+                                                    href={combo.serviceHref}
+                                                    className="font-[family-name:var(--font-syne)] text-lg sm:text-xl font-bold text-white group-hover:text-[#FFD400] transition-colors uppercase leading-tight block"
+                                                >
+                                                    {combo.serviceTitle}
+                                                </Link>
+                                                <span className="text-xs font-mono text-[#FFD400] block mt-1">
+                                                    {combo.role}
+                                                </span>
+                                            </div>
+
+                                            <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
+                                                {combo.deliverablesSummary}
+                                            </p>
+                                        </div>
+
+                                        <div className="pt-4 mt-4 border-t border-white/5 flex items-center justify-between">
+                                            <Link
+                                                href={combo.serviceHref}
+                                                className="text-[11px] font-mono uppercase tracking-wider text-neutral-400 group-hover:text-white flex items-center gap-1 transition-colors"
+                                            >
+                                                <span>Inspect Service Capabilities</span>
+                                                <ArrowRight className="w-3 h-3 text-[#FFD400]" />
+                                            </Link>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
+                        );
+                    })()}
                 </section>
 
                 {/* =========================================================================

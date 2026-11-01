@@ -204,13 +204,12 @@ export default function Navbar() {
   ];
 
   const navLinks = [
-    { name: "About us", href: "/about-us" },
-    { name: "Services", href: "/services", hasMega: true },
-    { name: "Portfolios", href: "/portfolios" },
-    { name: "Career", href: "/career" },
+    { name: "Our Story", href: "/about-us" },
+    { name: "Capabilities", href: "/services", hasMega: true },
+    { name: "Our Work", href: "/portfolios" },
+    { name: "Careers", href: "/career" },
     { name: "Industries", href: "/industries", hasIndustriesMega: true },
     { name: "Insights", href: "/insights" },
-    { name: "Contact us", href: "/contact-us" },
   ];
 
   return (
@@ -388,7 +387,7 @@ export default function Navbar() {
 
         {/* Right Action: Contact CTA button + Mobile Hamburger */}
         <div className="flex items-center gap-3">
-          <CyberButton href="/contact-us" size="sm">
+          <CyberButton href="/contact-us" size="sm" variant="gold" className="shadow-[0_0_20px_rgba(255,212,0,0.45)] hover:shadow-[0_0_35px_rgba(255,212,0,0.75)] ring-1 ring-[#FFD400]/40 hover:ring-[#FFD400]/80">
             LET&apos;S TALK
           </CyberButton>
 

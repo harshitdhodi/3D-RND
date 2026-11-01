@@ -6,6 +6,7 @@ import Link from "next/link";
 import {
   Home,
   ChevronRight,
+  ChevronDown,
   ArrowLeft,
   ArrowUpRight,
   Clock,
@@ -81,6 +82,9 @@ export default function InsightDetailView({
   // Mobile outline modal toggle
   const [isMobileOutlineOpen, setIsMobileOutlineOpen] = useState(false);
 
+  // FAQ accordion open state
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
   // Inquiry form states
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
@@ -110,6 +114,7 @@ export default function InsightDetailView({
         "tech-matrix",
         "takeaways",
         "author",
+        "faq",
         "inquiry-form",
       ];
 
@@ -145,7 +150,8 @@ export default function InsightDetailView({
     { id: "tech-matrix", number: "04", label: "Architecture Matrix" },
     { id: "takeaways", number: "05", label: "Engineering Insights" },
     { id: "author", number: "06", label: "Principal Profile" },
-    { id: "inquiry-form", number: "07", label: "Consultation Suite" },
+    { id: "faq", number: "07", label: "FAQs" },
+    { id: "inquiry-form", number: "08", label: "Consultation Suite" },
   ];
 
   const activeTech: TechMatrixItem | undefined =
@@ -161,7 +167,7 @@ export default function InsightDetailView({
   const remainingFirstParagraph = firstParagraph.slice(1);
 
   return (
-    <div className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black font-sans pb-28">
+    <div className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black font-sans">
       {/* Background Galactic Starfield */}
       <SpaceBackground />
 
@@ -654,7 +660,79 @@ export default function InsightDetailView({
         </section>
 
         {/* =========================================================================
-            3.5 BOTTOM ARCHITECTURAL CONSULTATION & INQUIRY SUITE
+            3.5 FAQ SECTION
+            ========================================================================= */}
+        {article.faqs && article.faqs.length > 0 && (
+          <section id="faq" className="max-w-[1560px] mx-auto px-5 md:px-8 lg:px-12 py-16 border-t border-white/10 scroll-mt-24">
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+              <div>
+                <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold flex items-center space-x-2 mb-1">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Help &amp; Clarifications</span>
+                </span>
+                <h2 className="font-[family-name:var(--font-syne)] text-2xl sm:text-3xl lg:text-4xl text-white font-bold uppercase">
+                  Frequently Asked Questions
+                </h2>
+              </div>
+              <span className="text-xs font-mono text-neutral-500 shrink-0">
+                {article.faqs.length} Questions
+              </span>
+            </div>
+
+            {/* Accordion */}
+            <div className="space-y-3">
+              {article.faqs.map((faq, idx) => {
+                const isOpen = openFaq === idx;
+                return (
+                  <div
+                    key={idx}
+                    className={`border transition-all duration-300 ${
+                      isOpen
+                        ? "border-[#FFD400]/50 bg-[#0c0e14] shadow-[0_0_20px_rgba(255,212,0,0.08)]"
+                        : "border-white/10 bg-[#0c0e14] hover:border-[#FFD400]/30"
+                    }`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setOpenFaq(isOpen ? null : idx)}
+                      className="w-full flex items-start justify-between gap-4 px-6 py-5 text-left group cursor-pointer"
+                    >
+                      <div className="flex items-start gap-4 min-w-0">
+                        <span className="text-xs font-mono font-bold text-[#FFD400] shrink-0 mt-0.5">
+                          {String(idx + 1).padStart(2, "0")}
+                        </span>
+                        <span className="text-sm sm:text-base font-semibold text-white group-hover:text-[#FFD400] transition-colors leading-snug">
+                          {faq.question}
+                        </span>
+                      </div>
+                      <ChevronDown
+                        className={`w-5 h-5 shrink-0 mt-0.5 transition-transform duration-300 ${
+                          isOpen
+                            ? "rotate-180 text-[#FFD400]"
+                            : "text-neutral-500 group-hover:text-[#FFD400]"
+                        }`}
+                      />
+                    </button>
+
+                    {isOpen && (
+                      <div className="px-6 pb-6 pt-0">
+                        <div className="ml-8 pl-4 border-l-2 border-[#FFD400]/40">
+                          <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
+                            {faq.answer}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        {/* =========================================================================
+            3.6 BOTTOM ARCHITECTURAL CONSULTATION & INQUIRY SUITE
             ========================================================================= */}
         <section id="inquiry-form" className="max-w-[1560px] mx-auto px-5 md:px-8 lg:px-12 py-16 border-t border-white/10 scroll-mt-24">
           <div className="bg-[#0c0e14] border border-white/15 p-8 sm:p-12 shadow-2xl relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
@@ -859,7 +937,7 @@ export default function InsightDetailView({
         {/* =========================================================================
             4. BOTTOM CURATED PERSPECTIVES (Related Articles Grid)
             ========================================================================= */}
-        <section className="max-w-[1560px] mx-auto px-5 md:px-8 lg:px-12 pt-16 border-t border-white/10">
+        <section className="max-w-[1560px] mx-auto px-5 md:px-8 lg:px-12 pt-16 pb-0 border-t border-white/10">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
             <div>
               <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold flex items-center space-x-2">

@@ -198,7 +198,7 @@ export default function InsightsPage() {
         {/* =========================================================================
             2. FILTER & SEARCH BAR SECTION (Matching Reference Page with + Suffix)
             ========================================================================= */}
-        <section className="insight-filters-bar max-w-7xl mx-auto px-6 md:px-12 pt-12 pb-6 border-b border-white/10">
+        <section className="insight-filters-bar max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-12 pb-6 border-b border-white/10">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             {/* Category Filter Buttons with '+' suffix */}
             <div className="flex flex-wrap gap-2">
@@ -240,7 +240,7 @@ export default function InsightsPage() {
             3. FEATURED EDITORIAL SPOTLIGHT (With Right-to-Left Printer Reveal)
             ========================================================================= */}
         {featuredArticle && (
-          <section className="featured-editorial-section max-w-7xl mx-auto px-6 md:px-12 pt-12 pb-6">
+          <section className="featured-editorial-section max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-12 pb-6">
             <div className="featured-editorial-card p-8 md:p-12 bg-[#0c0e14] border border-white/10 hover:border-[#FFD400]/40 transition-colors shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch group">
               {/* Left Column (7 cols): Printer Print Reveal Right-to-Left */}
               <div className="lg:col-span-7 relative w-full h-[280px] sm:h-[360px] lg:h-auto min-h-full flex flex-col justify-stretch self-stretch overflow-hidden">
@@ -313,7 +313,7 @@ export default function InsightsPage() {
         {/* =========================================================================
             4. MAIN ARTICLES 3-COLUMN GRID (With Right-to-Left Printer Reveal)
             ========================================================================= */}
-        <section className="insight-grid-section max-w-7xl mx-auto px-6 md:px-12 py-12">
+        <section className="insight-grid-section max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
           {gridArticles.length === 0 ? (
             <div className="text-center py-20 bg-[#0c0e14] border border-white/10 p-8 space-y-4">
               <p className="text-sm font-mono text-neutral-400">
@@ -410,7 +410,7 @@ export default function InsightsPage() {
         {/* =========================================================================
             5. FORTNIGHTLY RESEARCH BRIEFING NEWSLETTER BANNER
             ========================================================================= */}
-        <section className="research-briefing-section max-w-7xl mx-auto px-6 md:px-12 pb-24">
+        <section className="research-briefing-section max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pb-24">
           <div className="research-briefing-card rounded-3xl bg-gradient-to-r from-[#0c0e14] via-[#141724] to-[#0c0e14] border border-white/15 p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl relative overflow-hidden">
             <div className="relative z-10">
               <div className="briefing-anim-item inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase mb-3">

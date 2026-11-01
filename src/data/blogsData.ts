@@ -154,6 +154,18 @@ export const blogsData: BlogDetail[] = [
         question: "How difficult is it to convert existing CAD engineering files for web 3D?",
         answer: "Our automated pipeline ingests standard STEP, Rhino, and Blender files, automatically decimating topology and baking normal maps in minutes.",
       },
+      {
+        question: "What file formats do you support for 3D product models?",
+        answer: "We support all major formats including GLTF/GLB, OBJ, FBX, STEP, and Blender (.blend). Our pipeline automatically converts and optimizes them for real-time web delivery using Draco compression.",
+      },
+      {
+        question: "Can 3D storefronts work on mobile devices without performance issues?",
+        answer: "Yes. We use adaptive GPU capability detection to dynamically scale polygon counts, shadow resolution, and texture sizes based on the client device, maintaining 60 FPS even on mid-range Android and iOS hardware.",
+      },
+      {
+        question: "How do 3D product experiences impact SEO and organic search rankings?",
+        answer: "3D experiences increase average session dwell time by over 400%, which is a strong positive signal for Core Web Vitals and Google's engagement-based ranking factors. Combined with structured product schema markup, organic visibility improves significantly.",
+      },
     ],
     beforeAfter: {
       badge: "SPATIAL 3D CONVERSION BENCHMARK",
@@ -317,6 +329,22 @@ export const blogsData: BlogDetail[] = [
         question: "Does React Native perform as well as native Swift and Kotlin?",
         answer: "With the New Architecture (Fabric and TurboModules), JavaScript directly interacts with native C++ APIs without serialization, achieving identical 60-120 FPS performance in over 98% of enterprise application scenarios.",
       },
+      {
+        question: "How do you handle offline data sync conflicts in mobile apps?",
+        answer: "We implement Conflict-Free Replicated Data Types (CRDTs) backed by local SQLite. Changes made offline are queued and merged deterministically with the server state once connectivity is restored, with no data loss.",
+      },
+      {
+        question: "What is the typical timeline to deliver a production-grade React Native app?",
+        answer: "A fully featured MVP with authentication, offline capability, and CI/CD pipelines typically takes 8 to 12 weeks with a dedicated pod of three engineers. Enterprise apps with complex integrations range from 16 to 24 weeks.",
+      },
+      {
+        question: "How do you secure sensitive tokens and user data on mobile devices?",
+        answer: "All sensitive tokens are stored in the device's hardware Secure Enclave (iOS) or Android Keystore, protected by biometric authentication. We never store credentials in AsyncStorage or plain-text local files.",
+      },
+      {
+        question: "Can you maintain an existing React Native codebase or only build from scratch?",
+        answer: "Absolutely. We regularly onboard existing codebases, perform architecture audits, upgrade to the New Architecture, and incrementally refactor legacy patterns without disrupting ongoing feature development.",
+      },
     ],
   },
   {
@@ -421,6 +449,22 @@ export const blogsData: BlogDetail[] = [
       {
         question: "Is Partial Prerendering stable for production enterprise use?",
         answer: "Yes, in Next.js 15 with React 19, PPR is production-ready for scalable applications and dramatically reduces server CPU loads by serving static shells from edge caches.",
+      },
+      {
+        question: "How does streaming SSR differ from traditional server-side rendering?",
+        answer: "Traditional SSR blocks the entire response until all data is fetched. Streaming SSR sends the static HTML shell instantly and progressively flushes dynamic chunks via HTTP/2 as they resolve, eliminating perceived latency.",
+      },
+      {
+        question: "What is the best caching strategy for Next.js 15 on Cloudflare?",
+        answer: "Use stale-while-revalidate with a short TTL for personalized routes and immutable caching for static assets. Pair this with regional KV stores for sub-10ms edge reads on frequently accessed data.",
+      },
+      {
+        question: "How do Server Actions replace traditional REST API routes?",
+        answer: "Server Actions are encrypted RPC calls that execute directly on the server without requiring a separate API endpoint or client-side fetch. They ship zero JavaScript to the browser and fully support progressive enhancement.",
+      },
+      {
+        question: "Can we incrementally adopt PPR in an existing large Next.js application?",
+        answer: "Yes. PPR is opt-in per route segment using the experimental flag. You can adopt it page by page, starting with your highest-traffic routes, without any full-app migration or architectural overhaul.",
       },
     ],
   },
@@ -527,6 +571,22 @@ export const blogsData: BlogDetail[] = [
         question: "How long does it take for Google to reflect Core Web Vitals improvements in search rankings?",
         answer: "Google calculates rankings based on real-world Chrome User Experience Report (CrUX) data collected over a 28-day rolling window, meaning ranking improvements typically materialize within 3 to 4 weeks.",
       },
+      {
+        question: "What is the single highest-impact Core Web Vitals fix for most websites?",
+        answer: "Eliminating render-blocking scripts and preloading the Largest Contentful Paint (LCP) image element. These two changes alone typically improve Lighthouse scores by 15 to 25 points on most enterprise sites.",
+      },
+      {
+        question: "How do you fix Cumulative Layout Shift caused by web fonts?",
+        answer: "Self-host variable fonts with font-display: optional or swap, pre-define font metrics using size-adjust and ascent-override CSS properties, and reserve exact space in layout before fonts load to prevent reflow.",
+      },
+      {
+        question: "Does deferring third-party scripts break tracking and analytics accuracy?",
+        answer: "No. Deferring scripts to browser idle time via requestIdleCallback has negligible impact on analytics accuracy while recovering significant main-thread CPU time that directly improves Interaction to Next Paint scores.",
+      },
+      {
+        question: "How do you maintain a 99 Lighthouse score as the codebase grows over time?",
+        answer: "We enforce a performance budget in CI/CD using Lighthouse CI. Any pull request that reduces the score below the threshold automatically fails the build, preventing regressions from ever reaching production.",
+      },
     ],
   },
   {
@@ -631,6 +691,22 @@ export const blogsData: BlogDetail[] = [
       {
         question: "How do you handle time zone alignment with international clients?",
         answer: "Our pods work with a mandatory 4-hour live overlap window with US and European business hours, handling meetings and pair programming synchronously and deep execution asynchronously.",
+      },
+      {
+        question: "How do you ensure code quality without a traditional QA department?",
+        answer: "Every pod includes a dedicated QA Automation Lead who writes end-to-end Detox and Playwright test suites. All PRs must pass automated regression tests before merge, and test coverage stays above 80% by default.",
+      },
+      {
+        question: "What happens if a pod member leaves mid-project?",
+        answer: "All knowledge is documented in weekly architectural decision records (ADRs) and inline code comments. Replacement engineers can onboard within 48 hours with zero context loss, typically faster than a traditional agency handoff.",
+      },
+      {
+        question: "Can we scale the pod size up or down mid-engagement?",
+        answer: "Yes. Pod topology is dynamic. We can add specialized security engineers, AI/ML researchers, or additional full-stack developers within one sprint cycle based on evolving project priorities.",
+      },
+      {
+        question: "Who owns the intellectual property at the end of the engagement?",
+        answer: "100% of all source code, documentation, design assets, and architectural decisions transfer to the client immediately upon delivery. We execute a full IP assignment agreement at the start of every engagement.",
       },
     ],
   },
@@ -737,6 +813,22 @@ export const blogsData: BlogDetail[] = [
         question: "How do you ensure short-form video content doesn't feel cheap or transient?",
         answer: "We shoot in commercial 8K cinema with bespoke lighting and combine high-production studio aesthetics with native platform editing rhythms, ensuring prestige brand authority alongside viral traction.",
       },
+      {
+        question: "What is the ideal length for a high-converting short-form video hook?",
+        answer: "The first 3 seconds must deliver the visual or emotional pattern interrupt. The full video should be between 15 and 30 seconds for TikTok and Reels, with a clear CTA in the final 5 seconds.",
+      },
+      {
+        question: "How do you track conversions accurately after iOS privacy changes?",
+        answer: "We implement server-side Conversions API (CAPI) integrations for Meta and TikTok, sending first-party checkout events directly from edge servers without relying on browser cookies or pixel tags.",
+      },
+      {
+        question: "How frequently should brands refresh their creative assets to avoid ad fatigue?",
+        answer: "Once frequency per user exceeds 3.5 within a 7-day window, engagement rates typically decline by 40%. We deploy weekly creative rotation sprints with 5 to 8 new variants per campaign to maintain peak ROAS.",
+      },
+      {
+        question: "Can motion content be repurposed across multiple social platforms?",
+        answer: "Yes. We produce master assets at 4K 16:9, then systematically reformat and re-edit for 9:16 vertical (Reels/TikTok), 1:1 square (feed), and 4:5 portrait variants in a single production batch.",
+      },
     ],
   },
   {
@@ -842,6 +934,22 @@ export const blogsData: BlogDetail[] = [
         question: "Why invest in high-end 8K cinema when most web users view on smartphones?",
         answer: "Shooting in 8K large format allows exquisite downsampling that yields unprecedented textural sharpness, color depth, and clean dynamic range that viewers immediately perceive as exceptionally premium, even on a smartphone screen.",
       },
+      {
+        question: "How long does a typical commercial brand film production take?",
+        answer: "A full-scale commercial production typically spans 6 to 8 weeks: 2 weeks pre-production and storyboarding, 2 days principal photography, and 3 to 4 weeks for color grading, sound design, and adaptive web encoding.",
+      },
+      {
+        question: "Can you produce brand films for international markets with multilingual voiceover?",
+        answer: "Yes. We deliver master clean audio tracks with separated dialogue, music, and effects (M&E mix), enabling localization teams to overdub in any language while preserving the original cinematic sound design.",
+      },
+      {
+        question: "What is the difference between brand films and traditional advertising videos?",
+        answer: "Brand films prioritize emotional narrative and brand world-building over direct product promotion. They create subconscious memory structures that improve top-of-mind recall by 5.8x compared to feature-driven ad formats.",
+      },
+      {
+        question: "How do you deliver final assets for both cinema and digital web deployment?",
+        answer: "We provide a full DCP cinema package, a broadcast master ProRes 4444 file, an H.265 4K HDR web master, and automatically transcoded adaptive bitrate HLS streams optimized for sub-1MB-per-second delivery on mobile.",
+      },
     ],
   },
   {
@@ -946,6 +1054,22 @@ export const blogsData: BlogDetail[] = [
       {
         question: "How does a design system prevent brand dilution across distributed global teams?",
         answer: "By codifying all spacing, color, motion, and typography rules into automated code tokens and linting rules, developers and designers cannot accidentally ship unapproved styles.",
+      },
+      {
+        question: "How long does it take to build a comprehensive design system from scratch?",
+        answer: "A foundational design system with tokens, core components, and documentation takes 6 to 8 weeks. A fully mature enterprise system with all patterns, motion guidelines, and platform exports typically requires 4 to 6 months.",
+      },
+      {
+        question: "Can an existing Figma design library be converted into a code-level token system?",
+        answer: "Yes. We use Style Dictionary to extract Figma variables via the REST API and automatically compile them into CSS custom properties, Tailwind config values, Swift color assets, and Android XML resources from a single JSON source.",
+      },
+      {
+        question: "What is the ROI of investing in a professional design system?",
+        answer: "Companies with mature design systems ship features 30 to 50% faster due to reduced design-to-development handoff time, fewer QA cycles, and elimination of inconsistent one-off component creation across teams.",
+      },
+      {
+        question: "How do you future-proof a design system against evolving brand guidelines?",
+        answer: "By using semantic token naming (e.g. color.surface.primary instead of hex values), every brand refresh becomes a single token update that propagates automatically across all platforms and components without manual redesign.",
       },
     ],
   },

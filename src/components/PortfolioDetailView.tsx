@@ -31,6 +31,7 @@ import Navbar from "./Navbar";
 import RnDFooter from "./RnDFooter";
 import SpaceBackground from "./SpaceBackground";
 import ServiceConversionCTA from "./ServiceConversionCTA";
+import PageBanner from "./PageBanner";
 import { PortfolioProjectDetail } from "@/data/portfolioData";
 
 export interface PortfolioDetailViewProps {
@@ -56,6 +57,13 @@ export default function PortfolioDetailView({
 
       {/* Global Navbar */}
       <Navbar />
+
+      {/* Page Banner */}
+      <PageBanner
+        title={project.title}
+        breadcrumb={project.category}
+        parentBreadcrumb={{ label: "Portfolios", href: "/portfolios" }}
+      />
 
       {/* Lightbox Modal for Gallery Images */}
       {selectedGalleryImg && (
@@ -109,36 +117,11 @@ export default function PortfolioDetailView({
         </div>
       )}
 
-      <main className="relative z-10 pt-28 sm:pt-36">
+      <main className="relative z-10">
         {/* =========================================================================
-            1. BREADCRUMB & HERO HEADER
+            1. HERO HEADER
             ========================================================================= */}
         <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 mb-12 sm:mb-16">
-          {/* Breadcrumb Navigation */}
-          <nav className="flex items-center space-x-2 text-xs font-mono tracking-wider uppercase text-neutral-400 mb-8 overflow-x-auto pb-1 scrollbar-none">
-            <Link
-              href="/"
-              className="hover:text-[#FFD400] transition-colors flex items-center gap-1.5 shrink-0"
-            >
-              <Home className="w-3.5 h-3.5" />
-              <span>Home</span>
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5 text-neutral-600 shrink-0" />
-            <Link
-              href="/portfolios"
-              className="hover:text-[#FFD400] transition-colors shrink-0"
-            >
-              Portfolios
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5 text-neutral-600 shrink-0" />
-            <span className="text-[#FFD400] font-semibold truncate shrink-0">
-              {project.category}
-            </span>
-            <ChevronRight className="w-3.5 h-3.5 text-neutral-600 shrink-0" />
-            <span className="text-white font-semibold truncate">
-              {project.title}
-            </span>
-          </nav>
 
           {/* Hero Header Card */}
           <div className="relative rounded-[32px] sm:rounded-[40px] overflow-hidden bg-gradient-to-br from-[#0e111a]/95 via-[#090b10]/95 to-[#0e111a]/95 border border-white/15 p-6 sm:p-12 lg:p-16 shadow-[0_25px_80px_rgba(0,0,0,0.85)]">

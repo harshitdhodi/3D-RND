@@ -3,6 +3,10 @@ import type { Metadata } from "next";
 import { getBlogById, blogsData } from "@/data/blogsData";
 import InsightDetailView from "@/components/InsightDetailView";
 
+// Force static generation for all known routes
+export const dynamic = 'force-static';
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return blogsData.map((b) => ({
     slug: b.id,

@@ -3,6 +3,10 @@ import type { Metadata } from "next";
 import { getServiceById, ServiceDetail } from "@/data/servicesData";
 import ServiceDetailsView from "@/components/ServiceDetailsView";
 
+// Force static generation for all known routes
+export const dynamic = 'force-static';
+export const dynamicParams = false;
+
 interface SubcategoryConfig {
   baseId: string;
   title: string;

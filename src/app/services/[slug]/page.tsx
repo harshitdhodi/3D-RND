@@ -2,6 +2,10 @@ import { redirect, notFound } from "next/navigation";
 import { getServiceById, servicesData } from "@/data/servicesData";
 import type { Metadata } from "next";
 
+// Force static generation for all known routes
+export const dynamic = 'force-static';
+export const dynamicParams = false;
+
 const SERVICE_REDIRECTS: Record<string, string> = {
   "ecommerce-platforms": "/technology-solution/ecommerce-platform-engineering",
   "ecommerce-platform-engineering": "/technology-solution/ecommerce-platform-engineering",

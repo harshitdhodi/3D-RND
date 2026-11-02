@@ -3,6 +3,10 @@ import type { Metadata } from "next";
 import { categoryPagesData } from "@/data/categoryPagesData";
 import CategoryPageClient from "@/components/CategoryPageClient";
 
+// Force static generation for all known routes
+export const dynamic = 'force-static';
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return [
     { category: "technology-solution" },

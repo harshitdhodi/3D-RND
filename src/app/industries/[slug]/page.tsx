@@ -3,6 +3,10 @@ import type { Metadata } from "next";
 import { industriesList } from "@/data/industriesData";
 import IndustryDetailClientView from "@/components/IndustryDetailClientView";
 
+// Force static generation for all known routes
+export const dynamic = 'force-static';
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return industriesList.map((item) => ({
     slug: item.slug,

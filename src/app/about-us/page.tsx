@@ -193,14 +193,11 @@ export default function AboutUsPage() {
       {/* Global Navbar */}
       <Navbar />
 
-      {/* Standard Page Banner matching Career page size & animation, with image shifted left */}
+      {/* Standard Page Banner matching Career & Service page size & animation */}
       <PageBanner
         title="ABOUT RND"
         breadcrumb="ABOUT US"
         imageSrc="/banner/about.png"
-        imagePosition="object-right"
-        imageStyle={{ objectPosition: "88% 62%" }}
-        imageClassName="scale-105 -translate-x-3 sm:-translate-x-6 md:-translate-x-10"
       />
 
       {/* Dynamic Rocket Scroll Experience (Below Banner) */}

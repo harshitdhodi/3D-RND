@@ -343,29 +343,29 @@ export default function CosmicProcessSection({
           {/* ================= THE CASCADING STAIRCASE STEPS DISPLAY ================= */}
           <div ref={cardsContainerRef} className="relative z-10 mb-8 sm:mb-10 w-full overflow-x-auto lg:overflow-visible no-scrollbar">
             
-            {/* Desktop Cascading Staircase: Proportional and Never Cropped */}
-            <div className="hidden lg:flex items-end gap-2.5 xl:gap-3.5 w-full min-h-[470px] xl:min-h-[495px]">
+            {/* Desktop Cascading Staircase: Compact & Content-Based */}
+            <div className="hidden lg:flex items-end gap-2.5 xl:gap-3.5 w-full min-h-[315px] xl:min-h-[335px]">
               {steps.map((step, idx) => {
                 const isActive = activeStep === idx;
                 const dist = Math.abs(idx - activeStep);
 
-                // Dynamic Cascading Staircase Heights & Proportions relative to active card
-                let heightStyle = "h-[175px] xl:h-[185px]";
+                // Compact, content-based staircase heights
+                let heightStyle = "h-[135px] xl:h-[145px]";
                 let flexStyle = "flex-1";
 
                 if (dist === 0) {
-                  heightStyle = "h-[450px] xl:h-[475px]";
-                  flexStyle = "flex-[3.4] xl:flex-[3.8] min-w-[330px] xl:min-w-[375px]";
+                  heightStyle = "h-[310px] xl:h-[330px]";
+                  flexStyle = "flex-[3.5] xl:flex-[3.8] min-w-[340px] xl:min-w-[380px]";
                 } else if (dist === 1) {
-                  heightStyle = "h-[335px] xl:h-[350px]";
+                  heightStyle = "h-[250px] xl:h-[265px]";
                 } else if (dist === 2) {
-                  heightStyle = "h-[285px] xl:h-[295px]";
+                  heightStyle = "h-[210px] xl:h-[220px]";
                 } else if (dist === 3) {
-                  heightStyle = "h-[240px] xl:h-[250px]";
+                  heightStyle = "h-[180px] xl:h-[190px]";
                 } else if (dist === 4) {
-                  heightStyle = "h-[205px] xl:h-[215px]";
+                  heightStyle = "h-[155px] xl:h-[165px]";
                 } else {
-                  heightStyle = "h-[175px] xl:h-[185px]";
+                  heightStyle = "h-[135px] xl:h-[145px]";
                 }
 
                 // Progressive amber/gold tones stepping down from active
@@ -385,7 +385,7 @@ export default function CosmicProcessSection({
                     key={step.number}
                     onMouseEnter={() => setActiveStep(idx)}
                     onClick={() => setActiveStep(idx)}
-                    className={`process-stair-card cursor-pointer transition-all duration-400 ease-[cubic-bezier(0.2,0.8,0.2,1)] flex flex-col justify-between p-4 xl:p-5 rounded-2xl relative select-none border group overflow-hidden ${flexStyle} ${heightStyle} ${
+                    className={`process-stair-card cursor-pointer transition-all duration-400 ease-[cubic-bezier(0.2,0.8,0.2,1)] flex flex-col justify-between p-5 xl:p-6 rounded-2xl relative select-none border group overflow-hidden ${flexStyle} ${heightStyle} ${
                       isActive
                         ? "bg-[#FFD400] text-black border-2 border-[#FFD400] shadow-[0_15px_40px_rgba(255,212,0,0.35)]"
                         : `${cardTone} hover:opacity-100 opacity-90 hover:-translate-y-1.5`
@@ -393,25 +393,25 @@ export default function CosmicProcessSection({
                   >
                     {/* Top Step Number Label */}
                     <div>
-                      <div className="font-mono text-[10px] font-bold tracking-[0.25em] text-black/70 uppercase leading-none mb-1.5">
+                      <div className="font-mono text-[11px] sm:text-xs font-bold tracking-[0.25em] text-black/75 uppercase leading-none mb-2">
                         <WaveText text={step.stepLabel} delayOffset={idx * 3} />
                       </div>
 
                       {/* Title: Show full title, tagline & desc when active, clean title when collapsed */}
                       {isActive ? (
                         <div className="space-y-2">
-                          <h3 className="font-extrabold font-[family-name:var(--font-jakarta)] text-lg sm:text-xl xl:text-[22px] text-black uppercase leading-tight tracking-tight">
+                          <h3 className="font-bold font-[family-name:var(--font-syne)] text-xl sm:text-2xl xl:text-[24px] text-black uppercase leading-tight tracking-tight">
                             <WaveText text={step.title} />
                           </h3>
-                          <p className="text-[11px] sm:text-xs font-semibold text-black/85 font-mono leading-snug">
+                          <p className="text-xs sm:text-[13px] font-medium text-black/85 font-mono leading-snug">
                             {step.tagline}
                           </p>
-                          <p className="text-[11px] sm:text-xs xl:text-[12.5px] font-normal leading-relaxed text-black/75 font-[family-name:var(--font-jakarta)]">
+                          <p className="text-xs sm:text-[13.5px] xl:text-[14px] font-normal !font-normal leading-relaxed text-black/80 font-[family-name:var(--font-jakarta)]">
                             {step.desc}
                           </p>
                         </div>
                       ) : (
-                        <div className="font-bold text-[10px] uppercase opacity-85 mt-1 leading-snug">
+                        <div className="font-bold text-xs uppercase opacity-85 mt-1.5 leading-snug">
                           <WaveText text={step.title} delayOffset={idx * 2} />
                         </div>
                       )}
@@ -420,15 +420,15 @@ export default function CosmicProcessSection({
                     {/* Bottom of Step Card: Full output data without truncation */}
                     {isActive ? (
                       <div className="pt-2.5 border-t border-black/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mt-auto">
-                        <span className="text-[9px] xl:text-[10px] font-mono font-bold tracking-wider uppercase leading-tight">
+                        <span className="text-[10px] xl:text-[11px] font-mono font-bold tracking-wider uppercase leading-tight text-black/90">
                           OUTPUT: {step.deliverable}
                         </span>
                         <Link
                           href="#contact"
-                          className="px-3 py-1.5 rounded-lg bg-black text-[#FFD400] text-[10px] font-mono font-bold tracking-wider uppercase inline-flex items-center space-x-1 hover:bg-neutral-900 transition-colors shadow-sm shrink-0"
+                          className="px-3.5 py-1.5 rounded-lg bg-black text-[#FFD400] text-xs font-mono font-bold tracking-wider uppercase inline-flex items-center space-x-1.5 hover:bg-neutral-900 transition-colors shadow-sm shrink-0"
                         >
                           <span>MORE DETAIL</span>
-                          <ArrowUpRight className="w-3 h-3" />
+                          <ArrowUpRight className="w-3.5 h-3.5" />
                         </Link>
                       </div>
                     ) : (
@@ -464,10 +464,10 @@ export default function CosmicProcessSection({
 
                     {isActive && (
                       <div className="mt-3 pt-3 border-t border-black/15 space-y-2">
-                        <p className="text-xs sm:text-sm font-semibold text-black/90 font-mono leading-snug">
+                        <p className="text-xs sm:text-[13px] font-medium text-black/85 font-mono leading-snug">
                           {step.tagline}
                         </p>
-                        <p className="text-xs sm:text-[13px] leading-relaxed font-normal text-black/80 font-[family-name:var(--font-jakarta)]">
+                        <p className="text-xs sm:text-[13.5px] leading-relaxed font-normal !font-normal text-black/80 font-[family-name:var(--font-jakarta)]">
                           {step.desc}
                         </p>
                         <div className="pt-2 flex flex-wrap items-center justify-between gap-2 border-t border-black/10">

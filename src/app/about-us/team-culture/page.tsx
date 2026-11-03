@@ -25,8 +25,6 @@ import {
 import Navbar from "@/components/Navbar";
 import RnDFooter from "@/components/RnDFooter";
 import SpaceBackground from "@/components/SpaceBackground";
-import CursorGlow from "@/components/CursorGlow";
-import RocketCursor from "@/components/RocketCursor";
 import PageBanner from "@/components/PageBanner";
 import CyberButton from "@/components/CyberButton";
 import WaveText from "@/components/WaveText";
@@ -137,8 +135,6 @@ export default function TeamCulturePage() {
 
   return (
     <div className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black font-sans">
-      <RocketCursor />
-      <CursorGlow />
       <SpaceBackground />
       <Navbar />
 

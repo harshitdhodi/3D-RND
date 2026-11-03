@@ -10,6 +10,7 @@ import CyberButton from "@/components/CyberButton";
 /**
  * WaveText component renders text character-by-character with staggered delays
  * producing a smooth undulating sine-wave ripple across the title.
+ * Preserves clear word spacing using word-level segmentation.
  */
 function WaveText({
   text,
@@ -19,17 +20,24 @@ function WaveText({
   className?: string;
   delayOffset?: number;
 }) {
+  const words = text.trim().split(" ");
   return (
-    <span className={`inline-block ${className}`}>
-      {text.split("").map((char, i) => (
+    <span className={`inline-block ${text.endsWith(" ") ? "mr-[0.35em]" : ""} ${className}`}>
+      {words.map((word, wordIdx) => (
         <span
-          key={i}
-          className="wave-char inline-block will-change-transform"
-          style={{
-            whiteSpace: char === " " ? "pre" : "normal",
-          }}
+          key={wordIdx}
+          className={`inline-block whitespace-nowrap ${
+            wordIdx < words.length - 1 ? "mr-[0.35em]" : ""
+          }`}
         >
-          {char}
+          {word.split("").map((char, charIdx) => (
+            <span
+              key={charIdx}
+              className="wave-char inline-block will-change-transform"
+            >
+              {char}
+            </span>
+          ))}
         </span>
       ))}
     </span>
@@ -219,7 +227,7 @@ export default function AboutUsSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
           {/* ================= LEFT COLUMN: HERO CONTENT, STATS & VISION ================= */}
-          <div className="lg:col-span-7 xl:col-span-6 flex flex-col justify-between space-y-6 sm:space-y-8 max-w-2xl">
+          <div className="lg:col-span-7 xl:col-span-7 flex flex-col justify-between space-y-6 sm:space-y-8 max-w-3xl">
             
             {/* Category Indicator Tag */}
             <div>
@@ -229,17 +237,14 @@ export default function AboutUsSection() {
                 <span className="text-[#FFD400] tracking-[0.3em]">Who We Are</span>
               </div>
 
-              {/* Primary Headline with Undulating Wave Animation */}
+              {/* Primary Headline with Undulating Wave Animation (Clean 2-line layout) */}
               <h2
                 ref={headlineRef}
                 data-no-gsap
-                className="text-3xl sm:text-4xl lg:text-5xl xl:text-[54px] font-light text-white tracking-tight leading-[1.15] font-[family-name:var(--font-archia)] mb-5"
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] xl:text-[45px] font-light text-white tracking-tight leading-[1.18] font-[family-name:var(--font-archia)] mb-5"
               >  
-                <WaveText text="THINK BIGGER. " delayOffset={0} />
-                <br className="hidden sm:inline" />
-                <WaveText text="BUILD SMARTER." delayOffset={12} />
-                <br className="hidden sm:inline" />
-                <WaveText text="GO FURTHER." delayOffset={25} />
+                <WaveText text="THINK BIGGER." className="block mb-1 sm:mb-1.5" delayOffset={0} />
+                <WaveText text="BUILD SMARTER. GO FURTHER." className="block sm:whitespace-nowrap" delayOffset={12} />
               </h2>
 
               {/* Body Paragraph */}

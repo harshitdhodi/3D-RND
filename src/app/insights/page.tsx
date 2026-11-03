@@ -17,7 +17,6 @@ import RnDFooter from "@/components/RnDFooter";
 import SpaceBackground from "@/components/SpaceBackground";
 import CyberButton from "@/components/CyberButton";
 import PageBanner from "@/components/PageBanner";
-import CursorGlow from "@/components/CursorGlow";
 import PrintRevealImage from "@/components/PrintRevealImage";
 import WaveText from "@/components/WaveText";
 import { blogsData, BlogDetail } from "@/data/blogsData";
@@ -210,9 +209,6 @@ export default function InsightsPage() {
       ref={pageRef}
       className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black font-sans"
     >
-      {/* Interactive Cursor Glow */}
-      <CursorGlow />
-
       {/* Background Galactic Starfield */}
       <SpaceBackground />
 

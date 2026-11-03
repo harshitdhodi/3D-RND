@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* Hide default cursor on desktop devices with fine pointer */
+@media (hover: hover) and (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
+
 /* Archia Webfont Family */
 @font-face {
   font-family: 'Archia';

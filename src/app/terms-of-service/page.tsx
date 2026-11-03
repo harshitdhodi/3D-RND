@@ -20,7 +20,6 @@ import Navbar from "@/components/Navbar";
 import RnDFooter from "@/components/RnDFooter";
 import SpaceBackground from "@/components/SpaceBackground";
 import PageBanner from "@/components/PageBanner";
-import CursorGlow from "@/components/CursorGlow";
 
 const sections = [
   { id: "acceptance", label: "01. Acceptance of Terms" },
@@ -68,7 +67,6 @@ export default function TermsOfServicePage() {
 
   return (
     <div className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400]/20 selection:text-[#FFD400]">
-      <CursorGlow />
       <SpaceBackground />
       <Navbar />
 

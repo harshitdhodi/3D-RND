@@ -20,7 +20,6 @@ import Navbar from "@/components/Navbar";
 import RnDFooter from "@/components/RnDFooter";
 import SpaceBackground from "@/components/SpaceBackground";
 import PageBanner from "@/components/PageBanner";
-import CursorGlow from "@/components/CursorGlow";
 
 const sections = [
   { id: "overview", label: "01. What Are Cookies" },
@@ -104,7 +103,6 @@ export default function CookiesPolicyPage() {
 
   return (
     <div className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400]/20 selection:text-[#FFD400]">
-      <CursorGlow />
       <SpaceBackground />
       <Navbar />
 

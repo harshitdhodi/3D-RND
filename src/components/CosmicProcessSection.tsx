@@ -289,12 +289,7 @@ export default function CosmicProcessSection({
             <span className="text-[#FFD400] font-semibold">{badge}</span>
           </div>
 
-          <div className="flex items-center space-x-4">
-            <span className="text-neutral-500">ENGINEERING // AGENCY</span>
-            <span className="font-[family-name:var(--font-syne)] font-bold text-lg sm:text-xl text-[#FFD400] tracking-wider leading-none">
-              RND TECHNOSOFT
-            </span>
-          </div>
+         
         </div>
 
         {/* ================= MAIN FRAMED CYBER CONTAINER ================= */}
@@ -344,28 +339,28 @@ export default function CosmicProcessSection({
           <div ref={cardsContainerRef} className="relative z-10 mb-8 sm:mb-10 w-full overflow-x-auto lg:overflow-visible no-scrollbar">
             
             {/* Desktop Cascading Staircase: Compact & Content-Based */}
-            <div className="hidden lg:flex items-end gap-2.5 xl:gap-3.5 w-full min-h-[315px] xl:min-h-[335px]">
+            <div className="hidden lg:flex items-end gap-2.5 xl:gap-3.5 w-full min-h-[330px] xl:min-h-[352px]">
               {steps.map((step, idx) => {
                 const isActive = activeStep === idx;
                 const dist = Math.abs(idx - activeStep);
 
-                // Compact, content-based staircase heights
-                let heightStyle = "h-[135px] xl:h-[145px]";
+                // Compact, content-based staircase heights (increased by 5%)
+                let heightStyle = "h-[142px] xl:h-[152px]";
                 let flexStyle = "flex-1";
 
                 if (dist === 0) {
-                  heightStyle = "h-[310px] xl:h-[330px]";
+                  heightStyle = "h-[326px] xl:h-[347px]";
                   flexStyle = "flex-[3.5] xl:flex-[3.8] min-w-[340px] xl:min-w-[380px]";
                 } else if (dist === 1) {
-                  heightStyle = "h-[250px] xl:h-[265px]";
+                  heightStyle = "h-[263px] xl:h-[278px]";
                 } else if (dist === 2) {
-                  heightStyle = "h-[210px] xl:h-[220px]";
+                  heightStyle = "h-[221px] xl:h-[231px]";
                 } else if (dist === 3) {
-                  heightStyle = "h-[180px] xl:h-[190px]";
+                  heightStyle = "h-[189px] xl:h-[200px]";
                 } else if (dist === 4) {
-                  heightStyle = "h-[155px] xl:h-[165px]";
+                  heightStyle = "h-[163px] xl:h-[173px]";
                 } else {
-                  heightStyle = "h-[135px] xl:h-[145px]";
+                  heightStyle = "h-[142px] xl:h-[152px]";
                 }
 
                 // Progressive amber/gold tones stepping down from active
@@ -406,7 +401,7 @@ export default function CosmicProcessSection({
                           <p className="text-xs sm:text-[13px] font-medium text-black/85 font-mono leading-snug">
                             {step.tagline}
                           </p>
-                          <p className="text-xs sm:text-[13.5px] xl:text-[14px] font-normal !font-normal leading-relaxed text-black/80 font-[family-name:var(--font-jakarta)]">
+                          <p className="text-xs sm:text-[13.5px] xl:text-[14px] font-medium text-black/85 font-mono leading-snug">
                             {step.desc}
                           </p>
                         </div>

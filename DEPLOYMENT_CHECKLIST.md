@@ -1,160 +1,384 @@
-# Deployment Checklist - Vercel Build Fix
+# VPS Deployment Checklist - 3D RND Website
 
-## ✅ Pre-Deployment Verification
+## ✅ Pre-Deployment Status
 
-### Local Build Status
-- [x] Build completed successfully
-- [x] 99 static pages generated
-- [x] TypeScript compilation passed
-- [x] No runtime errors
-- [x] All dynamic routes configured
+### Files Ready
+- [x] `ecosystem.config.js` - PM2 configuration committed
+- [x] `deploy.sh` - Automated deployment script committed
+- [x] `DEPLOYMENT_GUIDE.md` - Complete deployment guide committed
+- [x] All code changes committed and pushed to GitHub
 
-### Code Changes
-- [x] Removed `cacheComponents: true` from next.config.ts
-- [x] Removed `partialPrefetching: true` from next.config.ts
-- [x] Added `.vercelignore` file
-- [x] Added `dynamic = 'force-static'` to all dynamic routes
-- [x] Added `dynamicParams = false` to all dynamic routes
-
-### Files Modified (9 total)
-1. [x] `next.config.ts`
-2. [x] `.vercelignore` (new)
-3. [x] `src/app/[category]/page.tsx`
-4. [x] `src/app/[category]/[subcategory]/page.tsx`
-5. [x] `src/app/blogs/[slug]/page.tsx`
-6. [x] `src/app/industries/[slug]/page.tsx`
-7. [x] `src/app/insights/[slug]/page.tsx`
-8. [x] `src/app/portfolios/[slug]/page.tsx`
-9. [x] `src/app/services/[slug]/page.tsx`
-
-## 🚀 Deployment Steps
-
-### Step 1: Commit Changes
-```bash
-git add .
-git commit -m "fix: resolve Vercel build error with static generation config
-
-- Remove experimental cacheComponents and partialPrefetching
-- Add force-static configuration to all dynamic routes
-- Add .vercelignore for clean builds
-- Successfully builds 99 static pages locally"
-git push origin main
-```
-
-### Step 2: Deploy on Vercel
-**Option A: Automatic (Recommended)**
-1. Push triggers automatic deployment
-2. Monitor build logs in Vercel dashboard
-3. Verify build completes successfully
-
-**Option B: Manual with Cache Clear**
-1. Go to Vercel dashboard
-2. Navigate to your project
-3. Click "Redeploy"
-4. Select "Clear cache and retry"
-5. Monitor build progress
-
-## ✅ Post-Deployment Verification
-
-### Critical Pages to Test
-- [ ] Homepage: `/`
-- [ ] Category Pages:
-  - [ ] `/technology-solution`
-  - [ ] `/digital-marketing`
-  - [ ] `/branding-design`
-  - [ ] `/media-production`
-- [ ] Subcategory Pages:
-  - [ ] `/technology-solution/cloud-infrastructure-devops`
-  - [ ] `/digital-marketing/technical-seo-dominance`
-  - [ ] `/branding-design/brand-identity-systems`
-  - [ ] `/media-production/commercial-video-production`
-- [ ] Blog Pages:
-  - [ ] `/blogs`
-  - [ ] `/blogs/spatial-3d-conversion`
-- [ ] Industry Pages:
-  - [ ] `/industries`
-  - [ ] `/industries/manufacturing`
-- [ ] Portfolio Pages:
-  - [ ] `/portfolios`
-  - [ ] `/portfolios/kailua`
-
-### Build Metrics to Check
-- [ ] Build time: Should be < 60 seconds
-- [ ] Static pages: Should show 99 pages
-- [ ] No errors in build log
-- [ ] No warnings about useParams()
-
-### Performance Checks
-- [ ] Page load speed: < 3 seconds
-- [ ] Lighthouse score: > 90
-- [ ] No console errors in browser
-- [ ] All images loading properly
-- [ ] All links working correctly
-
-## 🔍 Troubleshooting
-
-### If Build Still Fails
-
-**Check 1: Cache Issue**
-- Clear Vercel cache manually
-- Add a dummy environment variable to force rebuild
-
-**Check 2: Configuration Conflict**
-- Verify `next.config.ts` doesn't have experimental options
-- Confirm all dynamic routes have the static exports
-
-**Check 3: Dependencies**
-- Check package.json for conflicting versions
-- Try: `npm ci` for clean install
-
-### If Pages Return 404
-
-**Check 1: Route Configuration**
-- Verify `generateStaticParams()` includes all routes
-- Check route names match exactly
-
-**Check 2: Build Output**
-- Review Vercel build log
-- Confirm pages are in the static output
-
-## 📊 Expected Build Output
-
-```
-Route (app)
-├ ○ /
-├   /[category]                           (5 routes)
-├   /[category]/[subcategory]            (28 routes)
-├ ○ /about-us
-├   /blogs/[slug]                         (8 routes)
-├ ○ /career
-├ ○ /contact-us
-├   /industries/[slug]                    (9 routes)
-├   /insights/[slug]                      (8 routes)
-├   /portfolios/[slug]                   (15 routes)
-├   /services/[slug]                      (8 routes)
-└ ○ /terms-of-service
-
-Total: 99 static pages
-```
-
-## ✅ Success Criteria
-
-- [x] Local build: 99 pages, 0 errors
-- [ ] Vercel build: 99 pages, 0 errors
-- [ ] All routes accessible
-- [ ] No 404 errors
-- [ ] No console errors
-- [ ] Performance metrics maintained
-
-## 📞 Support
-
-If issues persist:
-1. Check VERCEL_BUILD_FIX_FINAL.md for detailed explanation
-2. Review Vercel build logs for specific errors
-3. Verify all files are committed and pushed
-4. Ensure Vercel is using Node 20.x
+### Repository Information
+- **GitHub Repository**: `https://github.com/harshitdhodi/3D-RND.git`
+- **Branch**: `main`
+- **Last Commit**: `1620d83` (add deployment files)
 
 ---
 
-**Last Updated:** After successful local build verification
-**Status:** ✅ Ready for deployment
+## 📋 Deployment Steps Checklist
+
+### Phase 1: VPS Initial Setup
+- [ ] Connect to VPS via SSH: `ssh root@YOUR_VPS_IP`
+- [ ] Update system: `apt update && apt upgrade -y`
+- [ ] Install Node.js via nvm (v18+)
+  ```bash
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+  source ~/.bashrc
+  nvm install 18
+  nvm use 18
+  ```
+- [ ] Verify Node.js: `node -v` (should show v18.x.x)
+- [ ] Install PM2: `npm install -g pm2`
+- [ ] Install Nginx: `apt install nginx -y`
+- [ ] Install Git: `apt install git -y`
+
+### Phase 2: Project Setup
+- [ ] Create project directory: `mkdir -p /var/www/rndprojects`
+- [ ] Create logs directory: `mkdir -p /var/www/rndprojects/logs`
+- [ ] Set permissions: `chown -R $USER:$USER /var/www/rndprojects`
+- [ ] Clone repository:
+  ```bash
+  cd /var/www
+  git clone https://github.com/harshitdhodi/3D-RND.git rndprojects
+  cd rndprojects
+  ```
+- [ ] Verify files: `ls -la` (check ecosystem.config.js exists)
+
+### Phase 3: Environment Configuration
+- [ ] Create `.env.local` file: `nano /var/www/rndprojects/.env.local`
+- [ ] Add required environment variables:
+  ```env
+  NODE_ENV=production
+  # Add any other required variables
+  ```
+- [ ] Save and verify: `cat /var/www/rndprojects/.env.local`
+
+### Phase 4: Build and Start Application
+- [ ] Install dependencies: `npm install` (or `npm ci` for production)
+- [ ] Build application: `npm run build`
+- [ ] Verify build: `ls -la .next` (check build directory exists)
+- [ ] Start with PM2: `pm2 start ecosystem.config.js --env production`
+- [ ] Save PM2 config: `pm2 save`
+- [ ] Enable PM2 startup: `pm2 startup systemd` (run generated command)
+- [ ] Check status: `pm2 status`
+- [ ] Check logs: `pm2 logs rnd-3d-website --lines 50`
+
+### Phase 5: Nginx Configuration
+- [ ] Update placeholders in ecosystem.config.js if needed
+- [ ] Create Nginx config: `nano /etc/nginx/sites-available/rndprojects`
+- [ ] Add configuration (see DEPLOYMENT_GUIDE.md for full config)
+- [ ] **IMPORTANT**: Update these in Nginx config:
+  - Replace `yourdomain.com` with your actual domain
+  - Replace `www.yourdomain.com` with your actual subdomain
+  - Verify proxy_pass port matches ecosystem.config.js PORT (4037)
+- [ ] Enable site: `ln -s /etc/nginx/sites-available/rndprojects /etc/nginx/sites-enabled/`
+- [ ] Test Nginx: `nginx -t`
+- [ ] Restart Nginx: `systemctl restart nginx`
+- [ ] Check Nginx status: `systemctl status nginx`
+
+### Phase 6: DNS Configuration
+- [ ] Add A record pointing to VPS IP address
+- [ ] Add www subdomain CNAME or A record
+- [ ] Wait for DNS propagation (can take up to 48 hours)
+- [ ] Test DNS: `nslookup yourdomain.com`
+
+### Phase 7: SSL Certificate
+- [ ] Install Certbot: `apt install certbot python3-certbot-nginx -y`
+- [ ] Obtain SSL certificate:
+  ```bash
+  certbot --nginx -d yourdomain.com -d www.yourdomain.com
+  ```
+- [ ] Test auto-renewal: `certbot renew --dry-run`
+- [ ] Verify HTTPS works: Visit `https://yourdomain.com`
+
+### Phase 8: Firewall Configuration
+- [ ] Allow SSH: `ufw allow 22`
+- [ ] Allow HTTP: `ufw allow 80`
+- [ ] Allow HTTPS: `ufw allow 443`
+- [ ] Enable firewall: `ufw enable`
+- [ ] Check status: `ufw status`
+
+### Phase 9: Verification
+- [ ] Test HTTP access: `curl http://localhost:4037`
+- [ ] Test public HTTP access: `curl http://YOUR_VPS_IP`
+- [ ] Test domain: Visit `http://yourdomain.com`
+- [ ] Test HTTPS: Visit `https://yourdomain.com`
+- [ ] Test all pages: Home, About, Portfolio, Services, etc.
+- [ ] Check PM2 logs: `pm2 logs rnd-3d-website`
+- [ ] Check Nginx access logs: `tail -f /var/log/nginx/rndprojects-access.log`
+- [ ] Check Nginx error logs: `tail -f /var/log/nginx/rndprojects-error.log`
+
+---
+
+## 🔧 Configuration Values to Update
+
+### In ecosystem.config.js (if needed)
+```javascript
+env: {
+  NODE_ENV: 'production',
+  PORT: 4037,  // Confirm this matches your Nginx config
+}
+```
+
+### In Nginx Configuration
+```nginx
+server_name yourdomain.com www.yourdomain.com;  // Replace with actual domain
+proxy_pass http://localhost:4037;               // Must match PORT in ecosystem.config.js
+```
+
+### In .env.local
+```env
+NODE_ENV=production
+# Add any API keys, database URLs, etc.
+```
+
+---
+
+## 🚀 Deployment Script Usage
+
+### Make deploy.sh executable
+```bash
+chmod +x /var/www/rndprojects/deploy.sh
+```
+
+### Run deployment
+```bash
+cd /var/www/rndprojects
+./deploy.sh
+```
+
+The script will:
+1. Pull latest changes from GitHub
+2. Install dependencies (if package.json changed)
+3. Build the application
+4. Reload PM2 with zero downtime
+5. Show application status and logs
+
+---
+
+## 📊 Monitoring Commands
+
+### PM2 Monitoring
+```bash
+pm2 status                    # Check application status
+pm2 logs rnd-3d-website       # View logs (Ctrl+C to exit)
+pm2 monit                     # Real-time monitoring
+pm2 restart rnd-3d-website    # Restart application
+pm2 reload rnd-3d-website     # Zero-downtime reload
+```
+
+### System Monitoring
+```bash
+df -h                         # Disk space
+free -h                       # Memory usage
+top                           # CPU usage
+htop                          # Better CPU monitoring (install: apt install htop)
+```
+
+### Nginx Monitoring
+```bash
+systemctl status nginx                              # Nginx status
+tail -f /var/log/nginx/rndprojects-access.log      # Access logs
+tail -f /var/log/nginx/rndprojects-error.log       # Error logs
+```
+
+---
+
+## 🔄 Update Workflow
+
+### For Code Changes:
+1. Make changes locally
+2. Commit and push to GitHub: `git push origin main`
+3. On VPS, run: `./deploy.sh`
+
+### Manual Update Steps:
+```bash
+cd /var/www/rndprojects
+git pull origin main
+npm install
+npm run build
+pm2 reload rnd-3d-website
+```
+
+---
+
+## ⚠️ Troubleshooting
+
+### Application won't start
+```bash
+# Check logs
+pm2 logs rnd-3d-website
+
+# Check if port is in use
+lsof -i :4037
+
+# Kill process if needed
+kill -9 <PID>
+
+# Restart
+pm2 delete rnd-3d-website
+pm2 start ecosystem.config.js --env production
+```
+
+### Nginx 502 Bad Gateway
+```bash
+# Check if application is running
+pm2 status
+
+# Check if port matches
+cat ecosystem.config.js | grep PORT
+cat /etc/nginx/sites-available/rndprojects | grep proxy_pass
+
+# Restart both
+pm2 restart rnd-3d-website
+systemctl restart nginx
+```
+
+### Out of Memory
+```bash
+# Increase memory limit in ecosystem.config.js
+max_memory_restart: '2G'
+
+# Restart
+pm2 restart rnd-3d-website
+```
+
+### SSL Certificate Issues
+```bash
+# Check certificate status
+certbot certificates
+
+# Renew certificate
+certbot renew
+
+# Test auto-renewal
+certbot renew --dry-run
+```
+
+---
+
+## 📝 Important Notes
+
+### Port Configuration
+- **Application Port**: 4037 (configured in ecosystem.config.js)
+- **Nginx Ports**: 80 (HTTP), 443 (HTTPS)
+- **Port 4037 should NOT be exposed** - only accessible via localhost
+- Nginx proxies external traffic (80/443) to internal port (4037)
+
+### File Locations
+- **Project**: `/var/www/rndprojects`
+- **Logs**: `/var/www/rndprojects/logs/`
+- **Nginx Config**: `/etc/nginx/sites-available/rndprojects`
+- **Nginx Logs**: `/var/log/nginx/`
+- **PM2 Logs**: `/var/www/rndprojects/logs/`
+
+### Security Best Practices
+- Never commit `.env.local` to git
+- Keep SSH key authentication enabled
+- Regularly update system: `apt update && apt upgrade`
+- Monitor logs for suspicious activity
+- Use strong passwords/keys
+- Consider installing fail2ban: `apt install fail2ban`
+
+### Backup Strategy
+- Database: Set up automated backups (if applicable)
+- Code: Pushed to GitHub (automatic backup)
+- Environment variables: Keep secure backup of `.env.local`
+- SSL certificates: Backed up by Certbot
+
+---
+
+## ✅ Post-Deployment Verification
+
+### Functional Tests
+- [ ] Homepage loads correctly
+- [ ] Navigation works (all menu items)
+- [ ] Portfolio pages load
+- [ ] Category pages work
+- [ ] Contact forms submit (if applicable)
+- [ ] Images load properly
+- [ ] Videos play correctly
+- [ ] Mobile responsive design works
+- [ ] Page load speed is acceptable
+- [ ] No console errors in browser
+
+### Performance Tests
+- [ ] Check PageSpeed Insights
+- [ ] Verify Core Web Vitals
+- [ ] Test on multiple devices
+- [ ] Test on multiple browsers
+- [ ] Check load time under traffic
+
+### SEO Tests
+- [ ] Meta tags present
+- [ ] Sitemap accessible
+- [ ] Robots.txt configured
+- [ ] SSL certificate valid
+- [ ] Canonical URLs correct
+
+---
+
+## 🎯 Success Criteria
+
+### Application is successfully deployed when:
+1. ✅ PM2 shows application as "online"
+2. ✅ Nginx is running without errors
+3. ✅ Website accessible via HTTPS
+4. ✅ All pages load correctly
+5. ✅ SSL certificate is valid
+6. ✅ No errors in logs
+7. ✅ PM2 startup script configured
+8. ✅ Deployment script works
+
+---
+
+## 📞 Quick Reference
+
+### Essential Commands
+```bash
+# Application
+pm2 status
+pm2 logs rnd-3d-website
+pm2 restart rnd-3d-website
+
+# Nginx
+systemctl status nginx
+systemctl restart nginx
+nginx -t
+
+# Logs
+tail -f /var/www/rndprojects/logs/pm2-combined.log
+tail -f /var/log/nginx/rndprojects-error.log
+
+# Deployment
+cd /var/www/rndprojects && ./deploy.sh
+```
+
+### File Paths
+```
+/var/www/rndprojects/                  # Project root
+/var/www/rndprojects/ecosystem.config.js  # PM2 config
+/var/www/rndprojects/deploy.sh         # Deployment script
+/var/www/rndprojects/.env.local        # Environment variables
+/etc/nginx/sites-available/rndprojects # Nginx config
+```
+
+---
+
+**Last Updated**: Context Transfer Session
+**Status**: Ready for deployment
+**Next Step**: Begin Phase 1 - VPS Initial Setup
+
+---
+
+## Need Help?
+
+Refer to:
+- `DEPLOYMENT_GUIDE.md` - Detailed step-by-step guide
+- `ecosystem.config.js` - PM2 configuration
+- `deploy.sh` - Automated deployment script
+
+For specific issues, check the Troubleshooting section or consult:
+- PM2 Documentation: https://pm2.keymetrics.io/docs/
+- Next.js Deployment: https://nextjs.org/docs/deployment
+- Nginx Documentation: https://nginx.org/en/docs/

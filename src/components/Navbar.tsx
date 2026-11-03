@@ -204,11 +204,11 @@ export default function Navbar() {
   ];
 
   const navLinks = [
-    { name: "Our Story", href: "/about-us" },
-    { name: "Capabilities", href: "/services", hasMega: true },
-    { name: "Our Work", href: "/portfolios" },
-    { name: "Careers", href: "/career" },
-    { name: "Industries", href: "/industries", hasIndustriesMega: true },
+    { name: "The Origin", href: "/about-us" },
+    { name: "The Ecosystem", href: "/services", hasMega: true },
+    { name: "Mission Archives", href: "/portfolios" },
+    // { name: "Join the Orbit", href: "/career" },
+    { name: "Sectors in Focus", href: "/industries", hasIndustriesMega: true },
     { name: "Insights", href: "/insights" },
   ];
 

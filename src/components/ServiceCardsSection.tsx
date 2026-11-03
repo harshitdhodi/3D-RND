@@ -126,10 +126,7 @@ export default function ServiceCardsSection() {
               <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.35)]">
                 SOLUTIONS.
               </span>{" "}
-              <br className="hidden sm:block" />
-              <span className="text-white/90">
-                FOUR PILLARS. ONE DIGITAL PARTNER.
-              </span>
+             
             </h2>
 
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pt-6 sm:pt-8">

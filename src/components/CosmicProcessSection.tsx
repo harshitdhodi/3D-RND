@@ -11,9 +11,10 @@ interface ProcessStep {
   stepLabel: string;
   phase: string;
   title: string;
+  tagline: string;
   desc: string;
   deliverable: string;
-  kpis: string[];
+  kpis?: string[];
 }
 
 /**
@@ -49,16 +50,18 @@ function WaveText({
 
 export default function CosmicProcessSection({
   className = "py-24 sm:py-32",
-  badge = "// OUR DESIGN & ENGINEERING PROCESS",
-  stageLabel = "// 6 STAGES OF WORK",
-  title = "STAGES OF OUR WORK",
-  highlightTitle = "WITH YOU",
+  badge = "// THE RND WAY | OUR METHODOLOGY",
+  stageLabel = "// 6 STAGES OF OUR WORK",
+  title = "THE PROCESS BEHIND",
+  highlightTitle = "EVERY POSSIBILITY.",
+  description = "Every great outcome starts with an idea. At RND Technosoft, we follow a collaborative, insight-driven approach that brings strategy, technology and creativity together. Across every service, our six-stage process ensures clarity, purposeful execution and outcomes aligned with your business goals.",
 }: {
   className?: string;
   badge?: string;
   stageLabel?: string;
   title?: string;
   highlightTitle?: string;
+  description?: string;
 } = {}) {
   const [activeStep, setActiveStep] = useState<number>(0);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -69,56 +72,56 @@ export default function CosmicProcessSection({
     {
       number: "01",
       stepLabel: "STEP 01",
-      phase: "Analysis & Discovery",
-      title: "ANALYSIS OF CLIENT NEEDS & AUDIT",
-      desc: "We analyze your business architecture, user telemetry, technical bottlenecks, and market competitors to define precise project requirements, cloud topology, and conversion KPIs.",
-      deliverable: "Architecture Audit & Scope Blueprint",
-      kpis: ["Cloud Infrastructure Audit", "Telemetry Benchmarking", "Target Audience Topology"],
+      phase: "Discover & Understand",
+      title: "DISCOVER & UNDERSTAND",
+      tagline: "Every great solution starts with listening.",
+      desc: "We get to know your business, understand your vision, identify your challenges and explore your audience, industry and objectives. This helps us uncover opportunities and understand what success looks like for you.",
+      deliverable: "BUSINESS INSIGHTS & PROJECT BRIEF",
     },
     {
       number: "02",
       stepLabel: "STEP 02",
-      phase: "Strategy & Systems",
-      title: "DEVELOPMENT OF AN INDIVIDUAL STRATEGY",
-      desc: "Crafting the technical and creative roadmap: cloud infrastructure design, multi-region database schemas, sprint timelines, performance budgets, and high-velocity growth funnels.",
-      deliverable: "System Design & Sprint Backlog",
-      kpis: ["Terraform IaC Blueprint", "Data Schema & RBAC Design", "Sprint Velocity Roadmap"],
+      phase: "Research & Strategise",
+      title: "RESEARCH & STRATEGISE",
+      tagline: "Turn insights into a winning direction.",
+      desc: "We study the market, evaluate possibilities and develop a tailored strategy based on your goals. Whether it's technology, marketing, branding or media, we define the right approach, priorities and roadmap.",
+      deliverable: "CUSTOM STRATEGY & ACTION PLAN",
     },
     {
       number: "03",
       stepLabel: "STEP 03",
-      phase: "Design & UX",
-      title: "SPATIAL 3D & UI/UX PROTOTYPING",
-      desc: "Designing high-fidelity spatial design systems, responsive interactive UI in Figma, cinema-grade PBR micro-interaction choreography, and brand visual guidelines.",
-      deliverable: "Interactive Design System",
-      kpis: ["Figma Token Design System", "60 FPS Micro-Interactions", "Responsive Viewport Matrix"],
+      phase: "Conceptualise & Create",
+      title: "CONCEPTUALISE & CREATE",
+      tagline: "Ideas take shape. Possibilities become tangible.",
+      desc: "Our creative and technical teams transform the strategy into concepts, experiences and solutions. From creative direction and visual identities to campaign concepts, digital experiences and production planning, every detail serves a purpose.",
+      deliverable: "CONCEPTS, CREATIVE DIRECTION & APPROVALS",
     },
     {
       number: "04",
       stepLabel: "STEP 04",
-      phase: "Engineering",
-      title: "FULL-STACK AGILE SPRINT CYCLES",
-      desc: "Writing clean, modular, tested code in two-week agile sprint cycles. Continuous integration with automated regression testing and live staging environments for real-time client verification.",
-      deliverable: "Bi-Weekly Live Staging Releases",
-      kpis: ["100% Type-Safe TypeScript", "CI/CD Auto-Regression Tests", "Zero-Latency API Endpoints"],
+      phase: "Execute & Bring to Life",
+      title: "EXECUTE & BRING TO LIFE",
+      tagline: "Where strategy meets action.",
+      desc: "This is where our specialists get to work. We develop, design, produce and implement your project using the right tools, expertise and creative thinking to turn approved ideas into reality.",
+      deliverable: "PROJECT EXECUTION & DELIVERABLES",
     },
     {
       number: "05",
       stepLabel: "STEP 05",
-      phase: "Launch Ops",
-      title: "ZERO-DOWNTIME MULTI-REGION LAUNCH",
-      desc: "Multi-region CDN rollout, load testing under peak concurrent traffic simulations, penetration security audits, and flawless production release handover.",
-      deliverable: "Production Release & Handover",
-      kpis: ["Sub-50ms Global TTFB", "100% Penetration Test Pass", "24/7 SRE Uptime Watch"],
+      phase: "Review & Launch",
+      title: "REVIEW & LAUNCH",
+      tagline: "Refine every detail. Make your move.",
+      desc: "We review the work against agreed objectives, gather feedback, make necessary refinements and prepare everything for delivery, publication or launch. Quality and consistency remain central at every step.",
+      deliverable: "APPROVED & READY-TO-LAUNCH DELIVERABLES",
     },
     {
       number: "06",
       stepLabel: "STEP 06",
-      phase: "Telemetry",
-      title: "TELEMETRY & CONTINUOUS OPTIMIZATION",
-      desc: "Post-launch real-time user behavior analytics, conversion funnel experimentation, core web vitals fine-tuning, and ongoing continuous feature scaling with 99.99% SLA.",
-      deliverable: "Continuous Growth & 24/7 SLA",
-      kpis: ["Core Web Vitals 95+", "Continuous Conversion Lift", "Automated Security Patches"],
+      phase: "Measure & Evolve",
+      title: "MEASURE & EVOLVE",
+      tagline: "The next opportunity starts here.",
+      desc: "We evaluate outcomes, gather insights and identify opportunities to improve. Through performance reviews, ongoing support and continuous optimisation wherever applicable, we help your business keep moving forward.",
+      deliverable: "PERFORMANCE INSIGHTS & GROWTH OPPORTUNITIES",
     },
   ];
 
@@ -284,8 +287,6 @@ export default function CosmicProcessSection({
           <div className="flex items-center space-x-3">
             <span className="text-[#FFD400] font-bold text-sm">➔</span>
             <span className="text-[#FFD400] font-semibold">{badge}</span>
-            <span className="text-white/20">|</span>
-            <span className="hover:text-white transition-colors cursor-pointer">// METHODOLOGY</span>
           </div>
 
           <div className="flex items-center space-x-4">
@@ -318,11 +319,11 @@ export default function CosmicProcessSection({
             </div>
           </div>
 
-          {/* Top Section: Giant Typography + 2 Architecture Telemetry Note Blocks */}
+          {/* Top Section: Giant Typography + Process Overview Description */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12 sm:mb-16 relative z-10">
-            {/* Left/Middle: Giant Bold Syne Heading matching other section headers */}
-            <div className="lg:col-span-8">
-              <h2 className="font-[family-name:var(--font-syne)] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white uppercase tracking-tight leading-[1.15] select-none mb-2">
+            {/* Left: Giant Bold Syne Heading matching section headers */}
+            <div className="lg:col-span-7">
+              <h2 className="font-[family-name:var(--font-syne)] text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-bold text-white uppercase tracking-tight leading-[1.08] select-none">
                 {title}{" "}
                 <br className="hidden sm:inline" />
                 <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.4)]">
@@ -331,21 +332,11 @@ export default function CosmicProcessSection({
               </h2>
             </div>
 
-            {/* Right: 2 Architectural Micro-Notes (Exact from reference design) */}
-            <div className="lg:col-span-4 space-y-5 pt-2 font-mono text-xs text-neutral-400">
-              <div className="space-y-1.5 border-l-2 border-[#FFD400]/40 pl-4">
-                <span className="text-[#FFD400] block text-[11px] font-bold tracking-widest">[ 01 ]</span>
-                <p className="text-xs sm:text-sm leading-relaxed text-neutral-300 font-normal">
-                  WE OFFER A COMPREHENSIVE ENGINEERING PROCESS COVERING ALL PHASES FROM DISCOVERY TO OBSERVABILITY.
-                </p>
-              </div>
-
-              <div className="space-y-1.5 border-l-2 border-[#FFD400]/40 pl-4">
-                <span className="text-[#FFD400] block text-[11px] font-bold tracking-widest">[ 02 ]</span>
-                <p className="text-xs sm:text-sm leading-relaxed text-neutral-300 font-normal">
-                  OUR SQUADS WORK TO PROVIDE YOUR BUSINESS WITH MAXIMUM VELOCITY, ZERO DOWNTIME, AND MEASURABLE ROI.
-                </p>
-              </div>
+            {/* Right: Architectural Insight Paragraph */}
+            <div className="lg:col-span-5 pt-1 lg:pt-2">
+              <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed font-[family-name:var(--font-jakarta)] border-l-2 border-[#FFD400]/50 pl-5">
+                {description}
+              </p>
             </div>
           </div>
 
@@ -353,28 +344,28 @@ export default function CosmicProcessSection({
           <div ref={cardsContainerRef} className="relative z-10 mb-8 sm:mb-10 w-full overflow-x-auto lg:overflow-visible no-scrollbar">
             
             {/* Desktop Cascading Staircase: Proportional and Never Cropped */}
-            <div className="hidden lg:flex items-end gap-2.5 xl:gap-3.5 w-full min-h-[410px]">
+            <div className="hidden lg:flex items-end gap-2.5 xl:gap-3.5 w-full min-h-[470px] xl:min-h-[495px]">
               {steps.map((step, idx) => {
                 const isActive = activeStep === idx;
                 const dist = Math.abs(idx - activeStep);
 
                 // Dynamic Cascading Staircase Heights & Proportions relative to active card
-                let heightStyle = "h-[170px]";
+                let heightStyle = "h-[175px] xl:h-[185px]";
                 let flexStyle = "flex-1";
 
                 if (dist === 0) {
-                  heightStyle = "h-[390px] xl:h-[410px]";
-                  flexStyle = "flex-[2.8] xl:flex-[3.2] min-w-[280px] xl:min-w-[320px]";
+                  heightStyle = "h-[450px] xl:h-[475px]";
+                  flexStyle = "flex-[3.4] xl:flex-[3.8] min-w-[330px] xl:min-w-[375px]";
                 } else if (dist === 1) {
-                  heightStyle = "h-[310px] xl:h-[325px]";
+                  heightStyle = "h-[335px] xl:h-[350px]";
                 } else if (dist === 2) {
-                  heightStyle = "h-[265px] xl:h-[275px]";
+                  heightStyle = "h-[285px] xl:h-[295px]";
                 } else if (dist === 3) {
-                  heightStyle = "h-[225px] xl:h-[235px]";
+                  heightStyle = "h-[240px] xl:h-[250px]";
                 } else if (dist === 4) {
-                  heightStyle = "h-[195px] xl:h-[200px]";
+                  heightStyle = "h-[205px] xl:h-[215px]";
                 } else {
-                  heightStyle = "h-[165px] xl:h-[170px]";
+                  heightStyle = "h-[175px] xl:h-[185px]";
                 }
 
                 // Progressive amber/gold tones stepping down from active
@@ -394,7 +385,7 @@ export default function CosmicProcessSection({
                     key={step.number}
                     onMouseEnter={() => setActiveStep(idx)}
                     onClick={() => setActiveStep(idx)}
-                    className={`process-stair-card cursor-pointer transition-all duration-400 ease-[cubic-bezier(0.2,0.8,0.2,1)] flex flex-col justify-between p-5 xl:p-6 rounded-2xl relative select-none border group overflow-hidden ${flexStyle} ${heightStyle} ${
+                    className={`process-stair-card cursor-pointer transition-all duration-400 ease-[cubic-bezier(0.2,0.8,0.2,1)] flex flex-col justify-between p-4 xl:p-5 rounded-2xl relative select-none border group overflow-hidden ${flexStyle} ${heightStyle} ${
                       isActive
                         ? "bg-[#FFD400] text-black border-2 border-[#FFD400] shadow-[0_15px_40px_rgba(255,212,0,0.35)]"
                         : `${cardTone} hover:opacity-100 opacity-90 hover:-translate-y-1.5`
@@ -402,39 +393,42 @@ export default function CosmicProcessSection({
                   >
                     {/* Top Step Number Label */}
                     <div>
-                      <div className="font-[family-name:var(--font-syne)] font-bold text-lg sm:text-xl tracking-tight leading-none mb-2.5">
+                      <div className="font-mono text-[10px] font-bold tracking-[0.25em] text-black/70 uppercase leading-none mb-1.5">
                         <WaveText text={step.stepLabel} delayOffset={idx * 3} />
                       </div>
 
-                      {/* Title: Show full title & desc when active, clean phase label when collapsed */}
+                      {/* Title: Show full title, tagline & desc when active, clean title when collapsed */}
                       {isActive ? (
-                        <div className="space-y-2.5">
-                          <h3 className="font-bold font-[family-name:var(--font-syne)] text-lg xl:text-xl uppercase leading-snug tracking-tight">
+                        <div className="space-y-2">
+                          <h3 className="font-extrabold font-[family-name:var(--font-jakarta)] text-lg sm:text-xl xl:text-[22px] text-black uppercase leading-tight tracking-tight">
                             <WaveText text={step.title} />
                           </h3>
-                          <p className="text-sm sm:text-base xl:text-[16px] font-normal leading-relaxed text-black/90">
+                          <p className="text-[11px] sm:text-xs font-semibold text-black/85 font-mono leading-snug">
+                            {step.tagline}
+                          </p>
+                          <p className="text-[11px] sm:text-xs xl:text-[12.5px] font-normal leading-relaxed text-black/75 font-[family-name:var(--font-jakarta)]">
                             {step.desc}
                           </p>
                         </div>
                       ) : (
-                        <div className="truncate font-bold text-xs uppercase opacity-85 mt-1.5">
-                          <WaveText text={step.phase} delayOffset={idx * 2} />
+                        <div className="font-bold text-[10px] uppercase opacity-85 mt-1 leading-snug">
+                          <WaveText text={step.title} delayOffset={idx * 2} />
                         </div>
                       )}
                     </div>
 
-                    {/* Bottom of Step Card: No text cropping */}
+                    {/* Bottom of Step Card: Full output data without truncation */}
                     {isActive ? (
-                      <div className="pt-3 border-t border-black/20 flex flex-wrap items-center justify-between gap-2 mt-2">
-                        <span className="text-[11px] font-mono font-bold tracking-wider uppercase truncate max-w-[170px] xl:max-w-none">
+                      <div className="pt-2.5 border-t border-black/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mt-auto">
+                        <span className="text-[9px] xl:text-[10px] font-mono font-bold tracking-wider uppercase leading-tight">
                           OUTPUT: {step.deliverable}
                         </span>
                         <Link
                           href="#contact"
-                          className="px-3.5 py-1.5 rounded-lg bg-black text-[#FFD400] text-xs font-mono font-bold tracking-wider uppercase inline-flex items-center space-x-1.5 hover:bg-neutral-900 transition-colors shadow-sm shrink-0"
+                          className="px-3 py-1.5 rounded-lg bg-black text-[#FFD400] text-[10px] font-mono font-bold tracking-wider uppercase inline-flex items-center space-x-1 hover:bg-neutral-900 transition-colors shadow-sm shrink-0"
                         >
                           <span>MORE DETAIL</span>
-                          <ArrowUpRight className="w-3.5 h-3.5" />
+                          <ArrowUpRight className="w-3 h-3" />
                         </Link>
                       </div>
                     ) : (
@@ -462,29 +456,30 @@ export default function CosmicProcessSection({
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-[family-name:var(--font-syne)] font-bold text-base tracking-tight">
-                        <WaveText text={`${step.stepLabel} // ${step.phase}`} />
+                      <span className="font-[family-name:var(--font-syne)] font-bold text-base tracking-tight uppercase">
+                        <WaveText text={`${step.stepLabel} // ${step.title}`} />
                       </span>
                       <span className="font-mono text-xs font-bold">0{idx + 1}</span>
                     </div>
 
                     {isActive && (
-                      <div className="mt-3 pt-3 border-t border-black/15 space-y-2.5">
-                        <h4 className="font-bold font-[family-name:var(--font-syne)] text-base leading-tight uppercase">
-                          <WaveText text={step.title} />
-                        </h4>
-                        <p className="text-sm leading-relaxed font-normal text-black/90">
+                      <div className="mt-3 pt-3 border-t border-black/15 space-y-2">
+                        <p className="text-xs sm:text-sm font-semibold text-black/90 font-mono leading-snug">
+                          {step.tagline}
+                        </p>
+                        <p className="text-xs sm:text-[13px] leading-relaxed font-normal text-black/80 font-[family-name:var(--font-jakarta)]">
                           {step.desc}
                         </p>
-                        <div className="pt-2 flex flex-wrap items-center justify-between gap-2">
-                          <span className="text-[10px] font-mono font-bold uppercase">
+                        <div className="pt-2 flex flex-wrap items-center justify-between gap-2 border-t border-black/10">
+                          <span className="text-[10px] font-mono font-bold uppercase text-black/90">
                             OUTPUT: {step.deliverable}
                           </span>
                           <Link
                             href="#contact"
-                            className="px-3 py-1 bg-black text-[#FFD400] text-[11px] font-mono font-bold uppercase rounded"
+                            className="px-3 py-1 bg-black text-[#FFD400] text-[11px] font-mono font-bold uppercase rounded inline-flex items-center gap-1"
                           >
-                            MORE DETAIL
+                            <span>MORE DETAIL</span>
+                            <ArrowUpRight className="w-3 h-3" />
                           </Link>
                         </div>
                       </div>

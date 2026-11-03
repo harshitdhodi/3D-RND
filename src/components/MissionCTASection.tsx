@@ -70,7 +70,7 @@ export default function MissionCTASection() {
             {/* Right Column: Interactive Mission Enquiry Form */}
             <div className="lg:col-span-6">
               <div className="p-7 sm:p-9 rounded-2xl bg-[#050608]/90 backdrop-blur-xl border border-white/10 shadow-2xl">
-                <h3 className="text-xl font-bold text-white mb-2">
+                <h3 className="text-xl font-bold font-[family-name:var(--font-syne)] text-white mb-2">
                   Launch Your Project Brief
                 </h3>
                 <p className="text-xs font-mono text-white/50 mb-6 uppercase tracking-wider">
@@ -80,7 +80,7 @@ export default function MissionCTASection() {
                 {submitted ? (
                   <div className="p-8 rounded-xl bg-[#FFD400]/10 border border-[#FFD400]/40 text-center animate-in fade-in">
                     <CheckCircle2 className="w-12 h-12 text-[#FFD400] mx-auto mb-3" />
-                    <h4 className="text-xl font-bold text-white mb-1">
+                    <h4 className="text-xl font-bold font-[family-name:var(--font-syne)] text-white mb-1">
                       Mission Brief Received!
                     </h4>
                     <p className="text-sm text-white/70">

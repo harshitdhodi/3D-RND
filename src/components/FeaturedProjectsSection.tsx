@@ -128,12 +128,11 @@ export default function FeaturedProjectsSection() {
               <div
                 key={project.id}
                 onClick={() => setActiveIndex(index)}
+                onMouseEnter={() => setActiveIndex(index)}
                 className={`relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group border border-white/10 hover:border-[#FFD400]/60 shadow-2xl ${
-                  verticalOffsets[index]
-                } ${
                   isActive
-                    ? "lg:flex-[3.5] flex-1 min-h-[480px] lg:min-h-0 ring-1 ring-[#FFD400]/40"
-                    : "lg:flex-[0.9] flex-none h-24 lg:h-auto min-w-0 hover:lg:flex-[1.1]"
+                    ? "project-card-expanded lg:flex-[4.8] flex-1 min-h-[480px] lg:min-h-0 ring-1 ring-[#FFD400]/40 translate-y-0 z-10"
+                    : `project-card-collapsed lg:flex-[0.7] flex-none h-24 lg:h-auto min-w-0 z-0 ${verticalOffsets[index]}`
                 }`}
               >
                 {/* Background Image with Cinematic Color Grading */}
@@ -156,14 +155,14 @@ export default function FeaturedProjectsSection() {
 
                 {/* ================= COLLAPSED (INACTIVE) VIEW ================= */}
                 <div
-                  className={`absolute inset-0 flex flex-row lg:flex-col justify-between items-center p-5 sm:p-6 transition-all duration-500 ${
+                  className={`absolute inset-0 flex flex-row lg:flex-col justify-between items-center p-4 sm:p-5 lg:px-2 lg:py-7 transition-all duration-500 ${
                     isActive
                       ? "opacity-0 pointer-events-none"
                       : "opacity-100 pointer-events-auto"
                   }`}
                 >
                   {/* Top/Left Category Icon/Tag */}
-                  <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest uppercase text-[#FFD400] px-2.5 py-1 rounded bg-black/60 border border-white/10 backdrop-blur-sm">
+                  <span className="text-[9px] sm:text-[10px] font-mono font-bold tracking-wider uppercase text-[#FFD400] px-2 py-0.5 rounded bg-black/70 border border-white/10 backdrop-blur-sm text-center max-w-[90%] truncate">
                     {project.category}
                   </span>
 
@@ -206,7 +205,7 @@ export default function FeaturedProjectsSection() {
                       {project.title}
                     </h3>
 
-                    <p className="text-xs sm:text-sm lg:text-base text-neutral-200 font-light leading-relaxed line-clamp-3 sm:line-clamp-none drop-shadow-md">
+                    <p className="text-xs sm:text-sm lg:text-base text-neutral-100 font-light leading-relaxed line-clamp-3 sm:line-clamp-none drop-shadow-md">
                       {project.desc}
                     </p>
 

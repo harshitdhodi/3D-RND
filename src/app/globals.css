@@ -1,14 +1,70 @@
 @import "tailwindcss";
 
+/* Archia Webfont Family */
+@font-face {
+  font-family: 'Archia';
+  src: url('/fonts/archia/archia-thin-webfont.woff2') format('woff2'),
+       url('/fonts/archia/archia-thin-webfont.woff') format('woff');
+  font-weight: 100 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Archia';
+  src: url('/fonts/archia/archia-light-webfont.woff2') format('woff2'),
+       url('/fonts/archia/archia-light-webfont.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Archia';
+  src: url('/fonts/archia/archia-regular-webfont.woff2') format('woff2'),
+       url('/fonts/archia/archia-regular-webfont.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Archia';
+  src: url('/fonts/archia/archia-medium-webfont.woff2') format('woff2'),
+       url('/fonts/archia/archia-medium-webfont.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Archia';
+  src: url('/fonts/archia/archia-semibold-webfont.woff2') format('woff2'),
+       url('/fonts/archia/archia-semibold-webfont.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Archia';
+  src: url('/fonts/archia/archia-bold-webfont.woff2') format('woff2'),
+       url('/fonts/archia/archia-bold-webfont.woff') format('woff');
+  font-weight: 700 800 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --bg-main: #080808;
-  --bg-secondary: #111111;
-  --bg-card: #171717;
+  --bg-main: #050608;
+  --bg-secondary: #0c0e14;
+  --bg-card: #0d0e14;
   --primary-yellow: #FFD400;
   --accent-yellow: #FFEA70;
   --text-primary: #FFFFFF;
   --text-secondary: #A3A3A3;
   --border-custom: rgba(255, 212, 0, 0.18);
+  --font-archia: 'Archia', sans-serif;
 }
 
 @theme inline {
@@ -20,10 +76,11 @@
   --color-textPrimary: var(--text-primary);
   --color-textSecondary: var(--text-secondary);
   --font-anton: var(--font-anton);
+  --font-archia: var(--font-archia);
 }
 
 body {
-  background-color: #080808;
+  background-color: #050608;
   color: #FFFFFF;
   font-family: var(--font-geist-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow-x: clip;
@@ -33,7 +90,62 @@ body {
 
 /* Global heading font — Syne */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-syne), 'Syne', sans-serif;
+  font-family: var(--font-syne), 'Syne', sans-serif !important;
+}
+
+/* Home Page / Archia Typography Override: applies Archia across all text elements */
+.font-archia,
+.font-archia *,
+.font-archia h1,
+.font-archia h2,
+.font-archia h3,
+.font-archia h4,
+.font-archia h5,
+.font-archia h6,
+.font-archia p,
+.font-archia span,
+.font-archia a,
+.font-archia button,
+.font-archia input,
+.font-archia textarea,
+.font-archia label,
+.font-archia li,
+.font-archia div,
+.font-archia header,
+.font-archia nav,
+.font-archia section,
+.font-archia article,
+.font-archia footer,
+.font-archia aside,
+.font-archia main,
+.font-archia strong,
+.font-archia b,
+.font-archia em,
+.font-archia i,
+.font-archia small,
+.font-archia [class*="font-"] {
+  font-family: 'Archia', sans-serif !important;
+}
+
+/* Home Page: All titles and headings use thin / light font weight (300) and natural title casing */
+.font-archia h1,
+.font-archia h2,
+.font-archia h3,
+.font-archia h4,
+.font-archia h5,
+.font-archia h6,
+.font-archia h1 *,
+.font-archia h2 *,
+.font-archia h3 *,
+.font-archia h4 *,
+.font-archia h5 *,
+.font-archia h6 *,
+.font-archia [class*="title"],
+.font-archia [class*="title"] *,
+.font-archia [class*="heading"],
+.font-archia [class*="heading"] * {
+  font-weight: 300 !important;
+  text-transform: none !important;
 }
 
 /* Custom Scrollbar */
@@ -42,7 +154,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-track {
-  background: #080808;
+  background: #050608;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -291,4 +403,14 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-block;
   animation: textWave 1.6s ease-out 1 forwards;
   will-change: transform, color;
+}
+
+/* Interactive Featured Projects Horizontal Accordion on Desktop */
+@media (min-width: 1024px) {
+  .project-card-expanded {
+    flex: 4.8 1 0% !important;
+  }
+  .project-card-collapsed {
+    flex: 0.7 1 0% !important;
+  }
 }

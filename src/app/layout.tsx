@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Geist_Mono, Bebas_Neue, Syne } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -25,6 +26,43 @@ const syne = Syne({
   variable: "--font-syne",
 });
 
+const archia = localFont({
+  src: [
+    {
+      path: "../../public/fonts/archia/archia-thin-webfont.woff2",
+      weight: "100",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/archia/archia-light-webfont.woff2",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/archia/archia-regular-webfont.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/archia/archia-medium-webfont.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/archia/archia-semibold-webfont.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/archia/archia-bold-webfont.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-archia-local",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "NovaTech — Ideas to Impact | Premium Digital Growth Partner",
   description:
@@ -45,9 +83,9 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${plusJakarta.variable} ${geistMono.variable} ${bebasNeue.variable} ${syne.variable} scroll-smooth dark`}
+      className={`${plusJakarta.variable} ${geistMono.variable} ${bebasNeue.variable} ${syne.variable} ${archia.variable} scroll-smooth dark`}
     >
-      <body suppressHydrationWarning className="min-h-screen bg-[#06070a] text-white antialiased font-[family-name:var(--font-jakarta)] selection:bg-[#FFD400] selection:text-black">
+      <body suppressHydrationWarning className="min-h-screen bg-[#050608] text-white antialiased font-[family-name:var(--font-jakarta)] selection:bg-[#FFD400] selection:text-black">
         {children}
       </body>
     </html>

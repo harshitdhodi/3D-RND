@@ -1,6 +1,6 @@
-// Force static generation for all known routes
-export const dynamic = 'force-static';
-export const dynamicParams = false;
+export const dynamic = 'auto';
+export const dynamicParams = true;
+export const revalidate = 60;
 
 export {
   default,

@@ -1,416 +1,361 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
+import React, { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Landmark,
   HeartPulse,
-  ShoppingBag,
   CloudCog,
-  Bot,
+  ShoppingBag,
   Car,
+  Factory,
+  GraduationCap,
+  Building2,
   ArrowUpRight,
-  ChevronDown,
-  CheckCircle2,
-  Sparkles,
-  ShieldCheck,
-  Activity,
-  Layers,
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  MoveRight,
 } from "lucide-react";
 
-interface IndustryProject {
+interface IndustryCardData {
   id: string;
+  slug: string;
   number: string;
-  industry: string;
-  icon: typeof Landmark;
-  projectTitle: string;
-  client: string;
-  highlightMetric: string;
-  complianceBadge: string;
-  desc: string;
-  image: string;
-  stats: { label: string; value: string }[];
-  deliverables: string[];
-  tech: string[];
+  title: string;
+  metric: string;
+  badge: string;
+  description: string;
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number | string }>;
 }
 
+const INDUSTRIES: IndustryCardData[] = [
+  {
+    id: "fintech",
+    slug: "startups-professional-services",
+    number: "01",
+    title: "FinTech & Banking",
+    metric: "$2.4B+ Daily",
+    badge: "PCI-DSS LEVEL 1",
+    description:
+      "Building secure, scalable financial platforms with sub-millisecond algorithmic execution, automated KYC/AML compliance, and biometrically secured multi-sig vaults.",
+    icon: Landmark,
+  },
+  {
+    id: "healthcare",
+    slug: "healthcare",
+    number: "02",
+    title: "Healthcare & MedTech",
+    metric: "100% HIPAA Safe",
+    badge: "FHIR / HL7 READY",
+    description:
+      "Creating HIPAA-compliant diagnostic workstations synchronizing live biometric telemetry, 3D anatomical digital twins, and clinical AI neural-network anomaly detection.",
+    icon: HeartPulse,
+  },
+  {
+    id: "saas",
+    slug: "startups-professional-services",
+    number: "03",
+    title: "Enterprise Cloud SaaS",
+    metric: "99.999% SLA Uptime",
+    badge: "SOC2 TYPE II",
+    description:
+      "Autonomous multi-region control planes orchestrating distributed Kubernetes microservices, automated metered billing, and zero-failover database clusters.",
+    icon: CloudCog,
+  },
+  {
+    id: "ecommerce",
+    slug: "retail-ecommerce",
+    number: "04",
+    title: "Retail & E-Commerce",
+    metric: "+340% ROAS Lift",
+    badge: "HEADLESS WEBGL",
+    description:
+      "Photorealistic 3D spatial web product visualizers featuring cinema-grade GLSL lighting shaders, procedural configurators, and sub-50ms headless checkout.",
+    icon: ShoppingBag,
+  },
+  {
+    id: "mobility",
+    slug: "manufacturing",
+    number: "05",
+    title: "Smart Mobility & Aero",
+    metric: "60 FPS Digital Twin",
+    badge: "LIDAR TELEMETRY",
+    description:
+      "Connected vehicle command platforms, spatial fleet visualization, and real-time edge telemetry ingestion running high-frequency machine-vision models on CAN-bus data.",
+    icon: Car,
+  },
+  {
+    id: "manufacturing",
+    slug: "manufacturing",
+    number: "06",
+    title: "Manufacturing & Industrial",
+    metric: "38% Downtime Drop",
+    badge: "ISO 9001 AUDITED",
+    description:
+      "End-to-end smart manufacturing ERP uniting IoT shop-floor sensors, automated maintenance dispatch, and real-time supply-chain transparency across departments.",
+    icon: Factory,
+  },
+  {
+    id: "education",
+    slug: "education",
+    number: "07",
+    title: "Education & EdTech",
+    metric: "4.2x Dwell Time",
+    badge: "SCORM / LTI READY",
+    description:
+      "Transforming learning experiences with interactive WebGL spatial environments, personalized AI tutoring engines, and automated assessment scoring systems.",
+    icon: GraduationCap,
+  },
+  {
+    id: "realestate",
+    slug: "real-estate",
+    number: "08",
+    title: "Real Estate & PropTech",
+    metric: "72% Faster Lease",
+    badge: "BIM / CAD READY",
+    description:
+      "Revolutionizing property sales and portfolio management with photorealistic virtual walkthroughs, architectural BIM viewers, and automated smart-contract escrow.",
+    icon: Building2,
+  },
+];
+
 export default function IndustriesServedSection() {
-  const [activeId, setActiveId] = useState<string>("fintech");
+  const containerRef = useRef<HTMLElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [activeIdx, setActiveIdx] = useState(0);
 
-  const INDUSTRY_PILLARS = [
-    { name: "FinTech & Banking", metric: "$2.4B+ Daily", note: "PCI-DSS Level 1" },
-    { name: "Healthcare & MedTech", metric: "100% HIPAA Safe", note: "FHIR / HL7 Ready" },
-    { name: "Enterprise Cloud SaaS", metric: "99.999% SLA Uptime", note: "SOC2 Type II" },
-    { name: "Retail & E-Commerce", metric: "+340% ROAS Lift", note: "Headless WebGL" },
-    { name: "Smart Mobility & Aero", metric: "60 FPS Digital Twin", note: "LiDAR Telemetry" },
-  ];
+  useEffect(() => {
+    let animationFrameId: number;
 
-  const industries: IndustryProject[] = [
-    {
-      id: "fintech",
-      number: "01",
-      industry: "FinTech & Digital Banking",
-      icon: Landmark,
-      projectTitle: "Aura Ledger // Decentralized High-Frequency Trading & Custody",
-      client: "Aura Capital Group",
-      highlightMetric: "$2.4B+ Processed",
-      complianceBadge: "PCI-DSS Level 1",
-      desc: "Sub-millisecond algorithmic execution engine with automated real-time KYC/AML compliance, biometrically secured multi-sig cold storage, and distributed WebSocket orderbooks.",
-      image: "/images/project_fintech.jpg",
-      stats: [
-        { label: "Execution Latency", value: "<1.2ms" },
-        { label: "Availability SLA", value: "99.999%" },
-        { label: "Daily Asset Volume", value: "$2.4B+" },
-      ],
-      deliverables: [
-        "Sub-millisecond WebSocket streaming orderbook",
-        "Deterministic distributed ledger state replication",
-        "Biometric multi-sig cryptographic vault",
-      ],
-      tech: ["Next.js 15", "Rust Engine", "WebSockets", "Kafka", "PostgreSQL"],
-    },
-    {
-      id: "healthcare",
-      number: "02",
-      industry: "Healthcare & MedTech",
-      icon: HeartPulse,
-      projectTitle: "BioPulse Vision // Real-Time AI Clinical Diagnostic Portal",
-      client: "NeuroGene Health Systems",
-      highlightMetric: "100% HIPAA Safe",
-      complianceBadge: "FHIR & HL7 Compliant",
-      desc: "Cloud-native diagnostic workstation synchronizing live biometric heart rate telemetry, 3D anatomical holographic digital twins, and clinical AI neural network anomaly detection.",
-      image: "/images/industry_medtech.jpg",
-      stats: [
-        { label: "Diagnostic Latency", value: "85ms" },
-        { label: "Model Accuracy", value: "99.8%" },
-        { label: "Encryption", value: "Zero-Knowledge" },
-      ],
-      deliverables: [
-        "Real-time biometric cardiac telemetry stream",
-        "FHIR & HL7 EHR hospital interoperability pipeline",
-        "Holographic 3D anatomical digital twin visualizer",
-      ],
-      tech: ["PyTorch AI", "WebRTC", "Next.js 15", "HIPAA Cloud", "Three.js"],
-    },
-    {
-      id: "ecommerce",
-      number: "03",
-      industry: "E-Commerce & High-Growth Retail",
-      icon: ShoppingBag,
-      projectTitle: "Veloce Spaceware // Photorealistic 3D Spatial Commerce Engine",
-      client: "Aurora Horology Geneva",
-      highlightMetric: "+340% Conversions",
-      complianceBadge: "Global Edge CDN",
-      desc: "Real-time 3D spatial web product visualizer featuring custom cinema-grade PBR shaders, dynamic studio lighting environments, and frictionless sub-50ms headless checkout.",
-      image: "/images/project_ecommerce.jpg",
-      stats: [
-        { label: "Conversion Lift", value: "+340%" },
-        { label: "Avg Session Time", value: "4m 12s" },
-        { label: "Core Web Vitals", value: "99/100" },
-      ],
-      deliverables: [
-        "Cinema-grade real-time GLSL lighting shaders",
-        "Headless GraphQL instant transaction cart",
-        "Procedural 3D configurator with multi-material swap",
-      ],
-      tech: ["Three.js", "WebGL2", "Shopify Storefront", "Next.js 15", "GraphQL"],
-    },
-    {
-      id: "saas",
-      number: "04",
-      industry: "Enterprise SaaS & Cloud Infrastructure",
-      icon: CloudCog,
-      projectTitle: "Nebula Mesh // Multi-Region Autonomous Cloud OS",
-      client: "Orbital Computing Labs",
-      highlightMetric: "99.999% SLA Uptime",
-      complianceBadge: "SOC2 Type II Certified",
-      desc: "Autonomous multi-cloud control plane orchestrating distributed Kubernetes clusters, automated Stripe metered billing, and zero-failover multi-region disaster recovery.",
-      image: "/images/nebula_cloud_os_3d.jpg",
-      stats: [
-        { label: "Failover RTO", value: "0.00s" },
-        { label: "Global Regions", value: "14 Nodes" },
-        { label: "Cost Optimization", value: "42.8%" },
-      ],
-      deliverables: [
-        "Automated Terraform multi-region provisioning",
-        "Real-time eBPF network telemetry observability",
-        "Multi-tenant RBAC enterprise security protocol",
-      ],
-      tech: ["Kubernetes", "Terraform", "Go Microservices", "Prometheus", "PostgreSQL"],
-    },
-    {
-      id: "deeptech",
-      number: "05",
-      industry: "AI, Machine Learning & DeepTech",
-      icon: Bot,
-      projectTitle: "OmniCore Vector // Autonomous Enterprise LLM Agent Network",
-      client: "DeepSynthetix Cognitive Labs",
-      highlightMetric: "<1.5ms Inference",
-      complianceBadge: "ISO 42001 AI Safety",
-      desc: "Multi-modal AI orchestrator integrating hybrid RAG vector search, custom fine-tuned domain models, and autonomous multi-agent tool execution with real-time cluster monitoring.",
-      image: "/images/project_ai.jpg",
-      stats: [
-        { label: "Stream Inference", value: "1.5ms" },
-        { label: "Compute Power", value: "89 PetaFLOPS" },
-        { label: "Active Nodes", value: "412 Clusters" },
-      ],
-      deliverables: [
-        "Distributed hybrid vector graph search architecture",
-        "Custom domain model fine-tuning & quantization",
-        "Real-time token telemetry & autonomous tool use",
-      ],
-      tech: ["Python", "PyTorch", "Milvus Vector DB", "Next.js 15", "FastAPI"],
-    },
-    {
-      id: "automotive",
-      number: "06",
-      industry: "Smart Automotive & Aerospace",
-      icon: Car,
-      projectTitle: "Aegis Telematics // Autonomous Fleet LiDAR & Digital Twin Hub",
-      client: "Hyperion Mobility Works",
-      highlightMetric: "60 FPS Digital Twin",
-      complianceBadge: "ISO 26262 ASIL-D",
-      desc: "Real-time digital twin visualization platform for autonomous EV and aerospace fleets, streaming aerodynamic LiDAR point clouds and live vehicle telemetry at 60 frames per second.",
-      image: "/images/industry_automotive.jpg",
-      stats: [
-        { label: "Telemetry Latency", value: "12ms" },
-        { label: "Visual Refresh", value: "60 FPS" },
-        { label: "Active Connected", value: "12,000+ Units" },
-      ],
-      deliverables: [
-        "Real-time aerodynamic LiDAR point cloud rendering",
-        "Predictive battery & avionics telemetry pipeline",
-        "Low-latency V2X cellular telematics architecture",
-      ],
-      tech: ["Three.js WebGL", "MQTT Telemetry", "Rust", "Next.js 15", "Tailwind CSS"],
-    },
-  ];
+    const handleScroll = () => {
+      if (!containerRef.current || !trackRef.current) return;
+
+      const container = containerRef.current;
+      const track = trackRef.current;
+      const rect = container.getBoundingClientRect();
+
+      // Total vertical distance the sticky container remains pinned
+      const totalScrollable = container.offsetHeight - window.innerHeight;
+      if (totalScrollable <= 0) return;
+
+      // When rect.top is 0 or negative, we are inside the pinned scroll area
+      const scrolled = -rect.top;
+      const progress = Math.max(0, Math.min(1, scrolled / totalScrollable));
+
+      // Calculate exact horizontal translate required so the last card reaches the view
+      const trackScrollWidth = track.scrollWidth;
+      const visibleWidth = window.innerWidth;
+      const maxTranslate = Math.max(0, trackScrollWidth - visibleWidth + 100);
+
+      // Hardware-accelerated translate3d on the track
+      track.style.transform = `translate3d(${-progress * maxTranslate}px, 0, 0)`;
+
+      // Update active card index for counter and controls
+      const newIndex = Math.min(
+        INDUSTRIES.length - 1,
+        Math.floor(progress * INDUSTRIES.length)
+      );
+      setActiveIdx((prev) => (prev !== newIndex ? newIndex : prev));
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = requestAnimationFrame(handleScroll);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+
+    // Initial run
+    handleScroll();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
+  const jumpToCard = (index: number) => {
+    if (!containerRef.current) return;
+    const container = containerRef.current;
+    const totalScrollable = container.offsetHeight - window.innerHeight;
+    const targetProgress = index / (INDUSTRIES.length - 1);
+    const containerTop = window.scrollY + container.getBoundingClientRect().top;
+    const targetY = containerTop + targetProgress * totalScrollable;
+
+    window.scrollTo({
+      top: targetY,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <section
       id="industries"
-      className="relative py-24 sm:py-32 bg-transparent text-white overflow-hidden border-t border-white/5"
+      ref={containerRef}
+      data-no-gsap="true"
+      className="relative w-full bg-transparent text-white select-none"
+      style={{ height: "350vh" }}
     >
-      {/* Background Ambient Cosmic Glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[450px] bg-[#FFD400]/4 blur-[180px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-indigo-600/5 blur-[160px] rounded-full pointer-events-none" />
+      {/* Background Cosmic Radial Glows */}
+      <div className="absolute top-1/4 left-1/3 w-[650px] h-[450px] bg-[#FFD400]/[0.03] blur-[180px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[550px] h-[400px] bg-cyan-500/[0.03] blur-[180px] rounded-full pointer-events-none" />
 
-      <div className="max-w-[1560px] mx-auto px-6 sm:px-10 lg:px-14 relative z-10">
-        {/* ================= SECTION HEADER ================= */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 lg:gap-12 mb-14 pb-6 border-b border-white/15">
-          <div>
-            <div className="flex items-center space-x-3 mb-3">
-              <span className="w-8 h-[2px] bg-[#FFD400]" />
-              <span className="text-xs sm:text-sm uppercase tracking-[0.3em] text-[#FFD400] font-mono">
-                DOMAIN EXCELLENCE // INDUSTRY VERTICALS
+      {/* ── Native Sticky Pinned Viewport Container ── */}
+      <div className="sticky top-0 w-full h-[100dvh] flex flex-col justify-between pt-16 sm:pt-20 pb-4 px-4 sm:px-8 lg:px-14 overflow-hidden relative z-10 box-border">
+
+        {/* ═══ HEADER (Cleanly padded below fixed navbar) ═══ */}
+        <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-4 shrink-0 mb-2">
+          <div className="max-w-3xl lg:max-w-4xl">
+            <div className="flex items-center gap-3 mb-2">
+              <span className="w-8 sm:w-10 h-[2px] bg-[#FFD400]" />
+              <span className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-[#FFD400] font-mono font-semibold">
+                DOMAINS WE TRANSFORM // INDUSTRY VERTICALS
               </span>
             </div>
-            <h2 className="font-[family-name:var(--font-syne)] text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.05] uppercase">
-              INDUSTRIES EMPOWERED BY{" "}
-              <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.35)]">
-                OUR ARCHITECTURE
+
+            <h2 className="font-[family-name:var(--font-syne)] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white uppercase tracking-tight leading-[1.15] mb-2">
+              What Happens BEYOND{" "}
+              <br className="hidden sm:inline" />
+              <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.4)]">
+                Your Industry?
               </span>
             </h2>
+
+            <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light max-w-2xl line-clamp-2">
+              We don&apos;t just build solutions — we transform industries. From
+              concept to deployment, our expertise spans the sectors that shape
+              tomorrow&apos;s digital landscape.
+            </p>
           </div>
 
-          <p className="text-sm sm:text-base text-neutral-300 font-light max-w-lg leading-relaxed">
-            We adapt our engineering engines, distributed microservices, and AI models to the rigorous compliance, sub-millisecond latency, and security demands of the world&apos;s most critical sectors.
-          </p>
-        </div>
+          {/* Right Header: Scroll Hint, Step Controls, Counter & All Verticals Link */}
+          <div className="flex items-center gap-3 shrink-0">
+            <div className="hidden lg:flex items-center gap-2 text-xs font-mono text-neutral-400 bg-white/[0.03] border border-white/[0.08] px-3 py-1.5 rounded-full">
+              <MoveRight className="w-3.5 h-3.5 text-[#FFD400] animate-pulse" />
+              <span>Scroll to glide &rarr;</span>
+            </div>
 
-        {/* ================= INDUSTRY TELEMETRY PILLARS BAR ================= */}
-        <div className="mb-14 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4">
-          {INDUSTRY_PILLARS.map((pillar, pIdx) => (
-            <div
-              key={pIdx}
-              className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-col items-center justify-center text-center hover:border-[#FFD400]/50 hover:bg-white/[0.06] transition-all duration-300 shadow-lg group cursor-pointer"
-            >
-              <span className="font-mono text-xs sm:text-sm font-bold tracking-wider text-white group-hover:text-[#FFD400] transition-colors">
-                {pillar.name}
+            {/* Next / Prev Controls */}
+            <div className="flex items-center gap-1 bg-white/[0.03] border border-white/[0.08] p-1 rounded-xl">
+              <button
+                type="button"
+                onClick={() => jumpToCard(Math.max(0, activeIdx - 1))}
+                disabled={activeIdx === 0}
+                aria-label="Previous Industry Card"
+                className="w-7 h-7 rounded-lg bg-white/[0.04] hover:bg-[#FFD400] text-neutral-400 hover:text-black flex items-center justify-center transition-all disabled:opacity-20 disabled:pointer-events-none cursor-pointer"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  jumpToCard(Math.min(INDUSTRIES.length - 1, activeIdx + 1))
+                }
+                disabled={activeIdx === INDUSTRIES.length - 1}
+                aria-label="Next Industry Card"
+                className="w-7 h-7 rounded-lg bg-white/[0.04] hover:bg-[#FFD400] text-neutral-400 hover:text-black flex items-center justify-center transition-all disabled:opacity-20 disabled:pointer-events-none cursor-pointer"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Card Counter */}
+            <div className="flex items-center gap-1.5 bg-white/[0.03] border border-white/[0.08] px-3 py-1.5 rounded-xl">
+              <span className="text-sm font-mono font-bold text-[#FFD400]">
+                {INDUSTRIES[activeIdx]?.number}
               </span>
-              <span className="text-xs font-mono font-semibold text-[#FFD400] mt-1.5">
-                {pillar.metric}
-              </span>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 mt-1">
-                {pillar.note}
+              <span className="text-xs font-mono text-neutral-500">/</span>
+              <span className="text-xs font-mono text-neutral-400">
+                {String(INDUSTRIES.length).padStart(2, "0")}
               </span>
             </div>
-          ))}
+
+            {/* All Verticals Link in Header */}
+            <Link
+              href="/industries"
+              className="hidden sm:inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-[#FFD400] hover:text-white transition-colors tracking-wider uppercase ml-1"
+            >
+              <span>All Verticals</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </div>
 
-        {/* ================= INDUSTRY PROJECTS INTERACTIVE EDITORIAL ROWS ================= */}
-        <div className="space-y-4">
-          {industries.map((ind) => {
-            const isOpen = activeId === ind.id;
-            const Icon = ind.icon;
+        {/* ═══ HORIZONTAL CARD TRACK (Fully visible, plenty of vertical room) ═══ */}
+        <div className="w-full flex-1 min-h-0 flex items-center overflow-visible my-auto py-3">
+          <div
+            ref={trackRef}
+            className="flex items-stretch gap-4 sm:gap-6 will-change-transform pl-2 sm:pl-4 pr-10"
+            style={{ transform: "translate3d(0, 0, 0)" }}
+          >
+            {INDUSTRIES.map((ind, idx) => {
+              const IconComponent = ind.icon;
+              const isCurrent = idx === activeIdx;
 
-            return (
-              <div
-                key={ind.id}
-                onMouseEnter={() => setActiveId(ind.id)}
-                onClick={() => setActiveId(ind.id)}
-                className={`rounded-2xl border transition-all duration-400 overflow-hidden cursor-pointer group ${
-                  isOpen
-                    ? "bg-[#0b0e17] border-[#FFD400]/60 shadow-[0_15px_45px_rgba(255,212,0,0.12)]"
-                    : "bg-[#08090e]/85 border-white/10 hover:border-white/25 hover:bg-[#0c0f18]"
-                }`}
-              >
-                {/* Row Header Bar (Always Visible: Data on Left, Badges on Right) */}
-                <div className="p-5 sm:p-6 lg:p-7 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <div className="flex items-center space-x-4 sm:space-x-6">
-                    <span
-                      className={`font-mono text-sm sm:text-base font-bold transition-colors ${
-                        isOpen ? "text-[#FFD400]" : "text-neutral-500"
-                      }`}
-                    >
-                      {ind.number}
-                    </span>
-
-                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0">
-                      <Icon className={`w-5 h-5 ${isOpen ? "text-[#FFD400]" : "text-neutral-400"}`} />
-                    </div>
-
-                    <div>
-                      <div className="flex items-center space-x-3">
-                        <span className="text-xs font-mono text-neutral-400 uppercase tracking-widest">
-                          {ind.industry}
-                        </span>
-                        <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-neutral-600" />
-                        <span className="hidden sm:inline-block text-xs font-mono text-white/50">
-                          Client: <strong className="text-neutral-300">{ind.client}</strong>
-                        </span>
-                      </div>
-                      <h3
-                        className={`text-lg sm:text-xl lg:text-2xl font-bold tracking-tight mt-0.5 transition-colors ${
-                          isOpen ? "text-white" : "text-neutral-300"
-                        }`}
-                      >
-                        {ind.projectTitle}
+              return (
+                <div
+                  key={ind.id}
+                  className={`shrink-0 w-[270px] sm:w-[310px] md:w-[330px] rounded-2xl p-5 sm:p-6 flex flex-col justify-between transition-colors duration-300 border ${
+                    isCurrent
+                      ? "bg-white/[0.07] border-white/20 shadow-[0_10px_35px_rgba(255,212,0,0.08)]"
+                      : "bg-white/[0.03] border-white/[0.08] hover:border-white/20 hover:bg-white/[0.05]"
+                  } backdrop-blur-md`}
+                  style={{
+                    height: "285px",
+                  }}
+                >
+                  {/* Top: Number + Title */}
+                  <div className="shrink-0">
+                    <div className="flex items-start gap-2.5">
+                      <span className="text-2xl sm:text-3xl font-mono font-bold leading-none text-[#FFD400]">
+                        {ind.number}
+                      </span>
+                      <h3 className="font-[family-name:var(--font-syne)] text-base sm:text-xl font-bold text-white leading-snug pt-0.5">
+                        {ind.title}
                       </h3>
                     </div>
                   </div>
 
-                  {/* Right Header Badges */}
-                  <div className="flex items-center justify-between md:justify-end space-x-3 sm:space-x-4 shrink-0 pl-14 md:pl-0">
-                    <span className="px-3 py-1 rounded-full bg-black/60 border border-white/10 text-xs font-mono text-[#FFD400] font-semibold">
-                      {ind.highlightMetric}
-                    </span>
-                    <span className="hidden lg:inline-block px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-xs font-mono text-neutral-300">
-                      {ind.complianceBadge}
-                    </span>
-                    <div
-                      className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center transition-transform duration-300 ${
-                        isOpen ? "rotate-180 bg-[#FFD400] text-black border-[#FFD400]" : "text-neutral-400"
-                      }`}
-                    >
-                      <ChevronDown className="w-4 h-4" />
+                  {/* Center: Large Clean Icon with thin stroke */}
+                  <div className="flex-1 min-h-0 flex items-center justify-center py-2">
+                    <div className="flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                      <IconComponent
+                        strokeWidth={1}
+                        className="w-16 h-16 sm:w-24 sm:h-24 text-white/75 group-hover:text-white transition-colors duration-300"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Bottom: Description + Metric + Explore Link */}
+                  <div className="shrink-0 pt-1">
+                    <p className="text-xs text-neutral-400 leading-relaxed line-clamp-2 mb-2.5">
+                      {ind.description}
+                    </p>
+
+                    
+
+                    {/* Explore CTA */}
+                    <div className="flex items-center justify-between">
+                      <Link
+                        href={`/industries/${ind.slug}`}
+                        className="inline-flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider border border-[#ffd400] p-1 rounded-md px-3 bg-[#ffd400] text-black hover:text-[#FFD400] transition-colors"
+                      >
+                        <span>Explore</span>
+                        <ArrowUpRight className="w-3.5 h-3.5" />
+                      </Link>
                     </div>
                   </div>
                 </div>
-
-                {/* Expandable Project Details Body (CSS Grid 0fr -> 1fr animation) */}
-                <div
-                  className={`grid transition-[grid-template-rows,opacity] duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
-                    isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-                  }`}
-                >
-                  <div className="overflow-hidden">
-                    <div className="px-5 sm:px-7 pb-7 pt-2 border-t border-white/10">
-                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center pt-4">
-                        
-                        {/* ================= LEFT: DATA & ARCHITECTURAL SPECIFICATIONS ================= */}
-                        <div
-                          className={`lg:col-span-7 flex flex-col justify-between space-y-4 transition-all duration-500 ease-out transform ${
-                            isOpen ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"
-                          }`}
-                        >
-                          <div>
-                            <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed mb-4">
-                              {ind.desc}
-                            </p>
-
-                            {/* 3 Telemetry Stats */}
-                            <div className="grid grid-cols-3 gap-2 sm:gap-3 p-3 rounded-xl bg-black/50 border border-white/10 mb-4">
-                              {ind.stats.map((s, sIdx) => (
-                                <div key={sIdx} className="bg-white/[0.02] border border-white/5 p-2 rounded-lg text-center">
-                                  <span className="text-sm sm:text-base font-mono font-bold text-[#FFD400] block leading-none">
-                                    {s.value}
-                                  </span>
-                                  <span className="text-[10px] sm:text-[11px] font-mono text-neutral-400 tracking-wide mt-1 block truncate">
-                                    {s.label}
-                                  </span>
-                                </div>
-                              ))}
-                            </div>
-
-                            {/* Deliverables Checklist */}
-                            <div className="space-y-2 mb-4">
-                              {ind.deliverables.map((deliv, dIdx) => (
-                                <div key={dIdx} className="flex items-center space-x-2.5 text-xs sm:text-sm text-neutral-300 font-mono">
-                                  <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400] shrink-0" />
-                                  <span>{deliv}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-
-                          {/* Tech Stack & Explore CTA */}
-                          <div className="pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
-                            <div className="flex flex-wrap gap-1.5">
-                              {ind.tech.map((t, tIdx) => (
-                                <span
-                                  key={tIdx}
-                                  className="text-[11px] sm:text-xs font-mono px-2.5 py-1 rounded-md bg-white/[0.04] text-neutral-300 border border-white/10"
-                                >
-                                  {t}
-                                </span>
-                              ))}
-                            </div>
-
-                            <Link
-                              href="#contact"
-                              className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#FFD400] hover:text-white transition-colors group/cta shrink-0"
-                            >
-                              <span>Explore Vertical Architecture</span>
-                              <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
-                            </Link>
-                          </div>
-                        </div>
-
-                        {/* ================= RIGHT: IMAGE SMOOTHLY SHIFTS IN ON HOVER ================= */}
-                        <div
-                          className={`lg:col-span-5 relative h-[260px] sm:h-[300px] lg:h-[330px] rounded-2xl overflow-hidden bg-black/80 border border-white/15 shadow-2xl transition-all duration-700 ease-out transform ${
-                            isOpen
-                              ? "opacity-100 translate-x-0 scale-100 shadow-[0_15px_35px_rgba(255,212,0,0.18)]"
-                              : "opacity-0 translate-x-8 scale-95 pointer-events-none"
-                          } group/img`}
-                        >
-                          <Image
-                            src={ind.image}
-                            alt={ind.projectTitle}
-                            fill
-                            sizes="(max-width: 1024px) 100vw, 45vw"
-                            className="object-cover transition-transform duration-700 ease-out group-hover/img:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
-                          <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/75 backdrop-blur-md border border-white/15 text-[11px] font-mono text-[#FFD400] tracking-wider uppercase">
-                            {ind.complianceBadge}
-                          </div>
-                          <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs font-mono text-white/80 bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-white/10">
-                            <span>ARCHITECTURAL CASE STUDY</span>
-                            <span className="text-[#FFD400] font-bold">{ind.highlightMetric}</span>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
+
+        {/* Bottom spacer for clean margin from the viewport bottom */}
+        <div className="h-2 shrink-0" />
       </div>
     </section>
   );

@@ -49,8 +49,16 @@ function WaveText({
 
 export default function CosmicProcessSection({
   className = "py-24 sm:py-32",
+  badge = "// OUR DESIGN & ENGINEERING PROCESS",
+  stageLabel = "// 6 STAGES OF WORK",
+  title = "STAGES OF OUR WORK",
+  highlightTitle = "WITH YOU",
 }: {
   className?: string;
+  badge?: string;
+  stageLabel?: string;
+  title?: string;
+  highlightTitle?: string;
 } = {}) {
   const [activeStep, setActiveStep] = useState<number>(0);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -263,19 +271,19 @@ export default function CosmicProcessSection({
     <section
       id="process"
       ref={sectionRef}
-      className={`relative ${className} bg-transparent text-white overflow-hidden border-t border-white/5 selection:bg-[#FFD400] selection:text-black`}
+      className={`relative w-full px-4 sm:px-8 lg:px-12 ${className} bg-transparent text-white overflow-hidden border-t border-white/5 selection:bg-[#FFD400] selection:text-black`}
     >
       {/* Background Ambient Galaxy Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-[#FFD400]/4 blur-[180px] rounded-full pointer-events-none" />
 
       {/* Outer Max Width Container */}
-      <div className="max-w-[1560px] mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10">
         
         {/* ================= TOP METADATA BAR (Matching image header) ================= */}
         <div className="process-meta-bar flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10 font-mono text-xs text-neutral-400 uppercase tracking-widest">
           <div className="flex items-center space-x-3">
             <span className="text-[#FFD400] font-bold text-sm">➔</span>
-            <span className="text-[#FFD400] font-semibold">// STAGES OF WORK</span>
+            <span className="text-[#FFD400] font-semibold">{badge}</span>
             <span className="text-white/20">|</span>
             <span className="hover:text-white transition-colors cursor-pointer">// METHODOLOGY</span>
           </div>
@@ -306,7 +314,7 @@ export default function CosmicProcessSection({
           {/* Top Left Header Label Inside Frame */}
           <div className="flex items-center justify-between mb-8 sm:mb-12 relative z-10">
             <div className="font-mono text-xs uppercase tracking-[0.3em] text-[#FFD400]/80">
-              // 6 STAGES OF WORK
+              {stageLabel}
             </div>
           </div>
 
@@ -314,15 +322,12 @@ export default function CosmicProcessSection({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12 sm:mb-16 relative z-10">
             {/* Left/Middle: Giant Bold Syne Heading matching other section headers */}
             <div className="lg:col-span-8">
-              <h2 className="process-title-reveal font-[family-name:var(--font-syne)] text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.05] uppercase select-none">
-                <WaveText text="STAGES OF" />
-                <br />
-                <WaveText text="OUR WORK " delayOffset={10} />
-                <WaveText
-                  text="WITH YOU"
-                  className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.4)]"
-                  delayOffset={19}
-                />
+              <h2 className="font-[family-name:var(--font-syne)] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white uppercase tracking-tight leading-[1.15] select-none mb-2">
+                {title}{" "}
+                <br className="hidden sm:inline" />
+                <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.4)]">
+                  {highlightTitle}
+                </span>
               </h2>
             </div>
 
@@ -404,7 +409,7 @@ export default function CosmicProcessSection({
                       {/* Title: Show full title & desc when active, clean phase label when collapsed */}
                       {isActive ? (
                         <div className="space-y-2.5">
-                          <h3 className="font-bold text-lg xl:text-xl uppercase leading-snug tracking-tight">
+                          <h3 className="font-bold font-[family-name:var(--font-syne)] text-lg xl:text-xl uppercase leading-snug tracking-tight">
                             <WaveText text={step.title} />
                           </h3>
                           <p className="text-sm sm:text-base xl:text-[16px] font-normal leading-relaxed text-black/90">
@@ -465,7 +470,7 @@ export default function CosmicProcessSection({
 
                     {isActive && (
                       <div className="mt-3 pt-3 border-t border-black/15 space-y-2.5">
-                        <h4 className="font-bold text-base leading-tight uppercase">
+                        <h4 className="font-bold font-[family-name:var(--font-syne)] text-base leading-tight uppercase">
                           <WaveText text={step.title} />
                         </h4>
                         <p className="text-sm leading-relaxed font-normal text-black/90">
@@ -516,7 +521,7 @@ export default function CosmicProcessSection({
             </div>
 
             {/* Right: "OUR APPROACH" Massive Typography (Exact as in image footer) */}
-            <div className="font-[family-name:var(--font-syne)] font-extrabold text-xl sm:text-3xl lg:text-4xl tracking-widest text-white/30 uppercase select-none pointer-events-none">
+            <div className="font-[family-name:var(--font-syne)] font-bold text-xl sm:text-3xl lg:text-4xl tracking-widest text-white/30 uppercase select-none pointer-events-none">
               OUR APPROACH
             </div>
           </div>

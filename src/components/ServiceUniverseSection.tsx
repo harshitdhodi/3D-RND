@@ -10,6 +10,7 @@ import {
   Palette,
   Video,
   ArrowUpRight,
+  CheckCircle2,
 } from "lucide-react";
 
 // ============================================================================
@@ -49,6 +50,28 @@ export function FullColorToolLogo({
           fill="#FFFFFF"
         />
         <rect x="115" y="54" width="12" height="72" fill="#FFFFFF" />
+      </svg>
+    );
+  }
+
+  // Tailwind CSS
+  if (norm.includes("tailwind")) {
+    return (
+      <svg className={className} viewBox="0 0 24 24" fill="#38BDF8">
+        <path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.336 6.182 14.975 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.336 13.382 8.975 12 6.001 12z" />
+      </svg>
+    );
+  }
+
+  // TypeScript (Blue #3178C6)
+  if (norm.includes("type") || norm.includes("ts")) {
+    return (
+      <svg className={className} viewBox="0 0 24 24">
+        <rect width="24" height="24" rx="3" fill="#3178C6" />
+        <path
+          fill="#FFFFFF"
+          d="M3 8.2h6.2V10H6.8v8.8H4.6V10H3V8.2zm11.7 5.1c.4.3.9.5 1.5.5.6 0 1-.2 1-.6 0-.3-.2-.5-1-.8l-1.3-.4c-1.2-.4-1.8-1.2-1.8-2.2 0-1.4 1.1-2.4 2.8-2.4 1 0 1.8.3 2.4.7l-.6 1.6c-.5-.3-1.1-.5-1.7-.5-.6 0-1 .2-1 .6 0 .3.3.5 1 .7l1.2.4c1.4.4 2 1.2 2 2.3 0 1.5-1.1 2.5-3 2.5-1.2 0-2.1-.3-2.8-.8l.8-1.6z"
+        />
       </svg>
     );
   }
@@ -98,228 +121,254 @@ export function FullColorToolLogo({
         <path d="M4 10v5c0 1.66 3.58 3 8 3s8-1.34 8-3v-5" fill="#295172" />
         <ellipse cx="12" cy="15" rx="8" ry="3" fill="#336791" />
         <path d="M4 15v4c0 1.66 3.58 3 8 3s8-1.34 8-3v-4" fill="#1C3D5A" />
-        <ellipse cx="12" cy="19" rx="8" ry="3" fill="#295172" />
       </svg>
     );
   }
 
-  // Flutter (#02569B, #0175C2, #47C5FB)
+  // GraphQL (Pink #E10098)
+  if (norm.includes("graphql")) {
+    return (
+      <svg className={className} viewBox="0 0 24 24" fill="#E10098">
+        <path d="M12 2L3 7.2v10.6L12 23l9-5.2V7.2L12 2zm0 2.3l6.9 4v7.9L12 20.2l-6.9-4V8.3L12 4.3z" />
+        <circle cx="12" cy="2" r="2" />
+        <circle cx="3" cy="7.2" r="2" />
+        <circle cx="21" cy="7.2" r="2" />
+        <circle cx="3" cy="17.8" r="2" />
+        <circle cx="21" cy="17.8" r="2" />
+        <circle cx="12" cy="23" r="2" />
+      </svg>
+    );
+  }
+
+  // Docker (Blue #2496ED)
+  if (norm.includes("docker")) {
+    return (
+      <svg className={className} viewBox="0 0 24 24" fill="#2496ED">
+        <path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.186.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.186.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.186.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.929 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.185-.186H8.1a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.185-.186H5.136a.186.186 0 00-.186.185v1.888c0 .102.084.185.186.185m-2.928 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.185-.186H2.208a.186.186 0 00-.186.185v1.888c0 .102.084.185.186.185M23.959 9.9c-.31-.83-.87-1.42-1.74-1.72-.64-.22-1.3-.23-1.96-.06-.32.08-.62.24-.92.39-.24.12-.47.23-.7.34-.14.07-.3.1-.47.1H17.5v2.85h.69c.56 0 1.13-.08 1.68-.25.86-.27 1.58-.76 2.1-1.47.16-.22.31-.46.45-.71.07-.12.13-.24.2-.36.31-.56.66-.99 1.34-1.11z" />
+      </svg>
+    );
+  }
+
+  // Kubernetes
+  if (norm.includes("kuber") || norm.includes("k8s")) {
+    return (
+      <svg className={className} viewBox="0 0 24 24" fill="#326CE5">
+        <path d="M11.968 0C8.381 0 5.176 1.705 3.09 4.382l2.36 1.777C7.03 3.918 9.362 2.8 11.968 2.8c4.957 0 9 3.951 9 8.8 0 4.85-4.043 8.8-9 8.8-2.606 0-4.938-1.118-6.518-2.959L3.09 19.218C5.176 21.895 8.381 23.6 11.968 23.6c6.627 0 12-5.193 12-11.6S18.595 0 11.968 0zM12 7l4 3.5v5L12 19l-4-3.5v-5L12 7z" />
+      </svg>
+    );
+  }
+
+  // AWS
+  if (norm.includes("aws") || norm.includes("amazon")) {
+    return (
+      <svg className={className} viewBox="0 0 24 24" fill="none">
+        <path d="M6.5 10.5c0-.83.67-1.5 1.5-1.5h1v-2H8c-1.93 0-3.5 1.57-3.5 3.5v5h2v-5zm5-3.5h-2v7h2v-7zm6 3.5c0-.83.67-1.5 1.5-1.5h1v-2h-1c-1.93 0-3.5 1.57-3.5 3.5v5h2v-5z" fill="#FF9900" />
+        <path d="M4 18.5c4.5 2.5 11.5 2.5 16 0" stroke="#FF9900" strokeWidth="2" strokeLinecap="round" />
+        <path d="M18.5 16.5l2 2-2 2" stroke="#FF9900" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  // Terraform
+  if (norm.includes("terraform")) {
+    return (
+      <svg className={className} viewBox="0 0 24 24" fill="#844FBA">
+        <path d="M1.5 2.5L7.5 6v7L1.5 9.5zM8.5 6.5L14.5 10v7L8.5 13.5zM15.5 10.5L21.5 14v7l-6-3.5zM1.5 10.5L7.5 14v7l-6-3.5z" />
+      </svg>
+    );
+  }
+
+  // Redis
+  if (norm.includes("redis")) {
+    return (
+      <svg className={className} viewBox="0 0 24 24" fill="#DC382D">
+        <path d="M12 2L2 7l10 5 10-5-10-5zm0 8.5L4.5 7 12 3.5 19.5 7 12 10.5zM2 9.5v5l10 5 10-5v-5l-10 5-10-5zm0 5v5l10 5 10-5v-5l-10 5-10-5z" />
+      </svg>
+    );
+  }
+
+  // Shopify
+  if (norm.includes("shopify")) {
+    return (
+      <svg className={className} viewBox="0 0 24 24" fill="#95BF47">
+        <path d="M18.8 6.2l-2.4-.6c-.2-.1-.4 0-.5.2l-1.3 2.7c-.1.2-.4.3-.6.2L12 7.7l-2 1c-.2.1-.4 0-.5-.2L8.2 5.8c-.1-.2-.3-.3-.5-.2l-2.4.6c-.4.1-.7.5-.6.9l2.8 14.5c.1.4.4.7.8.7h7.4c.4 0 .7-.3.8-.7l2.8-14.5c0-.4-.3-.8-.7-.9z" />
+      </svg>
+    );
+  }
+
+  // Firebase
+  if (norm.includes("firebase")) {
+    return (
+      <svg className={className} viewBox="0 0 24 24">
+        <path fill="#FFCA28" d="M3.89 15.67L6.2 2.3a.78.78 0 0 1 1.48-.22l2.91 5.48-6.7 8.11z" />
+        <path fill="#FFA000" d="M13.67 9.87l-3.08-4.3a.78.78 0 0 0-1.4 0L3.89 15.67l9.78-5.8z" />
+        <path fill="#FF6F00" d="M12.43 21.65a1.2 1.2 0 0 0 1.14 0l6.54-3.83-6.44-7.95-1.24 11.78z" />
+      </svg>
+    );
+  }
+
+  // Flutter
   if (norm.includes("flutter")) {
     return (
       <svg className={className} viewBox="0 0 24 24">
-        <path fill="#47C5FB" d="M14.314 0L2.3 12 6 15.7 21.686 0h-7.372z" />
-        <path fill="#02569B" d="M14.314 11.143L7.743 17.714l3.7 3.7 2.871-2.871 4.572 4.571H22.6l-8.286-8.271v.286z" />
-        <path fill="#0175C2" d="M11.443 21.414l2.871-2.871 4.572 4.571H14.314l-2.871-1.7z" />
+        <path fill="#02569B" d="M14.314 0L2.3 12 6 15.7 21.686 0z" />
+        <path fill="#0175C2" d="M14.286 11.314L8.7 16.9l5.6 5.6h7.4l-9.3-9.3z" />
+        <path fill="#29B6F6" d="M8.7 16.9l2.8 2.8 2.8-2.8-2.8-2.8z" />
       </svg>
     );
   }
 
-  // Figma (Iconic 5 colors: #F24E1E, #FF7262, #A259FF, #1ABCFE, #0ACF83)
+  // Figma
   if (norm.includes("figma")) {
     return (
       <svg className={className} viewBox="0 0 38 57">
-        <path fill="#1ABCFE" d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" />
-        <path fill="#0ACF83" d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" />
-        <path fill="#A259FF" d="M0 28.5C0 23.2533 4.25329 19 9.5 19H19V38H9.5C4.25329 38 0 33.7467 0 28.5Z" />
-        <path fill="#F24E1E" d="M0 9.5C0 4.25329 4.25329 0 9.5 0H19V19H9.5C4.25329 19 0 14.7467 0 9.5Z" />
-        <path fill="#FF7262" d="M19 0H28.5C33.7467 0 38 4.25329 38 9.5C38 14.7467 33.7467 19 28.5 19H19V0Z" />
+        <path fill="#1abcfe" d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z" />
+        <path fill="#0acf83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z" />
+        <path fill="#ff7262" d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z" />
+        <path fill="#f24e1e" d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z" />
+        <path fill="#a259ff" d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z" />
       </svg>
     );
   }
 
-  // PHP (#777BB4 oval with white typography)
+  // PHP
   if (norm.includes("php")) {
     return (
       <svg className={className} viewBox="0 0 24 24">
-        <ellipse cx="12" cy="12" rx="11.5" ry="7.5" fill="#777BB4" />
+        <ellipse cx="12" cy="12" rx="11" ry="7" fill="#777BB4" />
         <path
           fill="#FFFFFF"
-          d="M6 14.5h1.2l.5-2.5h1.5c1.4 0 2.2-.6 2.5-1.8.3-1.1-.3-1.8-1.7-1.8H6.5L6 14.5zm1.9-3.2l.3-1.5h1.2c.6 0 .9.3.8.7-.1.5-.4.8-1 .8h-1.3zm5.6 3.2h1.2l.5-2.5h1.5c1.4 0 2.2-.6 2.5-1.8.3-1.1-.3-1.8-1.7-1.8h-3.5l-1.5 6.1zm1.9-3.2l.3-1.5h1.2c.6 0 .9.3.8.7-.1.5-.4.8-1 .8h-1.3zM10.8 14.5h1.2l1.2-6.1H12l-1.2 6.1z"
+          d="M6.5 14h-1.2l1.4-5h2.1c1.1 0 1.7.5 1.4 1.6-.3 1.1-1.1 1.6-2.1 1.6H6.8L6.5 14zm1.2-2.8h.8c.5 0 .8-.2 1-.7.1-.4 0-.7-.5-.7h-.8l-.5 1.4zm5.5 2.8H12l1.4-5h1.2l-.4 1.6h.1c.4-.7 1.1-1 1.8-.9.6.1 1 .5.8 1.3L16.2 14H15l.6-2.6c.1-.5 0-.7-.4-.8-.4-.1-.8.1-1 .7L13.2 14zm5-4.8l-.2.8c.4-.6 1.1-.9 1.8-.8.9.1 1.4.7 1.1 1.8L20 14h-1.2l.6-2.6c.1-.5 0-.7-.4-.8-.4-.1-.8.1-1 .7L17 14h-1.2l1.4-5h1zm0 0"
         />
       </svg>
     );
   }
 
-  // Laravel (Vibrant Red #FF2D20)
+  // Laravel
   if (norm.includes("laravel")) {
     return (
-      <svg className={className} viewBox="0 0 24 24">
-        <path
-          fill="#FF2D20"
-          d="M21.7 6.4L13.1 1.4c-.7-.4-1.5-.4-2.2 0L2.3 6.4c-.7.4-1.1 1.1-1.1 1.9v9.9c0 .8.4 1.5 1.1 1.9l8.6 5c.7.4 1.5.4 2.2 0l8.6-5c.7-.4 1.1-1.1 1.1-1.9V8.3c0-.8-.4-1.5-1.1-1.9zM12 3.6l7.1 4.1-3.2 1.8-7.1-4.1L12 3.6zm-1 16.8l-7.1-4.1V9.5l7.1 4.1v6.8zm2 0v-6.8l7.1-4.1v6.8l-7.1 4.1z"
-        />
+      <svg className={className} viewBox="0 0 24 24" fill="#FF2D20">
+        <path d="M8.2 2.1L2.8 5.2c-.4.2-.6.7-.6 1.2v11.2c0 .5.3.9.7 1.2l5.4 3.1c.4.2.9.2 1.3 0l5.4-3.1c.4-.2.7-.7.7-1.2V6.4c0-.5-.3-.9-.7-1.2L9.5 2.1c-.4-.2-.9-.2-1.3 0zm-.3 2.1l4.4 2.5-4.4 2.5-4.4-2.5 4.4-2.5zm-5 4l4.4 2.5v5.1l-4.4-2.5V8.2zm10 0v5.1l-4.4 2.5v-5.1l4.4-2.5z" />
       </svg>
     );
   }
 
-  // Docker (Docker Blue #2496ED)
-  if (norm.includes("docker")) {
-    return (
-      <svg className={className} viewBox="0 0 24 24">
-        <path
-          fill="#2496ED"
-          d="M13 3h2v2h-2zm-3 0h2v2h-2zm6 3h2v2h-2zm-3 0h2v2h-2zm-3 0h2v2h-2zm-3 0h2v2H7zm9 3h2v2h-2zm-3 0h2v2h-2zm-3 0h2v2H7zm-3 0h2v2H4zm17.9 2.5c-.3-.2-1.3-.4-2.4-.2-.2-.6-.5-1.1-.9-1.5l-.6.4c.4.6.6 1.4.5 2.1-.5.3-1.6.4-2.5.4H1c-.3 1.8.2 5.5 3.3 7.8 2.6 1.9 6.2 1.9 9.8 1.9 6.4 0 9.8-3.5 9.8-7.7 0-.9-.2-2.3-2-3.2z"
-        />
-      </svg>
-    );
-  }
-
-  // TypeScript (Blue #3178C6 with white TS)
-  if (norm.includes("type") || norm.includes("ts")) {
-    return (
-      <svg className={className} viewBox="0 0 24 24">
-        <rect width="24" height="24" rx="3.5" fill="#3178C6" />
-        <path
-          d="M5 9h6m-3 0v9m4.5-5.5c.8-.5 1.8-.8 2.8-.8 1.8 0 2.8.9 2.8 2.1 0 1.4-1.1 1.9-2.4 2.2-1.4.3-1.8.6-1.8 1.2 0 .6.5.9 1.4.9 1 0 2-.4 2.6-.9m-5.2-4.7c.6-.4 1.5-.6 2.4-.6"
-          stroke="#FFFFFF"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          fill="none"
-        />
-      </svg>
-    );
-  }
-
-  // Python (Blue #3776AB and Yellow #FFD43B)
+  // Python
   if (norm.includes("python")) {
     return (
       <svg className={className} viewBox="0 0 24 24">
         <path
           fill="#3776AB"
-          d="M11.9 1.2c-5.2 0-4.9 2.3-4.9 2.3v2.4h5v.7H4.9s-3.7-.4-3.7 4.9 3.2 5.1 3.2 5.1h1.9v-2.7s-.1-3.2 3.2-3.2h5.1s3.1.1 3.1-3.1V4.4s.4-3.2-5.8-3.2zm-2.7 1.8c.6 0 1 .4 1 1s-.4 1-1 1-1-.4-1-1 .4-1 1-1z"
+          d="M11.9 2c-3.1 0-5 .6-5 2.5v2.1h5.1v.8H4.6C2.6 7.4 2 8.9 2 11.2s1.4 3.8 3.8 3.8h1.2v-1.7c0-1.8 1.5-3.3 3.3-3.3h5.1c1.5 0 2.6-1.1 2.6-2.6V4.5C18 2.6 15 2 11.9 2zM9.4 3.7c.5 0 .8.4.8.8s-.4.8-.8.8-.8-.4-.8-.8.4-.8.8-.8z"
         />
         <path
           fill="#FFD43B"
-          d="M12.1 22.8c5.2 0 4.9-2.3 4.9-2.3v-2.4h-5v-.7h7.1s3.7.4 3.7-4.9-3.2-5.1-3.2-5.1h-1.9v2.7s.1 3.2-3.2 3.2h-5.1s-3.1-.1-3.1 3.1v3.2s-.4 3.2 5.8 3.2zm2.7-1.8c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1z"
+          d="M12.1 22c3.1 0 5-.6 5-2.5v-2.1H12v-.8h7.4c2 0 2.6-1.5 2.6-3.8s-1.4-3.8-3.8-3.8h-1.2v1.7c0 1.8-1.5 3.3-3.3 3.3H8.6c-1.5 0-2.6 1.1-2.6 2.6v2.9c0 1.9 3 2.5 6.1 2.5zm2.5-1.7c-.5 0-.8-.4-.8-.8s.4-.8.8-.8.8.4.8.8-.3.8-.8.8z"
         />
       </svg>
     );
   }
 
-  // Google Analytics 4 (Amber/Orange #F9AB00 and #E37400)
+  // Google Analytics 4 (GA4)
   if (norm.includes("analytics") || norm.includes("ga4")) {
     return (
       <svg className={className} viewBox="0 0 24 24">
-        <rect x="2.5" y="13.5" width="4.5" height="8" rx="2.2" fill="#F9AB00" />
-        <rect x="9.5" y="7.5" width="4.5" height="14" rx="2.2" fill="#E37400" />
-        <rect x="16.5" y="2.5" width="4.5" height="19" rx="2.2" fill="#F9AB00" />
-        <circle cx="5" cy="5.5" r="2.8" fill="#E37400" />
+        <path fill="#F9AB00" d="M12 2a10 10 0 0 0-10 10 10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2z" />
+        <rect x="5" y="13" width="3" height="6" rx="1.5" fill="#E37400" />
+        <rect x="10.5" y="9" width="3" height="10" rx="1.5" fill="#FFFFFF" />
+        <circle cx="17.5" cy="7" r="1.5" fill="#E37400" />
       </svg>
     );
   }
 
-  // Google Ads (Google Quad Colors #4285F4, #FBBC04, #34A853)
+  // Google Ads
   if (norm.includes("googleads") || (norm.includes("ads") && !norm.includes("meta"))) {
     return (
       <svg className={className} viewBox="0 0 24 24">
         <path
-          fill="#4285F4"
-          d="M3.5 14.5l5.8-10.1c.8-1.4 2.6-1.9 4-1.1l1.5.9c1.4.8 1.9 2.6 1.1 4L10.1 18.3c-.8 1.4-2.6 1.9-4 1.1l-1.5-.9c-1.4-.8-1.9-2.6-1.1-4z"
-        />
-        <path
           fill="#FBBC04"
-          d="M10.1 18.3l5.8-10.1c.8-1.4 2.6-1.9 4-1.1l1.5.9c1.4.8 1.9 2.6 1.1 4L16.7 22c-.8 1.4-2.6 1.9-4 1.1l-1.5-.9c-1.4-.8-1.9-2.6-1.1-4z"
+          d="M4.1 14.5l5.5-9.6c.7-1.2 2.3-1.6 3.5-.9l3.5 2c1.2.7 1.6 2.3.9 3.5L12 19.1c-.7 1.2-2.3 1.6-3.5.9l-3.5-2c-1.2-.7-1.6-2.3-.9-3.5z"
         />
-        <circle cx="5.5" cy="18.5" r="3.5" fill="#34A853" />
+        <circle cx="6.5" cy="17.5" r="3.5" fill="#4285F4" />
+        <path
+          fill="#34A853"
+          d="M17.5 12l2.5 4.3c.7 1.2.3 2.7-.9 3.5l-2 1.1c-1.2.7-2.7.3-3.5-.9l-2.5-4.3 6.4-3.7z"
+        />
       </svg>
     );
   }
 
-  // Meta Ads (Meta Official Blue Gradient #0668E1 / #0081FB)
+  // Meta Ads
   if (norm.includes("meta")) {
     return (
       <svg className={className} viewBox="0 0 24 24">
-        <defs>
-          <linearGradient id="meta-blue-grad-2" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#0081FB" />
-            <stop offset="100%" stopColor="#0668E1" />
-          </linearGradient>
-        </defs>
         <path
-          fill="url(#meta-blue-grad-2)"
-          d="M16.8 5.4c-1.9 0-3.6 1.1-4.8 2.8-1.2-1.7-2.9-2.8-4.8-2.8C3.2 5.4 0 8.5 0 12.8c0 4.6 3.7 8.2 7.7 8.2 2.6 0 4.3-1.4 5.1-2.4.8 1 2.5 2.4 5.1 2.4 4 0 7.7-3.6 7.7-8.2-.1-4.3-3.3-7.4-7.8-7.4zm-9.6 13c-2.8 0-5.1-2.4-5.1-5.6 0-3.1 2.2-5.4 5.1-5.4 2.3 0 4 1.9 4.9 3.8-.9 2.1-2.5 7.2-4.9 7.2zm10.4 0c-2.4 0-4-5.1-4.9-7.2.9-1.9 2.6-3.8 4.9-3.8 2.9 0 5.1 2.3 5.1 5.4 0 3.2-2.3 5.6-5.1 5.6z"
+          fill="#0081FB"
+          d="M16.9 4c-2.3 0-4.3 1.5-5 3.3-.6-1.8-2.6-3.3-4.9-3.3C3.1 4 0 7.3 0 11.5 0 16 3.4 20 7.4 20c2.6 0 4.3-1.4 4.6-1.7.3.3 2 1.7 4.6 1.7 4 0 7.4-4 7.4-8.5 0-4.2-3.1-7.5-7.1-7.5zm-9.5 13c-2.4 0-4.5-2.5-4.5-5.5 0-2.8 2-5.1 4.5-5.1 2.2 0 3.7 1.8 4.2 3.8-.7 1.9-2.3 6.8-4.2 6.8zm9.5 0c-1.9 0-3.5-4.9-4.2-6.8.5-2 2-3.8 4.2-3.8 2.5 0 4.5 2.3 4.5 5.1 0 3-2.1 5.5-4.5 5.5z"
         />
       </svg>
     );
   }
 
-  // SEMrush (Vibrant Coral/Orange #FF642D flame crown)
+  // SEMrush
   if (norm.includes("semrush")) {
     return (
-      <svg className={className} viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="11" fill="#FF642D" />
-        <path
-          fill="#FFFFFF"
-          d="M12 4.2c-4.3 0-7.8 3.5-7.8 7.8 0 4.3 3.5 7.8 7.8 7.8 4.3 0 7.8-3.5 7.8-7.8 0-4.3-3.5-7.8-7.8-7.8zm1.3 12.2l-2.6-4.5V16.4H9.3V7.6h1.4l2.6 4.5V7.6h1.4v8.8h-1.4z"
-        />
+      <svg className={className} viewBox="0 0 24 24" fill="#FF642D">
+        <path d="M21.5 10.4c-.4-.4-1.1-.5-1.6-.1l-4.5 3.6-2.5-5.8c-.3-.6-.9-.9-1.5-.8-.6.1-1.1.6-1.2 1.2L9 14.5l-2.8-2.8c-.4-.4-1.1-.4-1.6 0-.4.4-.4 1.1 0 1.6l3.6 3.6c.4.4 1.1.4 1.6 0l1.4-6.3 2.5 5.8c.2.5.7.8 1.3.8h.2c.5-.1 1-.5 1.2-1l3.5-2.8c.5-.4.6-1.1.1-1.6-.1-.1-.1-.1-.1-.1z" />
       </svg>
     );
   }
 
-  // Ahrefs (Deep Blue #0071E3 & Bright Orange #FF5A36)
+  // Ahrefs
   if (norm.includes("ahrefs")) {
     return (
-      <svg className={className} viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="11" fill="#0071E3" />
-        <path
-          fill="#FF5A36"
-          d="M6.5 18l4.8-12h1.4l4.8 12h-2.2l-1.2-3.2H9.9l-1.2 3.2H6.5zm4-5h3l-1.5-4-1.5 4z"
-        />
-        <path fill="#FFFFFF" d="M10.5 13h3L12 9l-1.5 4z" />
+      <svg className={className} viewBox="0 0 24 24" fill="#0057FF">
+        <path d="M12 2L2 22h4.5l2-4.5h7l2 4.5H22L12 2zm0 6l2.5 5.5h-5L12 8z" />
       </svg>
     );
   }
 
-  // HubSpot (Coral/Orange #FF7A59 sprocket)
+  // HubSpot
   if (norm.includes("hubspot")) {
     return (
-      <svg className={className} viewBox="0 0 24 24">
-        <path
-          fill="#FF7A59"
-          d="M18.5 7.5c-.8 0-1.5.4-1.9 1l-3.3-2.1c.1-.4.2-.9.2-1.4 0-2.2-1.8-4-4-4s-4 1.8-4 4c0 1.9 1.3 3.5 3.1 3.9v5.2c-.8.4-1.4 1.1-1.7 2l-2.4-.7c-.2-.6-.8-1-1.5-1-1 0-1.8.8-1.8 1.8s.8 1.8 1.8 1.8c.8 0 1.5-.5 1.7-1.2l2.5.7c.3 1.2 1.3 2.1 2.6 2.1 1.5 0 2.8-1.3 2.8-2.8 0-.9-.5-1.8-1.2-2.3V12c.7-.2 1.3-.7 1.6-1.3l3.3 2.1c0 .2-.1.5-.1.7 0 1.7 1.3 3 3 3s3-1.3 3-3-1.3-3-3-3zm-9-4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"
-        />
+      <svg className={className} viewBox="0 0 24 24" fill="#FF7A59">
+        <path d="M18.8 7.2V4.9c.7-.4 1.2-1.1 1.2-2 0-1.3-1-2.3-2.3-2.3-1.3 0-2.3 1-2.3 2.3 0 .9.5 1.6 1.2 2v2.3c-.9.2-1.7.7-2.3 1.3L8.8 4.3C8.9 4 9 3.6 9 3.3c0-1.8-1.5-3.3-3.3-3.3S2.4 1.5 2.4 3.3s1.5 3.3 3.3 3.3c.7 0 1.4-.2 2-.6l5.4 4.1c-.5.8-.8 1.8-.8 2.8s.3 2 .8 2.8l-5.4 4.1c-.6-.4-1.3-.6-2-.6-1.8 0-3.3 1.5-3.3 3.3S3.9 24 5.7 24s3.3-1.5 3.3-3.3c0-.3-.1-.7-.2-1l5.5-4.2c.6.6 1.4 1.1 2.3 1.3v2.3c-.7.4-1.2 1.1-1.2 2 0 1.3 1 2.3 2.3 2.3 1.3 0 2.3-1 2.3-2.3 0-.9-.5-1.6-1.2-2v-2.3c2-.5 3.5-2.3 3.5-4.5s-1.5-4-3.5-4.5zM5.7 4.8c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5 1.5.7 1.5 1.5-.7 1.5-1.5 1.5zm0 16.5c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5 1.5.7 1.5 1.5-.7 1.5-1.5 1.5zm12-7.5c-1.3 0-2.4-1.1-2.4-2.4s1.1-2.4 2.4-2.4 2.4 1.1 2.4 2.4-1.1 2.4-2.4 2.4z" />
       </svg>
     );
   }
 
-  // Google Tag Manager (Blue #246FDB & Cyan #8AB4F8 diamond)
+  // Google Tag Manager (GTM)
   if (norm.includes("tagmanager") || norm.includes("gtm")) {
     return (
       <svg className={className} viewBox="0 0 24 24">
-        <path fill="#246FDB" d="M12 2L2 12l10 10 10-10L12 2z" />
-        <path fill="#8AB4F8" d="M12 5.5L18.5 12 12 18.5 5.5 12 12 5.5z" />
-        <circle cx="12" cy="12" r="2.8" fill="#FFFFFF" />
+        <path fill="#246FDB" d="M12 2L3 7v10l9 5 9-5V7l-9-5z" />
+        <path fill="#8AB4F8" d="M12 6l5 3v6l-5 3-5-3V9l5-3z" />
       </svg>
     );
   }
 
-  // Google Search Console (Google Quad Colors #4285F4, #FBBC04, #34A853, #EA4335)
+  // Google Search Console
   if (norm.includes("searchconsole") || norm.includes("console")) {
     return (
       <svg className={className} viewBox="0 0 24 24">
         <rect width="24" height="24" rx="5" fill="#4285F4" />
-        <path fill="#FBBC04" d="M5 18h14v2H5z" />
-        <path fill="#FFFFFF" d="M5 14h5v2H5zm7-5h7v2h-7zm0 4h7v2h-7zM5 9h5v2H5z" />
-        <circle cx="15.5" cy="9.5" r="3.5" fill="#34A853" />
-        <path fill="#EA4335" d="M17.8 11.8L20.5 14.5l-1.4 1.4-2.7-2.7z" />
+        <path d="M4 18l5-6 4 3 6-8" stroke="#FFFFFF" strokeWidth="2.5" fill="none" strokeLinecap="round" />
       </svg>
     );
   }
 
-  // Adobe Illustrator (Dark Maroon #330000 & Bright Orange #FF9A00)
+  // Adobe Illustrator
   if (norm.includes("illustrator")) {
     return (
       <svg className={className} viewBox="0 0 24 24">
-        <rect width="24" height="24" rx="4.5" fill="#330000" stroke="#FF9A00" strokeWidth="1.6" />
+        <rect width="24" height="24" rx="4" fill="#330000" />
         <text
           x="4.2"
           y="16.5"
           fill="#FF9A00"
-          fontFamily="system-ui, -apple-system, sans-serif"
-          fontWeight="900"
+          fontFamily="system-ui, sans-serif"
+          fontWeight="bold"
           fontSize="11.5"
-          letterSpacing="-0.5"
         >
           Ai
         </text>
@@ -327,19 +376,18 @@ export function FullColorToolLogo({
     );
   }
 
-  // Adobe Photoshop (Deep Blue #001E36 & Bright Cyan #31A8FF)
+  // Adobe Photoshop
   if (norm.includes("photoshop")) {
     return (
       <svg className={className} viewBox="0 0 24 24">
-        <rect width="24" height="24" rx="4.5" fill="#001E36" stroke="#31A8FF" strokeWidth="1.6" />
+        <rect width="24" height="24" rx="4" fill="#001E36" />
         <text
           x="3.8"
           y="16.5"
           fill="#31A8FF"
-          fontFamily="system-ui, -apple-system, sans-serif"
-          fontWeight="900"
+          fontFamily="system-ui, sans-serif"
+          fontWeight="bold"
           fontSize="11.5"
-          letterSpacing="-0.5"
         >
           Ps
         </text>
@@ -347,62 +395,48 @@ export function FullColorToolLogo({
     );
   }
 
-  // Blender 3D / Blender CGI (Orange #EA7600 & Blue #265787)
+  // Blender 3D
   if (norm.includes("blender")) {
     return (
       <svg className={className} viewBox="0 0 24 24">
-        <circle cx="12.5" cy="15" r="4.5" fill="#265787" />
-        <circle cx="12.5" cy="15" r="2.2" fill="#FFFFFF" />
-        <path
-          fill="#EA7600"
-          d="M12.5 10.5c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 7.8c-1.5 0-2.8-1.2-2.8-2.8s1.2-2.8 2.8-2.8 2.8 1.2 2.8 2.8-1.3 2.8-2.8 2.8zM4.2 10.2L9 13.5l-1.5 2.6L2.7 12.8c-.5-.3-.7-.9-.4-1.4.3-.5.9-.7 1.4-.4l.5-.8zm15.6 0l-.5.8c.5-.3 1.1-.1 1.4.4.3.5.1 1.1-.4 1.4L16.5 16.1 15 13.5l4.8-3.3zM12 2.5l1.5 6.5h-3L12 2.5z"
-        />
+        <circle cx="12" cy="12" r="10" fill="#EA7600" />
+        <circle cx="12" cy="12" r="4.5" fill="#FFFFFF" />
+        <circle cx="12" cy="12" r="2.5" fill="#225796" />
       </svg>
     );
   }
 
-  // Spline 3D (Vibrant Pink/Purple/Blue Gradient #FF59B3, #7928CA, #4E80EE)
+  // Spline 3D
   if (norm.includes("spline")) {
     return (
       <svg className={className} viewBox="0 0 24 24">
-        <defs>
-          <linearGradient id="spline-neon-grad-2" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#FF59B3" />
-            <stop offset="50%" stopColor="#7928CA" />
-            <stop offset="100%" stopColor="#4E80EE" />
-          </linearGradient>
-        </defs>
-        <circle cx="12" cy="12" r="10.5" fill="url(#spline-neon-grad-2)" />
-        <path
-          fill="#FFFFFF"
-          d="M12 6c-2.5 0-4.5 1.5-4.5 3.5 0 2.5 4.5 2.5 4.5 5 0 1-1 1.5-2 1.5s-2.5-.8-3-1.5l-1.5 1.5c.8 1.2 2.5 2 4.5 2 2.5 0 4.5-1.5 4.5-3.5 0-2.5-4.5-2.5-4.5-5 0-1 1-1.5 2-1.5s2.5.8 3 1.5l1.5-1.5C15.7 6.8 14 6 12 6z"
-        />
+        <rect width="24" height="24" rx="5" fill="#141416" stroke="#FF5C00" strokeWidth="1.5" />
+        <path d="M6 16c2-4 4-8 6-8s4 4 6 8" stroke="#FF5C00" strokeWidth="2.5" fill="none" strokeLinecap="round" />
       </svg>
     );
   }
 
-  // Framer (Vibrant Electric Blue #0055FF)
+  // Framer
   if (norm.includes("framer")) {
     return (
-      <svg className={className} viewBox="0 0 24 24">
-        <path fill="#0055FF" d="M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z" />
+      <svg className={className} viewBox="0 0 24 24" fill="#0055FF">
+        <path d="M4 2h16v7h-8zM4 9h8l8 7H4zM4 16h8v7z" />
       </svg>
     );
   }
 
-  // Adobe Premiere Pro (Deep Wine #260033 & Violet/Magenta #EA77FF)
+  // Adobe Premiere Pro
   if (norm.includes("premiere")) {
     return (
       <svg className={className} viewBox="0 0 24 24">
-        <rect width="24" height="24" rx="4.5" fill="#260033" stroke="#EA77FF" strokeWidth="1.6" />
+        <rect width="24" height="24" rx="4" fill="#00005B" />
         <text
-          x="4.2"
+          x="3.8"
           y="16.5"
-          fill="#EA77FF"
-          fontFamily="system-ui, -apple-system, sans-serif"
-          fontWeight="900"
+          fill="#9999FF"
+          fontFamily="system-ui, sans-serif"
+          fontWeight="bold"
           fontSize="11.5"
-          letterSpacing="-0.5"
         >
           Pr
         </text>
@@ -410,31 +444,29 @@ export function FullColorToolLogo({
     );
   }
 
-  // DaVinci Resolve (Tri-Color Aperture: Red #FF3E3E, Green #00E676, Blue #2979FF)
+  // DaVinci Resolve
   if (norm.includes("davinci") || norm.includes("resolve")) {
     return (
       <svg className={className} viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="11" fill="#0c0e14" stroke="#ffffff25" strokeWidth="1.2" />
-        <circle cx="12" cy="7.2" r="3.4" fill="#FF3E3E" />
-        <circle cx="7.8" cy="15" r="3.4" fill="#00E676" />
-        <circle cx="16.2" cy="15" r="3.4" fill="#2979FF" />
+        <circle cx="12" cy="12" r="10.5" fill="#181A20" stroke="#E11D48" strokeWidth="1.5" />
+        <path d="M12 4l6 11h-12z" fill="#E11D48" opacity="0.9" />
+        <circle cx="12" cy="13" r="3.2" fill="#FBBF24" />
       </svg>
     );
   }
 
-  // Adobe After Effects (Deep Navy #00005B & Violet #9999FF)
+  // Adobe After Effects
   if (norm.includes("aftereffects") || norm.includes("ae")) {
     return (
       <svg className={className} viewBox="0 0 24 24">
-        <rect width="24" height="24" rx="4.5" fill="#00005B" stroke="#9999FF" strokeWidth="1.6" />
+        <rect width="24" height="24" rx="4" fill="#00005B" />
         <text
-          x="4.2"
+          x="3.6"
           y="16.5"
           fill="#9999FF"
-          fontFamily="system-ui, -apple-system, sans-serif"
-          fontWeight="900"
+          fontFamily="system-ui, sans-serif"
+          fontWeight="bold"
           fontSize="11.5"
-          letterSpacing="-0.5"
         >
           Ae
         </text>
@@ -442,11 +474,11 @@ export function FullColorToolLogo({
     );
   }
 
-  // RED Digital Cinema (8K) (Cinema Red #E50914 Badge with Bold White RED)
+  // RED Digital Cinema (8K)
   if (norm.includes("red")) {
     return (
       <svg className={className} viewBox="0 0 24 24">
-        <rect width="24" height="24" rx="4.5" fill="#E50914" />
+        <rect width="24" height="24" rx="4" fill="#B91C1C" />
         <text
           x="2.4"
           y="15.8"
@@ -458,21 +490,11 @@ export function FullColorToolLogo({
         >
           RED
         </text>
-        <text
-          x="7.8"
-          y="21"
-          fill="#000000"
-          fontFamily="system-ui, sans-serif"
-          fontWeight="900"
-          fontSize="4.2"
-        >
-          8K
-        </text>
       </svg>
     );
   }
 
-  // Unreal Engine (Dark Circle #0E1128 with Crisp White U Shield)
+  // Unreal Engine
   if (norm.includes("unreal")) {
     return (
       <svg className={className} viewBox="0 0 24 24">
@@ -495,16 +517,16 @@ export function FullColorToolLogo({
 }
 
 // ============================================================================
-// DATA: 4 SERVICES & EXACT REQUESTED TOOLS
+// DATA: SERVICE CATEGORY & SUBCATEGORY TOOLS
 // ============================================================================
 
-interface ToolItem {
+export interface ToolItem {
   id: string;
   name: string;
   tagline: string;
 }
 
-interface ServiceDivision {
+export interface ServiceDivision {
   id: string;
   index: string;
   serviceName: string;
@@ -528,7 +550,7 @@ const SERVICE_DIVISIONS: ServiceDivision[] = [
       { id: "react", name: "React.js", tagline: "Frontend Reactive Engine" },
       { id: "nodejs", name: "Node.js", tagline: "Asynchronous I/O Runtime" },
       { id: "mongodb", name: "MongoDB", tagline: "High-Scale Document DB" },
-      { id: "sql", name: "SQL", tagline: "ACID Relational Storage" },
+      { id: "sql", name: "PostgreSQL", tagline: "ACID Relational Storage" },
       { id: "nextjs", name: "NEXT JS", tagline: "Server Components & Edge" },
       { id: "flutter", name: "Flutter", tagline: "Native iOS & Android Engine" },
       { id: "figma-tech", name: "Figma", tagline: "Design Token Pipeline" },
@@ -549,7 +571,7 @@ const SERVICE_DIVISIONS: ServiceDivision[] = [
     accentGlow: "#38bdf8",
     tools: [
       { id: "ga4", name: "Google Analytics 4", tagline: "Event Telemetry & Funnels" },
-      { id: "google-ads", name: "Google Ads", tagline: "High-Intent Intent Bidding" },
+      { id: "google-ads", name: "Google Ads", tagline: "High-Intent Bidding" },
       { id: "meta-ads", name: "Meta Ads", tagline: "Social Growth & Lookalikes" },
       { id: "semrush", name: "SEMrush", tagline: "Keyword & SERP Intelligence" },
       { id: "ahrefs", name: "Ahrefs", tagline: "Backlink Graph Topology" },
@@ -596,114 +618,422 @@ const SERVICE_DIVISIONS: ServiceDivision[] = [
 ];
 
 // ============================================================================
-// MAIN SERVICE UNIVERSE COMPONENT (TECHNOLOGY & TOOLS MATRICES)
+// SUBCATEGORY SPECIFIC TAILORED TOOLS (Only the tools used for that subcategory)
 // ============================================================================
 
-export default function ServiceUniverseSection() {
-  const [activeTab, setActiveTab] = useState<string>("all");
+const SUBCATEGORY_TOOLS_MAP: Record<string, { title: string; subtitle: string; tools: ToolItem[] }> = {
+  // Technology Solutions subcategories
+  "web-development": {
+    title: "CUSTOM WEB DEVELOPMENT TECH STACK",
+    subtitle: "Enterprise frontend frameworks, serverless runtimes, and database architectures deployed for web platforms.",
+    tools: [
+      { id: "react", name: "React.js", tagline: "Frontend Reactive Engine" },
+      { id: "nextjs", name: "NEXT JS", tagline: "Server Components & Edge SSR" },
+      { id: "typescript", name: "TypeScript", tagline: "Strict Type Safety" },
+      { id: "tailwind", name: "Tailwind CSS", tagline: "Atomic Design Tokens" },
+      { id: "nodejs", name: "Node.js", tagline: "Asynchronous I/O Runtime" },
+      { id: "sql", name: "PostgreSQL", tagline: "ACID Relational Storage" },
+      { id: "mongodb", name: "MongoDB", tagline: "High-Scale Document DB" },
+      { id: "graphql", name: "GraphQL", tagline: "API Query Gateway" },
+      { id: "docker", name: "Docker", tagline: "Containerization & Isolation" },
+    ],
+  },
+  "cloud-infrastructure-devops": {
+    title: "CLOUD INFRASTRUCTURE & DEVOPS STACK",
+    subtitle: "Production-grade cloud containerization, multi-region mesh, and IaC pipelines.",
+    tools: [
+      { id: "docker", name: "Docker", tagline: "Production Container Images" },
+      { id: "kubernetes", name: "Kubernetes", tagline: "Auto-Healing Pod Clusters" },
+      { id: "aws", name: "AWS Cloud", tagline: "Multi-Region Cloud Mesh" },
+      { id: "terraform", name: "Terraform", tagline: "Infrastructure as Code" },
+      { id: "nodejs", name: "Node.js", tagline: "Edge Serverless Functions" },
+      { id: "python", name: "Python", tagline: "DevOps Automation & Scripts" },
+      { id: "sql", name: "PostgreSQL", tagline: "HA Database Clusters" },
+      { id: "redis", name: "Redis", tagline: "Distributed Session Store" },
+    ],
+  },
+  "enterprise-software-solutions": {
+    title: "ENTERPRISE SOFTWARE ARCHITECTURE STACK",
+    subtitle: "Mission-critical backend runtimes, high-concurrency microservices, and enterprise relational databases.",
+    tools: [
+      { id: "nextjs", name: "NEXT JS", tagline: "Enterprise Frontends" },
+      { id: "typescript", name: "TypeScript", tagline: "Strict Contract Safety" },
+      { id: "nodejs", name: "Node.js", tagline: "High-Throughput APIs" },
+      { id: "python", name: "Python", tagline: "AI Data Pipelines & Services" },
+      { id: "sql", name: "PostgreSQL", tagline: "Enterprise Relational DB" },
+      { id: "redis", name: "Redis Cluster", tagline: "Sub-Millisecond Cache" },
+      { id: "docker", name: "Docker", tagline: "Containerization" },
+      { id: "kubernetes", name: "Kubernetes", tagline: "Auto-Scaling Pods" },
+    ],
+  },
+  "ecommerce-platform-engineering": {
+    title: "E-COMMERCE PLATFORM ENGINEERING STACK",
+    subtitle: "Headless commerce storefronts, high-converting checkout engines, and real-time inventory caching.",
+    tools: [
+      { id: "shopify", name: "Shopify Plus", tagline: "Headless Commerce Engine" },
+      { id: "nextjs", name: "NEXT JS", tagline: "Sub-Second Edge Storefront" },
+      { id: "react", name: "React.js", tagline: "Dynamic Cart & Checkout" },
+      { id: "typescript", name: "TypeScript", tagline: "Payment Flow Integrity" },
+      { id: "tailwind", name: "Tailwind CSS", tagline: "Conversion UI Tokens" },
+      { id: "nodejs", name: "Node.js", tagline: "Checkout Webhook Runtime" },
+      { id: "sql", name: "PostgreSQL", tagline: "Order & Inventory Storage" },
+      { id: "redis", name: "Redis", tagline: "Flash Sale Cart Cache" },
+    ],
+  },
+  "mobile-applications": {
+    title: "MOBILE APPLICATION ENGINEERING STACK",
+    subtitle: "Cross-platform native mobile frameworks, 60 FPS spring micro-interactions, and real-time synchronization.",
+    tools: [
+      { id: "flutter", name: "Flutter", tagline: "Cross-Platform Native Engine" },
+      { id: "react", name: "React Native", tagline: "Universal iOS & Android" },
+      { id: "firebase", name: "Firebase", tagline: "Realtime Mobile Sync" },
+      { id: "typescript", name: "TypeScript", tagline: "100% Type Safe Mobile" },
+      { id: "nodejs", name: "Node.js", tagline: "Mobile Backend & Webhooks" },
+      { id: "figma-tech", name: "Figma", tagline: "Mobile Design Tokens" },
+      { id: "sql", name: "PostgreSQL", tagline: "Relational Sync DB" },
+    ],
+  },
+  "microservices-api-mesh": {
+    title: "MICROSERVICES & API MESH STACK",
+    subtitle: "Decoupled distributed services, high-throughput gRPC communication, and event-driven data streaming.",
+    tools: [
+      { id: "docker", name: "Docker", tagline: "Microservice Packaging" },
+      { id: "kubernetes", name: "Kubernetes", tagline: "Service Mesh Orchestrator" },
+      { id: "nodejs", name: "Node.js", tagline: "Event-Driven Microservices" },
+      { id: "python", name: "Python", tagline: "Data Ingestion Services" },
+      { id: "graphql", name: "GraphQL", tagline: "Unified Graph Gateway" },
+      { id: "redis", name: "Redis", tagline: "Pub/Sub Event Bus" },
+      { id: "sql", name: "PostgreSQL", tagline: "Decoupled DB Shards" },
+    ],
+  },
 
-  // Filter divisions based on active tab (memoized to avoid re-filtering on render)
-  const displayedDivisions = useMemo(() => {
-    return activeTab === "all"
-      ? SERVICE_DIVISIONS
-      : SERVICE_DIVISIONS.filter((d) => d.id === activeTab);
-  }, [activeTab]);
+  // Digital Marketing subcategories
+  "technical-seo-dominance": {
+    title: "TECHNICAL SEO & SEARCH DOMINANCE STACK",
+    subtitle: "Algorithmic keyword intelligence, backlink graph telemetry, and search crawl diagnostic tools.",
+    tools: [
+      { id: "semrush", name: "SEMrush", tagline: "SERP & Competitor Intelligence" },
+      { id: "ahrefs", name: "Ahrefs", tagline: "Backlink Graph Topology" },
+      { id: "search-console", name: "Search Console", tagline: "Crawl Diagnostics & Health" },
+      { id: "ga4", name: "Google Analytics 4", tagline: "Organic Attribution Funnels" },
+      { id: "gtm", name: "Google Tag Manager", tagline: "Structured Data Injection" },
+    ],
+  },
+  "performance-ppc-advertising": {
+    title: "PERFORMANCE PPC & PAID MEDIA STACK",
+    subtitle: "Multi-channel paid acquisition platforms, conversion value tracking, and attribution telemetry.",
+    tools: [
+      { id: "google-ads", name: "Google Ads", tagline: "High-Intent Keyword Bidding" },
+      { id: "meta-ads", name: "Meta Ads", tagline: "Paid Social & Retargeting" },
+      { id: "ga4", name: "Google Analytics 4", tagline: "Multi-Touch Conversion Path" },
+      { id: "gtm", name: "Google Tag Manager", tagline: "Conversion Value Routing" },
+      { id: "hubspot", name: "HubSpot", tagline: "Lead Qualification CRM" },
+    ],
+  },
+  "social-media-management": {
+    title: "SOCIAL MEDIA STRATEGY & ADS STACK",
+    subtitle: "Paid social campaign management, visual content design tokens, and pipeline tracking.",
+    tools: [
+      { id: "meta-ads", name: "Meta Ads", tagline: "Community Engagement & Ads" },
+      { id: "figma-brand", name: "Figma", tagline: "Social Asset Design Tokens" },
+      { id: "photoshop", name: "Adobe Photoshop", tagline: "Visual Graphics & Retouching" },
+      { id: "ga4", name: "Google Analytics 4", tagline: "Social Referral Telemetry" },
+      { id: "hubspot", name: "HubSpot", tagline: "Social Pipeline Tracking" },
+    ],
+  },
+  "content-strategy-production": {
+    title: "CONTENT STRATEGY & COPYWRITING STACK",
+    subtitle: "Search volume research, content gap audits, and conversion editorial lead nurturing.",
+    tools: [
+      { id: "semrush", name: "SEMrush", tagline: "Topic Cluster Discovery" },
+      { id: "ahrefs", name: "Ahrefs", tagline: "Content Gap Analysis" },
+      { id: "search-console", name: "Search Console", tagline: "Impression & CTR Tracking" },
+      { id: "ga4", name: "Google Analytics 4", tagline: "Content Engagement Rates" },
+      { id: "hubspot", name: "HubSpot", tagline: "Lead Magnet Nurturing" },
+    ],
+  },
 
+  // Branding & Design subcategories
+  "brand-identity-systems": {
+    title: "BRAND IDENTITY & DESIGN SYSTEMS STACK",
+    subtitle: "Precision vector identity creation, typography systems, and kinetic brand motion assets.",
+    tools: [
+      { id: "figma-brand", name: "Figma", tagline: "Vector Design Tokens & Guides" },
+      { id: "illustrator", name: "Adobe Illustrator", tagline: "Mathematical Vector Geometry" },
+      { id: "photoshop", name: "Adobe Photoshop", tagline: "Brand Imagery & Retouching" },
+      { id: "after-effects-design", name: "After Effects", tagline: "Kinetic Logo Animation" },
+    ],
+  },
+  "ui-ux-spatial-design": {
+    title: "UI/UX & SPATIAL WEB DESIGN STACK",
+    subtitle: "Interactive design component systems, 3D WebGL scenes, and 60 FPS micro-interaction prototypes.",
+    tools: [
+      { id: "figma-brand", name: "Figma", tagline: "Interactive Component Libraries" },
+      { id: "spline-3d", name: "Spline 3D", tagline: "Interactive WebGL 3D" },
+      { id: "blender-3d", name: "Blender 3D", tagline: "Photorealistic 3D Assets" },
+      { id: "framer", name: "Framer", tagline: "60 FPS Interaction Physics" },
+      { id: "after-effects-design", name: "After Effects", tagline: "Micro-Interaction Timing" },
+    ],
+  },
+
+  // Media Production subcategories
+  "commercial-video-production": {
+    title: "COMMERCIAL VIDEO PRODUCTION STACK",
+    subtitle: "8K cinema camera sensors, DaVinci Resolve color science, and multi-track narrative editing.",
+    tools: [
+      { id: "red-cinema", name: "RED Digital Cinema (8K)", tagline: "8K RAW Film Sensors" },
+      { id: "premiere", name: "Adobe Premiere Pro", tagline: "Cinema Narrative Assembly" },
+      { id: "davinci", name: "DaVinci Resolve", tagline: "Color Science & Mastering" },
+      { id: "after-effects-media", name: "Adobe After Effects", tagline: "Motion Tracking & Titles" },
+    ],
+  },
+  "motion-graphics-3d-cgi": {
+    title: "3D CGI & MOTION GRAPHICS STACK",
+    subtitle: "Real-time virtual production in Unreal Engine, particle simulations, and kinetic typography VFX.",
+    tools: [
+      { id: "unreal", name: "Unreal Engine", tagline: "Real-Time 3D Rendering" },
+      { id: "blender-cgi", name: "Blender CGI", tagline: "Particle & Physics Simulations" },
+      { id: "after-effects-media", name: "Adobe After Effects", tagline: "Kinetic Typography & VFX" },
+      { id: "davinci", name: "DaVinci Resolve", tagline: "HDR Color & Audio Master" },
+    ],
+  },
+};
+
+// Aliases for legacy service IDs
+SUBCATEGORY_TOOLS_MAP["web-cloud"] = SUBCATEGORY_TOOLS_MAP["web-development"];
+SUBCATEGORY_TOOLS_MAP["ecommerce-platforms"] = SUBCATEGORY_TOOLS_MAP["ecommerce-platform-engineering"];
+SUBCATEGORY_TOOLS_MAP["mobile-apps"] = SUBCATEGORY_TOOLS_MAP["mobile-applications"];
+SUBCATEGORY_TOOLS_MAP["seo-search"] = SUBCATEGORY_TOOLS_MAP["technical-seo-dominance"];
+SUBCATEGORY_TOOLS_MAP["social-media"] = SUBCATEGORY_TOOLS_MAP["social-media-management"];
+SUBCATEGORY_TOOLS_MAP["brand-identity"] = SUBCATEGORY_TOOLS_MAP["brand-identity-systems"];
+SUBCATEGORY_TOOLS_MAP["commercial-media"] = SUBCATEGORY_TOOLS_MAP["commercial-video-production"];
+
+function mapCategoryToDivision(category?: string): ServiceDivision | null {
+  if (!category) return null;
+  const c = category.toLowerCase();
+  if (
+    c.includes("tech") ||
+    c.includes("web") ||
+    c.includes("cloud") ||
+    c.includes("software") ||
+    c.includes("dev")
+  ) {
+    return SERVICE_DIVISIONS[0]; // Technology Solutions
+  }
+  if (
+    c.includes("market") ||
+    c.includes("seo") ||
+    c.includes("growth") ||
+    c.includes("ppc") ||
+    c.includes("social")
+  ) {
+    return SERVICE_DIVISIONS[1]; // Digital Marketing
+  }
+  if (
+    c.includes("brand") ||
+    c.includes("design") ||
+    c.includes("identity") ||
+    c.includes("ui") ||
+    c.includes("ux")
+  ) {
+    return SERVICE_DIVISIONS[2]; // Branding and Design
+  }
+  if (
+    c.includes("media") ||
+    c.includes("video") ||
+    c.includes("film") ||
+    c.includes("motion") ||
+    c.includes("cgi")
+  ) {
+    return SERVICE_DIVISIONS[3]; // Media Production
+  }
+  return null;
+}
+
+// ============================================================================
+// MAIN COMPONENT
+// ============================================================================
+
+export default function ServiceUniverseSection({
+  className = "",
+  categoryFilter,
+  subcategoryId,
+  showCategoryTabs = false,
+}: {
+  className?: string;
+  categoryFilter?: string;
+  subcategoryId?: string;
+  showCategoryTabs?: boolean;
+} = {}) {
+  // Normalize subcategory id
+  const subKey = (subcategoryId || "").toLowerCase();
+  const subcategoryConfig = subKey ? SUBCATEGORY_TOOLS_MAP[subKey] : null;
+
+  // Resolve matching division for category pages
+  const matchedDivision = mapCategoryToDivision(categoryFilter);
+
+  // If subcategory config is found, render the exact tools for that subcategory!
+  if (subcategoryConfig) {
+    return (
+      <section
+        id="service-universe"
+        className={`relative w-full px-4 sm:px-8 lg:px-12 py-16 sm:py-24 text-white overflow-hidden select-none bg-transparent border-t border-white/10 ${className}`}
+      >
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-[#FFD400]/[0.025] blur-[150px] pointer-events-none rounded-full" />
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Header without filter tabs */}
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>VERIFIED PRODUCTION TECH STACK</span>
+            </div>
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.05] text-white">
+              {subcategoryConfig.title.split(" ").slice(0, -1).join(" ")}{" "}
+              <span className="text-[#FFD400]">
+                {subcategoryConfig.title.split(" ").slice(-1)[0]}
+              </span>
+            </h2>
+            <p className="text-xs sm:text-sm md:text-base font-normal mt-3 leading-relaxed text-neutral-300 font-[family-name:var(--font-jakarta)]">
+              {subcategoryConfig.subtitle}
+            </p>
+          </div>
+
+          {/* Clean Focused Tool Grid */}
+          <div className="rounded-3xl p-6 sm:p-8 bg-[#0c0e14] border border-white/10 shadow-2xl">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5 sm:gap-4">
+              {subcategoryConfig.tools.map((t) => (
+                <div
+                  key={t.id}
+                  className="group relative rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-[#FFD400]/70 flex flex-col items-center justify-center p-4 sm:p-5 transition-all duration-300 hover:scale-[1.03] shadow-md hover:shadow-[0_0_20px_rgba(255,212,0,0.2)] cursor-default"
+                  title={t.name}
+                >
+                  <div className="w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center mb-3">
+                    <FullColorToolLogo name={t.name} className="w-full h-full object-contain" />
+                  </div>
+                  <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-[#FFD400] transition-colors font-mono text-center truncate max-w-full">
+                    {t.name}
+                  </h4>
+                  <span className="text-[10px] text-neutral-400 font-light text-center line-clamp-1 mt-0.5 font-[family-name:var(--font-jakarta)]">
+                    {t.tagline}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // If on a specific category page, render ONLY that category's technologies with NO filter tabs
+  if (matchedDivision) {
+    const Icon = matchedDivision.icon;
+    return (
+      <section
+        id="service-universe"
+        className={`relative w-full px-4 sm:px-8 lg:px-12 py-16 sm:py-24 text-white overflow-hidden select-none bg-transparent border-t border-white/10 ${className}`}
+      >
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-[#FFD400]/[0.025] blur-[150px] pointer-events-none rounded-full" />
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Header without filter tabs */}
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>DIVISION 0{matchedDivision.tierNumber} // PRODUCTION TECHNOLOGY ECOSYSTEM</span>
+            </div>
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.05] text-white">
+              {matchedDivision.serviceName}{" "}
+              <span className="text-[#FFD400]">TECHNOLOGY ARCHITECTURE</span>
+            </h2>
+            <p className="text-xs sm:text-sm md:text-base font-normal mt-3 leading-relaxed text-neutral-300 font-[family-name:var(--font-jakarta)]">
+              {matchedDivision.tagline}
+            </p>
+          </div>
+
+          {/* Focused Division Card */}
+          <div className="rounded-3xl p-6 sm:p-8 bg-[#0c0e14] border border-white/10 shadow-2xl">
+            <div className="flex items-center gap-3 pb-4 mb-6 border-b border-white/10">
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center p-2 shadow-lg"
+                style={{
+                  backgroundColor: `${matchedDivision.accentGlow}20`,
+                  color: matchedDivision.accentGlow,
+                }}
+              >
+                <Icon className="w-5 h-5" />
+              </div>
+              <div>
+                <span
+                  className="text-[10px] font-mono uppercase tracking-widest block font-bold"
+                  style={{ color: matchedDivision.accentGlow }}
+                >
+                  DIVISION 0{matchedDivision.tierNumber} // ACTIVE ECOSYSTEM
+                </span>
+                <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight uppercase font-[family-name:var(--font-syne)]">
+                  {matchedDivision.serviceName}
+                </h3>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5 sm:gap-4">
+              {matchedDivision.tools.map((t) => (
+                <div
+                  key={t.id}
+                  className="group relative rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-[#FFD400]/70 flex flex-col items-center justify-center p-4 sm:p-5 transition-all duration-300 hover:scale-[1.03] shadow-md hover:shadow-[0_0_20px_rgba(255,212,0,0.2)] cursor-default"
+                  title={t.name}
+                >
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center mb-2.5">
+                    <FullColorToolLogo name={t.name} className="w-full h-full object-contain" />
+                  </div>
+                  <h4 className="text-xs font-bold text-white group-hover:text-[#FFD400] transition-colors font-mono text-center truncate max-w-full">
+                    {t.name}
+                  </h4>
+                  <span className="text-[10px] text-neutral-400 font-light text-center line-clamp-1 mt-0.5 font-[family-name:var(--font-jakarta)]">
+                    {t.tagline}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Fallback for general services page: Show all 4 divisions
   return (
     <section
       id="service-universe"
-      className="relative py-20 sm:py-28 lg:py-32 text-white overflow-hidden scroll-mt-20 select-none bg-[#050608] transform-gpu"
+      className={`relative py-20 sm:py-28 lg:py-32 text-white overflow-hidden scroll-mt-20 select-none bg-[#050608] transform-gpu ${className}`}
     >
-      {/* Background Celestial Mist */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1000px] bg-[radial-gradient(ellipse_at_center,_rgba(56,189,248,0.035)_0%,_rgba(255,212,0,0.025)_40%,_transparent_70%)] pointer-events-none transform-gpu" />
 
       <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
         <div className="max-w-7xl mx-auto">
-        {/* =========================================================================
-            HEADER: TITLE & DARK CYBER BADGE
-            ========================================================================= */}
-        <div className="text-center max-w-4xl mx-auto mb-10 sm:mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>2.2 SERVICE UNIVERSE // INTEGRATED TECHNOLOGY ARCHITECTURE</span>
+          <div className="text-center max-w-4xl mx-auto mb-10 sm:mb-14">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>SERVICE UNIVERSE // INTEGRATED TECHNOLOGY ARCHITECTURE</span>
+            </div>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[0.98] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
+              MULTIVERSE <span className="text-[#FFD400]">TECHNOLOGY ARCHITECTURE</span>
+            </h2>
+            <p className="text-xs sm:text-sm md:text-base font-normal mt-3 leading-relaxed text-neutral-300 max-w-2xl mx-auto font-[family-name:var(--font-jakarta)]">
+              Explore our verified enterprise tech stacks and specialized tool ecosystems across Technology, Digital Marketing, Branding &amp; Design, and Media Production. Official brand logos in genuine colors.
+            </p>
           </div>
-          <h2 className="text-3xl sm:text-5xl lg:text-7xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[0.98] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
-            MULTIVERSE <span className="text-[#FFD400]">TECHNOLOGY ARCHITECTURE</span>
-          </h2>
-          <p className="text-xs sm:text-sm md:text-base font-normal mt-3 leading-relaxed text-neutral-300 max-w-2xl mx-auto font-[family-name:var(--font-jakarta)]">
-            Explore our verified enterprise tech stacks and specialized tool ecosystems across Technology, Digital Marketing, Branding &amp; Design, and Media Production. Official brand logos in genuine colors.
-          </p>
-        </div>
 
-        {/* =========================================================================
-            VIEW CONTROLS & SERVICE TABS
-            ========================================================================= */}
-        <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap mb-10">
-          {/* ALL 4 TIERS VIEW BUTTON */}
-          <button
-            type="button"
-            onClick={() => setActiveTab("all")}
-            className={`group inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-mono tracking-wider uppercase transition-all duration-300 cursor-pointer ${
-              activeTab === "all"
-                ? "bg-[#FFD400] text-black font-bold shadow-[0_0_25px_rgba(255,212,0,0.4)]"
-                : "bg-white/[0.04] text-neutral-300 hover:text-white border border-white/10 hover:border-white/30"
-            }`}
-          >
-            <Layers className="w-4 h-4" />
-            <span>ALL 4 SERVICE TIERS (STACKED)</span>
-          </button>
-
-          {/* INDIVIDUAL SERVICE SELECTORS */}
-          {SERVICE_DIVISIONS.map((div) => {
-            const isActive = activeTab === div.id;
-            const Icon = div.icon;
-
-            return (
-              <button
-                key={div.id}
-                type="button"
-                onClick={() => setActiveTab(div.id)}
-                className={`group inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-mono tracking-wider uppercase transition-all duration-300 cursor-pointer ${
-                  isActive
-                    ? "bg-[#0c0e14] text-[#FFD400] border-2 border-[#FFD400] shadow-[0_0_20px_rgba(255,212,0,0.3)] font-bold"
-                    : "bg-white/[0.03] text-neutral-400 hover:text-white border border-white/10 hover:border-white/30"
-                }`}
-              >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? "text-[#FFD400]" : "text-neutral-400"}`} />
-                <span>{div.serviceName}</span>
-                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/10 text-neutral-300">
-                  {div.tools.length}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* =========================================================================
-            COMPLETE 4-SERVICE ECOSYSTEM MATRIX:
-            SHOWS ALL 4 SERVICE NAMES + ALL TOOL LOGOS IN ACTUAL COLOR (NO TEXT NAMES)
-            ========================================================================= */}
-        <div className="space-y-8">
-          <div
-            className={`grid gap-6 sm:gap-8 ${
-              activeTab === "all"
-                ? "grid-cols-1 lg:grid-cols-2"
-                : "grid-cols-1 max-w-4xl mx-auto"
-            }`}
-          >
-            {displayedDivisions.map((division) => {
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+            {SERVICE_DIVISIONS.map((division) => {
               const Icon = division.icon;
 
               return (
                 <div
                   key={division.id}
-                  className={`relative rounded-3xl p-6 sm:p-8 bg-[#0c0e14] border transition-colors duration-300 shadow-xl transform-gpu [backface-visibility:hidden] ${
-                    activeTab === division.id
-                      ? "border-[#FFD400]/70 shadow-[0_0_35px_rgba(255,212,0,0.18)]"
-                      : "border-white/10 hover:border-white/30"
-                  }`}
+                  className="relative rounded-3xl p-6 sm:p-8 bg-[#0c0e14] border border-white/10 hover:border-white/30 transition-colors duration-300 shadow-xl"
                 >
-                  {/* SERVICE NAME HEADER */}
                   <div className="flex items-center justify-between gap-4 pb-4 mb-6 border-b border-white/10">
                     <div className="flex items-center gap-3">
                       <div
@@ -722,78 +1052,33 @@ export default function ServiceUniverseSection() {
                         >
                           DIVISION 0{division.tierNumber} // ACTIVE ECOSYSTEM
                         </span>
-                        {/* PROMINENT SERVICE NAME */}
-                        <Link
-                          href={division.id === "technology-solutions" ? "/technology-solution" : `/services#${division.id}`}
-                          prefetch={false}
-                          className="group/techlink flex items-center gap-2 hover:text-[#FFD400] transition-colors"
-                        >
-                          <h3 className="text-xl sm:text-2xl font-bold text-white group-hover/techlink:text-[#FFD400] tracking-tight uppercase font-[family-name:var(--font-syne)] transition-colors">
-                            {division.serviceName}
-                          </h3>
-                          <ArrowUpRight className="w-4 h-4 text-[#FFD400] group-hover/techlink:translate-x-0.5 group-hover/techlink:-translate-y-0.5 transition-transform" />
-                        </Link>
+                        <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight uppercase font-[family-name:var(--font-syne)]">
+                          {division.serviceName}
+                        </h3>
                       </div>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <Link
-                        href={division.id === "technology-solutions" ? "/technology-solution" : `/services#${division.id}`}
-                        prefetch={false}
-                        className="hidden sm:inline-flex items-center gap-1 text-[11px] font-mono px-3 py-1 rounded-full bg-[#FFD400]/15 text-[#FFD400] border border-[#FFD400]/30 hover:bg-[#FFD400] hover:text-black transition-all"
-                      >
-                        <span>Explore Category</span>
-                        <ArrowUpRight className="w-3 h-3" />
-                      </Link>
-                      <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-black/60 text-white border border-white/10">
-                        {division.tools.length} Logos
-                      </span>
                     </div>
                   </div>
 
-                  {/* LOGOS ONLY - ACTUAL OFFICIAL BRAND COLORS - NO NAMES */}
                   <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 sm:gap-3.5">
                     {division.tools.map((t) => (
                       <div
                         key={t.id}
-                        className="group relative aspect-square rounded-2xl bg-white/[0.04] hover:bg-white/[0.09] border border-white/15 hover:border-[#FFD400]/70 flex flex-col items-center justify-center p-3 transition-transform duration-200 hover:scale-105 shadow-md hover:shadow-[0_0_20px_rgba(255,212,0,0.2)] cursor-default transform-gpu [backface-visibility:hidden]"
+                        className="group relative aspect-square rounded-2xl bg-white/[0.04] hover:bg-white/[0.09] border border-white/15 hover:border-[#FFD400]/70 flex flex-col items-center justify-center p-3 transition-transform duration-200 hover:scale-105 shadow-md hover:shadow-[0_0_20px_rgba(255,212,0,0.2)] cursor-default"
                         title={t.name}
                       >
-                        {/* ACTUAL BRAND LOGO IN FULL OFFICIAL COLOR */}
                         <div className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center">
-                          <FullColorToolLogo
-                            name={t.name}
-                            className="w-full h-full object-contain"
-                          />
+                          <FullColorToolLogo name={t.name} className="w-full h-full object-contain" />
                         </div>
-
-                        {/* Floating tooltip on hover */}
                         <div className="absolute -top-9 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none px-2.5 py-1 rounded-md bg-black/95 border border-white/20 text-[11px] font-mono text-white whitespace-nowrap z-30 shadow-2xl">
                           <span className="text-[#FFD400] font-bold">{t.name}</span>
                         </div>
                       </div>
                     ))}
                   </div>
-
-                  {/* Bottom selection prompt */}
-                  <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono">
-                    <span className="text-neutral-400">{division.tagline}</span>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setActiveTab(activeTab === division.id ? "all" : division.id)
-                      }
-                      className="flex items-center gap-1 font-bold hover:underline cursor-pointer"
-                      style={{ color: division.accentGlow }}
-                    >
-                      {activeTab === division.id ? "SHOW ALL TIERS" : "FOCUS THIS TIER →"}
-                    </button>
-                  </div>
                 </div>
               );
             })}
           </div>
-        </div>
         </div>
       </div>
     </section>

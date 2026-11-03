@@ -23,98 +23,79 @@ export default function ServiceCardsSection() {
 
   const services: ServiceItem[] = [
     {
-      id: "webdev",
+      id: "technology",
       number: "01",
-      title: "Web Development & AI Engineering",
-      tagline: "Next-Gen Web Applications & Cloud Infrastructure",
+      title: "Technology Solutions",
+      tagline: "Websites • Applications • Software • E-commerce",
       description:
-        "Scalable enterprise software platforms, high-converting Next.js / React 19 web applications, and responsive AI web builders supported by resilient cloud infrastructure and automated 99.9% uptime SLA.",
+        "We engineer powerful digital experiences and intelligent software built around the way your business works. From responsive website development and custom web applications to mobile apps, enterprise software and eCommerce platforms, we turn complex requirements into seamless digital solutions.",
       heroImage: "/images/weddev.png",
-      slug: "web-development",
-      badge: "100% Responsive",
+      slug: "technology-solutions",
+      badge: "Build smarter. Scale without limits.",
       scope: [
-        "Next.js 15 & React 19 Architecture",
-        "Autonomous AI WebBuilder Tools",
-        "Cloud & Server Infrastructure Setup",
-        "Database Auto-Backup & 99.9% Uptime",
-        "PageSpeed & Core Web Vitals 90+",
-        "Full-Stack Scalable GraphQL / REST APIs",
-      ],
-    },
-    {
-      id: "seo",
-      number: "02",
-      title: "SEO Intelligence & Dominance",
-      tagline: "Organic Traffic Growth & Technical Backlink Architecture",
-      description:
-        "Data-engineered search engine dominance. We transform organic channels into high-velocity customer acquisition engines through real-time keyword analytics, crawl speed audits, and high-authority backlink graph architecture.",
-      heroImage: "/images/seoupdate.png",
-      slug: "seo-intelligence",
-      badge: "100% Organic-Driven",
-      scope: [
-        "Real-Time Organic Search Analytics",
-        "Technical Site Audits & Crawl Health",
-        "High-Authority Backlink Graph Networks",
-        "Mobile SERP Rank Preview & Dominance",
-        "On-Page Optimization & Semantic Meta",
-        "Competitor Domain & Keyword Intelligence",
+        "Website Development Services",
+        "Web App Development Services",
+        "Mobile App Development",
+        "Custom Software Development",
+        "Ecommerce Website Development",
+        "Cloud Infrastructure & DevOps",
       ],
     },
     {
       id: "marketing",
-      number: "03",
-      title: "Digital Marketing & Performance Ads",
-      tagline: "High-ROI Funnels, Performance Ads & Conversion Engines",
+      number: "02",
+      title: "Digital Marketing",
+      tagline: "SEO • Social Media • Paid Advertising • Content",
       description:
-        "Precision-targeted paid advertising across Meta, Google, and programmatic video networks. Engineered to lower customer acquisition costs (CAC) and deliver compounding 8x+ return on ad spend (ROAS).",
+        "We turn digital visibility into meaningful business opportunities. Through strategic SEO, social media marketing, performance-driven paid advertising and compelling content, we help brands reach the right audience, strengthen engagement and generate measurable growth.",
       heroImage: "/images/digi_market.png",
       slug: "digital-marketing",
-      badge: "8.04x ROAS",
+      badge: "Get noticed. Get chosen. Grow faster.",
       scope: [
-        "High-ROI Meta, Google & TikTok Paid Ads",
-        "Campaign Funnel & ROI Infrastructure",
-        "Real-Time ROAS & Ad Spend Telemetry",
-        "High-Converting Dynamic Creative Ad Assets",
-        "Omnichannel Social & Display Targeting",
-        "Automated Attribution & Funnel Analytics",
+        "Digital Marketing Services",
+        "SEO Services",
+        "Social Media Marketing Services",
+        "Performance Marketing Services",
+        "Google Ads Services",
+        "Content Marketing & Strategy",
       ],
     },
     {
-      id: "social",
-      number: "04",
-      title: "Social Media Marketing & Growth",
-      tagline: "Viral Multi-Platform Campaigns & Community Amplification",
+      id: "branding",
+      number: "03",
+      title: "Branding & Design",
+      tagline: "Brand Identity • Graphic Design • Marketing Collateral",
       description:
-        "Transform brand channels into high-engagement growth drivers. From algorithm-optimized short-form video storytelling to automated scheduling and verified audience acquisition across Instagram, TikTok, and LinkedIn.",
-      heroImage: "/images/social.png",
-      slug: "social-media-marketing",
-      badge: "100% Engagement-Driven",
-      scope: [
-        "Multi-Platform Post Preview & Scheduling",
-        "Viral Short-Form Reels, TikTok & Shorts",
-        "Engagement Analytics & Audience Telemetry",
-        "Social Media Campaign Architecture",
-        "Brand Awareness & Product Reveal Launch Ops",
-        "High-Converting Organic Community Building",
-      ],
-    },
-    {
-      id: "content",
-      number: "05",
-      title: "Content Creation & Editorial Strategy",
-      tagline: "SEO-Driven Copywriting & Multi-Format Publications",
-      description:
-        "Authority-building digital publications, tone-calibrated commercial copywriting, and multi-format editorial pipelines designed for sustained reader engagement, brand trust, and search dominance.",
+        "We transform business identities into memorable brand experiences. From distinctive brand identity design and creative graphic design to impactful marketing collateral, we create visual systems that communicate your value, build recognition and leave a lasting impression.",
       heroImage: "/images/contet.png",
-      slug: "content-creation",
-      badge: "100% SEO & Tone-Driven",
+      slug: "branding-design",
+      badge: "Make your brand impossible to overlook.",
       scope: [
-        "Tone-Calibrated Commercial Copywriting",
-        "Multi-Format Draft & Document Previews",
-        "Resource Hub & Topic Cluster Mapping",
-        "Editorial Review & Quality Assurance",
-        "Content Deployment & Editorial Calendar Sync",
-        "Executive Thought Leadership & Op-Eds",
+        "Branding Services",
+        "Brand Identity Design",
+        "Graphic Design Services",
+        "Logo Design Services",
+        "Marketing Collateral Design",
+        "Visual Systems & Guidelines",
+      ],
+    },
+    {
+      id: "media",
+      number: "04",
+      title: "Media Production",
+      tagline: "Videography • Photography • Editing • Creative Production",
+      description:
+        "We bring ideas to life through compelling visual storytelling. From professional photography and cinematic videography to video editing and creative media production, we create engaging visual content that connects brands with audiences and makes every story count.",
+      heroImage: "/images/social.png",
+      slug: "media-production",
+      badge: "Capture attention. Create experiences. Tell stories.",
+      scope: [
+        "Video Production Services",
+        "Photography Services",
+        "Media Production",
+        "Product Photography Services",
+        "Video Editing & Post-Production",
+        "Creative Content Production",
       ],
     },
   ];
@@ -135,28 +116,29 @@ export default function ServiceCardsSection() {
           <div className="border-b border-white/10 pb-8 sm:pb-10">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4">
               <Globe2 className="w-3.5 h-3.5" />
-              <span>SERVICE UNIVERSE // INTEGRATED CAPABILITIES</span>
+              <span>THE RND ECOSYSTEM // OUR EXPERTISE</span>
             </div>
 
-            <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-[68px] font-[family-name:var(--font-syne)] text-white font-bold tracking-tight leading-[1.05] uppercase select-none">
-              ENGINEERED SOLUTIONS &amp;{" "}
+            <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-[58px] xl:text-[64px] font-[family-name:var(--font-syne)] text-white font-bold tracking-tight leading-[1.08] uppercase select-none">
+              IDEAS INTO IMPACT.{" "}
+              <br className="hidden sm:block" />
+              STRATEGY INTO{" "}
               <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.35)]">
-                SERVICES.
+                SOLUTIONS.
+              </span>{" "}
+              <br className="hidden sm:block" />
+              <span className="text-white/90">
+                FOUR PILLARS. ONE DIGITAL PARTNER.
               </span>
             </h2>
 
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pt-6 sm:pt-8">
-              <div className="space-y-1.5 max-w-lg">
-                <p className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-[#FFD400] font-mono">
-                  Expertise &amp; Architectural Disciplines
-                </p>
-                <p className="text-sm sm:text-base text-neutral-400 leading-relaxed font-light font-[family-name:var(--font-jakarta)]">
-                  Hover over any discipline to explore scope and reveal its corresponding architectural visual.
-                </p>
-              </div>
+              <p className="text-sm sm:text-base text-neutral-400 leading-relaxed font-light font-[family-name:var(--font-jakarta)] max-w-2xl">
+                From building powerful digital platforms to creating brands that stand out, RND Technosoft brings technology, marketing, design and media together to help businesses move forward.
+              </p>
 
               <CyberButton href="/services" size="md">
-                EXPLORE ALL SERVICES
+                EXPLORE ALL RND ECOSYSTEM →
               </CyberButton>
             </div>
           </div>

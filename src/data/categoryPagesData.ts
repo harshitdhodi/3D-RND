@@ -48,8 +48,8 @@ export interface CategoryPageData {
 export const categoryPagesData: Record<string, CategoryPageData> = {
   "technology-solution": {
     slug: "technology-solution",
-    bannerTitle: "TECHNOLOGY SOLUTIONS",
-    bannerSubtitle: "ENTERPRISE ENGINEERING & CLOUD PLATFORMS",
+    bannerTitle: "TECHNOLOGY",
+    bannerSubtitle: "SOLUTIONS",
     bannerImage: "/banner/technology.png",
     breadcrumb: "Technology Solutions",
     divisionLabel: "SERVICE CATEGORY // DIVISION 01",

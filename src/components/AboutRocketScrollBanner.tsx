@@ -192,19 +192,20 @@ export default function AboutRocketScrollBanner({
       const p = Math.max(0, Math.min(1, currentScroll / totalScroll));
       setScrollProgress(p);
 
-      // Rocket Flight & Freeze Curve:
-      // Active flight scrubbing takes place during 0.00 to 0.60
-      // - 0.00 to 0.18: Rocket speeds from left to right (Frame 1 to 125)
-      // - 0.18 to 0.60: Rocket settles on right side, astronaut turns and waves (Frame 125 to 240)
-      // - 0.60 to 1.00: Section remains pinned and FROZEN on frame 240, while next section overlaps it!
+      // Rocket Flight, Settle & Generous Scroll Delay Curve:
+      // Active flight scrubbing takes place during 0.00 to 0.35:
+      // - 0.00 to 0.14: Rocket speeds from left to right (Frame 1 to 125)
+      // - 0.14 to 0.35: Rocket settles on right side, astronaut turns and waves (Frame 125 to 240)
+      // - 0.35 to 0.69: EXTENDED SCROLL DELAY - Section stays pinned and frozen at frame 240 with full text & interactive buttons
+      // - 0.69 to 1.00: Next component smoothly slides up and overlaps this section
       let calculatedFrame = 1;
-      if (p <= 0.18) {
-        calculatedFrame = Math.round(1 + (p / 0.18) * 124);
-      } else if (p <= 0.60) {
-        const remainingP = (p - 0.18) / (0.60 - 0.18);
+      if (p <= 0.14) {
+        calculatedFrame = Math.round(1 + (p / 0.14) * 124);
+      } else if (p <= 0.35) {
+        const remainingP = (p - 0.14) / (0.35 - 0.14);
         calculatedFrame = Math.round(125 + remainingP * (totalFrames - 125));
       } else {
-        // Frozen phase
+        // Frozen delay phase before next section overlaps
         calculatedFrame = totalFrames;
       }
 
@@ -231,8 +232,8 @@ export default function AboutRocketScrollBanner({
     return () => cancelAnimationFrame(animId);
   }, [damping, drawFrame]);
 
-  // Trigger when rocket arrives on the right (~16% of scroll track)
-  const isRocketPassed = scrollProgress >= 0.16;
+  // Trigger when rocket arrives on the right (~12% of scroll track)
+  const isRocketPassed = scrollProgress >= 0.12;
 
   // 1. TYPEWRITER EFFECT FOR SECTION HEADING
   useEffect(() => {
@@ -302,8 +303,8 @@ export default function AboutRocketScrollBanner({
     <section
       id="about-us-scroll-experience"
       ref={containerRef}
-      className="relative w-full h-[280vh] bg-transparent text-white selection:bg-[#FFD400] selection:text-black z-20"
-      style={{ contain: "paint" }}
+      className="relative w-full h-[420vh] bg-transparent text-white selection:bg-[#FFD400] selection:text-black z-20"
+      style={{ contain: "paint", minHeight: "420vh" }}
     >
       {/* Sticky Fullscreen Stage (Stays pinned & freezes while next section overlaps) */}
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center will-change-transform">

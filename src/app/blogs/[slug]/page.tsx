@@ -1,11 +1,13 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getBlogById, blogsData } from "@/data/blogsData";
+import { fetchInsightBySlug, fetchInsightsArticles } from "@/lib/cms";
 import InsightDetailView from "@/components/InsightDetailView";
 
-// Force static generation for all known routes
-export const dynamic = 'force-static';
-export const dynamicParams = false;
+// Allow dynamic params with revalidation
+export const dynamic = 'auto';
+export const dynamicParams = true;
+export const revalidate = 60;
 
 export function generateStaticParams() {
   return blogsData.map((b) => ({
@@ -19,7 +21,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const blog = getBlogById(slug);
+  const blog = (await fetchInsightBySlug(slug)) || getBlogById(slug);
   if (!blog) {
     return {
       title: "Article Not Found | RnD Technosoft",
@@ -37,21 +39,22 @@ export default async function BlogDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const blog = getBlogById(slug);
+  const blog = (await fetchInsightBySlug(slug)) || getBlogById(slug);
 
   if (!blog) {
     notFound();
   }
 
-  const currentIndex = blogsData.findIndex((b) => b.id === blog.id);
-  const prevBlog = currentIndex > 0 ? blogsData[currentIndex - 1] : null;
+  const allArticles = (await fetchInsightsArticles()) || blogsData;
+  const currentIndex = allArticles.findIndex((b) => b.id === blog.id);
+  const prevBlog = currentIndex > 0 ? allArticles[currentIndex - 1] : null;
   const nextBlog =
-    currentIndex < blogsData.length - 1 ? blogsData[currentIndex + 1] : null;
+    currentIndex < allArticles.length - 1 ? allArticles[currentIndex + 1] : null;
 
   return (
     <InsightDetailView
       article={blog}
-      allArticles={blogsData}
+      allArticles={allArticles}
       prevArticle={prevBlog}
       nextArticle={nextBlog}
     />

@@ -83,7 +83,7 @@ export default function ResultsTrustSection() {
               <span className="text-4xl sm:text-5xl lg:text-6xl font-mono font-bold text-[#FFD400] block mb-2">
                 {m.value}
               </span>
-              <h3 className="text-sm sm:text-base font-bold text-white mb-1">
+              <h3 className="text-sm sm:text-base font-bold font-[family-name:var(--font-syne)] text-white mb-1">
                 {m.label}
               </h3>
               <span className="text-xs font-mono text-white/45">
@@ -135,7 +135,7 @@ export default function ResultsTrustSection() {
                   className="w-12 h-12 rounded-full object-cover border border-[#FFD400]/50"
                 />
                 <div>
-                  <h4 className="text-base font-bold text-white group-hover:text-[#FFD400] transition-colors">
+                  <h4 className="text-base font-bold font-[family-name:var(--font-syne)] text-white group-hover:text-[#FFD400] transition-colors">
                     {t.author}
                   </h4>
                   <span className="text-xs font-mono text-white/50 block">

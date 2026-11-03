@@ -265,7 +265,7 @@ export default function HeroSection() {
 
           {/* INITIAL INTRO TEXT (Fades out completely on scroll - No text during scroll) */}
           <div
-            className={`absolute inset-0 flex flex-col justify-between select-none z-10 px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 py-16 sm:py-20 w-full max-w-[1920px] mx-auto transition-all duration-500 ease-out ${
+            className={`absolute inset-0 flex flex-col justify-between select-none z-10 px-3 sm:px-6 md:px-8 lg:px-10 xl:px-12 py-16 sm:py-20 w-full max-w-[1920px] mx-auto transition-all duration-500 ease-out ${
               scrollProgress <= 0.01
                 ? "opacity-100 scale-100 pointer-events-auto"
                 : "opacity-0 scale-95 pointer-events-none"
@@ -279,31 +279,31 @@ export default function HeroSection() {
               </div>
             </div> */}
 
-            {/* Middle: Grand Split Title */}
-            <div className="flex items-end justify-between w-full my-auto pointer-events-none translate-y-[110%]">
+            {/* Middle: Grand Split Title - Positioned on left side of astronaut & right side of laptop */}
+            <div className="flex items-end justify-between w-full my-auto pointer-events-none translate-y-[135%] sm:translate-y-[142%] md:translate-y-[148%] lg:translate-y-[155%] xl:translate-y-[170%] px-1 sm:px-2 md:px-3">
               <div className="flex items-center justify-start z-10">
-                <h1
+                <h2
                   data-no-gsap
                   style={{
                     textShadow:
                       "0 4px 15px rgba(0, 0, 0, 0.95), 0 12px 40px rgba(0, 0, 0, 0.9), 0 2px 4px rgba(0, 0, 0, 0.95)",
                   }}
-                  className="text-[#ffd400] text-[9vw] sm:text-[7.5vw] md:text-[6.5vw] lg:text-[85px] xl:text-[110px] 2xl:text-[130px] font-[family-name:var(--font-syne)] font-bold tracking-tight leading-none uppercase select-none drop-shadow-[0_15px_40px_rgba(0,0,0,0.9)] whitespace-nowrap"
+                  className="text-[#ffd400] text-[6.8vw] sm:text-[5.8vw] md:text-[4.8vw] lg:text-[62px] xl:text-[6rem] 2xl:text-[90px] font-[family-name:var(--font-archia)] font-light tracking-tight leading-none uppercase select-none drop-shadow-[0_15px_40px_rgba(0,0,0,0.9)] whitespace-nowrap"
                 >
                   DIGITAL
-                </h1>
+                </h2>
               </div>
               <div className="flex items-center justify-end z-10">
-                <h1
+                <h2
                   data-no-gsap
                   style={{
                     textShadow:
                       "0 4px 15px rgba(0, 0, 0, 0.95), 0 12px 40px rgba(0, 0, 0, 0.9), 0 2px 4px rgba(0, 0, 0, 0.95)",
                   }}
-                  className="text-[#ffd400] text-[9vw] sm:text-[7.5vw] md:text-[6.5vw] lg:text-[85px] xl:text-[110px] 2xl:text-[130px] font-[family-name:var(--font-syne)] font-bold tracking-tight leading-none uppercase select-none drop-shadow-[0_15px_40px_rgba(0,0,0,0.9)] whitespace-nowrap text-right"
+                  className="text-[#ffd400] text-[6.8vw] sm:text-[5.8vw] md:text-[4.8vw] lg:text-[62px] xl:text-[6rem] 2xl:text-[90px] font-[family-name:var(--font-archia)] font-light tracking-tight leading-none uppercase select-none drop-shadow-[0_15px_40px_rgba(0,0,0,0.9)] whitespace-nowrap text-right"
                 >
                   AGENCY
-                </h1>
+                </h2>
               </div>
             </div>
 

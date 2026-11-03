@@ -223,7 +223,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto flex items-center justify-between relative">
         {/* Brand Logo in crisp white pill capsule */}
         <a href="/" className="flex items-center gap-3 group">
-          <div className="px-3  rounded-xl transition-all flex items-center">
+          <div className="pr-3 rounded-xl transition-all flex items-center">
             <img
               src="/logo.svg"
               alt="RND Technosoft Logo"

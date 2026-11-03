@@ -21,24 +21,56 @@ import CursorGlow from "@/components/CursorGlow";
 import PrintRevealImage from "@/components/PrintRevealImage";
 import WaveText from "@/components/WaveText";
 import { blogsData, BlogDetail } from "@/data/blogsData";
-
-const categories = [
-  "All",
-  "Spatial 3D & E-Commerce",
-  "Mobile Engineering",
-  "Cloud & Web Architecture",
-  "Technical SEO & Growth",
-  "Agile Architecture",
-  "Brand & Media",
-];
+import {
+  fetchInsightsBanner,
+  fetchInsightsBriefing,
+  fetchInsightsCategories,
+  fetchInsightsArticles,
+  DEFAULT_BANNER,
+  DEFAULT_BRIEFING,
+  DEFAULT_CATEGORIES,
+  InsightsBannerData,
+  InsightsBriefingData,
+} from "@/lib/cms";
 
 export default function InsightsPage() {
   const pageRef = useRef<HTMLDivElement>(null);
+  const [categories, setCategories] = useState<string[]>(DEFAULT_CATEGORIES);
+  const [articles, setArticles] = useState<BlogDetail[]>(blogsData);
+  const [banner, setBanner] = useState<InsightsBannerData>(DEFAULT_BANNER);
+  const [briefing, setBriefing] = useState<InsightsBriefingData>(DEFAULT_BRIEFING);
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Fetch dynamic CMS data on mount
+  useEffect(() => {
+    let isMounted = true;
+    async function loadDynamicContent() {
+      try {
+        const [dynBanner, dynBriefing, dynCategories, dynArticles] = await Promise.all([
+          fetchInsightsBanner(),
+          fetchInsightsBriefing(),
+          fetchInsightsCategories(),
+          fetchInsightsArticles(),
+        ]);
+        if (isMounted) {
+          if (dynBanner) setBanner(dynBanner);
+          if (dynBriefing) setBriefing(dynBriefing);
+          if (dynCategories && dynCategories.length > 0) setCategories(dynCategories);
+          if (dynArticles && dynArticles.length > 0) setArticles(dynArticles);
+        }
+      } catch (err) {
+        console.warn("Failed to load dynamic CMS data for insights:", err);
+      }
+    }
+    loadDynamicContent();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const filteredArticles = useMemo(() => {
-    return blogsData.filter((item) => {
+    return articles.filter((item) => {
       const matchesCategory =
         activeCategory === "All" ||
         item.category.toLowerCase().includes(activeCategory.toLowerCase()) ||
@@ -52,10 +84,10 @@ export default function InsightsPage() {
 
       return matchesCategory && matchesSearch;
     });
-  }, [activeCategory, searchQuery]);
+  }, [articles, activeCategory, searchQuery]);
 
-  // Featured article is the first matching article or spatial-3d-conversion
-  const featuredArticle = filteredArticles[0] || blogsData[0];
+  // Featured article is the first matching article or first item in articles
+  const featuredArticle = filteredArticles[0] || articles[0];
   const gridArticles = filteredArticles.slice(1);
 
   // GSAP Scroll Animations (Repeats each time on top-to-bottom scroll)
@@ -189,9 +221,9 @@ export default function InsightsPage() {
 
       {/* Page Banner with Typewriter Title */}
       <PageBanner
-        title="ENGINEERING INSIGHTS"
-        breadcrumb="INSIGHTS"
-        imageSrc="/banner/insights.png"
+        title={banner.title}
+        breadcrumb={banner.breadcrumb}
+        imageSrc={banner.image}
       />
 
       <main className="relative z-20 w-full mt-[50px] rounded-t-[32px] sm:rounded-t-[44px] bg-transparent border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)]">
@@ -416,19 +448,20 @@ export default function InsightsPage() {
             <div className="relative z-10">
               <div className="briefing-anim-item inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase mb-3">
                 <BookOpen className="w-3.5 h-3.5" />
-                <span>FORTNIGHTLY RESEARCH BRIEFING</span>
+                <span>{briefing.badge}</span>
               </div>
               <h2 className="briefing-anim-item text-2xl sm:text-3xl lg:text-4xl font-[family-name:var(--font-syne)] font-bold text-white uppercase tracking-tight mb-2">
-                Stay at the Forefront of Digital Engineering
+                {briefing.heading}
               </h2>
-              <p className="briefing-anim-item text-xs sm:text-sm text-neutral-300 font-light max-w-xl leading-relaxed">
-                Receive curated technical architectures, spatial 3D benchmarks, and performance engineering reports straight to your inbox every two weeks.
-              </p>
+              <div
+                className="briefing-anim-item text-xs sm:text-sm text-neutral-300 font-light max-w-xl leading-relaxed [&>p]:mb-2"
+                dangerouslySetInnerHTML={{ __html: briefing.description }}
+              />
             </div>
 
             <div className="briefing-anim-item relative z-10 shrink-0">
-              <CyberButton href="/#contact" size="lg">
-                SUBSCRIBE TO BRIEFINGS
+              <CyberButton href={briefing.btn_link || "/#contact"} size="lg">
+                {briefing.btn_text || "SUBSCRIBE TO BRIEFINGS"}
               </CyberButton>
             </div>
           </div>

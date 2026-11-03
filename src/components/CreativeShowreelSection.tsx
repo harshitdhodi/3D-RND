@@ -45,7 +45,7 @@ export default function CreativeShowreelSection() {
   return (
     <section id="showreel" className="relative py-28 sm:py-36 bg-transparent text-white overflow-hidden border-t border-white/5">
       {/* Ambient Glow */}
-      <div className="absolute top-1/2 left-1/3 w-[800px] h-[400px] bg-[#FFD400]/5 blur-[180px] rounded-full pointer-events-none" />
+      {/* <div className="absolute top-1/2 left-1/3 w-[800px] h-[400px] bg-[#FFD400]/5 blur-[180px] rounded-full pointer-events-none" /> */}
 
       <div className="relative max-w-7xl mx-auto px-6 sm:px-12">
         {/* Header */}
@@ -111,7 +111,7 @@ export default function CreativeShowreelSection() {
                 <span className="text-xs font-mono text-[#FFD400] tracking-widest uppercase mb-1 block">
                   FEATURED REEL // 2026 EDITION
                 </span>
-                <h3 className="text-2xl sm:text-4xl font-bold text-white tracking-tight">
+                <h3 className="text-2xl sm:text-4xl font-bold font-[family-name:var(--font-syne)] text-white tracking-tight">
                   RnD Creative Studio & Media Reel
                 </h3>
               </div>
@@ -147,7 +147,7 @@ export default function CreativeShowreelSection() {
                 <div className="w-16 h-16 rounded-full bg-[#FFD400] flex items-center justify-center text-black mb-4 animate-pulse">
                   <Play className="w-7 h-7 fill-black ml-1" />
                 </div>
-                <h4 className="text-2xl font-bold text-white mb-2">
+                <h4 className="text-2xl font-bold font-[family-name:var(--font-syne)] text-white mb-2">
                   Streaming 8K Master Cinema Stream...
                 </h4>
                 <p className="text-sm font-mono text-[#FFD400] tracking-wider uppercase">
@@ -158,36 +158,7 @@ export default function CreativeShowreelSection() {
           </div>
         )}
 
-        {/* Additional Selected Showreel Campaigns */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {filtered.map((item) => (
-            <div
-              key={item.id}
-              className="group p-5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.05] border border-white/10 hover:border-[#FFD400]/40 transition-all flex flex-col justify-between"
-            >
-              <div className="relative aspect-video rounded-xl overflow-hidden mb-4 border border-white/5">
-                <img
-                  src={item.thumb}
-                  alt={item.title}
-                  className="w-full h-full object-cover transition-transform group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black/30" />
-                <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-black/80 font-mono text-[10px] text-white/80">
-                  {item.duration}
-                </span>
-                <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-[#FFD400] font-mono text-[10px] text-black font-bold">
-                  {item.type}
-                </span>
-              </div>
-              <h4 className="text-lg font-bold text-white mb-1.5 group-hover:text-[#FFD400] transition-colors">
-                {item.title}
-              </h4>
-              <p className="text-xs text-white/60 leading-relaxed font-light">
-                {item.desc}
-              </p>
-            </div>
-          ))}
-        </div>
+     
       </div>
     </section>
   );

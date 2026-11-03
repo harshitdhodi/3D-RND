@@ -18,6 +18,10 @@ import SpaceBackground from "@/components/SpaceBackground";
 import PageBanner from "@/components/PageBanner";
 import CyberButton from "@/components/CyberButton";
 import ServiceConversionCTA from "@/components/ServiceConversionCTA";
+import CosmicProcessSection from "@/components/CosmicProcessSection";
+import WhyChooseSection from "@/components/WhyChooseSection";
+import ServiceRelatedProjectsSection from "@/components/ServiceRelatedProjectsSection";
+import ServiceUniverseSection from "@/components/ServiceUniverseSection";
 import { CategoryPageData, CategorySubItem } from "@/data/categoryPagesData";
 
 const ICON_MAP = {
@@ -27,14 +31,38 @@ const ICON_MAP = {
   Video,
 };
 
-function SubCategoryCard({ sub, featured }: { sub: CategorySubItem; featured?: boolean }) {
+function getCategoryGridClass(count: number): string {
+  if (count === 1) return "grid grid-cols-1 max-w-2xl mx-auto gap-6 lg:gap-8";
+  if (count === 2) return "grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8";
+  if (count === 3) return "grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8";
+  if (count === 4) return "grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8";
+  if (count === 5) return "grid grid-cols-1 md:grid-cols-6 gap-6 lg:gap-8";
+  return "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8";
+}
+
+function getCategoryItemClass(count: number, index: number): string {
+  if (count === 5) {
+    return index < 3 ? "md:col-span-2" : "md:col-span-3";
+  }
+  return "";
+}
+
+function SubCategoryCard({
+  sub,
+  featured,
+  itemClass = "",
+}: {
+  sub: CategorySubItem;
+  featured?: boolean;
+  itemClass?: string;
+}) {
   return (
     <div
       className={`group relative rounded-3xl overflow-hidden bg-[#0c0e14] border transition-all duration-300 shadow-2xl flex flex-col ${
         featured
-          ? "border-[#FFD400] shadow-[0_0_35px_rgba(255,212,0,0.18)] md:col-span-2 lg:col-span-2"
+          ? "border-[#FFD400] shadow-[0_0_35px_rgba(255,212,0,0.18)]"
           : "border-white/10 hover:border-[#FFD400]/60"
-      }`}
+      } ${itemClass}`}
     >
       {/* Image */}
       <div className="relative w-full h-44 sm:h-48 overflow-hidden bg-[#08090d] shrink-0">
@@ -127,16 +155,10 @@ export default function CategoryPageClient({ data }: { data: CategoryPageData })
 
   const Icon = ICON_MAP[data.iconName] || Code;
 
-  // Technology gets a 3-col grid with featured card; others get 2-col or 3-col
-  const isTech = data.slug === "technology-solution";
-  const gridCols = isTech
-    ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-    : data.subcategories.length <= 2
-    ? "grid-cols-1 md:grid-cols-2"
-    : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
+  const subCount = data.subcategories.length;
 
   return (
-    <div className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black">
+    <div className="relative min-h-screen bg-transparent text-white selection:bg-[#FFD400] selection:text-black">
       <SpaceBackground />
       <Navbar />
 
@@ -148,142 +170,115 @@ export default function CategoryPageClient({ data }: { data: CategoryPageData })
         imageSrc={data.bannerImage}
       />
 
-      <main className="relative z-20 w-full mt-[50px] rounded-t-[32px] sm:rounded-t-[44px] bg-[#050608] border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)] overflow-hidden">
-        {/* ── Sticky Sub-Nav ── */}
-        <div className="border-b border-white/10 bg-[#0c0e14]/95 backdrop-blur-xl sticky top-16 sm:top-20 z-30 shadow-2xl">
-          <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-3 flex items-center justify-between gap-4 overflow-x-auto scrollbar-none">
-            <Link
-              href="/services"
-              className="inline-flex items-center space-x-2 text-xs font-mono uppercase tracking-[0.18em] text-neutral-400 hover:text-[#FFD400] transition-colors shrink-0 group"
-            >
-              <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1.5 transition-transform text-[#FFD400]" />
-              <span>All Services</span>
-            </Link>
-            <CyberButton href="/contact-us" size="sm">
-              GET IN TOUCH
-            </CyberButton>
-          </div>
-        </div>
-
-        {/* ── Overview / Hero ── */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-14 pb-16">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-10 border-b border-white/10">
-            <div className="max-w-4xl space-y-4">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase bg-black/60 border border-[#FFD400]/40 text-[#FFD400] backdrop-blur-md">
-                <Icon className="w-3.5 h-3.5" />
-                <span>{data.divisionLabel}</span>
-              </div>
-              <h1 className="text-3xl sm:text-5xl lg:text-7xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.02] text-white">
-                {data.heroTitle}{" "}
-                <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.45)]">
-                  {data.heroHighlight}
-                </span>
-              </h1>
-              <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed max-w-2xl">
-                {data.heroDesc}
-              </p>
-            </div>
-            <div className="shrink-0">
-              <CyberButton href={data.primaryCtaHref} size="md">
-                {data.primaryCtaLabel}
-              </CyberButton>
-            </div>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-10">
-            {data.stats.map((stat) => (
-              <div
-                key={stat.label}
-                className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-[#FFD400]/50 transition-colors"
-              >
-                <div className="text-3xl sm:text-4xl font-bold font-mono text-[#FFD400]">
-                  {stat.val}
-                </div>
-                <div className="text-xs font-mono text-neutral-200 uppercase tracking-wider mt-1.5">
-                  {stat.label}
-                </div>
-                <div className="text-[11px] text-neutral-400 mt-1">{stat.sub}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-
+      <main className="relative z-20 w-full bg-transparent overflow-hidden">
+        
         {/* ── Sub-Categories Grid ── */}
-        <section className="py-20 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 border-t border-white/10">
-          <div className="mb-12 pb-6 border-b border-white/10">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase text-white">
-              {data.disciplineHeading.split(" ").slice(0, -1).join(" ")}{" "}
-              <span className="text-[#FFD400]">
-                {data.disciplineHeading.split(" ").slice(-1)[0]}
-              </span>
-            </h2>
-            {data.disciplineDesc && (
-              <p className="text-xs sm:text-sm text-neutral-300 font-light mt-2 max-w-2xl">
-                {data.disciplineDesc}
-              </p>
-            )}
-          </div>
+        <section className="w-full px-4 sm:px-8 lg:px-12 py-16 sm:py-20">
+          <div className="max-w-7xl mx-auto">
+            <div className="mb-12 pb-6 border-b border-white/10">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase text-white">
+                {data.disciplineHeading.split(" ").slice(0, -1).join(" ")}{" "}
+                <span className="text-[#FFD400]">
+                  {data.disciplineHeading.split(" ").slice(-1)[0]}
+                </span>
+              </h2>
+              {data.disciplineDesc && (
+                <p className="text-xs sm:text-sm text-neutral-300 font-light mt-2 max-w-2xl">
+                  {data.disciplineDesc}
+                </p>
+              )}
+            </div>
 
-          <div className={`grid ${gridCols} gap-6 lg:gap-8`}>
-            {data.subcategories.map((sub) => (
-              <SubCategoryCard key={sub.href} sub={sub} featured={!!sub.featured} />
-            ))}
+            <div className={getCategoryGridClass(subCount)}>
+              {data.subcategories.map((sub, idx) => (
+                <SubCategoryCard
+                  key={sub.href}
+                  sub={sub}
+                  featured={!!sub.featured}
+                  itemClass={getCategoryItemClass(subCount, idx)}
+                />
+              ))}
+            </div>
           </div>
         </section>
+
+        {/* ── Enterprise Technologies & Tools Architecture ── */}
+        <ServiceUniverseSection categoryFilter={data.slug} />
+
+        {/* ── Related Case Studies Linked to Portfolio ── */}
+        <ServiceRelatedProjectsSection
+          category={data.slug}
+          title={`VERIFIED ${data.bannerTitle} CASE STUDIES`}
+          subtitle={`Explore enterprise projects, client platforms, and architecture case studies engineered within our ${data.bannerTitle} division.`}
+        />
+
+        {/* ── Our Design & Engineering Process ── */}
+        <CosmicProcessSection
+          badge="// OUR DESIGN & DELIVERY PROCESS"
+          stageLabel="// 6-STAGE EXECUTION LIFECYCLE"
+          title="OUR DESIGN & ENGINEERING"
+          highlightTitle="PROCESS"
+        />
+
+        {/* ── Why Team Up With Us ── */}
+        <WhyChooseSection
+          category={data.slug}
+        />
 
         {/* ── FAQs ── */}
-        <section className="py-20 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 border-t border-white/10">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-3xl sm:text-4xl font-[family-name:var(--font-syne)] font-bold uppercase text-white">
-              COMMON <span className="text-[#FFD400]">QUESTIONS</span>
-            </h2>
-          </div>
-          <div className="space-y-3">
-            {data.faqs.map((faq, idx) => {
-              const isOpen = openFaq === idx;
-              return (
-                <div
-                  key={idx}
-                  className={`border transition-all duration-300 ${
-                    isOpen
-                      ? "border-[#FFD400]/50 bg-[#0c0e14]"
-                      : "border-white/10 bg-[#0c0e14] hover:border-[#FFD400]/30"
-                  }`}
-                >
-                  <button
-                    type="button"
-                    onClick={() => setOpenFaq(isOpen ? null : idx)}
-                    className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left group cursor-pointer"
+        <section className="w-full px-4 sm:px-8 lg:px-12 py-20 border-t border-white/10">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center max-w-2xl mx-auto mb-12">
+              <h2 className="text-3xl sm:text-4xl font-[family-name:var(--font-syne)] font-bold uppercase text-white">
+                COMMON <span className="text-[#FFD400]">QUESTIONS</span>
+              </h2>
+            </div>
+            <div className="space-y-3">
+              {data.faqs.map((faq, idx) => {
+                const isOpen = openFaq === idx;
+                return (
+                  <div
+                    key={idx}
+                    className={`border transition-all duration-300 ${
+                      isOpen
+                        ? "border-[#FFD400]/50 bg-[#0c0e14]"
+                        : "border-white/10 bg-[#0c0e14] hover:border-[#FFD400]/30"
+                    }`}
                   >
-                    <div className="flex items-center gap-4">
-                      <span className="text-xs font-mono font-bold text-[#FFD400] shrink-0">
-                        {String(idx + 1).padStart(2, "0")}
-                      </span>
-                      <span className="text-sm sm:text-base font-semibold text-white group-hover:text-[#FFD400] transition-colors">
-                        {faq.q}
-                      </span>
-                    </div>
-                    <ChevronDown
-                      className={`w-5 h-5 shrink-0 transition-transform duration-300 ${
-                        isOpen
-                          ? "rotate-180 text-[#FFD400]"
-                          : "text-neutral-500 group-hover:text-[#FFD400]"
-                      }`}
-                    />
-                  </button>
-                  {isOpen && (
-                    <div className="px-6 pb-6 pt-0">
-                      <div className="ml-10 pl-4 border-l-2 border-[#FFD400]/40">
-                        <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
-                          {faq.a}
-                        </p>
+                    <button
+                      type="button"
+                      onClick={() => setOpenFaq(isOpen ? null : idx)}
+                      className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left group cursor-pointer"
+                    >
+                      <div className="flex items-center gap-4">
+                        <span className="text-xs font-mono font-bold text-[#FFD400] shrink-0">
+                          {String(idx + 1).padStart(2, "0")}
+                        </span>
+                        <span className="text-sm sm:text-base font-semibold text-white group-hover:text-[#FFD400] transition-colors">
+                          {faq.q}
+                        </span>
                       </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+                      <ChevronDown
+                        className={`w-5 h-5 shrink-0 transition-transform duration-300 ${
+                          isOpen
+                            ? "rotate-180 text-[#FFD400]"
+                            : "text-neutral-500 group-hover:text-[#FFD400]"
+                        }`}
+                      />
+                    </button>
+                    {isOpen && (
+                      <div className="px-6 pb-6 pt-0">
+                        <div className="ml-10 pl-4 border-l-2 border-[#FFD400]/40">
+                          <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
+                            {faq.a}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </section>
 

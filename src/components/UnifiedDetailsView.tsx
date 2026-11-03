@@ -42,9 +42,13 @@ import {
 import Navbar from "./Navbar";
 import RnDFooter from "./RnDFooter";
 import SpaceBackground from "./SpaceBackground";
-import BeforeAfterSection, { BeforeAfterData } from "./BeforeAfterSection";
+import type { BeforeAfterData } from "./BeforeAfterSection";
 import PageBanner from "./PageBanner";
 import ServiceConversionCTA from "./ServiceConversionCTA";
+import CosmicProcessSection from "./CosmicProcessSection";
+import WhyChooseSection from "./WhyChooseSection";
+import ServiceRelatedProjectsSection from "./ServiceRelatedProjectsSection";
+import ServiceUniverseSection from "./ServiceUniverseSection";
 
 export interface UnifiedDetailItem {
     id: string;
@@ -106,6 +110,28 @@ function getModuleIcon(index: number) {
     const icons = [Layers, Cpu, Globe, Database, Server, Zap, BarChart3, Lock];
     const IconComp = icons[index % icons.length];
     return <IconComp className="w-5 h-5 text-[#FFD400]" />;
+}
+
+// Adaptive grid layout helper matching exact card count requirements:
+// 2 cards -> 2 cols (cover width)
+// 3 cards -> 3 cols
+// 4 cards -> 2 x 2 grid
+// 5 cards -> 3 in row 1, 2 in row 2 (covering width)
+// 6 cards -> 3 cols (3 x 2 grid)
+function getScopeGridContainerClass(count: number): string {
+    if (count === 1) return "grid grid-cols-1 max-w-2xl mx-auto gap-6";
+    if (count === 2) return "grid grid-cols-1 md:grid-cols-2 gap-6";
+    if (count === 3) return "grid grid-cols-1 md:grid-cols-3 gap-6";
+    if (count === 4) return "grid grid-cols-1 md:grid-cols-2 gap-6";
+    if (count === 5) return "grid grid-cols-1 md:grid-cols-6 gap-6";
+    return "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6";
+}
+
+function getScopeGridItemClass(count: number, index: number): string {
+    if (count === 5) {
+        return index < 3 ? "md:col-span-2" : "md:col-span-3";
+    }
+    return "";
 }
 
 export default function UnifiedDetailsView({
@@ -173,7 +199,9 @@ export default function UnifiedDetailsView({
     ];
 
     const scopeModules =
-        item.scope && item.scope.length >= 4 ? item.scope : defaultScope;
+        item.scope && item.scope.length > 0 ? item.scope : defaultScope;
+    const displayScope = scopeModules.slice(0, 6);
+    const scopeCount = displayScope.length;
 
     // Normalize FAQs
     const faqList = item.faqs && item.faqs.length > 0 ? item.faqs : [
@@ -193,7 +221,7 @@ export default function UnifiedDetailsView({
 
 
     return (
-        <div className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black font-sans">
+        <div className="relative min-h-screen bg-transparent text-white selection:bg-[#FFD400] selection:text-black font-sans">
             {/* Background Galactic Starfield */}
             <SpaceBackground />
 
@@ -206,108 +234,26 @@ export default function UnifiedDetailsView({
                 parentBreadcrumb={{ label: parentLabel, href: parentPath }}
              imageSrc={getCategoryBanner(parentPath, type)} />
 
-            <main className="relative z-20 w-full mt-[50px] rounded-t-[32px] sm:rounded-t-[44px] bg-[#050608] border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)] overflow-hidden">
+            <main className="relative z-20 w-full bg-transparent overflow-hidden">
 
-                {/* =========================================================================
-            2. STICKY SUB-HEADER ACTION BAR (Hidden on Portfolio Details)
-            ========================================================================= */}
-                {type !== "portfolio" && (
-                    <div className="border-b border-white/10 bg-[#0c0e14]/95 backdrop-blur-xl sticky top-16 sm:top-20 z-30 shadow-2xl rounded-t-[32px] sm:rounded-t-[44px]">
-                        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-3.5 flex items-center justify-between">
-                            {/* Left: Back Link */}
-                            <Link
-                                href={parentPath}
-                                prefetch={false}
-                                className="inline-flex items-center space-x-2 text-xs font-mono uppercase tracking-[0.18em] text-neutral-400 hover:text-[#FFD400] transition-colors group"
-                            >
-                                <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1.5 transition-transform text-[#FFD400]" />
-                                <span>All {parentLabel}</span>
-                            </Link>
-
-                            {/* Center: Index & Title Indicator */}
-                            <div className="hidden sm:flex items-center space-x-3 text-xs font-mono uppercase tracking-widest text-neutral-400">
-                                <span className="text-[#FFD400] font-bold">{item.index}</span>
-                                <span>•</span>
-                                <span className="truncate max-w-[320px] text-white">
-                                    {fullTitle}
-                                </span>
-                            </div>
-
-                            {/* Right: Quick Action CTAs */}
-                            <div className="flex items-center space-x-2.5">
-                                <a
-                                    href="#before-after"
-                                    className="hidden sm:inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-neutral-200 text-xs font-mono uppercase tracking-wider transition-all hover:text-[#FFD400] hover:border-[#FFD400]/40 cursor-pointer"
-                                >
-                                    <Sparkles className="w-3 h-3 text-[#FFD400]" />
-                                    <span>Before &amp; After</span>
-                                </a>
-                                <a
-                                    href="#inquire-form"
-                                    className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-[#FFD400] hover:bg-[#ffe34d] text-black text-xs font-mono uppercase tracking-wider font-bold transition-all shadow-[0_0_20px_rgba(255,212,0,0.25)] hover:scale-105 active:scale-95 cursor-pointer"
-                                >
-                                    <span>Book Consultation</span>
-                                    <ArrowUpRight className="w-3.5 h-3.5" />
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                )}
 
                 {/* =========================================================================
             3. MAIN 2-COLUMN SPLIT SECTION (7 Cols Left / 5 Cols Sticky Right)
             ========================================================================= */}
-                <section className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-20 items-start">
+                <section className="w-full px-4 sm:px-8 lg:px-12 py-16 sm:py-24">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-20 items-start">
 
                         {/* Left Column (7 cols): Methodology, Overview, Quote Card & Gallery */}
                         <div className="lg:col-span-7 space-y-8">
-                            {/* Project Intelligence & Specification Matrix (For Portfolio / Case Studies) */}
-                            {(item.client || item.year || item.sla) && (
-                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-md shadow-lg">
-                                    <div className="space-y-1">
-                                        <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block">
-                                            Client Partner
-                                        </span>
-                                        <p className="text-xs sm:text-sm font-bold text-white truncate">
-                                            {item.client || "Enterprise Atelier"}
-                                        </p>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block">
-                                            Release Cycle
-                                        </span>
-                                        <p className="text-xs sm:text-sm font-bold text-[#FFD400] font-mono">
-                                            {item.year || "2026"} // PROD
-                                        </p>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block">
-                                            Discipline
-                                        </span>
-                                        <p className="text-xs sm:text-sm font-bold text-white truncate">
-                                            {item.category}
-                                        </p>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block">
-                                            Performance SLA
-                                        </span>
-                                        <p className="text-xs sm:text-sm font-bold text-emerald-400 font-mono flex items-center gap-1.5">
-                                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-                                            <span className="truncate">{item.sla || "Sub-Second Edge"}</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            )}
-
+                          
                             <div className="space-y-3">
                                 <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono uppercase tracking-[0.2em] font-semibold">
                                     <Sparkles className="w-3.5 h-3.5" />
                                     <span>{item.badge || "Engineering Discipline & Methodology"}</span>
                                 </div>
                                 <h2 className="font-[family-name:var(--font-syne)] text-3xl sm:text-4xl lg:text-5xl text-white font-bold leading-[1.15] uppercase">
-                                    The Architectural Craft Behind{" "}
+                                    {/* The Architectural Craft Behind{" "} */}
                                     <span className="text-[#FFD400]">{fullTitle}</span>
                                 </h2>
                             </div>
@@ -386,7 +332,7 @@ export default function UnifiedDetailsView({
                                     <h3 className="font-[family-name:var(--font-syne)] text-2xl sm:text-3xl text-white font-bold uppercase">
                                         What You Receive
                                     </h3>
-                                    <p className="text-xs text-neutral-300 font-light leading-relaxed">
+                                    <p className="text-md text-neutral-300 font-light leading-relaxed">
                                         Comprehensive architectural documentation, production source
                                         code repositories, and SLA guarantees delivered across every phase.
                                     </p>
@@ -405,7 +351,7 @@ export default function UnifiedDetailsView({
                                                 <div className="w-6 h-6 rounded-full bg-[#FFD400]/20 flex items-center justify-center text-[#FFD400] shrink-0 mt-0.5 group-hover/item:bg-[#FFD400] group-hover/item:text-black transition-colors">
                                                     <CheckCircle2 className="w-4 h-4" />
                                                 </div>
-                                                <span className="text-xs sm:text-sm text-neutral-200 font-light leading-relaxed">
+                                                <span className="text-md sm:text-lg text-neutral-200 font-light leading-relaxed">
                                                     {text}
                                                 </span>
                                             </div>
@@ -423,23 +369,20 @@ export default function UnifiedDetailsView({
                                         <ArrowUpRight className="w-4 h-4" />
                                     </a>
 
-                                    <div className="flex items-center justify-center space-x-2 text-[11px] font-mono text-neutral-400">
-                                        <ShieldCheck className="w-3.5 h-3.5 text-[#FFD400]" />
-                                        <span>Fixed Scope • Zero Cost Overruns • 99.9% SLA</span>
-                                    </div>
+                                    
                                 </div>
                             </div>
 
                             {/* Direct Technical Line Card */}
                             <div className="p-6 rounded-2xl bg-[#0c0e14] border border-white/10 shadow-lg flex items-center justify-between hover:border-[#FFD400]/40 transition-colors">
                                 <div className="space-y-1">
-                                    <span className="text-[10px] font-mono uppercase tracking-widest text-[#FFD400] font-semibold block">
+                                    <span className="text-[14px] font-mono uppercase tracking-widest text-[#FFD400] font-semibold block">
                                         Direct Technical Line
                                     </span>
                                     <h4 className="font-[family-name:var(--font-syne)] text-base sm:text-lg text-white font-bold uppercase">
                                         Speak With Our Lead Architect
                                     </h4>
-                                    <p className="text-xs text-neutral-400 font-mono">
+                                    <p className="text-md text-neutral-400 font-mono">
                                         +91 22 2490 8800 (IST 10:00 – 19:30)
                                     </p>
                                 </div>
@@ -453,25 +396,15 @@ export default function UnifiedDetailsView({
                             </div>
                         </div>
 
+                        </div>
                     </div>
                 </section>
 
                 {/* =========================================================================
-            3.5. ATTRACTIVE INTERACTIVE BEFORE & AFTER TRANSFORMATION SHOWCASE
-            ========================================================================= */}
-                <div id="before-after">
-                    <BeforeAfterSection
-                        data={item.beforeAfter}
-                        type={type}
-                        category={item.category}
-                        title={fullTitle}
-                    />
-                </div>
-
-                {/* =========================================================================
             4. DETAILED SCOPE OF WORKS (3-Column Execution Matrix)
             ========================================================================= */}
-                <section className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 border-t border-white/10">
+                <section className="w-full px-4 sm:px-8 lg:px-12 py-16 border-t border-white/10">
+                    <div className="max-w-7xl mx-auto">
                     <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
                         <span className="text-xs font-mono uppercase tracking-[0.22em] text-[#FFD400] font-semibold">
                             Comprehensive Execution Matrix
@@ -485,11 +418,11 @@ export default function UnifiedDetailsView({
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {scopeModules.slice(0, 6).map((mod, mIdx) => (
+                    <div className={getScopeGridContainerClass(scopeCount)}>
+                        {displayScope.map((mod, mIdx) => (
                             <div
                                 key={mIdx}
-                                className="p-8 rounded-2xl bg-[#0c0e14] border border-white/10 shadow-lg hover:shadow-[0_0_30px_rgba(255,212,0,0.12)] hover:border-[#FFD400]/50 transition-all group flex flex-col justify-between"
+                                className={`p-8 rounded-2xl bg-[#0c0e14] border border-white/10 shadow-lg hover:shadow-[0_0_30px_rgba(255,212,0,0.12)] hover:border-[#FFD400]/50 transition-all group flex flex-col justify-between ${getScopeGridItemClass(scopeCount, mIdx)}`}
                             >
                                 <div className="space-y-4">
                                     <div className="flex items-center justify-between">
@@ -517,13 +450,48 @@ export default function UnifiedDetailsView({
                             </div>
                         ))}
                     </div>
+                    </div>
                 </section>
+
+                {/* =========================================================================
+            4.2. ENTERPRISE TECHNOLOGIES & TOOLS ARCHITECTURE (From Service Universe)
+            ========================================================================= */}
+                <ServiceUniverseSection categoryFilter={item.category} subcategoryId={item.id} />
+
+                {/* =========================================================================
+            4.5. OUR DESIGN & ENGINEERING PROCESS (6-Stage Interactive Staircase)
+            ========================================================================= */}
+                <CosmicProcessSection
+                    badge="// OUR DESIGN & DELIVERY PROCESS"
+                    stageLabel="// 6-STAGE EXECUTION LIFECYCLE"
+                    title="OUR DESIGN & ENGINEERING"
+                    highlightTitle="PROCESS"
+                />
+
+                {/* =========================================================================
+            4.6. WHY TEAM UP WITH US (Proven Engineering Edge & Capabilities)
+            ========================================================================= */}
+                <WhyChooseSection
+                    category={item.category}
+                    serviceId={item.id}
+                />
+
+                {/* =========================================================================
+            4.7. SERVICE-RELATED PORTFOLIO CASE STUDIES
+            ========================================================================= */}
+                <ServiceRelatedProjectsSection
+                    category={item.category}
+                    currentServiceId={item.id}
+                    title={`${item.title} PRODUCTION CASE STUDIES`}
+                    subtitle={`Explore verified live platforms, conversion benchmarks, and architecture blueprints engineered by our squads for ${item.title}.`}
+                />
 
                 {/* =========================================================================
             5. SERVICE CLARIFICATIONS & FAQ ACCORDION (Matching Reference Page)
             ========================================================================= */}
-                <section className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24 border-t border-white/10">
-                    <div className="max-w-3xl mx-auto space-y-8">
+                <section className="w-full px-4 sm:px-8 lg:px-12 py-16 sm:py-24 border-t border-white/10">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="max-w-3xl mx-auto space-y-8">
                         <div className="text-center space-y-3">
                             <span className="text-xs font-mono uppercase tracking-[0.22em] text-[#FFD400] font-semibold">
                                 Service Clarifications &amp; FAQ
@@ -572,12 +540,14 @@ export default function UnifiedDetailsView({
                             })}
                         </div>
                     </div>
+                    </div>
                 </section>
 
                 {/* =========================================================================
             6. PREVIOUS / NEXT NAVIGATION BAR (Matching Reference Page)
             ========================================================================= */}
-                <section className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12 border-t border-white/10">
+                <section className="w-full px-4 sm:px-8 lg:px-12 py-12 border-t border-white/10">
+                    <div className="max-w-7xl mx-auto">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         {prevItem ? (
                             <Link
@@ -629,6 +599,7 @@ export default function UnifiedDetailsView({
                             </div>
                         )}
                     </div>
+                    </div>
                 </section>
 
                 {/* =========================================================================
@@ -647,7 +618,8 @@ export default function UnifiedDetailsView({
             8. RECENT & RELATED DATA SECTION (Matching Reference Page)
             ========================================================================= */}
                 {allServicesOrItems.length > 0 && (
-                    <section className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pb-24 border-t border-white/10 pt-16">
+                    <section className="w-full px-4 sm:px-8 lg:px-12 pb-24 border-t border-white/10 pt-16">
+                        <div className="max-w-7xl mx-auto">
                         <div className="flex flex-col sm:flex-row items-baseline justify-between mb-10 gap-4">
                             <div>
                                 <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#FFD400] font-semibold block mb-1">
@@ -758,6 +730,7 @@ export default function UnifiedDetailsView({
                                 )}
                             </div>
                         )}
+                        </div>
                     </section>
                 )}
             </main>

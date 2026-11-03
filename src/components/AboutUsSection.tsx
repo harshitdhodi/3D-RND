@@ -104,13 +104,13 @@ export default function AboutUsSection() {
       highlight: "Cloud & Web",
     },
     {
-      numericValue: 99.9,
-      decimals: 1,
-      suffix: "%",
-      label: "CLOUD",
-      subLabel: "UPTIME",
+      numericValue: 8,
+      decimals: 0,
+      suffix: "+",
+      label: "Years of",
+      subLabel: "Driving Growth",
       highlight: "SLA Guaranteed",
-    },
+    }, 
     {
       numericValue: 60,
       decimals: 0,
@@ -212,15 +212,7 @@ export default function AboutUsSection() {
         <div className="absolute bottom-0 inset-x-0 h-28 bg-gradient-to-t from-[#04060b] to-transparent z-[3] pointer-events-none" />
       </div>
 
-      {/* ----------------- TOP-RIGHT SCI-FI TELEMETRY BADGE ----------------- */}
-      <div className="absolute top-6 right-6 sm:top-10 sm:right-12 z-20 hidden md:flex flex-col items-center pointer-events-none text-right">
-        <span className="text-[10px] text-neutral-500 font-mono select-none">^</span>
-        <span className="text-[10px] sm:text-[11px] font-mono tracking-[0.25em] text-[#FFD400] uppercase my-0.5">
-          &quot;ACTIVE WORKSTATION // ORBITAL LINK&quot;
-        </span>
-        <div className="w-[1px] h-6 bg-gradient-to-b from-[#FFD400]/60 to-transparent my-1" />
-        <span className="text-[10px] text-neutral-500 font-mono select-none">v</span>
-      </div>
+  
 
       {/* ----------------- MAIN ABOUT US CONTENT (LEFT-ALIGNED OVER BACKGROUND) ----------------- */}
       <div className="relative z-10 max-w-7xl mx-auto w-full">
@@ -232,27 +224,31 @@ export default function AboutUsSection() {
             {/* Category Indicator Tag */}
             <div>
               <div className="inline-flex items-center gap-3 text-xs font-mono font-medium tracking-[0.25em] text-neutral-400 uppercase mb-4">
-                <span className="text-white font-bold">01</span>
+               
                 <span className="w-6 h-[1px] bg-[#FFD400]" />
-                <span className="text-[#FFD400] tracking-[0.3em]">ABOUT US</span>
+                <span className="text-[#FFD400] tracking-[0.3em]">Who We Are</span>
               </div>
 
               {/* Primary Headline with Undulating Wave Animation */}
               <h2
                 ref={headlineRef}
                 data-no-gsap
-                className="text-3xl sm:text-4xl lg:text-5xl xl:text-[54px] font-bold text-white tracking-tight leading-[1.15] font-[family-name:var(--font-syne)] mb-5 uppercase"
-              >
-                <WaveText text="Engineering " delayOffset={0} />
+                className="text-3xl sm:text-4xl lg:text-5xl xl:text-[54px] font-light text-white tracking-tight leading-[1.15] font-[family-name:var(--font-archia)] mb-5"
+              >  
+                <WaveText text="THINK BIGGER. " delayOffset={0} />
                 <br className="hidden sm:inline" />
-                <WaveText text="the Next Era " delayOffset={12} />
+                <WaveText text="BUILD SMARTER." delayOffset={12} />
                 <br className="hidden sm:inline" />
-                <WaveText text="of Digital." delayOffset={25} />
+                <WaveText text="GO FURTHER." delayOffset={25} />
               </h2>
 
               {/* Body Paragraph */}
+              <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed mb-4">
+                <strong className="text-white font-medium">RND Technosoft</strong> is where technology meets creativity and innovation turns into measurable business progress. We bring together web and app development, custom software solutions, digital marketing, branding and media production to help businesses build, evolve and compete in a rapidly changing digital world.
+              </p>
+              
               <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed">
-                <strong className="text-white font-medium">RnD Technosoft</strong> is an integrated digital innovation lab architecting scalable cloud platforms, custom web applications, and AI-driven solutions. We unite <span className="text-[#FFD400]">Technology</span>, <span className="text-[#FFD400]">Digital Marketing</span>, <span className="text-[#FFD400]">Branding &amp; Design</span>, and <span className="text-[#FFD400]">Media Production</span> into one cohesive delivery engine.
+                From developing intelligent digital solutions to creating powerful brand experiences, we combine strategic thinking, technical expertise and creative execution to turn ambitious ideas into meaningful outcomes.
               </p>
             </div>
 
@@ -288,7 +284,7 @@ export default function AboutUsSection() {
             {/* ----------------- ATTRACTIVE "EXPLORE MORE" ACTION BUTTON ----------------- */}
             <div className="pt-3">
               <CyberButton href="/services" size="lg">
-                EXPLORE MORE
+                 EXPLORE OUR STORY
               </CyberButton>
             </div>
 

@@ -99,7 +99,7 @@ export default function InsightsSection() {
                   </span>
                 </div>
 
-                <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 group-hover:text-[#FFD400] transition-colors leading-tight">
+                <h3 className="text-xl sm:text-2xl font-bold font-[family-name:var(--font-syne)] text-white mb-3 group-hover:text-[#FFD400] transition-colors leading-tight">
                   {art.title}
                 </h3>
 

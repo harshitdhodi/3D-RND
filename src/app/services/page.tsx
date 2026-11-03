@@ -105,7 +105,7 @@ export default function ServicesPage() {
   }, [activeCategory, searchQuery]);
 
   return (
-    <div className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black">
+    <div className="relative min-h-screen bg-transparent text-white selection:bg-[#FFD400] selection:text-black">
       {/* Background Starfield Canvas */}
       <SpaceBackground />
 
@@ -121,7 +121,17 @@ export default function ServicesPage() {
         imageSrc="/banner/service.png"
       />
 
-      <main className="relative z-20 w-full mt-[50px] rounded-t-[32px] sm:rounded-t-[44px] bg-[#050608]/90 backdrop-blur-xl border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)] overflow-hidden">
+      <main className="relative z-20 w-full mt-[50px]   shadow-[0_-25px_60px_rgba(0,0,0,0.85)] overflow-hidden">
+      
+       {/* =========================================================================
+            SECTIONS 2.3 - 2.6: THE FOUR MAIN SERVICE DIVISIONS SHOWCASE
+            2.3 Technology Solutions
+            2.4 Digital Marketing
+            2.5 Branding & Design
+            2.6 Media Production
+            ========================================================================= */}
+        <ServiceCategoryShowcase />
+
         {/* Section 2.1: Capabilities Overview Header & Live Metrics */}
         <section className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-14 pb-8">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-10 border-b border-white/10">
@@ -130,10 +140,10 @@ export default function ServicesPage() {
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>2.1 SERVICES HERO // INTEGRATED CAPABILITIES MATRIX</span>
               </div>
-              <h1 className="text-3xl sm:text-5xl lg:text-7xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.02] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
-                HIGH-PERFORMANCE ENGINEERING &amp;{" "}
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.02] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
+                HIGH-PERFORMANCE  &amp;{" "}
                 <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.45)]">
-                  DIGITAL ACCELERATION
+                 ENGINEERING
                 </span>
               </h1>
               <p className="text-sm sm:text-base font-normal max-w-2xl mt-4 leading-relaxed text-neutral-300">
@@ -197,14 +207,7 @@ export default function ServicesPage() {
             ========================================================================= */}
         <ServiceUniverseSection />
 
-        {/* =========================================================================
-            SECTIONS 2.3 - 2.6: THE FOUR MAIN SERVICE DIVISIONS SHOWCASE
-            2.3 Technology Solutions
-            2.4 Digital Marketing
-            2.5 Branding & Design
-            2.6 Media Production
-            ========================================================================= */}
-        <ServiceCategoryShowcase />
+       
 
         {/* =========================================================================
             SECTION 2.7: ENGAGEMENT MODELS
@@ -216,172 +219,12 @@ export default function ServicesPage() {
             SECTION 2.8: RELATED CASE STUDIES
             Relevant work for each service category
             ========================================================================= */}
-        <ServiceCaseStudies />
+        {/* <ServiceCaseStudies /> */}
 
         {/* =========================================================================
             INTERACTIVE SERVICE SEARCH & FULL BENTO DIRECTORY GRID
             ========================================================================= */}
-        <section id="directory" className="py-24 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 scroll-mt-24 border-t border-white/10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-white/10">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-3 bg-black/60 border border-[#FFD400]/40 text-[#FFD400] backdrop-blur-md">
-                <Compass className="w-3.5 h-3.5" />
-                <span>ALL PRACTICES // DETAILED SPEC DIRECTORY</span>
-              </div>
-              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.05] text-white">
-                EXPLORE COMPLETE <span className="text-[#FFD400]">SERVICE CATALOG</span>
-              </h2>
-              <p className="text-xs sm:text-sm text-neutral-300 font-light mt-2 max-w-xl">
-                Filter and inspect technical specifications, tech stacks, and deployment SLAs across all 12 specialized disciplines.
-              </p>
-            </div>
-
-            {/* Search Box */}
-            <div className="relative shrink-0 min-w-[260px] sm:min-w-[320px]">
-              <Search className="w-4 h-4 text-[#FFD400] absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={`Search ${servicesData.length} practices, stacks...`}
-                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-white/[0.04] hover:bg-white/[0.07] border border-white/15 focus:border-[#FFD400] text-xs sm:text-sm text-white placeholder-white/40 focus:outline-none transition-colors"
-              />
-            </div>
-          </div>
-
-          {/* Category Tabs */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none" data-no-gsap>
-            {CATEGORIES.map((cat) => {
-              const isActive = activeCategory === cat;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap cursor-pointer ${
-                    isActive
-                      ? "bg-[#FFD400] text-black font-bold shadow-[0_0_20px_rgba(255,212,0,0.4)]"
-                      : "bg-white/[0.04] text-neutral-300 hover:text-white border border-white/15 hover:border-white/35 hover:bg-white/[0.08]"
-                  }`}
-                >
-                  {cat}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Bento Grid */}
-          {filteredServices.length === 0 ? (
-            <div className="text-center py-20 rounded-3xl bg-white/[0.02] border border-white/10">
-              <p className="text-neutral-400 text-sm font-mono mb-4">
-                No services found matching &ldquo;{searchQuery || activeCategory}&rdquo;
-              </p>
-              <button
-                onClick={() => {
-                  setActiveCategory("All");
-                  setSearchQuery("");
-                }}
-                className="px-5 py-2 rounded-full bg-[#FFD400] text-black font-mono text-xs uppercase font-bold hover:bg-[#ffe34d] cursor-pointer"
-              >
-                Reset Filters
-              </button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch" data-no-gsap>
-              {filteredServices.map((service: ServiceDetail) => {
-                const isTall = !!service.tall;
-
-                return (
-                  <div
-                    key={service.id}
-                    data-no-gsap
-                    className={`group relative rounded-3xl overflow-hidden bg-[#0c0e14] border border-white/10 hover:border-[#FFD400]/60 shadow-2xl flex flex-col justify-between ${
-                      isTall
-                        ? "md:row-span-2 min-h-[500px] lg:min-h-[560px]"
-                        : "min-h-[360px] lg:min-h-[400px]"
-                    }`}
-                  >
-                    {/* Top-Left Index Tag */}
-                    <div className="absolute top-5 left-5 z-20">
-                      <span className="font-mono text-xs sm:text-sm text-white/70 tracking-wider px-2 py-0.5 rounded bg-black/50 backdrop-blur-md border border-white/10">
-                        {service.index}
-                      </span>
-                    </div>
-
-                    {/* Top-Right SLA Badge */}
-                    <div className="absolute top-5 right-5 z-20">
-                      <span className="text-[10px] font-mono uppercase tracking-widest text-[#FFD400] px-3 py-1 rounded-full bg-black/75 backdrop-blur-md border border-[#FFD400]/30 shadow-md">
-                        {service.sla}
-                      </span>
-                    </div>
-
-                    {/* Background Image & Vignette */}
-                    <div className="absolute inset-0 z-0 overflow-hidden">
-                      <Image
-                        src={service.image}
-                        alt={service.title}
-                        fill
-                        unoptimized
-                        priority
-                        loading="eager"
-                        data-no-gsap
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0c0e14] via-[#0c0e14]/70 to-black/35 pointer-events-none" />
-                    </div>
-
-                    {/* Bottom Content Area */}
-                    <div className="relative z-10 mt-auto p-6 sm:p-7 pt-12 flex flex-col justify-end">
-                      <div className="flex items-baseline justify-between gap-4 mb-1">
-                        <Link href={getServiceUrl(service.id)} prefetch={false}>
-                          <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight group-hover:text-[#FFD400] font-[family-name:var(--font-syne)] uppercase">
-                            {service.title} {service.highlightText}
-                          </h3>
-                        </Link>
-                      </div>
-
-                      <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed mb-4 line-clamp-2">
-                        {service.tagline}
-                      </p>
-
-                      <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-white/10">
-                        {/* Specs badges */}
-                        <div className="flex flex-wrap gap-1.5 max-w-[60%]">
-                          {service.specs?.slice(0, 2).map((spec, sIdx) => (
-                            <span
-                              key={sIdx}
-                              className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-white/[0.05] text-neutral-300 border border-white/10 truncate"
-                            >
-                              {spec.split(" ")[0]} {spec.split(" ")[1]}
-                            </span>
-                          ))}
-                        </div>
-
-                        {/* Explore Spec Link */}
-                        <Link
-                          href={getServiceUrl(service.id)}
-                          prefetch={false}
-                          className="inline-block"
-                        >
-                          <div className="group/btn relative inline-flex items-center justify-between rounded-full overflow-hidden bg-[#12141a]/95 hover:bg-[#1a1d26] border border-white/15 hover:border-[#FFD400]/70 text-white shadow-[0_4px_20px_rgba(0,0,0,0.6)] cursor-pointer select-none px-3.5 py-1.5 text-xs gap-2.5">
-                            <div className="flex items-center space-x-2 relative z-10">
-                              <span className="w-2 h-2 rounded-full shrink-0 bg-[#FFD400] shadow-[0_0_8px_#FFD400]" />
-                              <span className="font-mono font-bold tracking-[0.18em] uppercase whitespace-nowrap text-white group-hover/btn:text-[#FFD400]">
-                                EXPLORE SPEC
-                              </span>
-                            </div>
-                            <div className="w-5 h-5 rounded-full bg-white/10 group-hover/btn:bg-[#FFD400] text-[#FFD400] group-hover/btn:text-black flex items-center justify-center shrink-0 ml-1.5 shadow-inner relative z-10">
-                              <ArrowUpRight className="w-3 h-3" />
-                            </div>
-                          </div>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </section>
+       
 
         {/* =========================================================================
             SECTION 2.9: FREQUENTLY ASKED QUESTIONS (FAQS)

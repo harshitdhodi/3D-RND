@@ -133,8 +133,8 @@ export default function ServiceConversionCTA({
                 title
               ) : (
                 <>
-                  READY TO BUILD SOMETHING{" "}
-                  <span className="text-[#FFD400]">EXCEPTIONAL?</span>
+               LET'S BUILD YOUR NEXT {" "}
+                  <span className="text-[#FFD400]">BIG SUCCESS</span>
                 </>
               )}
             </h2>
@@ -146,114 +146,8 @@ export default function ServiceConversionCTA({
           </div>
 
           {/* Main 2-Column Content: Left Value Props + Right Direct Form */}
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mb-14">
-            {/* Left Column: Direct Inquiries & Engineering Guarantees */}
-            <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
-              <div className="rounded-2xl p-6 sm:p-8 bg-white/[0.02] border border-white/10 space-y-6">
-                <div>
-                  <div className="text-[11px] font-mono tracking-widest text-[#FFD400] uppercase mb-1">
-                    ENGINEERING POD ENGAGEMENT
-                  </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight uppercase font-[family-name:var(--font-syne)]">
-                    Direct Architect Access
-                  </h3>
-                  <p className="text-xs sm:text-sm text-neutral-300 font-light mt-2 leading-relaxed">
-                    Skip standard sales intermediaries. You will connect directly with Principal Software Architects and Creative Technologists who build your platform.
-                  </p>
-                </div>
-
-                {/* 4 Guarantees */}
-                <div className="space-y-3.5 pt-2 border-t border-white/10">
-                  <div className="flex items-start gap-3">
-                    <div className="w-7 h-7 rounded-lg bg-[#FFD400]/10 border border-[#FFD400]/30 flex items-center justify-center text-[#FFD400] shrink-0 mt-0.5">
-                      <Zap className="w-3.5 h-3.5" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-bold text-white font-mono uppercase">
-                        Rapid 48-Hour Mobilization
-                      </div>
-                      <div className="text-[11px] text-neutral-400 font-light">
-                        Sprint squads assembled and ready to kick off within 48 to 72 hours.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3">
-                    <div className="w-7 h-7 rounded-lg bg-[#FFD400]/10 border border-[#FFD400]/30 flex items-center justify-center text-[#FFD400] shrink-0 mt-0.5">
-                      <ShieldCheck className="w-3.5 h-3.5" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-bold text-white font-mono uppercase">
-                        100% Bilateral NDA & IP Transfer
-                      </div>
-                      <div className="text-[11px] text-neutral-400 font-light">
-                        Enterprise NDA executed prior to scoping; complete code ownership.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3">
-                    <div className="w-7 h-7 rounded-lg bg-[#FFD400]/10 border border-[#FFD400]/30 flex items-center justify-center text-[#FFD400] shrink-0 mt-0.5">
-                      <CheckCircle2 className="w-3.5 h-3.5" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-bold text-white font-mono uppercase">
-                        Fixed Milestones & Zero Fluff
-                      </div>
-                      <div className="text-[11px] text-neutral-400 font-light">
-                        Itemized architecture roadmap, predictable deliverables, no surprise fees.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3">
-                    <div className="w-7 h-7 rounded-lg bg-[#FFD400]/10 border border-[#FFD400]/30 flex items-center justify-center text-[#FFD400] shrink-0 mt-0.5">
-                      <Clock className="w-3.5 h-3.5" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-bold text-white font-mono uppercase">
-                        SLA Guaranteed Response
-                      </div>
-                      <div className="text-[11px] text-neutral-400 font-light">
-                        Average technical scoping turnaround under 4 business hours.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Direct Studio Channels */}
-              <div className="rounded-2xl p-6 bg-white/[0.02] border border-white/10 space-y-4">
-                <div className="text-[11px] font-mono tracking-widest text-neutral-400 uppercase">
-                  DIRECT CONTACT CHANNELS
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                  <a
-                    href="mailto:hello@rndtechnosoft.com"
-                    className="p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 flex items-center gap-2.5 text-neutral-200 hover:text-white transition-colors group"
-                  >
-                    <Mail className="w-4 h-4 text-[#FFD400] shrink-0" />
-                    <span className="truncate font-mono">hello@rndtechnosoft.com</span>
-                  </a>
-                  <a
-                    href="tel:+912224908800"
-                    className="p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 flex items-center gap-2.5 text-neutral-200 hover:text-white transition-colors group"
-                  >
-                    <Phone className="w-4 h-4 text-[#FFD400] shrink-0" />
-                    <span className="truncate font-mono">+91 22 2490 8800</span>
-                  </a>
-                </div>
-
-                <Link
-                  href="/contact-us?intent=consultation"
-                  className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/15 text-neutral-200 hover:text-white text-xs font-mono uppercase tracking-wider transition-all"
-                >
-                  <Calendar className="w-3.5 h-3.5 text-[#FFD400]" />
-                  <span>Prefer an instant call? Schedule via Calendar</span>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-neutral-400" />
-                </Link>
-              </div>
-            </div>
+          <div className="relative z-10 grid grid-cols-1  gap-8 lg:gap-12 items-start mb-14">
+            
 
             {/* Right Column: Interactive Direct CTA Form */}
             <div className="lg:col-span-7 bg-[#0c0e14] p-6 sm:p-9 rounded-2xl sm:rounded-3xl border border-white/15 shadow-2xl relative transform-gpu [backface-visibility:hidden]">
@@ -457,11 +351,11 @@ export default function ServiceConversionCTA({
                   </div>
 
                   {/* Submit Button */}
-                  <div className="pt-2">
+                  <div className="pt-2 flex justify-center">
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full py-4 rounded-full bg-[#FFD400] hover:bg-[#ffe34d] text-black text-xs sm:text-sm font-mono font-bold uppercase tracking-[0.18em] transition-all shadow-[0_0_25px_rgba(255,212,0,0.35)] hover:shadow-[0_0_35px_rgba(255,212,0,0.55)] flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-50 active:scale-[0.99]"
+                      className="w-full sm:w-1/2 py-4 rounded-full bg-[#FFD400] hover:bg-[#ffe34d] text-black text-xs sm:text-sm font-mono font-bold uppercase tracking-[0.18em] transition-all shadow-[0_0_25px_rgba(255,212,0,0.35)] hover:shadow-[0_0_35px_rgba(255,212,0,0.55)] flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-50 active:scale-[0.99] mx-auto"
                     >
                       {isSubmitting ? (
                         <>

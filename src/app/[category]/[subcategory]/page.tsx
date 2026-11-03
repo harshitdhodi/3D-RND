@@ -5,7 +5,7 @@ import ServiceDetailsView from "@/components/ServiceDetailsView";
 
 // Force static generation for all known routes
 export const dynamic = 'force-static';
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 interface SubcategoryConfig {
   baseId: string;
@@ -272,6 +272,7 @@ export function generateStaticParams() {
 
   const subcategoriesByCategory: Record<string, string[]> = {
     "technology-solution": [
+      "web-development",
       "cloud-infrastructure-devops",
       "enterprise-software-solutions",
       "ecommerce-platform-engineering",
@@ -282,12 +283,15 @@ export function generateStaticParams() {
       "microservices-api-mesh",
     ],
     "technology-solutions": [
+      "web-development",
       "cloud-infrastructure-devops",
       "enterprise-software-solutions",
       "ecommerce-platform-engineering",
       "web-cloud",
       "ecommerce-platforms",
       "mobile-apps",
+      "mobile-applications",
+      "microservices-api-mesh",
     ],
     "digital-marketing": [
       "technical-seo-dominance",

@@ -16,7 +16,7 @@ import RnDFooter from "@/components/RnDFooter";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black">
+    <div className="font-archia relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black">
       {/* Global GSAP ScrollTrigger Animations for Headings, Images & Grids */}
       <GSAPScrollAnimations />
 

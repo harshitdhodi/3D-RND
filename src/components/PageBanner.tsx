@@ -190,14 +190,14 @@ export default function PageBanner({
   const isCompact = size === "compact";
   const isLong = secondLine.length > 22;
   const titleSizeClass = isCompact
-    ? "text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl"
+    ? "text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl"
     : isLong
-    ? "text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl"
-    : "text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl";
+    ? "text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl"
+    : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl";
 
   const heightClass = isCompact
-    ? "h-[54vh] sm:h-[60vh] min-h-[460px] max-h-[620px] pb-[55px] sm:pb-[75px] pt-20"
-    : "h-[76vh] min-h-[640px] max-h-[820px] pb-[75px] sm:pb-[105px] pt-24";
+    ? "h-[54vh] sm:h-[60vh] pb-[50px] sm:pb-[65px] pt-20"
+    : "h-[80vh] pb-[60px] sm:pb-[85px] pt-24";
 
   return (
     <section
@@ -224,6 +224,9 @@ export default function PageBanner({
           />
         </div>
       </div>
+
+      {/* Smooth Bottom Dissolve into Galactic Space Background */}
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#050608] via-[#050608]/50 to-transparent pointer-events-none z-[2]" />
 
       {/* Foreground Content: Main Heading and Breadcrumb Only */}
       <div className="banner-content-wrap relative z-10 w-full max-w-7xl mx-auto flex flex-col items-start will-change-transform">

@@ -1,44 +1,30 @@
 "use client";
 
-import { BookOpen, ArrowUpRight, Calendar, Clock, Sparkles } from "lucide-react";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { BookOpen, ArrowUpRight, Calendar, Clock } from "lucide-react";
 import CyberButton from "@/components/CyberButton";
+import { blogsData, BlogDetail } from "@/data/blogsData";
+import { fetchInsightsArticles } from "@/lib/cms";
 
 export default function InsightsSection() {
-  const articles = [
-    {
-      id: "spatial-3d-web",
-      category: "TECH & ARCHITECTURE",
-      title: "Spatial Web & Three.js: How Real-Time 3D Drives 3x Higher Conversion",
-      excerpt:
-        "Analyzing the conversion telemetry of photorealistic 3D configurators and WebGL interfaces over standard flat 2D e-commerce templates.",
-      date: "OCT 2026",
-      readTime: "6 min read",
-      author: "Vikram Mehta, Lead 3D Architect",
-      image: "/images/project_ecommerce.jpg",
-    },
-    {
-      id: "production-ai-rag",
-      category: "ARTIFICIAL INTELLIGENCE",
-      title: "Production AI: Scaling Multi-Tenant RAG Pipelines with Sub-5ms Latency",
-      excerpt:
-        "Architecting enterprise generative AI architectures: vector indexing strategies, cache warming, and automated fallback inference models.",
-      date: "OCT 2026",
-      readTime: "8 min read",
-      author: "Dr. Aris Vance, Head of AI Research",
-      image: "/images/project_ai.jpg",
-    },
-    {
-      id: "integrated-agency-roi",
-      category: "GROWTH & STRATEGY",
-      title: "The Integrated Agency Flywheel: Why Fragmented Vendors Erode ROI",
-      excerpt:
-        "Why scaling technology, brand design, paid SMM, and commercial media under a unified team saves over 40% in project overhead and accelerates time-to-market.",
-      date: "OCT 2026",
-      readTime: "5 min read",
-      author: "Siddharth Rao, Founder & CEO",
-      image: "/images/project_fintech.jpg",
-    },
-  ];
+  const [articles, setArticles] = useState<BlogDetail[]>(() => blogsData.slice(0, 3));
+
+  useEffect(() => {
+    let isMounted = true;
+    fetchInsightsArticles()
+      .then((data) => {
+        if (isMounted && data && data.length > 0) {
+          setArticles(data.slice(0, 3));
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <section id="insights" className="relative py-28 sm:py-28 bg-transparent text-white overflow-hidden border-t border-white/5">
@@ -67,50 +53,65 @@ export default function InsightsSection() {
           </CyberButton>
         </div>
 
-        {/* 3 Articles Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {/* 3 Articles Grid matching /insights page */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7">
           {articles.map((art) => (
-            <article
+            <Link
               key={art.id}
-              className="group rounded-3xl bg-white/[0.025] hover:bg-white/[0.05] border border-white/10 hover:border-[#FFD400]/40 p-6 sm:p-7 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
+              href={`/insights/${art.id}`}
+              className="group rounded-3xl bg-white/[0.025] hover:bg-white/[0.05] border border-white/10 hover:border-[#FFD400]/40 p-5 sm:p-6 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between shadow-[0_20px_50px_rgba(0,0,0,0.6)] cursor-pointer"
             >
               <div>
-                <div className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-6 border border-white/5 bg-black">
-                  <img
+                {/* 780x500 Aspect Ratio Image */}
+                <div className="relative aspect-[78/50] rounded-2xl overflow-hidden mb-5 border border-white/10 bg-[#0a0c10]">
+                  <Image
                     src={art.image}
                     alt={art.title}
-                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
+                    className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#050608] via-transparent to-transparent opacity-60" />
-                  <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-black/80 backdrop-blur-md text-[10px] font-mono text-[#FFD400] uppercase tracking-wider border border-[#FFD400]/20">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#050608]/80 via-transparent to-transparent opacity-60 pointer-events-none" />
+                  <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-black/85 backdrop-blur-md text-[10px] font-mono font-bold text-[#FFD400] uppercase tracking-wider border border-[#FFD400]/25 z-10">
                     {art.category}
                   </span>
                 </div>
 
-                <div className="flex items-center gap-4 text-xs font-mono text-white/40 mb-3">
+                {/* Date & Read Time */}
+                <div className="flex items-center gap-3 text-xs font-mono text-white/50 mb-3">
                   <span className="flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5" />
+                    <Calendar className="w-3.5 h-3.5 text-[#FFD400]/80" />
                     {art.date}
                   </span>
                   <span>•</span>
                   <span className="flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5" />
+                    <Clock className="w-3.5 h-3.5 text-[#FFD400]/80" />
                     {art.readTime}
                   </span>
                 </div>
 
-                <h3 className="text-xl sm:text-2xl font-bold font-[family-name:var(--font-syne)] text-white mb-3 group-hover:text-[#FFD400] transition-colors leading-tight">
+                {/* Title */}
+                <h3 className="text-base sm:text-lg font-bold font-[family-name:var(--font-syne)] text-white mb-2.5 group-hover:text-[#FFD400] transition-colors leading-snug line-clamp-2">
                   {art.title}
                 </h3>
 
-              
+                {/* Excerpt / Tagline */}
+                <p className="text-xs text-neutral-400 font-light leading-relaxed line-clamp-2 mb-4">
+                  {art.tagline || art.subtitle || (art.overview && art.overview[0])}
+                </p>
               </div>
 
-              <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-                <span className="text-xs font-mono text-white/50">{art.author}</span>
-                <ArrowUpRight className="w-4 h-4 text-[#FFD400] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              {/* Footer: Author & Read Link */}
+              <div className="pt-4 border-t border-white/10 flex items-center justify-between mt-auto">
+                <span className="text-xs font-mono text-white/60 truncate max-w-[180px]">
+                  {art.author}
+                </span>
+                <span className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-[#FFD400] font-bold group-hover:text-white transition-colors">
+                  <span>Read</span>
+                  <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </span>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </div>

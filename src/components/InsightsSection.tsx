@@ -68,21 +68,21 @@ export default function InsightsSection() {
         </div>
 
         {/* 3 Articles Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {articles.map((art) => (
             <article
               key={art.id}
               className="group rounded-3xl bg-white/[0.025] hover:bg-white/[0.05] border border-white/10 hover:border-[#FFD400]/40 p-6 sm:p-7 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
             >
               <div>
-                <div className="relative aspect-[12/10] rounded-2xl overflow-hidden mb-6 border border-white/5">
+                <div className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-6 border border-white/5 bg-black">
                   <img
                     src={art.image}
                     alt={art.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#050608] via-transparent to-transparent" />
-                  <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-black/80 backdrop-blur-md text-[10px] font-mono text-[#FFD400] uppercase tracking-wider">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#050608] via-transparent to-transparent opacity-60" />
+                  <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-black/80 backdrop-blur-md text-[10px] font-mono text-[#FFD400] uppercase tracking-wider border border-[#FFD400]/20">
                     {art.category}
                   </span>
                 </div>

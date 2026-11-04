@@ -25,7 +25,7 @@ export default function PrintRevealImage({
   fill = true,
   priority = false,
   className = "border border-white/10",
-  aspectClass = "aspect-[16/10]",
+  aspectClass = "aspect-[78/50]",
   badge,
   direction = "auto",
   index = 0,
@@ -125,9 +125,8 @@ export default function PrintRevealImage({
           fill={fill}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
           priority={priority}
-          className="object-cover w-full h-full group-hover/print:scale-105 transition-transform duration-700 ease-out brightness-95"
+          className="object-contain w-full h-full group-hover/print:scale-[1.03] transition-transform duration-700 ease-out"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
       </div>
 
       {/* Optional Top Badge */}

@@ -35,12 +35,9 @@ export const DEFAULT_BRIEFING: InsightsBriefingData = {
 
 export const DEFAULT_CATEGORIES = [
   "All",
-  "Spatial 3D & E-Commerce",
-  "Mobile Engineering",
-  "Cloud & Web Architecture",
+  "Branding & Design",
+  "Digital Marketing",
   "Technical SEO & Growth",
-  "Agile Architecture",
-  "Brand & Media",
 ];
 
 // Helper to convert dynamic CMS record to BlogDetail format
@@ -102,6 +99,7 @@ export function mapCmsRecordToBlogDetail(record: Record<string, any>): BlogDetai
     scope: Array.isArray(record.scope) ? record.scope : [],
     techStack: Array.isArray(record.techStack) ? record.techStack : [],
     techMatrix: Array.isArray(record.techMatrix) ? record.techMatrix : [],
+    contentSections: Array.isArray(record.contentSections) ? record.contentSections : undefined,
     faqs: Array.isArray(record.faqs) ? record.faqs : [],
     beforeAfter: record.beforeAfter || undefined,
   };

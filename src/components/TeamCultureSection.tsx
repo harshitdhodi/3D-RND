@@ -91,21 +91,21 @@ export default function TeamCultureSection({
       <div className="mb-14 sm:mb-18 border-b border-white/10 pb-8 sm:pb-12">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4">
           <Users className="w-3.5 h-3.5" />
-          <span>THE PEOPLE BEHIND THE POSSIBILITIES // OUR TEAM</span>
+          <span>LEADERSHIP & VISION // THE MINDS BEHIND RND</span>
         </div>
 
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="max-w-3xl">
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[family-name:var(--font-archia-local)] font-bold text-white tracking-tight leading-[1.08] uppercase">
-              THE MINDS THAT{" "}
+              THE VISION BEHIND{" "}
               <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.35)]">
-                MAKE INNOVATION HAPPEN.
+                THE INNOVATION.
               </span>
             </h2>
           </div>
 
           <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed max-w-md">
-           Behind every successful solution is a team of thinkers, creators and problem-solvers. Our multidisciplinary talent brings together technical expertise, creative thinking and strategic insight to turn ambitious ideas into meaningful business outcomes.
+           Behind every ambitious idea is a vision to make it happen. Since 2018, RND Technosoft has been building its journey around technology, creativity and innovation — bringing together diverse capabilities to help businesses navigate and embrace the digital future.
 
           </p>
         </div>
@@ -156,10 +156,11 @@ export default function TeamCultureSection({
                   <span>FOUNDER &amp; CHIEF EXECUTIVE OFFICER</span>
                 </div>
                 <h3 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-archia-local)] font-bold text-white uppercase tracking-tight">
-                  SIDDHARTH RAO
+                 MR. RAVI SHAH
                 </h3>
                 <p className="text-xs font-mono text-neutral-400 uppercase tracking-widest">
-                  Visionary Technologist • Digital Product Architect • Venture Advisor
+                  FOUNDER • BUSINESS LEADER • VISIONARY
+
                 </p>
               </div>
 
@@ -167,8 +168,12 @@ export default function TeamCultureSection({
               <div className="relative pl-6 sm:pl-8 border-l-2 border-[#FFD400] py-2 space-y-3 bg-white/[0.02] p-5 rounded-r-xl">
                 <Quote className="w-8 h-8 text-[#FFD400]/40 absolute -top-3 -left-3 fill-current" />
                 <p className="text-sm sm:text-base text-neutral-200 font-light italic leading-relaxed">
-                  &ldquo;Software is no longer merely infrastructure; it is the physical space where your enterprise reputation and client relationships are created. We founded RnD Technosoft to forever eliminate the compromise between elite deep-tech engineering and category-defining visual beauty.&rdquo;
+                 As the driving force behind RND Technosoft, Mr. Ravi Shah leads the company's vision of bringing technology and creativity together. With a focus on innovation, business growth and meaningful client partnerships, he continues to guide RND towards creating solutions that empower businesses and unlock new possibilities. <br/>
+                 His vision is to build an organisation where technology, strategy and creativity work together to turn ambitious ideas into lasting impact.
+
+
                 </p>
+                <span className="text-md italic font-mono text-[#FFD400] font-medium block">"True innovation happens when technology meets vision, creativity meets strategy, and ideas are transformed into opportunities. At RND Technosoft, we believe in building more than solutions — we believe in creating possibilities."</span>
                 <span className="text-xs font-mono text-[#FFD400] font-medium block">
                   — Siddharth Rao, Founder &amp; CEO
                 </span>
@@ -178,7 +183,7 @@ export default function TeamCultureSection({
               <div className="grid grid-cols-3 gap-4 pt-2 border-t border-white/10">
                 <div className="space-y-1">
                   <span className="text-2xl sm:text-3xl font-[family-name:var(--font-archia-local)] font-bold text-white">
-                    12+
+                    14+
                   </span>
                   <span className="text-[10px] sm:text-xs font-mono text-neutral-400 block uppercase leading-tight">
                     Years Tech Leadership
@@ -186,10 +191,10 @@ export default function TeamCultureSection({
                 </div>
                 <div className="space-y-1">
                   <span className="text-2xl sm:text-3xl font-[family-name:var(--font-archia-local)] font-bold text-[#FFD400]">
-                    250+
+                    500+
                   </span>
                   <span className="text-[10px] sm:text-xs font-mono text-neutral-400 block uppercase leading-tight">
-                    Shipped Global Systems
+                    Delivered Projects
                   </span>
                 </div>
                 <div className="space-y-1">
@@ -209,7 +214,7 @@ export default function TeamCultureSection({
                 </CyberButton>
                 <div className="flex items-center gap-2">
                   <a
-                    href="https://linkedin.com"
+                    href="https://www.linkedin.com/company/rndtechnosoft/mycompany/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/10 hover:border-[#FFD400] hover:text-[#FFD400] flex items-center justify-center transition-colors text-white/80"
@@ -220,7 +225,7 @@ export default function TeamCultureSection({
                     </svg>
                   </a>
                   <a
-                    href="mailto:contact@rndtechnosoft.com"
+                    href="mailto:rndtechnosoft@gmail.com"
                     className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/10 hover:border-[#FFD400] hover:text-[#FFD400] flex items-center justify-center transition-colors text-white/80"
                     aria-label="Founder Email"
                   >

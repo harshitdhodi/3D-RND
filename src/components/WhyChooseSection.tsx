@@ -945,37 +945,37 @@ export default function WhyChooseSection({
                     <div className="text-2xl sm:text-3xl font-black text-black font-[family-name:var(--font-syne)] tracking-tight">
                       01 /
                     </div>
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black text-[#FFD400] text-xs font-mono font-bold uppercase tracking-wider shadow-sm">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#FFD400] animate-ping" />
+                    <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black text-[#FFD400] text-xs font-mono font-bold uppercase tracking-wider shadow-sm">
+                      <span className="w-2 h-2 rounded-full bg-[#FFD400] inline-block" />
                       OUR APPROACH
                     </span>
                   </div>
 
-                  <h3 className="text-lg sm:text-xl md:text-2xl font-extrabold mb-3 leading-tight font-[family-name:var(--font-syne)] text-black">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold mb-3 leading-tight font-[family-name:var(--font-syne)] text-black">
                     <WaveText text="AGILE BY" />
                     <br />
                     <WaveText text="DESIGN" delayOffset={12} />
                   </h3>
 
-                  <p className="text-xs sm:text-sm font-semibold text-black/95 mb-2 leading-snug">
+                  <p className="text-xs sm:text-sm font-bold text-black mb-2.5 leading-snug">
                     From concept to execution, without the complexity.
                   </p>
-                  <p className="text-xs text-black/80 font-normal leading-relaxed mb-6">
+                  <p className="text-xs sm:text-[13px] text-black font-semibold leading-relaxed mb-6">
                     We turn ideas into actionable solutions through streamlined workflows, collaborative planning and adaptive execution.
                   </p>
 
                   {/* Segmented Timeline with Strategy, Execution, Innovation */}
                   <div className="grid grid-cols-3 gap-2 mb-2">
-                    <div className="sprint-segment-bar relative h-1.5 sm:h-2 bg-black rounded-full overflow-hidden">
+                    <div className="sprint-segment-bar relative h-2 sm:h-2.5 bg-black rounded-full overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-bar-shimmer" />
                     </div>
-                    <div className="sprint-segment-bar relative h-1.5 sm:h-2 bg-black rounded-full overflow-hidden">
+                    <div className="sprint-segment-bar relative h-2 sm:h-2.5 bg-black rounded-full overflow-hidden">
                       <div
                         className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-bar-shimmer"
                         style={{ animationDelay: "0.5s" }}
                       />
                     </div>
-                    <div className="sprint-segment-bar relative h-1.5 sm:h-2 bg-black rounded-full overflow-hidden">
+                    <div className="sprint-segment-bar relative h-2 sm:h-2.5 bg-black rounded-full overflow-hidden">
                       <div
                         className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-bar-shimmer"
                         style={{ animationDelay: "1s" }}
@@ -986,8 +986,8 @@ export default function WhyChooseSection({
                   <div className="grid grid-cols-3 gap-2 text-[11px] sm:text-xs font-bold text-black font-[family-name:var(--font-jakarta)]">
                     <span>Strategy</span>
                     <span>Execution</span>
-                    <span className="flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-black animate-ping inline-block" />
+                    <span className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-black inline-block" />
                       Innovation
                     </span>
                   </div>

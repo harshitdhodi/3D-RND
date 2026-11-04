@@ -8,12 +8,6 @@ import {
   Menu,
   X,
   ChevronDown,
-  Cpu,
-  Code,
-  TrendingUp,
-  Palette,
-  Camera,
-  Sparkles,
   ArrowUpRight,
   HeartPulse,
   UtensilsCrossed,
@@ -23,9 +17,6 @@ import {
   Building2,
   Rocket,
   Plane,
-  Smartphone,
-  Users,
-  Share2,
   Factory,
 } from "lucide-react";
 import CyberButton from "@/components/CyberButton";
@@ -150,59 +141,6 @@ export default function Navbar() {
     },
   ];
 
-  const serviceDropdownItems = [
-    {
-      title: "Technology Solutions",
-      href: "/technology-solution",
-      icon: Cpu,
-    },
-    {
-      title: "Custom Web Development",
-      href: "/technology-solution/web-development",
-      icon: Code,
-    },
-    {
-      title: "Web & Enterprise Cloud",
-      href: "/technology-solution/cloud-infrastructure-devops",
-      icon: Cpu,
-    },
-    {
-      title: "Search Dominance & Technical SEO",
-      href: "/digital-marketing/technical-seo-dominance",
-      icon: TrendingUp,
-    },
-    {
-      title: "Mobile App Development",
-      href: "/technology-solution/mobile-applications",
-      icon: Smartphone,
-    },
-    {
-      title: "E-Commerce & Digital Storefronts",
-      href: "/technology-solution/ecommerce-platform-engineering",
-      icon: ShoppingBag,
-    },
-    {
-      title: "Brand Strategy & Design Systems",
-      href: "/branding-design/brand-identity-systems",
-      icon: Palette,
-    },
-    {
-      title: "Social Media & Community Building",
-      href: "/digital-marketing/social-media-management",
-      icon: Share2,
-    },
-    {
-      title: "Commercial Film & Photography",
-      href: "/media-production/commercial-video-production",
-      icon: Camera,
-    },
-    {
-      title: "Dedicated Agency Squads",
-      href: "/media-production/dedicated-squads",
-      icon: Users,
-    },
-  ];
-
   const navLinks = [
     { name: "The Origin", href: "/about-us" },
     { name: "The Ecosystem", href: "/services", hasMega: true },
@@ -215,25 +153,25 @@ export default function Navbar() {
   return (
     <header
       id="navbar"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out px-4 sm:px-8 lg:px-12 ${isSticky
-          ? "bg-[#06080e]/95 backdrop-blur-2xl border-b border-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.85)] py-3"
-          : "bg-transparent border-b border-transparent shadow-none py-5"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out px-3 sm:px-6 md:px-8 lg:px-12 ${isSticky
+          ? "bg-[#06080e]/95 backdrop-blur-2xl border-b border-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.85)] py-2.5 sm:py-3"
+          : "bg-transparent border-b border-transparent shadow-none py-3.5 sm:py-5"
         }`}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between relative">
         {/* Brand Logo in crisp white pill capsule */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="pr-3 rounded-xl transition-all flex items-center">
+          <div className="pr-2 sm:pr-3 rounded-xl transition-all flex items-center">
             <img
               src="/logo.svg"
               alt="RND Technosoft Logo"
-              className="h-14 sm:h-12 md:h-16 w-auto object-contain transition-transform group-hover:scale-[1.03]"
+              className="h-9 sm:h-11 md:h-12 lg:h-14 xl:h-16 w-auto object-contain transition-transform group-hover:scale-[1.03]"
             />
           </div>
         </Link>
 
         {/* Center Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-5 xl:gap-7 text-sm xl:text-[15px] font-semibold text-white/90">
+        <nav className="hidden lg:flex items-center gap-3.5 xl:gap-7 text-xs xl:text-[15px] font-semibold text-white/90">
           {navLinks.map((link) => {
             const isActive =
               (link.href === "/about-us" && pathname === "/about-us") ||
@@ -386,21 +324,29 @@ export default function Navbar() {
         </nav>
 
         {/* Right Action: Contact CTA button + Mobile Hamburger */}
-        <div className="flex items-center gap-3">
-          <CyberButton href="/contact-us" size="sm" variant="gold" className="shadow-[0_0_20px_rgba(255,212,0,0.45)] hover:shadow-[0_0_35px_rgba(255,212,0,0.75)] ring-1 ring-[#FFD400]/40 hover:ring-[#FFD400]/80">
-            LET&apos;S TALK
-          </CyberButton>
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Contact CTA - Visible inside the navbar across all screen sizes */}
+          <div>
+            <CyberButton
+              href="/contact-us"
+              size="sm"
+              variant="gold"
+              className="!text-[10px] sm:!text-xs !py-1 sm:!py-1.5 !px-2.5 sm:!px-3.5 shadow-[0_0_15px_rgba(255,212,0,0.4)] hover:shadow-[0_0_30px_rgba(255,212,0,0.7)] ring-1 ring-[#FFD400]/40 hover:ring-[#FFD400]/80 whitespace-nowrap"
+            >
+              LET&apos;S TALK
+            </CyberButton>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
-            className="lg:hidden p-2 rounded-lg bg-black/40 backdrop-blur-md border border-white/20 text-white hover:text-[#FFD400] transition-colors"
+            className="lg:hidden p-1.5 sm:p-2 rounded-lg bg-black/40 backdrop-blur-md border border-white/20 text-white hover:text-[#FFD400] transition-colors shrink-0"
           >
             {mobileMenuOpen ? (
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4 sm:w-5 sm:h-5" />
             ) : (
-              <Menu className="w-5 h-5" />
+              <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
             )}
           </button>
         </div>

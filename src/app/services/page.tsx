@@ -122,17 +122,7 @@ export default function ServicesPage() {
       />
 
       <main className="relative z-20 w-full mt-[50px]   shadow-[0_-25px_60px_rgba(0,0,0,0.85)] overflow-hidden">
-      
-       {/* =========================================================================
-            SECTIONS 2.3 - 2.6: THE FOUR MAIN SERVICE DIVISIONS SHOWCASE
-            2.3 Technology Solutions
-            2.4 Digital Marketing
-            2.5 Branding & Design
-            2.6 Media Production
-            ========================================================================= */}
-        <ServiceCategoryShowcase />
-
-        {/* Section 2.1: Capabilities Overview Header & Live Metrics */}
+       {/* Section 2.1: Capabilities Overview Header & Live Metrics */}
         <section className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-14 pb-8">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-10 border-b border-white/10">
             <div className="max-w-4xl">
@@ -169,38 +159,18 @@ export default function ServicesPage() {
             </div>
           </div>
 
-          {/* Quick Capability Metrics Strip */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8">
-            <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10">
-              <div className="text-2xl sm:text-3xl font-bold font-mono text-[#FFD400]">04</div>
-              <div className="text-xs font-mono text-neutral-300 uppercase tracking-wider mt-1">
-                Core Divisions
-              </div>
-              <div className="text-[11px] text-neutral-400 mt-0.5">Tech, Growth, Brand, Media</div>
-            </div>
-            <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10">
-              <div className="text-2xl sm:text-3xl font-bold font-mono text-[#FFD400]">12</div>
-              <div className="text-xs font-mono text-neutral-300 uppercase tracking-wider mt-1">
-                Specialized Practices
-              </div>
-              <div className="text-[11px] text-neutral-400 mt-0.5">End-to-end execution</div>
-            </div>
-            <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10">
-              <div className="text-2xl sm:text-3xl font-bold font-mono text-[#FFD400]">99.9%</div>
-              <div className="text-xs font-mono text-neutral-300 uppercase tracking-wider mt-1">
-                Production SLA
-              </div>
-              <div className="text-[11px] text-neutral-400 mt-0.5">Guaranteed reliability</div>
-            </div>
-            <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10">
-              <div className="text-2xl sm:text-3xl font-bold font-mono text-[#FFD400]">150+</div>
-              <div className="text-xs font-mono text-neutral-300 uppercase tracking-wider mt-1">
-                Global Launches
-              </div>
-              <div className="text-[11px] text-neutral-400 mt-0.5">Across 18 industries</div>
-            </div>
-          </div>
+       
         </section>
+       {/* =========================================================================
+            SECTIONS 2.3 - 2.6: THE FOUR MAIN SERVICE DIVISIONS SHOWCASE
+            2.3 Technology Solutions
+            2.4 Digital Marketing
+            2.5 Branding & Design
+            2.6 Media Production
+            ========================================================================= */}
+        <ServiceCategoryShowcase />
+
+       
 
         {/* =========================================================================
             2.2 SERVICE CATEGORY NAVIGATION: Sticky / Fast Jump Navigation Bar

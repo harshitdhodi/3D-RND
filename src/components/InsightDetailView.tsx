@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Home,
   ChevronRight,
   ChevronDown,
   ArrowLeft,
@@ -13,9 +12,6 @@ import {
   Sparkles,
   Volume2,
   VolumeX,
-  Compass,
-  Layers,
-  Lightbulb,
   CheckCircle2,
   ListOrdered,
   Building2,
@@ -24,12 +20,11 @@ import {
   Phone,
   Send,
   Check,
-  RotateCcw,
 } from "lucide-react";
 import Navbar from "./Navbar";
 import RnDFooter from "./RnDFooter";
 import SpaceBackground from "./SpaceBackground";
-import { BlogDetail, TechMatrixItem } from "@/data/blogsData";
+import { BlogDetail } from "@/data/blogsData";
 import PageBanner from "./PageBanner";
 
 interface InsightDetailViewProps {
@@ -60,24 +55,28 @@ function formatSlugToTitle(slug: string): string {
 
 export default function InsightDetailView({
   article,
-  allArticles,
+  allArticles = [],
   prevArticle,
   nextArticle,
 }: InsightDetailViewProps) {
   // Reading scroll progress percentage
   const [scrollProgress, setScrollProgress] = useState(0);
 
+  // Recent 3 articles excluding the active article
+  const recentArticles = useMemo(() => {
+    return (allArticles || [])
+      .filter((a) => a.id !== article.id)
+      .slice(0, 3);
+  }, [allArticles, article.id]);
+
   // Formatted slug for banner title (e.g. "spatial-3d-conversion" -> "Spatial 3D Conversion")
   const bannerTitle = formatSlugToTitle(article.id);
 
   // Active section for table of contents
-  const [activeSection, setActiveSection] = useState("abstract");
+  const [activeSection, setActiveSection] = useState("intro");
 
   // Audio briefing play/pause simulation
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-
-  // Active tech matrix item for interactive notes
-  const [activeTechIndex, setActiveTechIndex] = useState(0);
 
   // Mobile outline modal toggle
   const [isMobileOutlineOpen, setIsMobileOutlineOpen] = useState(false);
@@ -96,6 +95,39 @@ export default function InsightDetailView({
     scale: "",
   });
 
+  // Dynamic Table of Contents from article sections
+  const sectionsList = useMemo(() => {
+    const list: { id: string; number: string; label: string }[] = [
+      { id: "intro", number: "01", label: "Executive Summary" },
+    ];
+
+    if (article.contentSections && article.contentSections.length > 0) {
+      article.contentSections.forEach((sec, idx) => {
+        list.push({
+          id: sec.id,
+          number: String(idx + 2).padStart(2, "0"),
+          label: sec.title.replace(/^\d+\.\s*/, ""),
+        });
+      });
+    }
+
+    if (article.faqs && article.faqs.length > 0) {
+      list.push({
+        id: "faq",
+        number: String(list.length + 1).padStart(2, "0"),
+        label: "Frequently Asked Questions",
+      });
+    }
+
+    list.push({
+      id: "inquiry-form",
+      number: String(list.length + 1).padStart(2, "0"),
+      label: "Consultation & Inquiry",
+    });
+
+    return list;
+  }, [article]);
+
   // Track window scroll progress and active section
   useEffect(() => {
     const handleScroll = () => {
@@ -106,23 +138,14 @@ export default function InsightDetailView({
         setScrollProgress(Math.min(100, Math.max(0, currentProgress)));
       }
 
-      // Scroll-spy sections
-      const sectionIds = [
-        "abstract",
-        "hero-visual",
-        "narrative",
-        "tech-matrix",
-        "takeaways",
-        "author",
-        "faq",
-        "inquiry-form",
-      ];
+      // Scroll-spy sections dynamically based on sectionsList
+      const sectionIds = sectionsList.map((s) => s.id);
 
       for (const id of sectionIds) {
         const el = document.getElementById(id);
         if (el) {
           const rect = el.getBoundingClientRect();
-          if (rect.top <= 180 && rect.bottom >= 180) {
+          if (rect.top <= 240 && rect.bottom >= 240) {
             setActiveSection(id);
             break;
           }
@@ -132,7 +155,7 @@ export default function InsightDetailView({
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [sectionsList]);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -142,24 +165,6 @@ export default function InsightDetailView({
       setFormSubmitted(true);
     }, 800);
   };
-
-  const sectionsList = [
-    { id: "abstract", number: "01", label: "Editorial Thesis" },
-    { id: "hero-visual", number: "02", label: "Visual Architecture" },
-    { id: "narrative", number: "03", label: "Spatial Narrative" },
-    { id: "tech-matrix", number: "04", label: "Architecture Matrix" },
-    { id: "takeaways", number: "05", label: "Engineering Insights" },
-    { id: "author", number: "06", label: "Principal Profile" },
-    { id: "faq", number: "07", label: "FAQs" },
-    { id: "inquiry-form", number: "08", label: "Consultation Suite" },
-  ];
-
-  const activeTech: TechMatrixItem | undefined =
-    article.techMatrix?.[activeTechIndex] || article.techMatrix?.[0];
-
-  const relatedArticles = allArticles
-    .filter((a) => a.id !== article.id)
-    .slice(0, 3);
 
   // Drop cap letter from first overview paragraph
   const firstParagraph = article.overview[0] || "";
@@ -173,16 +178,6 @@ export default function InsightDetailView({
 
       {/* Global Navbar */}
       <Navbar />
-
-      {/* =========================================================================
-          0. FIXED TOP READING PROGRESS BAR (Matching Reference Page)
-          ========================================================================= */}
-      <div className="fixed top-0 left-0 right-0 h-[3px] bg-transparent z-50 pointer-events-none">
-        <div
-          className="h-full bg-gradient-to-r from-[#FFD400] via-[#ffe34d] to-[#FFD400] transition-all duration-150 ease-out shadow-[0_0_12px_rgba(255,212,0,0.8)]"
-          style={{ width: `${scrollProgress}%` }}
-        />
-      </div>
 
       {/* Page Banner with slug in Title Format */}
       <PageBanner
@@ -409,187 +404,245 @@ export default function InsightDetailView({
               </div>
 
               {/* SECTION 01: EDITORIAL THESIS / ABSTRACT */}
-              <div id="abstract" className="space-y-4 scroll-mt-36">
+              {/* SECTION 01: INTRO / EXECUTIVE SUMMARY */}
+              <div id="intro" className="space-y-6 scroll-mt-36">
                 <div className="flex items-center space-x-2 text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>Editorial Thesis // {article.category}</span>
+                  <span>Executive Summary // {article.category}</span>
                 </div>
 
-                <blockquote className="font-[family-name:var(--font-syne)] text-xl sm:text-2xl lg:text-3xl text-white font-light leading-relaxed italic border-l-2 border-[#FFD400] pl-6 sm:pl-8 py-3 bg-[#0c0e14] shadow-md">
-                  &ldquo;{article.quote.text}&rdquo;
-                </blockquote>
-              </div>
-
-              {/* Author Meta Header Card */}
-              <div className="flex items-center justify-between p-4 bg-[#0c0e14] border border-white/10 shadow-lg">
-                <div className="flex items-center space-x-3.5">
-                  <div className="relative w-12 h-12 rounded-full overflow-hidden bg-white/10 border border-[#FFD400]/40 shrink-0">
-                    <Image
-                      src={article.authorAvatar}
-                      alt={article.author}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="text-xs sm:text-sm font-semibold text-white flex items-center space-x-2">
-                      <span>{article.author}</span>
-                      <span className="text-[10px] font-mono px-1.5 py-0.5 bg-[#FFD400]/15 text-[#FFD400] font-normal border border-[#FFD400]/30 rounded">
-                        Verified Lead
-                      </span>
-                    </h3>
-                    <p className="text-[11px] text-neutral-400 font-mono">
-                      {article.authorRole}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="text-right text-xs font-mono text-neutral-400 hidden sm:block">
-                  <p>{article.date}</p>
-                  <p className="text-[#FFD400] font-semibold">{article.readTime}</p>
-                </div>
-              </div>
-
-              {/* SECTION 02: HERO VISUAL ARCHIVE */}
-              <div
-                id="hero-visual"
-                className="relative aspect-[16/10] overflow-hidden bg-black border border-white/10 shadow-2xl group scroll-mt-36"
-              >
-                <Image
-                  src={article.image}
-                  alt={article.title}
-                  fill
-                  priority
-                  className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out brightness-95"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-
-                {/* Bottom Telemetry Bar */}
-                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white text-[11px] font-mono uppercase tracking-wider backdrop-blur-md bg-black/60 px-4 py-2.5 border border-white/15">
-                  <span className="truncate flex items-center space-x-2">
-                    <Compass className="w-3.5 h-3.5 text-[#FFD400]" />
-                    <span className="truncate">{article.title}</span>
-                  </span>
-                  <span className="text-[#FFD400] font-bold shrink-0 ml-3">
-                    RnD Archive
-                  </span>
-                </div>
-              </div>
-
-              {/* SECTION 03: SPATIAL NARRATIVE & DEEP DIVE WITH DROP CAP */}
-              <div
-                id="narrative"
-                className="space-y-6 text-neutral-300 font-light leading-relaxed scroll-mt-36 text-base sm:text-lg"
-              >
-                <p className="leading-relaxed">
-                  <span className="float-left text-5xl sm:text-6xl font-[family-name:var(--font-syne)] text-[#FFD400] leading-none pr-3 pt-1 font-bold">
-                    {firstLetter}
-                  </span>
-                  {remainingFirstParagraph}
-                </p>
-
-                {article.overview.slice(1).map((para, pIdx) => (
-                  <p key={pIdx} className="leading-relaxed">
-                    {para}
-                  </p>
-                ))}
-              </div>
-
-              {/* SECTION 04: INTERACTIVE ARCHITECTURE & TECH MATRIX (Matching Materiality Matrix) */}
-              <div
-                id="tech-matrix"
-                className="p-6 sm:p-7 bg-[#0c0e14] border border-white/10 shadow-lg space-y-4 scroll-mt-36"
-              >
-                <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                  <span className="text-xs sm:text-sm font-mono uppercase tracking-[0.2em] text-[#FFD400] font-semibold flex items-center space-x-2">
-                    <Layers className="w-4 h-4 text-[#FFD400]" />
-                    <span>Tactile Architecture &amp; Tech Matrix</span>
-                  </span>
-                  <span className="text-[10px] font-mono text-neutral-400">
-                    Click card for architectural telemetry
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  {article.techMatrix.map((item, mIdx) => {
-                    const isSelected = activeTechIndex === mIdx;
-                    return (
-                      <button
-                        key={mIdx}
-                        type="button"
-                        onClick={() => setActiveTechIndex(mIdx)}
-                        className={`p-3 text-left border transition-all cursor-pointer ${
-                          isSelected
-                            ? "border-[#FFD400] bg-white/[0.08] shadow-[0_0_15px_rgba(255,212,0,0.2)]"
-                            : "border-white/10 bg-white/[0.02] hover:border-[#FFD400]/50"
-                        }`}
-                      >
-                        <div
-                          className="w-full h-10 mb-2 border border-white/10 flex items-center justify-center text-xs font-mono font-bold"
-                          style={{
-                            backgroundColor: `${item.color}20`,
-                            color: item.color,
-                          }}
-                        >
-                          {item.badge || item.category}
-                        </div>
-                        <p className="font-[family-name:var(--font-syne)] text-xs sm:text-sm text-white font-bold leading-tight line-clamp-1 uppercase">
-                          {item.name}
-                        </p>
-                        <p className="text-[10px] font-mono text-neutral-400 mt-0.5 truncate">
-                          {item.category}
-                        </p>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {/* Active Swatch / Tech Note Readout */}
-                {activeTech && (
-                  <div className="p-4 rounded-xl bg-white/[0.03] border border-[#FFD400]/30 text-xs text-neutral-300 font-mono space-y-1">
-                    <div className="flex items-center justify-between text-[#FFD400] font-bold">
-                      <span>{activeTech.name}</span>
-                      <span>{activeTech.badge || activeTech.category}</span>
-                    </div>
-                    <p className="text-neutral-300 font-light text-xs">
-                      {activeTech.desc}
-                    </p>
-                  </div>
+                {article.quote && (
+                  <blockquote className="font-[family-name:var(--font-syne)] text-xl sm:text-2xl lg:text-3xl text-white font-light leading-relaxed italic border-l-2 border-[#FFD400] pl-6 sm:pl-8 py-3 bg-[#0c0e14] shadow-md">
+                    &ldquo;{article.quote.text}&rdquo;
+                  </blockquote>
                 )}
-              </div>
 
-              {/* SECTION 05: ENGINEERING TAKEAWAYS & CHECKLIST */}
-              <div
-                id="takeaways"
-                className="p-6 sm:p-8 bg-[#0c0e14] border border-white/10 shadow-lg space-y-4 scroll-mt-36"
-              >
-                <div className="flex items-center space-x-2 text-xs font-mono uppercase tracking-widest text-[#FFD400] font-semibold">
-                  <Lightbulb className="w-4 h-4 text-[#FFD400]" />
-                  <span>Engineering Takeaways &amp; Spatial Insights:</span>
+                {/* Author Meta Header Card */}
+                <div className="flex items-center justify-between p-4 bg-[#0c0e14] border border-white/10 shadow-lg">
+                  <div className="flex items-center space-x-3.5">
+                    <div className="w-11 h-11 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/40 flex items-center justify-center shrink-0 text-[#FFD400]">
+                      <User className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-xs sm:text-sm font-semibold text-white flex items-center space-x-2">
+                        <span>{article.author}</span>
+                        <span className="text-[10px] font-mono px-1.5 py-0.5 bg-[#FFD400]/15 text-[#FFD400] font-normal border border-[#FFD400]/30 rounded">
+                          Verified Lead
+                        </span>
+                      </h3>
+                      <p className="text-[11px] text-neutral-400 font-mono">
+                        {article.authorRole}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="text-right text-xs font-mono text-neutral-400 hidden sm:block">
+                    <p>{article.date}</p>
+                    <p className="text-[#FFD400] font-semibold">{article.readTime}</p>
+                  </div>
                 </div>
 
-                <ul className="space-y-3.5 text-xs sm:text-sm text-neutral-300">
-                  {article.deliverables.map((item, dIdx) => (
-                    <li key={dIdx} className="flex items-start space-x-3">
-                      <CheckCircle2 className="w-4 h-4 text-[#FFD400] shrink-0 mt-0.5" />
-                      <span className="leading-relaxed">{item}</span>
-                    </li>
+                {/* Article Featured Hero Image */}
+                <div className="relative aspect-[78/50] w-full overflow-hidden bg-black/40 border border-white/10 shadow-2xl">
+                  <Image
+                    src={article.image}
+                    alt={article.title}
+                    fill
+                    priority
+                    className="object-contain"
+                  />
+                </div>
+
+                {/* Narrative Intro with Drop Cap */}
+                <div className="space-y-6 text-neutral-300 font-light leading-relaxed text-base sm:text-lg">
+                  {firstParagraph && (
+                    <p className="leading-relaxed">
+                      <span className="float-left text-5xl sm:text-6xl font-[family-name:var(--font-syne)] text-[#FFD400] leading-none pr-3 pt-1 font-bold">
+                        {firstLetter}
+                      </span>
+                      {remainingFirstParagraph}
+                    </p>
+                  )}
+
+                  {article.overview.slice(1).map((para, pIdx) => (
+                    <p key={pIdx} className="leading-relaxed text-sm sm:text-base">
+                      {para}
+                    </p>
                   ))}
-                </ul>
+                </div>
               </div>
 
-              {/* SECTION 06: PRINCIPAL PROFILE / AUTHOR CARD */}
+              {/* DYNAMIC ARTICLE CONTENT SECTIONS */}
+              {article.contentSections && article.contentSections.length > 0 && (
+                <div className="space-y-12 pt-4">
+                  {article.contentSections.map((sec) => (
+                    <section
+                      key={sec.id}
+                      id={sec.id}
+                      className="space-y-6 scroll-mt-36 border-t border-white/10 pt-8"
+                    >
+                      {sec.badge && (
+                        <div className="flex items-center space-x-2 text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
+                          <Sparkles className="w-3.5 h-3.5" />
+                          <span>{sec.badge}</span>
+                        </div>
+                      )}
+
+                      <h2 className="font-[family-name:var(--font-syne)] text-xl sm:text-2xl lg:text-3xl text-white font-bold leading-snug uppercase">
+                        {sec.title}
+                      </h2>
+
+                      {/* Paragraphs */}
+                      {sec.paragraphs && sec.paragraphs.length > 0 && (
+                        <div className="space-y-4 text-neutral-300 font-light leading-relaxed text-sm sm:text-base">
+                          {sec.paragraphs.map((p, pIdx) => (
+                            <p key={pIdx} className="leading-relaxed">
+                              {p}
+                            </p>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Bullets */}
+                      {sec.bullets && sec.bullets.length > 0 && (
+                        <ul className="space-y-3 py-2">
+                          {sec.bullets.map((bullet, bIdx) => (
+                            <li
+                              key={bIdx}
+                              className="flex items-start space-x-3 text-xs sm:text-sm text-neutral-300"
+                            >
+                              <CheckCircle2 className="w-4 h-4 text-[#FFD400] shrink-0 mt-0.5" />
+                              <span className="leading-relaxed">{bullet}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+
+                      {/* Subsections */}
+                      {sec.subsections && sec.subsections.length > 0 && (
+                        <div className="space-y-5 pt-2">
+                          {sec.subsections.map((sub, sIdx) => (
+                            <div
+                              key={sIdx}
+                              className="p-5 sm:p-6 bg-[#0c0e14] border border-white/10 space-y-3 shadow-md"
+                            >
+                              <h3 className="font-[family-name:var(--font-syne)] text-base sm:text-lg text-white font-bold uppercase flex items-center space-x-2">
+                                <span className="text-[#FFD400] text-xs font-mono">
+                                  {String(sIdx + 1).padStart(2, "0")}.
+                                </span>
+                                <span>{sub.title.replace(/^\d+[\.\)]\s*/, "")}</span>
+                              </h3>
+
+                              {sub.paragraphs && sub.paragraphs.length > 0 && (
+                                <div className="space-y-2.5">
+                                  {sub.paragraphs.map((sp, spIdx) => (
+                                    <p
+                                      key={spIdx}
+                                      className="text-neutral-300 font-light leading-relaxed text-xs sm:text-sm"
+                                    >
+                                      {sp}
+                                    </p>
+                                  ))}
+                                </div>
+                              )}
+
+                              {sub.bullets && sub.bullets.length > 0 && (
+                                <ul className="space-y-2 pt-1">
+                                  {sub.bullets.map((sb, sbIdx) => (
+                                    <li
+                                      key={sbIdx}
+                                      className="flex items-start space-x-2.5 text-xs text-neutral-300"
+                                    >
+                                      <span className="w-1.5 h-1.5 rounded-full bg-[#FFD400] mt-1.5 shrink-0" />
+                                      <span className="leading-relaxed">{sb}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Comparison Table */}
+                      {sec.table && (
+                        <div className="overflow-x-auto my-6 border border-white/10 bg-[#0c0e14]">
+                          <table className="w-full text-left border-collapse text-xs sm:text-sm">
+                            <thead>
+                              <tr className="border-b border-white/15 bg-white/[0.04]">
+                                {sec.table.headers.map((h, hIdx) => (
+                                  <th
+                                    key={hIdx}
+                                    className="p-3.5 sm:p-4 font-mono font-bold uppercase tracking-wider text-[#FFD400] text-xs"
+                                  >
+                                    {h}
+                                  </th>
+                                ))}
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-white/5 font-light text-neutral-300">
+                              {sec.table.rows.map((row, rIdx) => (
+                                <tr
+                                  key={rIdx}
+                                  className="hover:bg-white/[0.02] transition-colors"
+                                >
+                                  {row.map((cell, cIdx) => (
+                                    <td
+                                      key={cIdx}
+                                      className={`p-3.5 sm:p-4 leading-relaxed ${
+                                        cIdx === 0
+                                          ? "font-medium text-white"
+                                          : ""
+                                      }`}
+                                    >
+                                      {cell}
+                                    </td>
+                                  ))}
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+
+                      {/* Callout Box */}
+                      {sec.callout && (
+                        <div className="p-6 sm:p-8 bg-gradient-to-br from-[#0c0e14] via-[#12151d] to-[#0c0e14] border border-[#FFD400]/40 shadow-xl space-y-4 my-6">
+                          <div className="flex items-center space-x-2 text-xs font-mono uppercase tracking-widest text-[#FFD400] font-semibold">
+                            <Sparkles className="w-4 h-4 text-[#FFD400]" />
+                            <span>Recommended Action</span>
+                          </div>
+                          {sec.callout.title && (
+                            <h3 className="font-[family-name:var(--font-syne)] text-lg sm:text-xl text-white font-bold uppercase">
+                              {sec.callout.title}
+                            </h3>
+                          )}
+                          <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
+                            {sec.callout.text}
+                          </p>
+                          <div className="pt-2">
+                            <Link
+                              href={sec.callout.ctaLink || "/#contact"}
+                              className="inline-flex items-center space-x-2 px-5 py-2.5 bg-[#FFD400] text-black font-mono text-xs uppercase tracking-wider font-bold hover:bg-[#ffe34d] transition-colors shadow-[0_0_15px_rgba(255,212,0,0.3)]"
+                            >
+                              <span>{sec.callout.ctaText || "Discuss Your Project"}</span>
+                              <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
+                            </Link>
+                          </div>
+                        </div>
+                      )}
+                    </section>
+                  ))}
+                </div>
+              )}
+
+              {/* SECTION: PRINCIPAL PROFILE / AUTHOR CARD */}
               <div
                 id="author"
                 className="p-7 bg-[#0c0e14] border border-white/10 shadow-lg flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6 text-center sm:text-left scroll-mt-36"
               >
-                <div className="relative w-16 h-16 rounded-full overflow-hidden bg-white/10 shrink-0 border border-[#FFD400]/40">
-                  <Image
-                    src={article.authorAvatar}
-                    alt={article.author}
-                    fill
-                    className="object-cover"
-                  />
+                <div className="w-14 h-14 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/40 flex items-center justify-center shrink-0 text-[#FFD400]">
+                  <User className="w-7 h-7" />
                 </div>
 
                 <div className="space-y-1.5 flex-1">
@@ -603,7 +656,7 @@ export default function InsightDetailView({
                   </div>
 
                   <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light">
-                    Leading research into spatial WebGL viewports, hardware-accelerated 3D rendering pipelines, and high-concurrency cloud systems at RnD Technosoft.
+                    RnD Technosoft Editorial &amp; Research Directorate — Delivering strategic insights across technology, branding, and performance growth.
                   </p>
 
                   <div className="pt-2">
@@ -611,7 +664,7 @@ export default function InsightDetailView({
                       href="/about-us"
                       className="inline-flex items-center space-x-1 text-xs font-mono uppercase tracking-widest text-[#FFD400] hover:text-white font-semibold transition-colors"
                     >
-                      <span>View Atelier Profile &amp; Leadership</span>
+                      <span>View Team &amp; Leadership</span>
                       <ArrowUpRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
@@ -936,83 +989,102 @@ export default function InsightDetailView({
         </section>
 
         {/* =========================================================================
-            4. BOTTOM CURATED PERSPECTIVES (Related Articles Grid)
+            4. RECENT BLOGS & INSIGHTS (After CTA Consultation Form)
             ========================================================================= */}
-        <section className="max-w-[1560px] mx-auto px-5 md:px-8 lg:px-12 pt-16 pb-0 border-t border-white/10">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
-            <div>
-              <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold flex items-center space-x-2">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Curated Perspectives</span>
-              </span>
-              <h2 className="font-[family-name:var(--font-syne)] text-2xl sm:text-3xl lg:text-4xl text-white font-bold uppercase mt-1">
-                Related Engineering Insights
-              </h2>
+        {recentArticles.length > 0 && (
+          <section className="max-w-[1560px] mx-auto px-5 md:px-8 lg:px-12 py-16 border-t border-white/10">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+              <div>
+                <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold flex items-center space-x-2">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Recent Knowledge</span>
+                </span>
+                <h2 className="font-[family-name:var(--font-syne)] text-2xl sm:text-3xl lg:text-4xl text-white font-bold uppercase mt-1">
+                  Recent Blogs &amp; Insights
+                </h2>
+              </div>
+
+              <Link
+                href="/insights"
+                className="inline-flex items-center space-x-2 text-xs font-mono uppercase tracking-widest text-[#FFD400] hover:text-white font-bold shrink-0 transition-colors"
+              >
+                <span>View All Blogs</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
 
-            <Link
-              href="/insights"
-              className="inline-flex items-center space-x-2 text-xs font-mono uppercase tracking-widest text-[#FFD400] hover:text-white font-bold shrink-0 transition-colors"
-            >
-              <span>Explore All Insights</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {relatedArticles.map((rel) => (
-              <article
-                key={rel.id}
-                className="group flex flex-col justify-between bg-[#0c0e14] border border-white/10 p-6 shadow-lg hover:shadow-[0_0_30px_rgba(255,212,0,0.15)] hover:border-[#FFD400]/50 transition-all duration-500"
-              >
-                <div>
-                  <Link
-                    href={`/insights/${rel.id}`}
-                    className="block relative aspect-[16/10] overflow-hidden bg-black mb-5 shadow-sm border border-white/10"
-                  >
-                    <Image
-                      src={rel.image}
-                      alt={rel.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out brightness-90"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                    <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-md px-3 py-1 text-[10px] font-mono uppercase tracking-widest text-[#FFD400] font-semibold border border-white/10">
-                      {rel.category}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {recentArticles.map((rel) => (
+                <article
+                  key={rel.id}
+                  className="group flex flex-col justify-between bg-[#0c0e14] border border-white/10 p-5 sm:p-6 shadow-lg hover:shadow-[0_0_30px_rgba(255,212,0,0.12)] hover:border-[#FFD400]/50 transition-all duration-500"
+                >
+                  <div>
+                    {/* Meta Line: Category Badge • Date • Read Time */}
+                    <div className="text-[11px] font-mono uppercase tracking-widest text-neutral-400 mb-3 flex items-center justify-between">
+                      <span className="px-2 py-0.5 bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] font-bold text-[10px]">
+                        {rel.category}
+                      </span>
+                      <div className="flex items-center space-x-2 text-[10px] text-neutral-400">
+                        <span>{rel.date}</span>
+                        <span>•</span>
+                        <span>{rel.readTime}</span>
+                      </div>
                     </div>
-                  </Link>
 
-                  <div className="text-[11px] font-mono uppercase tracking-widest text-neutral-400 mb-2 flex items-center space-x-2">
-                    <span>{rel.date}</span>
-                    <span>•</span>
-                    <span>{rel.readTime}</span>
+                    {/* Article Image with aspect-[78/50] */}
+                    <Link
+                      href={`/insights/${rel.id}`}
+                      className="block relative aspect-[78/50] w-full overflow-hidden bg-black/50 border border-white/10 mb-4 shadow-sm"
+                    >
+                      <Image
+                        src={rel.image}
+                        alt={rel.title}
+                        fill
+                        className="object-contain group-hover:scale-105 transition-transform duration-700 ease-out"
+                      />
+                    </Link>
+
+                    {/* Title */}
+                    <h3 className="font-[family-name:var(--font-syne)] text-base sm:text-lg text-white font-bold group-hover:text-[#FFD400] transition-colors leading-snug uppercase line-clamp-2">
+                      <Link href={`/insights/${rel.id}`}>{rel.title}</Link>
+                    </h3>
+
+                    {/* Excerpt */}
+                    <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed mt-2.5 line-clamp-2">
+                      {rel.tagline}
+                    </p>
                   </div>
 
-                  <h3 className="font-[family-name:var(--font-syne)] text-lg sm:text-xl text-white font-bold group-hover:text-[#FFD400] transition-colors leading-snug uppercase">
-                    <Link href={`/insights/${rel.id}`}>{rel.title}</Link>
-                  </h3>
+                  {/* Card Footer: Author Icon + Name + Read Link */}
+                  <div className="pt-5 mt-5 border-t border-white/10 flex items-center justify-between">
+                    <div className="flex items-center space-x-2.5">
+                      <div className="w-7 h-7 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/40 flex items-center justify-center shrink-0 text-[#FFD400]">
+                        <User className="w-3.5 h-3.5" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-xs font-medium text-white truncate max-w-[130px]">
+                          {rel.author}
+                        </p>
+                        <p className="text-[9px] text-neutral-400 font-mono truncate max-w-[130px]">
+                          {rel.authorRole}
+                        </p>
+                      </div>
+                    </div>
 
-                  <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed mt-2.5 line-clamp-2">
-                    {rel.tagline}
-                  </p>
-                </div>
-
-                <div className="pt-5 mt-5 border-t border-white/10 flex items-center justify-between">
-                  <span className="text-xs text-neutral-400 font-mono">
-                    By {rel.author}
-                  </span>
-                  <Link
-                    href={`/insights/${rel.id}`}
-                    className="text-xs font-mono uppercase tracking-widest text-[#FFD400] flex items-center space-x-1 group-hover:underline font-bold"
-                  >
-                    <span>Read Monograph</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
+                    <Link
+                      href={`/insights/${rel.id}`}
+                      className="inline-flex items-center space-x-1 text-xs font-mono uppercase tracking-wider text-[#FFD400] group-hover:text-white font-semibold transition-colors"
+                    >
+                      <span>Read More</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
       </main>
 
       {/* Global RnDFooter */}

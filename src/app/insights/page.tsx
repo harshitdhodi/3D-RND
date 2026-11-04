@@ -1,14 +1,12 @@
 "use client";
 
 import React, { useState, useMemo, useEffect, useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import {
   Search,
   ArrowUpRight,
-  Home,
-  ChevronRight,
   BookOpen,
+  User,
 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -222,12 +220,12 @@ export default function InsightsPage() {
         imageSrc={banner.image}
       />
 
-      <main className="relative z-20 w-full mt-[50px] rounded-t-[32px] sm:rounded-t-[44px] bg-transparent border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)]">
+      <main className="relative z-20 w-full mt-[50px]  bg-transparent  shadow-[0_-25px_60px_rgba(0,0,0,0.85)]">
 
         {/* =========================================================================
             2. FILTER & SEARCH BAR SECTION (Matching Reference Page with + Suffix)
             ========================================================================= */}
-        <section className="insight-filters-bar max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-12 pb-6 border-b border-white/10">
+        <section className="insight-filters-bar max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-12 pb-6 ">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             {/* Category Filter Buttons with '+' suffix */}
             <div className="flex flex-wrap gap-2">
@@ -270,16 +268,15 @@ export default function InsightsPage() {
             ========================================================================= */}
         {featuredArticle && (
           <section className="featured-editorial-section max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-12 pb-6">
-            <div className="featured-editorial-card p-8 md:p-12 bg-[#0c0e14] border border-white/10 hover:border-[#FFD400]/40 transition-colors shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch group">
+            <div className="featured-editorial-card p-8 md:p-12 bg-[#0c0e14] border border-white/10 hover:border-[#FFD400]/40 transition-colors shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center group">
               {/* Left Column (7 cols): Printer Print Reveal Right-to-Left */}
-              <div className="lg:col-span-7 relative w-full h-[280px] sm:h-[360px] lg:h-auto min-h-full flex flex-col justify-stretch self-stretch overflow-hidden">
-                <Link href={`/insights/${featuredArticle.id}`} className="block w-full h-full min-h-full">
+              <div className="lg:col-span-7 relative w-full overflow-hidden">
+                <Link href={`/insights/${featuredArticle.id}`} className="block w-full">
                   <PrintRevealImage
                     src={featuredArticle.image}
                     alt={featuredArticle.title}
                     priority
-                    badge="Featured Editorial"
-                    aspectClass="w-full h-full min-h-full"
+                    aspectClass="aspect-[78/50] w-full"
                     direction="left"
                   />
                 </Link>
@@ -288,6 +285,9 @@ export default function InsightsPage() {
               {/* Right Column (5 cols): Metadata, Title, Excerpt, Author */}
               <div className="lg:col-span-5 space-y-5">
                 <div className="featured-content-item flex items-center space-x-3 text-xs font-mono uppercase tracking-wider text-neutral-400">
+                  <span className="px-2 py-0.5 bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] font-bold text-[10px] tracking-widest">
+                    FEATURED EDITORIAL
+                  </span>
                   <span className="text-[#FFD400] font-semibold">
                     {featuredArticle.category}
                   </span>
@@ -295,7 +295,7 @@ export default function InsightsPage() {
                   <span>{featuredArticle.readTime}</span>
                 </div>
 
-                <h2 className="font-[family-name:var(--font-syne)] text-2xl sm:text-3xl md:text-4xl text-white group-hover:text-[#FFD400] transition-colors leading-snug font-bold uppercase">
+                <h2 className="font-[family-name:var(--font-syne)] text-xl sm:text-2xl md:text-3xl text-white group-hover:text-[#FFD400] transition-colors leading-snug font-bold uppercase">
                   <Link href={`/insights/${featuredArticle.id}`} className="block">
                     <WaveText text={featuredArticle.title} />
                   </Link>
@@ -308,13 +308,8 @@ export default function InsightsPage() {
                 {/* Author Info & Read Article Link */}
                 <div className="featured-content-item pt-4 border-t border-white/10 flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="relative w-9 h-9 rounded-full overflow-hidden bg-white/10 border border-[#FFD400]/40 shrink-0">
-                      <Image
-                        src={featuredArticle.authorAvatar}
-                        alt={featuredArticle.author}
-                        fill
-                        className="object-cover"
-                      />
+                    <div className="w-9 h-9 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/40 flex items-center justify-center shrink-0 text-[#FFD400]">
+                      <User className="w-4 h-4" />
                     </div>
                     <div>
                       <p className="text-xs sm:text-sm font-semibold text-white">
@@ -364,53 +359,47 @@ export default function InsightsPage() {
               {gridArticles.map((art, idx) => (
                 <article
                   key={art.id}
-                  className="insight-grid-card group flex flex-col justify-between bg-[#0c0e14] border border-white/10 p-6 sm:p-7 shadow-lg hover:shadow-[0_0_30px_rgba(255,212,0,0.12)] hover:border-[#FFD400]/50 transition-all duration-500"
+                  className="insight-grid-card group flex flex-col justify-between bg-[#0c0e14] border border-white/10 p-5 sm:p-6 shadow-lg hover:shadow-[0_0_30px_rgba(255,212,0,0.12)] hover:border-[#FFD400]/50 transition-all duration-500"
                 >
                   <div>
-                    {/* Top Aspect-[16/10] Image with Multi-Directional Glide & Settle Animation */}
+                    {/* Meta Line: Category Badge • Date • Read Time */}
+                    <div className="text-[11px] font-mono uppercase tracking-widest text-neutral-400 mb-3 flex items-center justify-between">
+                      <span className="px-2 py-0.5 bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] font-bold text-[10px]">
+                        {art.category}
+                      </span>
+                      <div className="flex items-center space-x-2 text-[10px] text-neutral-400">
+                        <span>{art.date}</span>
+                        <span>•</span>
+                        <span>{art.readTime}</span>
+                      </div>
+                    </div>
+
+                    {/* Top Aspect-[78/50] Image matching 780x500 banner aspect */}
                     <Link
                       href={`/insights/${art.id}`}
-                      className="block mb-6 shadow-sm overflow-hidden"
+                      className="block mb-5 shadow-sm overflow-hidden"
                     >
                       <PrintRevealImage
                         src={art.image}
                         alt={art.title}
-                        badge={art.category}
-                        aspectClass="aspect-[16/10]"
+                        aspectClass="aspect-[78/50] w-full"
                         index={idx}
                       />
                     </Link>
 
-                    {/* Meta Line: Date • Read Time */}
-                    <div className="text-[11px] font-mono uppercase tracking-widest text-neutral-400 mb-2 flex items-center space-x-3">
-                      <span>{art.date}</span>
-                      <span>•</span>
-                      <span>{art.readTime}</span>
-                    </div>
-
                     {/* Title Heading with Smooth Wave Animation */}
-                    <h3 className="font-[family-name:var(--font-syne)] text-xl sm:text-2xl text-white font-bold group-hover:text-[#FFD400] transition-colors leading-snug uppercase">
+                    <h3 className="font-[family-name:var(--font-syne)] text-base sm:text-lg text-white font-bold group-hover:text-[#FFD400] transition-colors leading-snug uppercase">
                       <Link href={`/insights/${art.id}`}>
                         <WaveText text={art.title} />
                       </Link>
                     </h3>
-
-                    {/* Excerpt Description */}
-                    <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed mt-3 line-clamp-3">
-                      {art.tagline}
-                    </p>
                   </div>
 
                   {/* Card Footer: Author Avatar + Name + Read Article Link */}
                   <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between">
                     <div className="flex items-center space-x-2.5">
-                      <div className="relative w-7 h-7 rounded-full overflow-hidden bg-white/10 border border-[#FFD400]/40 shrink-0">
-                        <Image
-                          src={art.authorAvatar}
-                          alt={art.author}
-                          fill
-                          className="object-cover"
-                        />
+                      <div className="w-7 h-7 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/40 flex items-center justify-center shrink-0 text-[#FFD400]">
+                        <User className="w-3.5 h-3.5" />
                       </div>
                       <div className="min-w-0">
                         <p className="text-xs font-medium text-white truncate max-w-[130px]">

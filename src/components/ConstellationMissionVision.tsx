@@ -94,25 +94,29 @@ export default function ConstellationMissionVision({
     {
       id: "node-1",
       number: "01",
-      name: "Radical Transparency",
+      name: "RADICAL TRANSPARENCY",
+      description: "Honest communication. Clear commitments. No hidden agendas.",
       icon: ShieldCheck,
     },
     {
       id: "node-2",
       number: "02",
-      name: "Relentless Craftsmanship",
+      name: "RELENTLESS CRAFTSMANSHIP",
+      description: "We believe every detail matters and every outcome deserves excellence.",
       icon: Cpu,
     },
     {
       id: "node-3",
       number: "03",
-      name: "Fearless Innovation",
+      name: "FEARLESS INNOVATION",
+      description: "Challenge conventions. Explore possibilities. Create what's next.",
       icon: Sparkles,
     },
     {
       id: "node-4",
       number: "04",
-      name: "Collective Synergy",
+      name: "COLLECTIVE SYNERGY",
+      description: "Better ideas happen when diverse minds work as one.",
       icon: Users,
     },
   ];
@@ -219,7 +223,7 @@ export default function ConstellationMissionVision({
     <section
       ref={containerRef}
       id="constellation-orbital-ecosystem"
-      className={`relative w-full ${className} flex flex-col justify-center overflow-hidden text-gray-100 selection:bg-[#FFD400] selection:text-black font-sans`}
+      className={`relative w-full ${className} flex flex-col justify-center overflow-hidden text-gray-100 selection:bg-[#FFD400] selection:text-black`}
     >
       {/* Background Canvas & Radial Glows */}
       <div className="absolute inset-0 -z-10 pointer-events-none">
@@ -229,19 +233,22 @@ export default function ConstellationMissionVision({
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
         {/* Section Header with Glowing Orbital Title Animation */}
-        <div className="constellation-header text-center max-w-2xl mx-auto mb-14 sm:mb-16">
+        <div className="constellation-header text-center max-w-3xl mx-auto mb-14 sm:mb-16">
           <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full text-xs font-semibold bg-[#FFD400]/10 text-[#FFD400] border border-[#FFD400]/30 tracking-widest uppercase mb-4 shadow-[0_0_25px_rgba(255,212,0,0.2)] hover:border-[#FFD400]/60 transition-colors">
             <span className="w-1.5 h-1.5 rounded-full bg-[#FFD400] animate-ping" />
-            <span className="tracking-[0.2em] font-mono">Constellation Architecture / 01</span>
+            <span className="tracking-[0.2em] font-mono">CONSTELLATION ARCHITECTURE</span>
           </div>
-          <h1 className="font-[family-name:var(--font-syne)] text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-4">
-            The Orbital{" "}
+          <h2 className="font-[family-name:var(--font-archia-local)] text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-4">
+            THE ORBITAL{" "}
             <span className="bg-gradient-to-r from-white via-[#ffe34d] to-[#FFD400] bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(255,212,0,0.3)]">
-              Ecosystem
+              ECOSYSTEM
             </span>
-          </h1>
-          <p className="text-neutral-300 text-sm sm:text-base leading-relaxed font-light">
-            An interconnected universe where our North Star Vision guides our Mission trajectory, powered by planetary Core Value orbits.
+          </h2>
+          <p className="text-neutral-200 text-sm sm:text-base leading-relaxed font-light mb-2">
+            A shared vision. A stronger purpose. Four guiding values that shape how we think, create, collaborate and innovate.
+          </p>
+          <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed font-light max-w-2xl mx-auto">
+            Every decision we make is guided by our commitment to building meaningful solutions, creating lasting relationships and making a positive impact through technology and creativity.
           </p>
         </div>
 
@@ -263,27 +270,31 @@ export default function ConstellationMissionVision({
                 return (
                   <div
                     key={v.number}
-                    className={`constellation-value-node bg-[#0a0a0c]/85 backdrop-blur-xl border border-[#FFD400]/20 hover:border-[#FFD400]/70 p-4 sm:p-4.5 rounded-2xl transition-all duration-300 hover:scale-[1.025] hover:shadow-[0_0_30px_rgba(255,212,0,0.25)] group relative overflow-hidden flex-1 flex flex-col justify-center ${idx % 2 === 0 ? "hover:-translate-y-0.5" : "hover:translate-y-0.5"
-                      }`}
+                    className={`constellation-value-node bg-[#0a0a0c]/85 backdrop-blur-xl border border-[#FFD400]/20 hover:border-[#FFD400]/70 p-4 sm:p-4.5 rounded-2xl transition-all duration-300 hover:scale-[1.025] hover:shadow-[0_0_30px_rgba(255,212,0,0.25)] group relative overflow-hidden flex-1 flex flex-col justify-center ${
+                      idx % 2 === 0 ? "hover:-translate-y-0.5" : "hover:translate-y-0.5"
+                    }`}
                   >
                     {/* Hover Light Sweep Beam */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#FFD400]/8 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
 
-                    <div className="flex items-center justify-between relative z-10">
-                      <div className="flex items-center space-x-3.5">
-                        <div className="w-10 h-10 rounded-xl bg-[#FFD400]/10 border border-[#FFD400]/30 flex items-center justify-center text-[#FFD400] group-hover:bg-[#FFD400] group-hover:text-black transition-all group-hover:scale-110 group-hover:rotate-6 shrink-0 shadow-[0_0_15px_rgba(255,212,0,0.1)]">
+                    <div className="flex items-start justify-between relative z-10 gap-3">
+                      <div className="flex items-start space-x-3.5">
+                        <div className="w-10 h-10 rounded-xl bg-[#FFD400]/10 border border-[#FFD400]/30 flex items-center justify-center text-[#FFD400] group-hover:bg-[#FFD400] group-hover:text-black transition-all group-hover:scale-110 group-hover:rotate-6 shrink-0 shadow-[0_0_15px_rgba(255,212,0,0.1)] mt-0.5">
                           <Icon className="w-5 h-5" />
                         </div>
                         <div>
-                          <span className="text-[11px] font-mono text-[#FFD400] font-semibold block">
+                          <span className="text-[11px] font-mono text-[#FFD400] font-semibold block uppercase tracking-wider">
                             NODE {v.number}
                           </span>
-                          <h3 className="font-[family-name:var(--font-syne)] text-base sm:text-lg font-bold text-white group-hover:text-[#FFD400] transition-colors leading-snug">
+                          <h3 className="font-[family-name:var(--font-archia-local)] text-sm sm:text-base font-bold text-white group-hover:text-[#FFD400] transition-colors leading-snug uppercase">
                             {v.name}
                           </h3>
+                          <p className="text-xs text-neutral-400 mt-1 leading-relaxed font-light">
+                            {v.description}
+                          </p>
                         </div>
                       </div>
-                      <ChevronRight className="w-5 h-5 text-neutral-500 group-hover:text-[#FFD400] group-hover:translate-x-1.5 transition-all shrink-0" />
+                      <ChevronRight className="w-4 h-4 text-neutral-500 group-hover:text-[#FFD400] group-hover:translate-x-1.5 transition-all shrink-0 mt-1" />
                     </div>
                   </div>
                 );
@@ -305,12 +316,12 @@ export default function ConstellationMissionVision({
             {/* Central Sun */}
             <div id="vision-core" className="relative group my-auto select-none py-6">
               <div className="absolute inset-0 rounded-full bg-[#FFD400]/30 blur-2xl group-hover:blur-3xl transition-all duration-500 animate-pulse" />
-              <div className="relative w-44 h-44 sm:w-48 sm:h-48 rounded-full bg-[#0a0a0c]/90 backdrop-blur-2xl border-2 border-[#FFD400] flex flex-col items-center justify-center p-6 shadow-[0_0_45px_-5px_rgba(255,212,0,0.4)] group-hover:scale-105 transition-transform duration-500">
-                <span className="text-[10px] font-mono tracking-widest text-[#FFD400] uppercase mb-1 font-bold">
-                  North Star Vision
+              <div className="relative w-44 h-44 sm:w-48 sm:h-48 rounded-full bg-[#0a0a0c]/90 backdrop-blur-2xl border-2 border-[#FFD400] flex flex-col items-center justify-center p-5 text-center shadow-[0_0_45px_-5px_rgba(255,212,0,0.4)] group-hover:scale-105 transition-transform duration-500">
+                <span className="text-[10px] font-mono tracking-widest text-[#FFD400] uppercase mb-1.5 font-bold">
+                  NORTH STAR VISION
                 </span>
-                <h2 className="font-[family-name:var(--font-syne)] text-base sm:text-lg font-bold text-white leading-tight">
-                  Autonomous Digital Paradigm
+                <h2 className="font-[family-name:var(--font-archia-local)] text-xs sm:text-sm font-bold text-white leading-tight uppercase">
+                  Shaping a Smarter, Connected Digital Future
                 </h2>
               </div>
             </div>
@@ -319,17 +330,17 @@ export default function ConstellationMissionVision({
             <div id="mission-bridge" className="w-full bg-[#0a0a0c]/85 backdrop-blur-xl border border-[#FFD400]/25 hover:border-[#FFD400]/70 p-6 rounded-2xl transition-all duration-300 hover:shadow-[0_0_35px_rgba(255,212,0,0.25)] group text-left mt-auto relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#FFD400]/8 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
 
-              <div className="flex items-center justify-between mb-2 relative z-10">
+              <div className="flex items-center justify-between mb-2.5 relative z-10">
                 <span className="text-xs font-mono text-[#FFD400] font-bold uppercase tracking-wider">
-                  Mission Bridge / 02
+                  MISSION BRIDGE
                 </span>
                 <Target className="w-4 h-4 text-[#FFD400] group-hover:rotate-45 group-hover:scale-125 transition-transform duration-300" />
               </div>
-              <h3 className="font-[family-name:var(--font-syne)] text-sm sm:text-base font-bold text-white mb-2 leading-snug group-hover:text-[#FFD400] transition-colors relative z-10">
-                To engineer relentless clarity and compounding value through autonomous code.
+              <h3 className="font-[family-name:var(--font-archia-local)] text-sm sm:text-base font-bold text-white mb-2 leading-snug group-hover:text-[#FFD400] transition-colors relative z-10">
+                To turn ambitious ideas into impactful solutions through technology, creativity and strategic thinking.
               </h3>
-              <p className="text-xs text-neutral-400 line-clamp-2 leading-relaxed font-light relative z-10">
-                Every iteration undergoes rigorous stress-testing to guarantee rock-solid resilience and sub-millisecond execution.
+              <p className="text-xs text-neutral-400 leading-relaxed font-light relative z-10">
+                Every project is an opportunity to create value, solve challenges and move businesses forward.
               </p>
             </div>
 
@@ -355,18 +366,18 @@ export default function ConstellationMissionVision({
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="w-2.5 h-2.5 rounded-full bg-[#FFD400] animate-ping" />
                   <span className="text-xs font-mono uppercase tracking-widest text-[#FFD400] font-semibold">
-                    North Star Vision / Core
+                    NORTH STAR VISION
                   </span>
                 </div>
 
                 {/* Title */}
-                <h3 className="font-[family-name:var(--font-syne)] text-2xl sm:text-3xl font-bold text-white mb-4 leading-tight group-hover:text-[#FFD400] transition-colors">
-                  Pioneering the Next Paradigm of Intelligent Digital Architecture
+                <h3 className="font-[family-name:var(--font-archia-local)] text-2xl sm:text-3xl font-bold text-white mb-4 leading-tight group-hover:text-[#FFD400] transition-colors">
+                  Shaping a Smarter, More Connected Digital Future.
                 </h3>
 
                 {/* Description */}
                 <p className="text-neutral-300 text-sm sm:text-base leading-relaxed mb-6 font-light">
-                  We envision a borderless digital ecosystem where human ingenuity effortlessly syncs with autonomous machine precision, establishing unprecedented benchmarks for sustainable enterprise impact.
+                  To become a trusted innovation partner, empowering businesses through intelligent technology, creative excellence and meaningful digital transformation.
                 </p>
               </div>
 
@@ -387,3 +398,4 @@ export default function ConstellationMissionVision({
     </section>
   );
 }
+

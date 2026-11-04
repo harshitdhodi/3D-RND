@@ -43,7 +43,7 @@ export default function CreativeShowreelSection() {
       : showreelItems.filter((item) => item.category === activeCategory);
 
   return (
-    <section id="showreel" className="relative py-28 sm:py-36 bg-transparent text-white overflow-hidden border-t border-white/5">
+    <section id="showreel" className="relative py-28 sm:py-28 bg-transparent text-white overflow-hidden border-t border-white/5">
       {/* Ambient Glow */}
       {/* <div className="absolute top-1/2 left-1/3 w-[800px] h-[400px] bg-[#FFD400]/5 blur-[180px] rounded-full pointer-events-none" /> */}
 
@@ -64,26 +64,6 @@ export default function CreativeShowreelSection() {
             </h2>
           </div>
 
-          <div className="flex items-center gap-2">
-            {[
-              { id: "all", label: "All Reels" },
-              { id: "film", label: "Commercial 8K" },
-              { id: "3d", label: "3D Motion" },
-              { id: "campaign", label: "Campaigns" },
-            ].map((btn) => (
-              <button
-                key={btn.id}
-                onClick={() => setActiveCategory(btn.id)}
-                className={`px-4 py-2 rounded-xl text-xs font-mono uppercase tracking-wider transition-all ${
-                  activeCategory === btn.id
-                    ? "bg-[#FFD400] text-black font-bold shadow-[0_0_15px_rgba(255,212,0,0.35)]"
-                    : "bg-white/[0.03] text-white/60 hover:text-white border border-white/10"
-                }`}
-              >
-                {btn.label}
-              </button>
-            ))}
-          </div>
         </div>
 
         {/* Master Cinema Theater Feature Card */}

@@ -54,7 +54,7 @@ export default function CosmicProcessSection({
   stageLabel = "// 6 STAGES OF OUR WORK",
   title = "THE PROCESS BEHIND",
   highlightTitle = "EVERY POSSIBILITY.",
-  description = "Every great outcome starts with an idea. At RND Technosoft, we follow a collaborative, insight-driven approach that brings strategy, technology and creativity together. Across every service, our six-stage process ensures clarity, purposeful execution and outcomes aligned with your business goals.",
+  description = "Every great outcome starts with an idea. At RND Technosoft, we follow a collaborative, insight-driven approach that brings strategy, technology and creativity together. ",
 }: {
   className?: string;
   badge?: string;
@@ -401,7 +401,7 @@ export default function CosmicProcessSection({
                           <p className="text-xs sm:text-[13px] font-medium text-black/85 font-mono leading-snug">
                             {step.tagline}
                           </p>
-                          <p className="text-xs sm:text-[13.5px] xl:text-[14px] font-medium text-black/85 font-mono leading-snug">
+                          <p className="text-xs sm:text-[13.5px] xl:text-[16px] font-medium text-black/85 font-mono leading-snug">
                             {step.desc}
                           </p>
                         </div>
@@ -412,25 +412,7 @@ export default function CosmicProcessSection({
                       )}
                     </div>
 
-                    {/* Bottom of Step Card: Full output data without truncation */}
-                    {isActive ? (
-                      <div className="pt-2.5 border-t border-black/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mt-auto">
-                        <span className="text-[10px] xl:text-[11px] font-mono font-bold tracking-wider uppercase leading-tight text-black/90">
-                          OUTPUT: {step.deliverable}
-                        </span>
-                        <Link
-                          href="#contact"
-                          className="px-3.5 py-1.5 rounded-lg bg-black text-[#FFD400] text-xs font-mono font-bold tracking-wider uppercase inline-flex items-center space-x-1.5 hover:bg-neutral-900 transition-colors shadow-sm shrink-0"
-                        >
-                          <span>MORE DETAIL</span>
-                          <ArrowUpRight className="w-3.5 h-3.5" />
-                        </Link>
-                      </div>
-                    ) : (
-                      <div className="font-mono text-[11px] opacity-75 font-semibold">
-                        0{idx + 1}
-                      </div>
-                    )}
+                    
                   </div>
                 );
               })}

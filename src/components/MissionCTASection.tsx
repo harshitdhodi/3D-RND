@@ -34,64 +34,77 @@ export default function MissionCTASection() {
             {/* Left Column: Heading & Value Prop */}
             <div className="lg:col-span-6">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase mb-6">
-                <Rocket className="w-3.5 h-3.5" />
-                <span>INITIATE MISSION // CONTACT</span>
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>LET'S CONNECT | START A CONVERSATION</span>
               </div>
 
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[family-name:var(--font-syne)] font-bold tracking-tight leading-tight uppercase text-white mb-6">
-                READY FOR YOUR{" "}
-                <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.4)]">
-                  NEXT BIG MISSION?
-                </span>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[family-name:var(--font-syne)] font-bold tracking-tight leading-[1.1] uppercase text-white mb-8">
+                HAVE A VISION?
+                <br />
+                LET'S MAKE IT
+                <br />
+                HAPPEN.
               </h2>
 
-              <p className="text-base sm:text-lg text-white/70 leading-relaxed font-light mb-8">
-                Whether you need to architect scalable enterprise cloud software, build a conversion-driven spatial 3D web platform, dominate social media growth, or direct an 8K commercial campaign — RnD Technosoft delivers complete mission success.
-              </p>
+              <div className="space-y-5 mb-8">
+                <p className="text-sm sm:text-base text-white/70 leading-relaxed font-light">
+                  Whether you're looking to build smarter technology, accelerate digital growth, create a distinctive brand or produce compelling visual content, RND Technosoft is ready to bring your next big idea to life.
+                </p>
 
-              <div className="flex flex-col sm:flex-row gap-6 pt-6 border-t border-white/10 text-sm font-mono text-white/75">
+                <p className="text-sm sm:text-base text-white/70 leading-relaxed font-light">
+                  Tell us what you're envisioning. Let's explore the possibilities and build something that moves your business forward.
+                </p>
+              </div>
+
+              <div className="space-y-3 pt-6 border-t border-white/10">
                 <a
                   href="mailto:contact@rndtechnosoft.com"
-                  className="flex items-center gap-2.5 hover:text-[#FFD400] transition-colors"
+                  className="flex items-start gap-3 text-sm hover:text-[#FFD400] transition-colors group"
                 >
-                  <Mail className="w-4 h-4 text-[#FFD400]" />
-                  <span>contact@rndtechnosoft.com</span>
+                  <Mail className="w-4 h-4 text-[#FFD400] mt-0.5 shrink-0" />
+                  <div>
+                    <span className="block text-white/50 text-xs font-mono uppercase tracking-wider mb-0.5">EMAIL:</span>
+                    <span className="text-white group-hover:text-[#FFD400]">contact@rndtechnosoft.com</span>
+                  </div>
                 </a>
                 <a
-                  href="tel:+919876543210"
-                  className="flex items-center gap-2.5 hover:text-[#FFD400] transition-colors"
+                  href="tel:+917304845823"
+                  className="flex items-start gap-3 text-sm hover:text-[#FFD400] transition-colors group"
                 >
-                  <Phone className="w-4 h-4 text-[#FFD400]" />
-                  <span>+91 (0) 98765 43210</span>
+                  <Phone className="w-4 h-4 text-[#FFD400] mt-0.5 shrink-0" />
+                  <div>
+                    <span className="block text-white/50 text-xs font-mono uppercase tracking-wider mb-0.5">PHONE:</span>
+                    <span className="text-white group-hover:text-[#FFD400]">+91 73048 45823</span>
+                  </div>
                 </a>
               </div>
             </div>
 
-            {/* Right Column: Interactive Mission Enquiry Form */}
+            {/* Right Column: Interactive Contact Form */}
             <div className="lg:col-span-6">
               <div className="p-7 sm:p-9 rounded-2xl bg-[#050608]/90 backdrop-blur-xl border border-white/10 shadow-2xl">
-                <h3 className="text-xl font-bold font-[family-name:var(--font-syne)] text-white mb-2">
-                  Launch Your Project Brief
+                <h3 className="text-xl sm:text-2xl font-bold font-[family-name:var(--font-syne)] text-white mb-3">
+                  Let's Start Something Great.
                 </h3>
-                <p className="text-xs font-mono text-white/50 mb-6 uppercase tracking-wider">
-                  Guaranteed response within 24 hours with NDA & architecture plan.
+                <p className="text-sm text-white/60 leading-relaxed mb-8">
+                  Share a few details about your project. Our team will connect with you to understand your requirements and discuss the next steps.
                 </p>
 
                 {submitted ? (
                   <div className="p-8 rounded-xl bg-[#FFD400]/10 border border-[#FFD400]/40 text-center animate-in fade-in">
                     <CheckCircle2 className="w-12 h-12 text-[#FFD400] mx-auto mb-3" />
-                    <h4 className="text-xl font-bold font-[family-name:var(--font-syne)] text-white mb-1">
-                      Mission Brief Received!
+                    <h4 className="text-xl font-bold font-[family-name:var(--font-syne)] text-white mb-2">
+                      Message Received!
                     </h4>
                     <p className="text-sm text-white/70">
-                      Our lead technical architect will review your requirements and reach out within 24 hours.
+                      Thank you for reaching out. We'll get back to you within 24 hours.
                     </p>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4">
+                  <form onSubmit={handleSubmit} className="space-y-5">
                     <div>
-                      <label className="block text-xs font-mono text-white/60 uppercase tracking-wider mb-1.5">
-                        Your Name / Organization
+                      <label className="block text-sm text-white/70 mb-2">
+                        Your Name / Company Name
                       </label>
                       <input
                         type="text"
@@ -100,14 +113,14 @@ export default function MissionCTASection() {
                         onChange={(e) =>
                           setFormData({ ...formData, name: e.target.value })
                         }
-                        placeholder="Alex Vance, Founder"
-                        className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white text-sm focus:outline-none focus:border-[#FFD400] transition-colors"
+                        placeholder="Enter your name or organisation"
+                        className="w-full px-4 py-3 rounded-lg bg-black/40 border border-white/10 text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-[#FFD400]/50 transition-colors"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-mono text-white/60 uppercase tracking-wider mb-1.5">
-                        Business Email
+                      <label className="block text-sm text-white/70 mb-2">
+                        Business Email Address
                       </label>
                       <input
                         type="email"
@@ -116,55 +129,54 @@ export default function MissionCTASection() {
                         onChange={(e) =>
                           setFormData({ ...formData, email: e.target.value })
                         }
-                        placeholder="alex@company.com"
-                        className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white text-sm focus:outline-none focus:border-[#FFD400] transition-colors"
+                        placeholder="you@company.com"
+                        className="w-full px-4 py-3 rounded-lg bg-black/40 border border-white/10 text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-[#FFD400]/50 transition-colors"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-mono text-white/60 uppercase tracking-wider mb-1.5">
-                        Primary Service Required
+                      <label className="block text-sm text-white/70 mb-2">
+                        What Can We Help You With?
                       </label>
                       <select
                         value={formData.service}
                         onChange={(e) =>
                           setFormData({ ...formData, service: e.target.value })
                         }
-                        className="w-full px-4 py-3 rounded-xl bg-[#090b10] border border-white/10 text-white text-sm focus:outline-none focus:border-[#FFD400] transition-colors"
+                        className="w-full px-4 py-3 rounded-lg bg-black/40 border border-white/10 text-white text-sm focus:outline-none focus:border-[#FFD400]/50 transition-colors appearance-none cursor-pointer"
                       >
-                        <option value="Websites & Web Apps">Custom Websites & Web Apps</option>
-                        <option value="Enterprise Software">Custom Software & Cloud Systems</option>
-                        <option value="Digital Marketing & SMM">Digital Marketing & Social Media</option>
-                        <option value="Branding & Design">Branding & UI/UX Design</option>
-                        <option value="Commercial Media">Commercial 8K Film & Photography</option>
-                        <option value="Full Integrated Retainer">Full Integrated Ecosystem Retainer</option>
+                        <option value="Technology Solutions">Technology Solutions</option>
+                        <option value="Digital Marketing">Digital Marketing</option>
+                        <option value="Branding & Design">Branding & Design</option>
+                        <option value="Media Production">Media Production</option>
+                        <option value="Multiple Services/Complete Digital Solutions">Multiple Services/Complete Digital Solutions</option>
+                        <option value="Not sure yet - Let's Discuss">Not sure yet - Let's Discuss</option>
                       </select>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-mono text-white/60 uppercase tracking-wider mb-1.5">
-                        Project Details / Timeline
+                      <label className="block text-sm text-white/70 mb-2">
+                        Tell Us About Your Project
                       </label>
                       <textarea
-                        rows={3}
+                        rows={4}
                         required
                         value={formData.message}
                         onChange={(e) =>
                           setFormData({ ...formData, message: e.target.value })
                         }
-                        placeholder="Tell us about your objectives, scale, and timeline..."
-                        className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white text-sm focus:outline-none focus:border-[#FFD400] transition-colors resize-none"
+                        placeholder="Share your goals, requirements, expectations or ideas..."
+                        className="w-full px-4 py-3 rounded-lg bg-black/40 border border-white/10 text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-[#FFD400]/50 transition-colors resize-none"
                       />
                     </div>
 
-                    <CyberButton
+                    <button
                       type="submit"
-                      variant="gold"
-                      fullWidth
-                      size="lg"
+                      className="w-full py-3.5 px-6 rounded-lg bg-[#FFD400] hover:bg-[#ffe033] text-black font-bold text-sm transition-all shadow-[0_0_20px_rgba(255,212,0,0.3)] hover:shadow-[0_0_30px_rgba(255,212,0,0.5)] flex items-center justify-center gap-2 group"
                     >
-                      INITIATE MISSION PROTOCOL
-                    </CyberButton>
+                      <span>SEND MESSAGE</span>
+                      <Send className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                    </button>
                   </form>
                 )}
               </div>

@@ -142,44 +142,44 @@ export default function AboutUsPage() {
   const agencyPillars = [
     {
       number: "01",
-      title: "Technology",
+      title: "TECHNOLOGY SOLUTIONS",
       icon: Cpu,
-      desc: "Full-Stack Next.js 15, headless enterprise APIs & hardware-accelerated spatial 3D WebGL experiences.",
-      tag: "ENGINEERING",
-      features: ["Next.js 15", "WebGL / 3D", "Headless APIs", "Cloud-Native"],
+      desc: "From responsive websites and mobile applications to custom software and eCommerce platforms, we build digital solutions designed to simplify operations and support business growth.",
+      tag: "TECHNOLOGY",
+      features: ["WebDevelopment", "MobileApps", "CustomSoftware", "Ecommerce"],
       image: "/images/service_webdev.jpg",
     },
     {
       number: "02",
-      title: "Growth & SEO",
+      title: "DIGITAL MARKETING",
       icon: TrendingUp,
-      desc: "Programmatic search dominance, high-intent CRO conversion engines & multi-channel acquisition.",
+      desc: "We help brands build visibility, reach the right audiences and generate opportunities through SEO, social media marketing, paid advertising and strategic content.",
       tag: "PERFORMANCE",
-      features: ["Programmatic SEO", "CRO Funnels", "Data Analytics", "Paid Dominance"],
+      features: ["SEO", "SocialMedia", "PaidAdvertising", "ContentMarketing"],
       image: "/images/service_marketing.jpg",
     },
     {
       number: "03",
-      title: "UX/UI & Brand",
+      title: "BRANDING & DESIGN",
       icon: Palette,
-      desc: "Category-defining visual identity systems, spatial design tokens & micro-animated component libraries.",
+      desc: "We create distinctive brand identities and compelling visual experiences through graphic design, logo creation and marketing collateral that make brands memorable.",
       tag: "CREATIVE",
-      features: ["Design Systems", "Spatial UI", "Interactive Prototypes", "Identity"],
+      features: ["BrandIdentity", "GraphicDesign", "LogoDesign", "CreativeDesign"],
       image: "/images/service_branding.jpg",
     },
     {
       number: "04",
-      title: "Media Production",
+      title: "MEDIA PRODUCTION",
       icon: Camera,
-      desc: "Cinematic commercial brand films, 3D CGI product motion graphics & studio visual production sets.",
-      tag: "PRODUCTION",
-      features: ["3D CGI Motion", "Commercial Films", "Virtual Sets", "Color Grading"],
+      desc: "We transform ideas into engaging visual stories through professional photography, videography, video editing and creative production.",
+      tag: "STORYTELLING",
+      features: ["Videography", "Photography", "VideoProduction", "CreativeContent"],
       image: "/images/service_media.jpg",
     },
   ];
 
   return (
-    <div ref={pageRef} className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black font-sans">
+    <div ref={pageRef} className="font-archia relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black">
       {/* Background Starfield */}
       <SpaceBackground />
 
@@ -277,24 +277,26 @@ export default function AboutUsPage() {
 
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-bold tracking-widest text-[#FFD400] uppercase mb-4 bg-[#FFD400]/10 border border-[#FFD400]/30 shadow-[0_0_20px_rgba(255,212,0,0.15)] group-hover:border-[#FFD400]/60 transition-colors relative z-10">
                   <Layers className="w-3.5 h-3.5 animate-pulse" />
-                  <span>WHO WE ARE</span>
+                  <span>◈ THE RND DIFFERENCE</span>
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold uppercase tracking-tight text-white mb-4 leading-tight relative z-10">
-                  WE ELIMINATE THE GAP
+                <h2 className="text-2xl sm:text-3xl font-[family-name:var(--font-archia-local)] font-bold uppercase tracking-tight text-white mb-4 leading-tight relative z-10">
+                  WHERE TECHNOLOGY
                   <br />
                   <span className="bg-gradient-to-r from-white via-[#ffe34d] to-[#FFD400] bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(255,212,0,0.25)]">
-                    BETWEEN TECH &amp; CREATIVE.
+                    MEETS CREATIVITY.
                   </span>
+                  <br />
+                  WHERE IDEAS BECOME IMPACT.
                 </h2>
 
                 <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light mb-6 relative z-10">
-                  RnD Technosoft unifies engineering rigor, programmatic search dominance, high-end spatial branding, and cinematic production into one streamlined partner.
+                  RND Technosoft brings technology, digital marketing, branding and media production together under one roof. We combine technical expertise, strategic thinking and creative execution to help businesses build stronger brands, smarter digital experiences and meaningful connections with their audiences.
                 </p>
 
                 <div className="pt-2 relative z-10">
                   <CyberButton href="/#contact" variant="gold" size="md" fullWidth>
-                    EXPLORE CAPABILITIES
+                    EXPLORE OUR CAPABILITIES →
                   </CyberButton>
                 </div>
               </div>
@@ -324,7 +326,7 @@ export default function AboutUsPage() {
                           </span>
                         </div>
 
-                        <h3 className="text-xl sm:text-2xl font-[family-name:var(--font-syne)] font-bold uppercase text-white mb-2 group-hover:text-[#FFD400] transition-colors leading-snug">
+                        <h3 className="text-xl sm:text-2xl font-[family-name:var(--font-archia-local)] font-bold uppercase text-white mb-2 group-hover:text-[#FFD400] transition-colors leading-snug">
                           {pillar.title}
                         </h3>
 
@@ -347,7 +349,7 @@ export default function AboutUsPage() {
 
                       <div className="pt-4 border-t border-white/10 mt-5 flex items-center justify-between">
                         <span className="text-[10px] font-mono text-[#FFD400] uppercase font-bold tracking-wider">
-                          VERIFIED DISCIPLINE
+                          EXPLORE ↗
                         </span>
                         <ArrowUpRight className="w-4 h-4 text-neutral-400 group-hover:text-[#FFD400] group-hover:translate-x-1.5 group-hover:-translate-y-1.5 transition-transform duration-300" />
                       </div>
@@ -387,16 +389,18 @@ export default function AboutUsPage() {
           <div className="about-cta-card rounded-[28px] border border-[#FFD400]/30 bg-gradient-to-r from-[#12141c] via-[#090a0f] to-[#12141c] p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-[0_0_50px_rgba(255,212,0,0.1)]">
             <div>
               <span className="text-[10px] font-mono font-bold tracking-widest text-[#FFD400] uppercase block mb-1">
-                READY FOR THE NEXT STEP?
+                READY FOR WHAT'S NEXT?
               </span>
-              <h3 className="text-xl sm:text-2xl font-[family-name:var(--font-syne)] font-bold uppercase text-white tracking-tight">
-                LET&apos;S SHAPE YOUR NEXT <span className="text-[#FFD400]">DEFINING MILESTONE.</span>
+              <h3 className="text-xl sm:text-2xl font-[family-name:var(--font-archia-local)] font-bold uppercase text-white tracking-tight">
+                GREAT IDEAS DESERVE <span className="text-[#FFD400]">GREAT PARTNERS.</span>
               </h3>
+
+              <p>Let's bring the right expertise, creativity and technology together to move your business forward.</p>
             </div>
 
             <div className="flex items-center gap-3 shrink-0">
-              <CyberButton href="/#contact" variant="gold" size="md">
-                Initiate Partnership
+              <CyberButton href="/contact-us" variant="gold" size="md">
+             INITIATE PARTNERSHIP
               </CyberButton>
             </div>
           </div>

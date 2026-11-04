@@ -134,16 +134,13 @@ export interface WhyChooseServiceData {
    1. TECHNOLOGY SOLUTIONS & ENTERPRISE ENGINEERING
    ========================================================================= */
 const TECHNOLOGY_SOLUTIONS_DATA: WhyChooseServiceData = {
-  badge: "WHY TEAM UP WITH US // ADVANCED ENGINEERING LAB",
+  badge: "WHY CHOOSE RND // THE RND ADVANTAGE",
   typewriterPhrases: [
-    "VELOCITY & IMPACT",
-    "ZERO DOWNTIME",
-    "SCALABLE ARCHITECTURES",
-    "CLEAN TYPE-SAFE CODE",
+    "ENGINEERED TO LEAD",
   ],
   titlePrefix: "BUILT FOR MAXIMUM",
   subtitle:
-    "Accelerate enterprise release velocity with battle-tested senior architects, multi-region cloud resilience, 100% IP ownership, and guaranteed sub-second response times.",
+    "We bring together strategic thinking, technical expertise and creative execution to help businesses move forward. From the first idea to long-term growth, we build solutions that are scalable, secure and designed to deliver lasting value.",
   hero: {
     stat: "3x Faster",
     subtitleLine1: "From Codebase Blueprint",
@@ -707,14 +704,20 @@ export default function WhyChooseSection({
   titlePrefix?: string;
   subtitle?: string;
 } = {}) {
+  const isHome = (!category || category.trim() === "") && (!serviceId || serviceId.trim() === "");
+
+  const homeTypewriterPhrases = [
+    "ENGINEERED TO LEAD."
+  ];
+
   const serviceData = useMemo(
     () => resolveServiceConfig(category, serviceId),
     [category, serviceId]
   );
 
-  const activeBadge = badge || serviceData.badge;
-  const activeTitlePrefix = titlePrefix || serviceData.titlePrefix;
-  const activeSubtitle = subtitle || serviceData.subtitle;
+  const activeBadge = badge || (isHome ? "WHY CHOOSE RND // THE RND ADVANTAGE" : serviceData.badge);
+  const activeTitlePrefix = titlePrefix || (isHome ? "BUILT TO PERFORM." : serviceData.titlePrefix);
+  const activeSubtitle = subtitle || (isHome ? "We bring together strategic thinking, technical expertise and creative execution to help businesses move forward. From the first idea to long-term growth, we build solutions that are scalable, secure and designed to deliver lasting value." : serviceData.subtitle);
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -722,7 +725,7 @@ export default function WhyChooseSection({
   const wavePathRef = useRef<SVGPathElement>(null);
 
   // Typewriter animation state for the main heading
-  const typewriterPhrases = serviceData.typewriterPhrases;
+  const typewriterPhrases = isHome ? homeTypewriterPhrases : serviceData.typewriterPhrases;
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [currentText, setCurrentText] = useState(typewriterPhrases[0] || "VELOCITY & IMPACT");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -788,18 +791,19 @@ export default function WhyChooseSection({
         );
       }
 
-      // 2. Cards entrance stagger
-      if (cardsGridRef.current) {
+      // 2. Cards entrance stagger with 3D tilt
+      const cards = cardsGridRef.current?.querySelectorAll(".why-choose-card");
+      if (cards && cards.length > 0) {
         gsap.fromTo(
-          cardsGridRef.current.children,
-          { opacity: 0, y: 40, scale: 0.98 },
+          cards,
+          { opacity: 0, y: 50, scale: 0.95 },
           {
             opacity: 1,
             y: 0,
             scale: 1,
             duration: 0.85,
-            stagger: 0.1,
-            ease: "power2.out",
+            stagger: 0.12,
+            ease: "power3.out",
             scrollTrigger: {
               trigger: cardsGridRef.current,
               start: "top 80%",
@@ -809,7 +813,49 @@ export default function WhyChooseSection({
         );
       }
 
-      // 3. Wave path line draw
+      // 3. Card 01 - Sprint timeline segment fill animation
+      const sprintBars = section.querySelectorAll(".sprint-segment-bar");
+      if (sprintBars && sprintBars.length > 0) {
+        gsap.fromTo(
+          sprintBars,
+          { scaleX: 0 },
+          {
+            scaleX: 1,
+            duration: 0.6,
+            stagger: 0.1,
+            ease: "power2.out",
+            transformOrigin: "left center",
+            scrollTrigger: {
+              trigger: cardsGridRef.current,
+              start: "top 75%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+
+      // 4. Card 02 - Avatars stagger pop
+      const avatars = section.querySelectorAll(".team-avatar-pill");
+      if (avatars && avatars.length > 0) {
+        gsap.fromTo(
+          avatars,
+          { scale: 0, opacity: 0 },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.5,
+            stagger: 0.08,
+            ease: "back.out(1.7)",
+            scrollTrigger: {
+              trigger: cardsGridRef.current,
+              start: "top 75%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+
+      // 5. Card 03 - Wave path line draw
       if (wavePathRef.current) {
         const pathLength = wavePathRef.current.getTotalLength();
         gsap.set(wavePathRef.current, {
@@ -883,9 +929,323 @@ export default function WhyChooseSection({
           ref={cardsGridRef}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch"
         >
-          {/* ========================================================
-              CARD 01 - Yellow Standout Card (Left Column - Top)
-          ======================================================== */}
+          {isHome ? (
+            <>
+              {/* ========================================================
+                  CARD 01 - AGILE BY DESIGN (Left Column - Top)
+              ======================================================== */}
+              <div className="why-choose-card rounded-[28px] bg-[#FFD400] text-black p-7 sm:p-8 flex flex-col justify-between border border-[#FFD400] shadow-[0_15px_35px_rgba(255,212,0,0.18)] hover:scale-[1.015] transition-all duration-300 lg:col-start-1 lg:row-start-1 group">
+                <div>
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="text-2xl sm:text-3xl font-black text-black font-[family-name:var(--font-syne)] tracking-tight">
+                      01 /
+                    </div>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black text-[#FFD400] text-xs font-mono font-bold uppercase tracking-wider shadow-sm">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#FFD400] animate-ping" />
+                      OUR APPROACH
+                    </span>
+                  </div>
+
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-extrabold mb-3 leading-tight font-[family-name:var(--font-syne)] text-black">
+                    <WaveText text="AGILE BY" />
+                    <br />
+                    <WaveText text="DESIGN" delayOffset={12} />
+                  </h3>
+
+                  <p className="text-xs sm:text-sm font-semibold text-black/95 mb-2 leading-snug">
+                    From concept to execution, without the complexity.
+                  </p>
+                  <p className="text-xs text-black/80 font-normal leading-relaxed mb-6">
+                    We turn ideas into actionable solutions through streamlined workflows, collaborative planning and adaptive execution.
+                  </p>
+
+                  {/* Segmented Timeline with Strategy, Execution, Innovation */}
+                  <div className="grid grid-cols-3 gap-2 mb-2">
+                    <div className="sprint-segment-bar relative h-1.5 sm:h-2 bg-black rounded-full overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-bar-shimmer" />
+                    </div>
+                    <div className="sprint-segment-bar relative h-1.5 sm:h-2 bg-black rounded-full overflow-hidden">
+                      <div
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-bar-shimmer"
+                        style={{ animationDelay: "0.5s" }}
+                      />
+                    </div>
+                    <div className="sprint-segment-bar relative h-1.5 sm:h-2 bg-black rounded-full overflow-hidden">
+                      <div
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-bar-shimmer"
+                        style={{ animationDelay: "1s" }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-2 text-[11px] sm:text-xs font-bold text-black font-[family-name:var(--font-jakarta)]">
+                    <span>Strategy</span>
+                    <span>Execution</span>
+                    <span className="flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-black animate-ping inline-block" />
+                      Innovation
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* ========================================================
+                  CARD 02 - EXPERTISE THAT DELIVERS (Left Column - Bottom)
+              ======================================================== */}
+              <div className="why-choose-card rounded-[28px] bg-[#0c0d12] border border-white/10 hover:border-white/20 p-7 sm:p-8 flex flex-col justify-between transition-all duration-300 lg:col-start-1 lg:row-start-2">
+                <div>
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="text-2xl sm:text-3xl font-black text-white/40 font-[family-name:var(--font-syne)] tracking-tight">
+                      02 /
+                    </div>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/80 text-xs font-mono uppercase tracking-wider">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      OUR PEOPLE
+                    </span>
+                  </div>
+
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-extrabold mb-3 leading-tight font-[family-name:var(--font-syne)] text-white">
+                    <WaveText text="EXPERTISE THAT" />
+                    <br />
+                    <WaveText text="DELIVERS" delayOffset={14} />
+                  </h3>
+
+                  <p className="text-xs sm:text-sm font-medium text-[#FFD400] mb-2 leading-snug">
+                    The right minds. The right solutions.
+                  </p>
+                  <p className="text-xs text-white/70 font-light leading-relaxed mb-5">
+                    Our multidisciplinary expertise brings developers, strategists, designers and creative professionals together to solve business challenges and build meaningful digital experiences.
+                  </p>
+
+              
+                  {/* Tech / Discipline Badges: Technology • Strategy • Design • Marketing */}
+                  <div className="flex flex-wrap gap-2 pt-3 border-t border-white/10">
+                    {["Technology", "Strategy", "Design", "Marketing"].map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-xs text-white/75 font-mono hover:border-[#FFD400]/40 transition-colors"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* ========================================================
+                  CENTER HERO CARD - Astronaut with Golden Shield (Center Column - Spans 2 Rows)
+              ======================================================== */}
+              <div className="why-choose-card rounded-[28px] bg-black/40 backdrop-blur-md border border-white/10 hover:border-[#FFD400]/40 p-6 sm:p-8 flex flex-col items-center justify-between md:col-span-2 lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:row-span-2 relative overflow-hidden transition-all duration-500 shadow-[0_20px_50px_rgba(0,0,0,0.8)] group">
+                {/* Floating Cyber Astronaut + Golden Energy Shield Image & Hologram Rings */}
+                <div className="relative z-10 w-full flex-1 flex items-center justify-center min-h-[320px] sm:min-h-[380px] py-3">
+                  {/* Infinite Rotating Cyber Halo Rings behind the shield */}
+                  <div className="absolute w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] rounded-full border border-[#FFD400]/10 animate-spin-slow pointer-events-none" />
+                  <div className="absolute w-[220px] h-[220px] sm:w-[250px] sm:h-[250px] rounded-full border border-dashed border-[#FFD400]/20 animate-spin-reverse pointer-events-none" />
+                  {/* Golden Core Pulse Aura */}
+                  <div className="absolute w-[180px] h-[180px] rounded-full bg-[#FFD400]/[0.08] blur-[40px] animate-pulse-glow pointer-events-none" />
+
+                  <div className="relative w-full h-full max-w-[340px] sm:max-w-[380px] aspect-[3/4] flex items-center justify-center animate-subtle-float">
+                    <Image
+                      src="/images/why_choose_astronaut_shield.jpg"
+                      alt="Cyber Astronaut with Golden Energy Shield"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 400px"
+                      className="object-contain select-none pointer-events-none group-hover:scale-105 transition-transform duration-700 ease-out"
+                      priority
+                    />
+                  </div>
+                </div>
+
+                {/* IDEAS → IMPACT, BUILT TO SCALE & Subtitle */}
+                <div className="relative z-10 text-center mb-6">
+                  <h3 className="text-3xl sm:text-4xl md:text-[40px] font-black text-[#FFD400] mb-2 tracking-tight font-[family-name:var(--font-syne)] animate-glow-pulse whitespace-nowrap">
+                    <WaveText text="IDEAS → IMPACT" className="whitespace-nowrap" />
+                  </h3>
+                  <h4 className="text-white font-bold text-sm sm:text-base uppercase tracking-wider font-[family-name:var(--font-syne)] mb-1.5">
+                    BUILT TO SCALE.
+                  </h4>
+                  <p className="text-white/70 text-xs sm:text-sm font-[family-name:var(--font-jakarta)] leading-snug max-w-[280px] mx-auto">
+                    One vision. Four capabilities.<br />Endless possibilities
+                  </p>
+                </div>
+
+                {/* CTA Button with Infinite Radiant Sheen Sweep */}
+                <Link
+                  href="/#contact"
+                  className="relative z-10 w-full py-4 px-6 rounded-2xl bg-[#FFD400] text-black font-extrabold text-xs sm:text-sm md:text-base flex items-center justify-center gap-2 hover:bg-[#ffe033] transition-all group/btn font-[family-name:var(--font-syne)] uppercase tracking-wider shadow-[0_0_25px_rgba(255,212,0,0.3)] hover:shadow-[0_0_40px_rgba(255,212,0,0.55)] overflow-hidden"
+                >
+                  {/* Continuous Light Sweep Sheen */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/35 to-transparent animate-cta-sheen pointer-events-none" />
+                  <span className="relative z-10">Book Free Consultation</span>
+                  <ArrowUpRight className="relative z-10 w-5 h-5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                </Link>
+              </div>
+
+              {/* ========================================================
+                  CARD 03 - SECURITY MEETS SCALABILITY (Last Column - Top)
+              ======================================================== */}
+              <div className="why-choose-card rounded-[28px] bg-[#0c0d12] border border-white/10 hover:border-white/20 p-7 sm:p-8 flex flex-col justify-between transition-all duration-300 lg:col-start-3 lg:row-start-1">
+                <div>
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="text-2xl sm:text-3xl font-black text-white/40 font-[family-name:var(--font-syne)] tracking-tight">
+                      03 /
+                    </div>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono uppercase tracking-wider">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                      OUR TECHNOLOGY
+                    </span>
+                  </div>
+
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-extrabold mb-3 leading-tight font-[family-name:var(--font-syne)] text-white">
+                    <WaveText text="SECURITY MEETS" />
+                    <br />
+                    <WaveText text="SCALABILITY" delayOffset={11} />
+                  </h3>
+
+                  <p className="text-xs sm:text-sm font-medium text-[#FFD400] mb-2 leading-snug">
+                    Built for today. Ready for tomorrow.
+                  </p>
+                  <p className="text-xs text-white/70 font-light leading-relaxed mb-4">
+                    We develop robust digital solutions with a focus on performance, security and scalability, helping businesses adapt, evolve and grow with confidence.
+                  </p>
+
+                  {/* Glowing Yellow Sine / Spline Wave Graph with Traveling Data Packet */}
+                  <div className="h-20 mb-4 relative flex items-center">
+                    <svg
+                      className="w-full h-full overflow-visible"
+                      viewBox="0 0 320 100"
+                      fill="none"
+                      preserveAspectRatio="none"
+                    >
+                      <defs>
+                        <linearGradient id="cloudSecurityGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stopColor="#FFD400" stopOpacity="0.3" />
+                          <stop offset="100%" stopColor="#FFD400" stopOpacity="0" />
+                        </linearGradient>
+                        <filter id="yellowGlow" x="-30%" y="-30%" width="160%" height="160%">
+                          <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#FFD400" floodOpacity="0.9" />
+                        </filter>
+                      </defs>
+
+                      {/* Gradient Underfill */}
+                      <path
+                        d="M 0,65 C 40,65 60,62 90,58 C 120,52 140,32 165,32 C 190,32 205,70 230,70 C 255,70 275,22 295,22 L 320,22 L 320,100 L 0,100 Z"
+                        fill="url(#cloudSecurityGradient)"
+                      />
+
+                      {/* Neon Spline Line */}
+                      <path
+                        ref={wavePathRef}
+                        d="M 0,65 C 40,65 60,62 90,58 C 120,52 140,32 165,32 C 190,32 205,70 230,70 C 255,70 275,22 295,22 L 320,22"
+                        stroke="#FFD400"
+                        strokeWidth="3.2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        filter="url(#yellowGlow)"
+                      />
+
+                      {/* Infinite Traveling Glowing Telemetry Photon */}
+                      <circle r="4" fill="#FFFFFF" filter="url(#yellowGlow)">
+                        <animateMotion
+                          path="M 0,65 C 40,65 60,62 90,58 C 120,52 140,32 165,32 C 190,32 205,70 230,70 C 255,70 275,22 295,22 L 320,22"
+                          dur="3.2s"
+                          repeatCount="indefinite"
+                        />
+                      </circle>
+                      <circle r="7.5" fill="#FFD400" opacity="0.35">
+                        <animateMotion
+                          path="M 0,65 C 40,65 60,62 90,58 C 120,52 140,32 165,32 C 190,32 205,70 230,70 C 255,70 275,22 295,22 L 320,22"
+                          dur="3.2s"
+                          repeatCount="indefinite"
+                        />
+                      </circle>
+                    </svg>
+                  </div>
+
+                  {/* Tech Badges: Cloud Infrastructure • Security • Performance • Scalability */}
+                  <div className="flex flex-wrap gap-1.5 pt-3 border-t border-white/10">
+                    {["Cloud Infrastructure", "Security", "Performance", "Scalability"].map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-[11px] text-white/75 font-mono hover:border-[#FFD400]/40 transition-colors"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* ========================================================
+                  CARD 04 - PARTNERSHIP BEYOND DELIVERY (Last Column - Bottom)
+              ======================================================== */}
+              <div className="why-choose-card rounded-[28px] bg-[#0c0d12] border border-white/10 hover:border-white/20 p-7 sm:p-8 flex flex-col justify-between transition-all duration-300 lg:col-start-3 lg:row-start-2">
+                <div>
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="text-2xl sm:text-3xl font-black text-white/40 font-[family-name:var(--font-syne)] tracking-tight">
+                      04 /
+                    </div>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/80 text-xs font-mono uppercase tracking-wider">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#FFD400] animate-pulse" />
+                      OUR COMMITMENT
+                    </span>
+                  </div>
+
+                  <div className="flex items-start justify-between mb-3">
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-extrabold leading-tight font-[family-name:var(--font-syne)] text-white">
+                      <WaveText text="PARTNERSHIP" />
+                      <br />
+                      <WaveText text="BEYOND DELIVERY" delayOffset={15} />
+                    </h3>
+
+                    {/* Glowing Concentric Radar / Telemetry Node with Active Orbiting Sensors */}
+                    <div className="relative w-16 h-16 shrink-0 flex items-center justify-center ml-2">
+                      {/* Outer pulse circle */}
+                      <div className="absolute inset-0 rounded-full border border-[#FFD400]/30 animate-ping opacity-30" />
+                      {/* Mid dashed radar ring */}
+                      <div className="absolute inset-1.5 rounded-full border border-dashed border-[#FFD400]/40 animate-spin-slow" />
+                      {/* Rotating radar sweep ray */}
+                      <div className="absolute inset-1 rounded-full animate-spin-slow pointer-events-none overflow-hidden opacity-30">
+                        <div className="w-1/2 h-1/2 origin-bottom-right bg-gradient-to-br from-transparent to-[#FFD400]/40 rounded-tl-full" />
+                      </div>
+                      {/* Center glowing circle with headphone icon */}
+                      <div className="relative z-10 w-9 h-9 rounded-full bg-[#FFD400]/15 border border-[#FFD400] flex items-center justify-center shadow-[0_0_20px_rgba(255,212,0,0.4)]">
+                        <Headphones className="w-4 h-4 text-[#FFD400]" />
+                      </div>
+                      {/* Orbiting accent dots rotating around perimeter */}
+                      <div className="absolute inset-0 animate-orbit pointer-events-none">
+                        <span className="absolute top-0.5 right-1 w-1.5 h-1.5 rounded-full bg-[#FFD400] shadow-[0_0_8px_#FFD400]" />
+                        <span className="absolute bottom-1 left-0.5 w-1.5 h-1.5 rounded-full bg-[#FFD400]/80 shadow-[0_0_8px_#FFD400]" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="text-xs sm:text-sm font-medium text-[#FFD400] mb-2 leading-snug">
+                    We build relationships, not just projects.
+                  </p>
+                  <p className="text-xs text-white/70 font-light leading-relaxed mb-5">
+                    Our commitment extends beyond launch. We provide ongoing collaboration, technical assistance and continuous improvement to keep your digital ecosystem moving forward.
+                  </p>
+
+                  {/* Badges: Dedicated Support • Collaboration • Long-Term Growth */}
+                  <div className="flex flex-wrap gap-2 pt-3 border-t border-white/10 mt-auto">
+                    {["Dedicated Support", "Collaboration", "Long-Term Growth"].map((item) => (
+                      <span
+                        key={item}
+                        className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-xs text-white/80 font-mono hover:border-[#FFD400]/40 transition-colors"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* ========================================================
+                  CARD 01 - Yellow Standout Card (Left Column - Top)
+              ======================================================== */}
           <div className="why-choose-card rounded-[28px] bg-[#FFD400] text-black p-6 sm:p-7 flex flex-col justify-between border border-[#FFD400] shadow-[0_15px_35px_rgba(255,212,0,0.18)] hover:scale-[1.015] transition-all duration-300 lg:col-start-1 lg:row-start-1 group">
             <div>
               <div className="flex items-center justify-between mb-2">
@@ -1258,6 +1618,8 @@ export default function WhyChooseSection({
               <span className="text-[#FFD400] text-xs font-mono font-bold">24/7/365</span>
             </div>
           </div>
+            </>
+          )}
         </div>
       </div>
 
@@ -1380,6 +1742,44 @@ export default function WhyChooseSection({
         }
         .animate-bar-shimmer {
           animation: barShimmer 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes shimmerPass {
+          0%, 20% {
+            transform: translateX(-150%);
+          }
+          60%, 100% {
+            transform: translateX(200%);
+          }
+        }
+        .animate-shimmer-pass {
+          animation: shimmerPass 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes pulseGlow {
+          0%, 100% {
+            opacity: 0.35;
+            transform: scale(0.95);
+          }
+          50% {
+            opacity: 0.8;
+            transform: scale(1.08);
+          }
+        }
+        .animate-pulse-glow {
+          animation: pulseGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes orbit {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+        .animate-orbit {
+          animation: orbit 10s linear infinite;
         }
 
         @keyframes ctaSheen {

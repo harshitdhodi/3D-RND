@@ -41,7 +41,7 @@ export default function InsightsSection() {
   ];
 
   return (
-    <section id="insights" className="relative py-28 sm:py-36 bg-transparent text-white overflow-hidden border-t border-white/5">
+    <section id="insights" className="relative py-28 sm:py-28 bg-transparent text-white overflow-hidden border-t border-white/5">
       {/* Ambient Glow */}
       <div className="absolute top-1/2 right-1/4 w-[600px] h-[350px] bg-[#FFD400]/5 blur-[160px] rounded-full pointer-events-none" />
 
@@ -75,7 +75,7 @@ export default function InsightsSection() {
               className="group rounded-3xl bg-white/[0.025] hover:bg-white/[0.05] border border-white/10 hover:border-[#FFD400]/40 p-6 sm:p-7 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
             >
               <div>
-                <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-6 border border-white/5">
+                <div className="relative aspect-[12/10] rounded-2xl overflow-hidden mb-6 border border-white/5">
                   <img
                     src={art.image}
                     alt={art.title}
@@ -103,9 +103,7 @@ export default function InsightsSection() {
                   {art.title}
                 </h3>
 
-                <p className="text-sm text-white/65 leading-relaxed font-light mb-6">
-                  {art.excerpt}
-                </p>
+              
               </div>
 
               <div className="pt-4 border-t border-white/10 flex items-center justify-between">

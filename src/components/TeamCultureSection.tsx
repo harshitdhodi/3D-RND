@@ -91,21 +91,22 @@ export default function TeamCultureSection({
       <div className="mb-14 sm:mb-18 border-b border-white/10 pb-8 sm:pb-12">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4">
           <Users className="w-3.5 h-3.5" />
-          <span>10.5 TEAM &amp; CULTURE // ARCHITECTURAL MINDS</span>
+          <span>THE PEOPLE BEHIND THE POSSIBILITIES // OUR TEAM</span>
         </div>
 
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="max-w-3xl">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[family-name:var(--font-syne)] font-bold text-white tracking-tight leading-[1.08] uppercase">
-              THE MINDS BEHIND THE{" "}
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[family-name:var(--font-archia-local)] font-bold text-white tracking-tight leading-[1.08] uppercase">
+              THE MINDS THAT{" "}
               <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.35)]">
-                DIGITAL ARCHITECTURE.
+                MAKE INNOVATION HAPPEN.
               </span>
             </h2>
           </div>
 
           <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed max-w-md">
-            Uniting 60+ full-stack software engineers, spatial 3D designers, AI researchers, and performance marketers driven by a shared standard of perfection.
+           Behind every successful solution is a team of thinkers, creators and problem-solvers. Our multidisciplinary talent brings together technical expertise, creative thinking and strategic insight to turn ambitious ideas into meaningful business outcomes.
+
           </p>
         </div>
       </div>
@@ -154,7 +155,7 @@ export default function TeamCultureSection({
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>FOUNDER &amp; CHIEF EXECUTIVE OFFICER</span>
                 </div>
-                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold text-white uppercase tracking-tight">
+                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-archia-local)] font-bold text-white uppercase tracking-tight">
                   SIDDHARTH RAO
                 </h3>
                 <p className="text-xs font-mono text-neutral-400 uppercase tracking-widest">
@@ -176,7 +177,7 @@ export default function TeamCultureSection({
               {/* 3 Executive Pillars / Stats */}
               <div className="grid grid-cols-3 gap-4 pt-2 border-t border-white/10">
                 <div className="space-y-1">
-                  <span className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-white">
+                  <span className="text-2xl sm:text-3xl font-[family-name:var(--font-archia-local)] font-bold text-white">
                     12+
                   </span>
                   <span className="text-[10px] sm:text-xs font-mono text-neutral-400 block uppercase leading-tight">
@@ -184,7 +185,7 @@ export default function TeamCultureSection({
                   </span>
                 </div>
                 <div className="space-y-1">
-                  <span className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-[#FFD400]">
+                  <span className="text-2xl sm:text-3xl font-[family-name:var(--font-archia-local)] font-bold text-[#FFD400]">
                     250+
                   </span>
                   <span className="text-[10px] sm:text-xs font-mono text-neutral-400 block uppercase leading-tight">
@@ -192,7 +193,7 @@ export default function TeamCultureSection({
                   </span>
                 </div>
                 <div className="space-y-1">
-                  <span className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-white">
+                  <span className="text-2xl sm:text-3xl font-[family-name:var(--font-archia-local)] font-bold text-white">
                     100%
                   </span>
                   <span className="text-[10px] sm:text-xs font-mono text-neutral-400 block uppercase leading-tight">
@@ -241,7 +242,7 @@ export default function TeamCultureSection({
             <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
               SPECIALIZED DISCIPLINE LEADERSHIP
             </span>
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-1">
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-[family-name:var(--font-archia-local)] font-bold text-white uppercase mt-1">
               Autonomous Squad Leads
             </h3>
           </div>
@@ -273,7 +274,7 @@ export default function TeamCultureSection({
 
               {/* Member Details: Name & Designation Only */}
               <div className="p-5 text-center sm:text-left">
-                <h4 className="text-lg font-[family-name:var(--font-syne)] font-bold text-white uppercase group-hover:text-[#FFD400] transition-colors tracking-tight">
+                <h4 className="text-lg font-[family-name:var(--font-archia-local)] font-bold text-white uppercase group-hover:text-[#FFD400] transition-colors tracking-tight">
                   {member.name}
                 </h4>
                 <p className="text-xs font-mono text-neutral-400 mt-1 uppercase tracking-wider">
@@ -287,3 +288,4 @@ export default function TeamCultureSection({
     </section>
   );
 }
+

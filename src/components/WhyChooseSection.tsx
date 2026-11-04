@@ -731,9 +731,12 @@ export default function WhyChooseSection({
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    setPhraseIndex(0);
-    setCurrentText(typewriterPhrases[0] || "VELOCITY & IMPACT");
-    setIsDeleting(false);
+    const timer = setTimeout(() => {
+      setPhraseIndex(0);
+      setCurrentText(typewriterPhrases[0] || "VELOCITY & IMPACT");
+      setIsDeleting(false);
+    }, 0);
+    return () => clearTimeout(timer);
   }, [typewriterPhrases]);
 
   useEffect(() => {
@@ -747,8 +750,10 @@ export default function WhyChooseSection({
       }, 2200);
     } else if (isDeleting && currentText === "") {
       // Switch phrase after deleting
-      setIsDeleting(false);
-      setPhraseIndex((prev) => (prev + 1) % typewriterPhrases.length);
+      timer = setTimeout(() => {
+        setIsDeleting(false);
+        setPhraseIndex((prev) => (prev + 1) % typewriterPhrases.length);
+      }, 150);
     } else {
       // Character-by-character typing or backspacing
       const typingSpeed = isDeleting ? 35 : 75;

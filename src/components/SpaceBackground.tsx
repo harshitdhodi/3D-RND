@@ -75,7 +75,6 @@ export default function SpaceBackground() {
 
     // Animation Loop
     let animationFrameId: number;
-    let lastTime = performance.now();
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);

@@ -387,7 +387,7 @@ export default function TeamCulturePage() {
                         className="p-5 rounded-xl bg-white/[0.02] border border-white/10 hover:border-[#FFD400]/40 transition-colors space-y-2"
                       >
                         <span className="text-xs font-mono text-[#FFD400] font-bold block">
-                          {val.number} // PRINCIPLE
+                          {val.number} {"//"} PRINCIPLE
                         </span>
                         <h3 className="text-base font-[family-name:var(--font-syne)] font-bold text-white uppercase">
                           {val.title}

@@ -413,7 +413,7 @@ export default function PortfolioProjectPage() {
                 Have a Similar Project in Mind?
               </h2>
               <p className="text-base text-neutral-300 mb-8 max-w-2xl mx-auto">
-                Let's discuss your project requirements and create a tailored solution that exceeds expectations.
+                Let&apos;s discuss your project requirements and create a tailored solution that exceeds expectations.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link

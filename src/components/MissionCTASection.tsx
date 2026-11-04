@@ -35,24 +35,24 @@ export default function MissionCTASection() {
             <div className="lg:col-span-6">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase mb-6">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>LET'S CONNECT | START A CONVERSATION</span>
+                <span>LET&apos;S CONNECT | START A CONVERSATION</span>
               </div>
 
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[family-name:var(--font-syne)] font-bold tracking-tight leading-[1.1] uppercase text-white mb-8">
                 HAVE A VISION?
                 <br />
-                LET'S MAKE IT
+                LET&apos;S MAKE IT
                 <br />
                 HAPPEN.
               </h2>
 
               <div className="space-y-5 mb-8">
                 <p className="text-sm sm:text-base text-white/70 leading-relaxed font-light">
-                  Whether you're looking to build smarter technology, accelerate digital growth, create a distinctive brand or produce compelling visual content, RND Technosoft is ready to bring your next big idea to life.
+                  Whether you&apos;re looking to build smarter technology, accelerate digital growth, create a distinctive brand or produce compelling visual content, RND Technosoft is ready to bring your next big idea to life.
                 </p>
 
                 <p className="text-sm sm:text-base text-white/70 leading-relaxed font-light">
-                  Tell us what you're envisioning. Let's explore the possibilities and build something that moves your business forward.
+                  Tell us what you&apos;re envisioning. Let&apos;s explore the possibilities and build something that moves your business forward.
                 </p>
               </div>
 
@@ -84,7 +84,7 @@ export default function MissionCTASection() {
             <div className="lg:col-span-6">
               <div className="p-7 sm:p-9 rounded-2xl bg-[#050608]/90 backdrop-blur-xl border border-white/10 shadow-2xl">
                 <h3 className="text-xl sm:text-2xl font-bold font-[family-name:var(--font-syne)] text-white mb-3">
-                  Let's Start Something Great.
+                  Let&apos;s Start Something Great.
                 </h3>
                 <p className="text-sm text-white/60 leading-relaxed mb-8">
                   Share a few details about your project. Our team will connect with you to understand your requirements and discuss the next steps.
@@ -97,7 +97,7 @@ export default function MissionCTASection() {
                       Message Received!
                     </h4>
                     <p className="text-sm text-white/70">
-                      Thank you for reaching out. We'll get back to you within 24 hours.
+                      Thank you for reaching out. We&apos;ll get back to you within 24 hours.
                     </p>
                   </div>
                 ) : (
@@ -150,7 +150,7 @@ export default function MissionCTASection() {
                         <option value="Branding & Design">Branding & Design</option>
                         <option value="Media Production">Media Production</option>
                         <option value="Multiple Services/Complete Digital Solutions">Multiple Services/Complete Digital Solutions</option>
-                        <option value="Not sure yet - Let's Discuss">Not sure yet - Let's Discuss</option>
+                        <option value="Not sure yet - Let's Discuss">Not sure yet - Let&apos;s Discuss</option>
                       </select>
                     </div>
 

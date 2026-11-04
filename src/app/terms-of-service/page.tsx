@@ -149,7 +149,7 @@ export default function TermsOfServicePage() {
               id="acceptance"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 01</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 01</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">1. Acceptance &amp; Structure of Terms</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>
@@ -166,7 +166,7 @@ export default function TermsOfServicePage() {
               id="scope"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 02</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 02</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">2. Scope of Services</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>
@@ -198,7 +198,7 @@ export default function TermsOfServicePage() {
               id="ip-ownership"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 03</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 03</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">3. Intellectual Property Rights &amp; Code Ownership</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <div className="p-4 rounded-xl bg-[#FFD400]/5 border border-[#FFD400]/20 text-xs sm:text-sm text-white/80">
@@ -219,7 +219,7 @@ export default function TermsOfServicePage() {
               id="client-obligations"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 04</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 04</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">4. Client Obligations &amp; Approvals</h2>
               <div className="space-y-3 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>To enable rapid engineering execution, Client agrees to:</p>
@@ -236,7 +236,7 @@ export default function TermsOfServicePage() {
               id="payments"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 05</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 05</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">5. Invoicing, Milestones &amp; Payment Terms</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>
@@ -255,7 +255,7 @@ export default function TermsOfServicePage() {
               id="confidentiality"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 06</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 06</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">6. Confidentiality &amp; Mutual Non-Disclosure</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>
@@ -272,14 +272,14 @@ export default function TermsOfServicePage() {
               id="warranties"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 07</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 07</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">7. Warranties &amp; Engineering Disclaimers</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>
                   <strong className="text-white">Quality Guarantee &amp; Bug-Fix Window:</strong> RnD provides a complimentary thirty (30) day post-launch warranty window for custom software deliverables to remediate reproducible code defects not caused by unauthorized third-party alterations.
                 </p>
                 <p>
-                  <strong className="text-white">General Disclaimer:</strong> Except as expressly warranted, services and staging deliverables are provided on an "as-is" and "as-available" basis. RnD does not warrant that third-party cloud platforms (e.g. AWS, Stripe, Google) will operate without interruptions or latency outside our direct control.
+                  <strong className="text-white">General Disclaimer:</strong> Except as expressly warranted, services and staging deliverables are provided on an &ldquo;as-is&rdquo; and &ldquo;as-available&rdquo; basis. RnD does not warrant that third-party cloud platforms (e.g. AWS, Stripe, Google) will operate without interruptions or latency outside our direct control.
                 </p>
               </div>
             </section>
@@ -289,14 +289,14 @@ export default function TermsOfServicePage() {
               id="liability"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 08</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 08</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">8. Limitation of Liability</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>
                   To the maximum extent permitted by applicable statutory law, in no event shall RnD Technosoft Pvt. Ltd., its directors, officers, or engineers be liable for any indirect, incidental, consequential, special, or punitive damages (including loss of profits, data corruption, or business interruption).
                 </p>
                 <p>
-                  RnD's total aggregate liability arising out of or related to an engagement, regardless of whether in contract, tort, or otherwise, shall not exceed the total fees actually paid by the Client to RnD under the specific SOW during the three (3) months preceding the incident.
+                  RnD&apos;s total aggregate liability arising out of or related to an engagement, regardless of whether in contract, tort, or otherwise, shall not exceed the total fees actually paid by the Client to RnD under the specific SOW during the three (3) months preceding the incident.
                 </p>
               </div>
             </section>
@@ -306,7 +306,7 @@ export default function TermsOfServicePage() {
               id="termination"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 09</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 09</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">9. Term &amp; Termination Procedures</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>
@@ -323,7 +323,7 @@ export default function TermsOfServicePage() {
               id="governing-law"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-[#FFD400]/30 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 10</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 10</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">10. Governing Law &amp; Dispute Resolution</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>

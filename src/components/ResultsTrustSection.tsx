@@ -124,7 +124,7 @@ export default function ResultsTrustSection() {
                   ))}
                 </div>
                 <p className="text-sm sm:text-base text-white/75 leading-relaxed font-light mb-8 italic">
-                  "{t.quote}"
+                  &ldquo;{t.quote}&rdquo;
                 </p>
               </div>
 

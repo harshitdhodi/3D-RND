@@ -185,7 +185,7 @@ export default function CookiesPolicyPage() {
               id="overview"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 01</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 01</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">1. What Are Cookies &amp; Tracking Technologies?</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>
@@ -202,13 +202,13 @@ export default function CookiesPolicyPage() {
               id="how-we-use"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 02</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 02</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">2. Why We Deploy Cookies</h2>
               <div className="space-y-3 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>We deploy cookies to accomplish four operational objectives:</p>
                 <ul className="space-y-2 list-disc list-inside text-white/80 text-sm">
                   <li><strong className="text-white">Security &amp; DDoS Shielding:</strong> Identifying authorized traffic and isolating brute-force attacks via Cloudflare.</li>
-                  <li><strong className="text-white">Fluid Navigation:</strong> Preserving form state when requesting service proposals so you don't lose typed text.</li>
+                  <li><strong className="text-white">Fluid Navigation:</strong> Preserving form state when requesting service proposals so you don&apos;t lose typed text.</li>
                   <li><strong className="text-white">Performance Telemetry:</strong> Evaluating asset load latency, WebGL canvas render rates, and mobile responsiveness.</li>
                   <li><strong className="text-white">Campaign Attribution:</strong> Verifying which organic and search advertising initiatives direct high-intent traffic to our agency.</li>
                 </ul>
@@ -220,7 +220,7 @@ export default function CookiesPolicyPage() {
               id="categories"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 03</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 03</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">3. Cookie Classifications We Implement</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -272,7 +272,7 @@ export default function CookiesPolicyPage() {
               id="inventory"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 04</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 04</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">4. Specific Cookies Inventory</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>The table below details the most common first and third-party cookies utilized on our site:</p>
@@ -308,7 +308,7 @@ export default function CookiesPolicyPage() {
               id="third-party"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 05</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 05</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">5. Third-Party Technologies &amp; CDNs</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>
@@ -325,7 +325,7 @@ export default function CookiesPolicyPage() {
               id="controls"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 06</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 06</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">6. Managing Your Cookie Preferences</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>
@@ -342,7 +342,7 @@ export default function CookiesPolicyPage() {
               id="browser-settings"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 07</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 07</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">7. Browser-Level Controls &amp; Opt-Out</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>
@@ -365,7 +365,7 @@ export default function CookiesPolicyPage() {
               id="updates-contact"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-[#FFD400]/30 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 08</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 08</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">8. Policy Updates &amp; Contact</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>

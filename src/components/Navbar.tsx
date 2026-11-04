@@ -222,7 +222,7 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between relative">
         {/* Brand Logo in crisp white pill capsule */}
-        <a href="/" className="flex items-center gap-3 group">
+        <Link href="/" className="flex items-center gap-3 group">
           <div className="pr-3 rounded-xl transition-all flex items-center">
             <img
               src="/logo.svg"
@@ -230,7 +230,7 @@ export default function Navbar() {
               className="h-14 sm:h-12 md:h-16 w-auto object-contain transition-transform group-hover:scale-[1.03]"
             />
           </div>
-        </a>
+        </Link>
 
         {/* Center Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-5 xl:gap-7 text-sm xl:text-[15px] font-semibold text-white/90">
@@ -449,7 +449,7 @@ export default function Navbar() {
                           >
                             <span className="flex items-center gap-2">
                               <Icon className="w-3.5 h-3.5" />
-                              <span>{cat.num} // {cat.name}</span>
+                              <span>{cat.num} {"//"} {cat.name}</span>
                             </span>
                             <ArrowUpRight className="w-3.5 h-3.5" />
                           </Link>

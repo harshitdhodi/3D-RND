@@ -160,7 +160,7 @@ export default function IndustryDetailClientView({
                             <div className="lg:col-span-8 space-y-4">
                                 <div className="flex flex-wrap items-center gap-2">
                                     <span className="px-3 py-1 rounded-full bg-[#FFD400]/15 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-bold tracking-[0.2em] uppercase">
-                                        VERTICAL {industry.number} // {industry.badge}
+                                        VERTICAL {industry.number} {"//"} {industry.badge}
                                     </span>
                                     <span className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-neutral-300 text-xs font-mono">
                                         {industry.category}

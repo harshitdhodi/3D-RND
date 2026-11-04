@@ -197,7 +197,7 @@ export default function AstronautTestPage() {
                 {activeTopic.badge}
               </span>
               <span className="text-xs font-mono text-neutral-400">
-                // HOVER TOPIC TO DIRECT ASTRONAUT
+                {"//"} HOVER TOPIC TO DIRECT ASTRONAUT
               </span>
             </div>
 

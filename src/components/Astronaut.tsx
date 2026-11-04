@@ -167,18 +167,18 @@ function AstronautCenterModel({
     let cursorArmRX = 0;
     let cursorArmRY = 0;
     let cursorArmRZ = 0;
-    let cursorLowerArmRX = 0;
+    const cursorLowerArmRX = 0;
     let cursorLowerArmRZ = 0;
     let cursorHandRY = 0;
-    let cursorHandRZ = 0;
+    const cursorHandRZ = 0;
 
     let cursorArmLX = 0;
     let cursorArmLY = 0;
     let cursorArmLZ = 0;
-    let cursorLowerArmLX = 0;
+    const cursorLowerArmLX = 0;
     let cursorLowerArmLZ = 0;
     let cursorHandLY = 0;
-    let cursorHandLZ = 0;
+    const cursorHandLZ = 0;
 
     let cursorHeadYaw = pX * 0.45;
     let cursorHeadPitch = -pY * 0.35;

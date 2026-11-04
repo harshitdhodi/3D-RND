@@ -365,7 +365,7 @@ export default function VideoCursorTest() {
       <div className="relative z-10 min-h-screen bg-linear-to-b from-black to-neutral-900 flex items-center justify-center">
         <div className="text-center px-6">
           <h2 className="text-4xl font-bold mb-4">Ready to Transform?</h2>
-          <p className="text-neutral-400 mb-8">Let's build something amazing together</p>
+          <p className="text-neutral-400 mb-8">Let&apos;s build something amazing together</p>
           <button className="px-8 py-4 bg-[#FFD400] text-black font-bold rounded-xl hover:bg-[#FFD400]/90 transition-all">
             Get Started
           </button>

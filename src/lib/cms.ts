@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { blogsData, BlogDetail } from "@/data/blogsData";
 
 const CMS_URL = process.env.NEXT_PUBLIC_CMS_URL || "http://localhost:3014";
@@ -43,7 +44,7 @@ export const DEFAULT_CATEGORIES = [
 ];
 
 // Helper to convert dynamic CMS record to BlogDetail format
-export function mapCmsRecordToBlogDetail(record: any): BlogDetail {
+export function mapCmsRecordToBlogDetail(record: Record<string, any>): BlogDetail {
   // If overview is HTML or string
   let overviewArr: string[] = [];
   if (Array.isArray(record.overview)) {

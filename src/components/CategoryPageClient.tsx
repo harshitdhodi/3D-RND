@@ -79,7 +79,7 @@ function SubCategoryCard({
         {/* Badges */}
         <div className="absolute top-3.5 left-3.5 right-3.5 z-20 flex items-center justify-between gap-2 pointer-events-none">
           <span className="font-mono text-xs text-white/90 tracking-wider px-2.5 py-1 rounded-md bg-black/85 border border-white/15 shadow-md">
-            // {sub.index}
+            {"//"} {sub.index}
           </span>
           <div className="flex items-center gap-1.5">
             {sub.badge && (

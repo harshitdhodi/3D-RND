@@ -322,7 +322,7 @@ export default function AboutUsPage() {
                             <Icon className="w-5 h-5" />
                           </div>
                           <span className="text-[10px] font-mono tracking-widest text-[#FFD400] font-bold uppercase px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 group-hover:border-[#FFD400]/40 transition-colors">
-                            {pillar.number} // {pillar.tag}
+                            {pillar.number} {"//"} {pillar.tag}
                           </span>
                         </div>
 
@@ -370,7 +370,7 @@ export default function AboutUsPage() {
 
                       {/* Hover Overlay Tag */}
                       <div className="absolute top-3 right-3 z-20 px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[9px] font-mono text-white/70 group-hover:text-[#FFD400] group-hover:border-[#FFD400]/40 uppercase tracking-widest transition-colors shadow-lg">
-                        DISCIPLINE // PREVIEW
+                        DISCIPLINE {"//"} PREVIEW
                       </div>
                     </div>
                   </div>

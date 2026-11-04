@@ -117,7 +117,7 @@ export default function ServicesSection() {
             ].map((tab) => (
               <button
                 key={tab.value}
-                onClick={() => setFilter(tab.value as any)}
+                onClick={() => setFilter(tab.value as "all" | "web" | "3d" | "ai" | "cloud")}
                 className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all ${
                   filter === tab.value
                     ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/25"

@@ -22,6 +22,7 @@ export default function AnimatedCounter({
   className = "",
 }: AnimatedCounterProps) {
   // Parse from text if value is not explicitly provided
+  let isNonNumeric = false;
   let targetNum = value ?? 0;
   let prefix = manualPrefix;
   let suffix = manualSuffix;
@@ -38,8 +39,7 @@ export default function AnimatedCounter({
       }
       suffix = manualSuffix || match[3];
     } else {
-      // Non-numeric string fallback
-      return <span className={className}>{text}</span>;
+      isNonNumeric = true;
     }
   }
 
@@ -84,6 +84,10 @@ export default function AnimatedCounter({
     observer.observe(el);
     return () => observer.disconnect();
   }, [targetNum, duration]);
+
+  if (isNonNumeric) {
+    return <span className={className}>{text}</span>;
+  }
 
   const formatted =
     decimals > 0 ? displayValue.toFixed(decimals) : Math.round(displayValue);

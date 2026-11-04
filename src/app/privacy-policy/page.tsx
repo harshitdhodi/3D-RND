@@ -151,7 +151,7 @@ export default function PrivacyPolicyPage() {
               id="overview"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 01</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 01</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">1. Overview &amp; Scope</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>
@@ -168,7 +168,7 @@ export default function PrivacyPolicyPage() {
               id="data-collection"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 02</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 02</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">2. Information We Collect</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>We classify collected information into three primary streams:</p>
@@ -212,7 +212,7 @@ export default function PrivacyPolicyPage() {
               id="data-usage"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 03</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 03</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">3. How We Use Information</h2>
               <div className="space-y-3 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>We deploy gathered data strictly for lawful, explicitly defined objectives:</p>
@@ -233,7 +233,7 @@ export default function PrivacyPolicyPage() {
               id="legal-basis"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 04</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 04</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">4. Legal Bases for Processing (GDPR Article 6)</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>If you reside within the European Economic Area (EEA) or the United Kingdom, our processing is predicated upon:</p>
@@ -263,7 +263,7 @@ export default function PrivacyPolicyPage() {
               id="data-sharing"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 05</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 05</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">5. Third-Party Sharing &amp; Sub-Processors</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>
@@ -283,7 +283,7 @@ export default function PrivacyPolicyPage() {
               id="security"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 06</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 06</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">6. Security Architecture &amp; Encryption</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>
@@ -313,7 +313,7 @@ export default function PrivacyPolicyPage() {
               id="retention"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 07</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 07</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">7. Data Retention &amp; Disposal</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>
@@ -332,7 +332,7 @@ export default function PrivacyPolicyPage() {
               id="user-rights"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 08</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 08</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">8. Your Legal Rights (GDPR &amp; CCPA/CPRA)</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>Depending on your geographic jurisdiction, you hold enforceable privacy rights:</p>
@@ -346,7 +346,7 @@ export default function PrivacyPolicyPage() {
                     <span className="text-xs text-white/60">Correct inaccurate or outdated information without undue delay.</span>
                   </div>
                   <div className="p-3.5 rounded-lg bg-white/[0.02] border border-white/5">
-                    <strong className="text-white block mb-1">Right to Erasure ("Be Forgotten")</strong>
+                    <strong className="text-white block mb-1">Right to Erasure (&ldquo;Be Forgotten&rdquo;)</strong>
                     <span className="text-xs text-white/60">Request permanent deletion where data is no longer necessary.</span>
                   </div>
                   <div className="p-3.5 rounded-lg bg-white/[0.02] border border-white/5">
@@ -365,7 +365,7 @@ export default function PrivacyPolicyPage() {
               id="international"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-white/10 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 09</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 09</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">9. Cross-Border International Data Transfers</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>
@@ -382,7 +382,7 @@ export default function PrivacyPolicyPage() {
               id="contact"
               className="p-6 sm:p-8 rounded-2xl bg-[#0c0d12]/70 border border-[#FFD400]/30 backdrop-blur-md relative"
             >
-              <div className="text-xs font-mono text-[#FFD400] mb-2">// SECTION 10</div>
+              <div className="text-xs font-mono text-[#FFD400] mb-2">{"//"} SECTION 10</div>
               <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">10. Contact Our Privacy &amp; Compliance Team</h2>
               <div className="space-y-4 text-sm sm:text-base text-white/70 leading-relaxed font-light">
                 <p>

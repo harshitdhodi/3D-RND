@@ -238,8 +238,8 @@ export default function AboutRocketScrollBanner({
   // 1. TYPEWRITER EFFECT FOR SECTION HEADING
   useEffect(() => {
     if (!isRocketPassed) {
-      setTypedCount(0);
-      return;
+      const resetTimer = setTimeout(() => setTypedCount(0), 0);
+      return () => clearTimeout(resetTimer);
     }
 
     let count = 0;
@@ -344,7 +344,7 @@ export default function AboutRocketScrollBanner({
                   <div className="flex flex-wrap items-center gap-3 text-xs font-mono font-medium tracking-[0.25em] text-neutral-400 uppercase mb-2 sm:mb-2.5">
                     <span className="text-white font-bold text-sm">01</span>
                     <span className="w-8 h-[1px] bg-[#FFD400]" />
-                    <span className="text-[#FFD400] tracking-[0.3em]">THE ORIGIN // ABOUT RND</span>
+                    <span className="text-[#FFD400] tracking-[0.3em]">THE ORIGIN {"//"} ABOUT RND</span>
                   </div>
 
                   {/* 2. Primary Headline with Dynamic Futuristic Typewriter Effect */}
@@ -374,7 +374,7 @@ export default function AboutRocketScrollBanner({
                 {/* 4. Philosophy Quote */}
                 <div className="border-l-2 border-[#FFD400] pl-3.5 py-1 bg-white/[0.02] rounded-r-lg">
                   <p className="text-xs sm:text-sm text-neutral-300 italic font-light leading-relaxed">
-                    &ldquo;We don't just adapt to the digital future. We help businesses create their place in it.&rdquo;
+                    &ldquo;We don&apos;t just adapt to the digital future. We help businesses create their place in it.&rdquo;
                   </p>
                 </div>
 

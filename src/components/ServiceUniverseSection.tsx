@@ -941,7 +941,7 @@ export default function ServiceUniverseSection({
           <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>DIVISION 0{matchedDivision.tierNumber} // PRODUCTION TECHNOLOGY ECOSYSTEM</span>
+              <span>DIVISION 0{matchedDivision.tierNumber} {"//"} PRODUCTION TECHNOLOGY ECOSYSTEM</span>
             </div>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.05] text-white">
               {matchedDivision.serviceName}{" "}
@@ -969,7 +969,7 @@ export default function ServiceUniverseSection({
                   className="text-[10px] font-mono uppercase tracking-widest block font-bold"
                   style={{ color: matchedDivision.accentGlow }}
                 >
-                  DIVISION 0{matchedDivision.tierNumber} // ACTIVE ECOSYSTEM
+                  DIVISION 0{matchedDivision.tierNumber} {"//"} ACTIVE ECOSYSTEM
                 </span>
                 <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight uppercase font-[family-name:var(--font-syne)]">
                   {matchedDivision.serviceName}
@@ -1050,7 +1050,7 @@ export default function ServiceUniverseSection({
                           className="text-[10px] font-mono uppercase tracking-widest block font-bold"
                           style={{ color: division.accentGlow }}
                         >
-                          DIVISION 0{division.tierNumber} // ACTIVE ECOSYSTEM
+                          DIVISION 0{division.tierNumber} {"//"} ACTIVE ECOSYSTEM
                         </span>
                         <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight uppercase font-[family-name:var(--font-syne)]">
                           {division.serviceName}

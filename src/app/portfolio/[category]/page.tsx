@@ -228,7 +228,7 @@ function FAQSection({ category }: { category: PortfolioCategory }) {
             <span>Frequently Asked Questions</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Got Questions? We've Got Answers
+            Got Questions? We&apos;ve Got Answers
           </h2>
           <p className="text-neutral-400 text-sm sm:text-base max-w-2xl mx-auto">
             Everything you need to know about our {CATEGORY_META[category].title.toLowerCase()} services
@@ -495,7 +495,7 @@ export default function PortfolioCategoryPage() {
                 Ready to Build Something Amazing?
               </h2>
               <p className="text-base text-neutral-300 mb-8 max-w-2xl mx-auto">
-                Let's discuss your project requirements and create a tailored solution that exceeds expectations.
+                Let&apos;s discuss your project requirements and create a tailored solution that exceeds expectations.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link

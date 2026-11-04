@@ -266,7 +266,7 @@ export default function ServiceCategoryShowcase() {
                         </div>
                       </div>
                       <span className="text-xs font-mono font-bold text-neutral-400">
-                        // {category.index}
+                        {"//"} {category.index}
                       </span>
                     </div>
                   </Link>

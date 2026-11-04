@@ -389,18 +389,19 @@ export default function AboutUsPage() {
           <div className="about-cta-card rounded-[28px] border border-[#FFD400]/30 bg-gradient-to-r from-[#12141c] via-[#090a0f] to-[#12141c] p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-[0_0_50px_rgba(255,212,0,0.1)]">
             <div>
               <span className="text-[10px] font-mono font-bold tracking-widest text-[#FFD400] uppercase block mb-1">
-                READY FOR WHAT'S NEXT?
+                READY FOR WHAT&apos;S NEXT?
               </span>
               <h3 className="text-xl sm:text-2xl font-[family-name:var(--font-archia-local)] font-bold uppercase text-white tracking-tight">
                 GREAT IDEAS DESERVE <span className="text-[#FFD400]">GREAT PARTNERS.</span>
               </h3>
-
-              <p>Let's bring the right expertise, creativity and technology together to move your business forward.</p>
+              <p className="text-xs sm:text-sm text-neutral-300 font-light mt-2 max-w-xl leading-relaxed">
+                Let&apos;s bring the right expertise, creativity and technology together to move your business forward.
+              </p>
             </div>
 
             <div className="flex items-center gap-3 shrink-0">
               <CyberButton href="/contact-us" variant="gold" size="md">
-             INITIATE PARTNERSHIP
+                INITIATE PARTNERSHIP
               </CyberButton>
             </div>
           </div>

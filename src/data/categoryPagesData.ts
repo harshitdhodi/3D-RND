@@ -1,5 +1,3 @@
-import { LucideIcon, Code, TrendingUp, Palette, Video } from "lucide-react";
-
 export interface CategorySubItem {
   index: string;
   title: string;
@@ -26,6 +24,8 @@ export interface CategoryFaq {
 
 export interface CategoryPageData {
   slug: string;
+  metaTitle?: string;
+  metaDescription?: string;
   bannerTitle: string;
   bannerSubtitle: string;
   bannerImage: string;
@@ -35,8 +35,11 @@ export interface CategoryPageData {
   heroTitle: string;
   heroHighlight: string;
   heroDesc: string;
+  supportingLine?: string;
   primaryCtaLabel: string;
   primaryCtaHref: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
   stats: CategoryStat[];
   subcategories: CategorySubItem[];
   disciplineHeading: string;
@@ -48,19 +51,25 @@ export interface CategoryPageData {
 export const categoryPagesData: Record<string, CategoryPageData> = {
   "technology-solution": {
     slug: "technology-solution",
+    metaTitle: "Technology Solutions & Software Development | RND Technosoft",
+    metaDescription:
+      "Explore technology solutions from RND Technosoft, including website development, mobile apps, custom software and e-commerce development.",
     bannerTitle: "TECHNOLOGY",
     bannerSubtitle: "SOLUTIONS",
     bannerImage: "/banner/technology.png",
     breadcrumb: "Technology Solutions",
-    divisionLabel: "SERVICE CATEGORY // DIVISION 01",
+    divisionLabel: "ACTIVE DIVISION // TECHNOLOGY SOLUTIONS",
     divisionNumber: "01",
     iconName: "Code",
-    heroTitle: "ENTERPRISE SOFTWARE &",
-    heroHighlight: "CLOUD ENGINEERING",
+    heroTitle: "TECHNOLOGY THAT",
+    heroHighlight: "MOVES BUSINESS FORWARD.",
     heroDesc:
-      "We architect fault-tolerant digital foundations designed to process millions of transactions with sub-second response times. From enterprise Next.js platforms to autonomous cloud microservices, we build software engineered to scale without bottlenecks.",
-    primaryCtaLabel: "EXPLORE WEB DEV SPEC",
-    primaryCtaHref: "/technology-solution/web-development",
+      "From powerful websites and intelligent applications to custom software and scalable e-commerce platforms, we engineer digital solutions that simplify complexity, elevate experiences and create opportunities for business growth.",
+    supportingLine: "WEB DEVELOPMENT • APPLICATIONS • SOFTWARE • E-COMMERCE",
+    primaryCtaLabel: "EXPLORE OUR SOLUTIONS →",
+    primaryCtaHref: "#disciplines",
+    secondaryCtaLabel: "DISCUSS YOUR PROJECT ↗",
+    secondaryCtaHref: "/contact-us?intent=technology",
     stats: [
       { val: "99.99%", label: "Production SLA", sub: "Multi-region edge failover" },
       { val: "<380ms", label: "Global Edge TTFB", sub: "Sub-second render speeds" },
@@ -69,72 +78,52 @@ export const categoryPagesData: Record<string, CategoryPageData> = {
     ],
     disciplineHeading: "SELECT A SPECIALIZED DISCIPLINE",
     disciplineDesc:
-      "Explore dedicated architecture specifications, tech stacks, and production SLAs across our specialized technology disciplines.",
+      "We combine thoughtful engineering, modern technologies and business-focused strategy to build digital platforms that work seamlessly today and adapt to tomorrow.",
     subcategories: [
       {
-        index: "01.1",
-        title: "Custom Web Development",
-        tagline: "Next.js 15, React 19 & High-Performance Web Applications",
-        desc: "Full-stack enterprise web platforms engineered with Next.js 15 App Router, React 19 Server Components, 90+ Core Web Vitals, and dynamic 60 FPS spatial micro-interactions.",
-        sla: "99.99% UPTIME SLA",
-        badge: "MOST POPULAR",
-        tags: ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS", "REST/GraphQL"],
+        index: "01 // WEB",
+        title: "CUSTOM WEBSITE DEVELOPMENT",
+        tagline: "Your digital presence. Engineered for performance.",
+        desc: "We create responsive, SEO-friendly websites that combine engaging design, intuitive navigation and powerful functionality. From corporate websites and business portals to custom web platforms, we build digital experiences designed around your audience and business objectives.",
+        sla: "01 // WEB",
+        badge: "RESPONSIVE WEB",
+        tags: ["#WebsiteDevelopment", "#WebDesign", "#ResponsiveWebsites", "#CustomWebsites"],
         href: "/technology-solution/web-development",
         image: "/images/service_webdev.jpg",
         featured: true,
       },
       {
-        index: "01.2",
-        title: "Cloud Infrastructure & DevOps",
-        tagline: "Kubernetes Orchestration, Multi-Region Mesh & Zero-Trust Cloud",
-        desc: "Production-grade cloud architecture on AWS and GCP with automated CI/CD pipelines, blue/green deployments, Terraform IaC, and 24/7 telemetry monitoring.",
-        sla: "<15m INCIDENT RESPONSE",
-        badge: "ENTERPRISE GRADE",
-        tags: ["Docker", "Kubernetes", "Terraform", "AWS / GCP", "GitHub Actions"],
-        href: "/technology-solution/cloud-infrastructure-devops",
-        image: "/images/service_cloud_color.jpg",
-      },
-      {
-        index: "01.3",
-        title: "Enterprise Software Solutions",
-        tagline: "Custom SaaS Engines, Internal ERP & Mission-Critical Systems",
-        desc: "Bespoke SaaS architectures, high-load distributed backends, internal operations software, and relational database partitioning engineered for long-term scalability.",
-        sla: "100% IP OWNERSHIP",
-        badge: "SOC2 COMPLIANT",
-        tags: ["Microservices", "PostgreSQL", "Node.js / Go", "SOC2"],
-        href: "/technology-solution/enterprise-software-solutions",
-        image: "/images/nebula_cloud_os_3d.jpg",
-      },
-      {
-        index: "01.4",
-        title: "E-Commerce Platform Engineering",
-        tagline: "Headless Shopify Plus & High-Volume Transaction Engines",
-        desc: "Headless commerce storefronts, custom checkout engines, and real-time inventory synchronization optimized for high-volume flash sales and compounding conversions.",
-        sla: "1.2s CHECKOUT SPEED",
-        badge: "SHOPIFY PLUS",
-        tags: ["Headless Shopify", "Stripe API", "Next.js Edge", "Algolia Search"],
-        href: "/technology-solution/ecommerce-platform-engineering",
-        image: "/images/service_ecommerce_color.jpg",
-      },
-      {
-        index: "01.5",
-        title: "Mobile Application Development",
-        tagline: "Native iOS & Android Engineering with 60 FPS Fluidity",
-        desc: "High-performance cross-platform and native mobile apps built with Flutter and React Native, featuring offline-first data sync and biometric security.",
-        sla: "60 FPS NATIVE",
-        tags: ["Flutter", "React Native", "Swift", "Kotlin", "Firebase"],
+        index: "02 // APPLICATIONS",
+        title: "WEB & MOBILE APP DEVELOPMENT",
+        tagline: "Applications built around the way you work.",
+        desc: "We develop intuitive web and mobile applications that connect people, processes and technology. From customer-facing applications to complex business platforms, our solutions focus on usability, performance and seamless functionality across devices.",
+        sla: "02 // APPLICATIONS",
+        badge: "WEB & MOBILE",
+        tags: ["#WebAppDevelopment", "#MobileAppDevelopment", "#AndroidApps", "#iOSApps"],
         href: "/technology-solution/mobile-applications",
         image: "/images/service_webdev.jpg",
       },
       {
-        index: "01.6",
-        title: "Distributed Microservices & APIs",
-        tagline: "Event-Driven gRPC, Kafka Queues & High-Throughput APIs",
-        desc: "Decoupled distributed services communicating via high-throughput gRPC and Kafka event streams, protected by rate-limited API gateways and Redis caching meshes.",
-        sla: "10K+ QPS PER NODE",
-        tags: ["Golang", "Node.js", "Apache Kafka", "gRPC", "Redis Cluster"],
-        href: "/technology-solution/microservices-api-mesh",
-        image: "/images/project_ai.jpg",
+        index: "03 // SOFTWARE",
+        title: "CUSTOM SOFTWARE DEVELOPMENT",
+        tagline: "Your business deserves more than off-the-shelf solutions.",
+        desc: "We build tailored software solutions that address unique business requirements, streamline workflows and improve operational efficiency. From enterprise applications and business management systems to CRM, ERP and SaaS platforms, we turn complex processes into smarter systems.",
+        sla: "03 // SOFTWARE",
+        badge: "CUSTOM SAAS",
+        tags: ["#CustomSoftware", "#EnterpriseSoftware", "#CRMDevelopment", "#ERPDevelopment", "#SaaS"],
+        href: "/technology-solution/enterprise-software-solutions",
+        image: "/images/nebula_cloud_os_3d.jpg",
+      },
+      {
+        index: "04 // E-COMMERCE",
+        title: "E-COMMERCE DEVELOPMENT",
+        tagline: "Turn digital storefronts into growth engines.",
+        desc: "We create feature-rich e-commerce websites and online stores that make buying simple and selling smarter. From intuitive storefront design and secure payment integration to product management and checkout optimisation, we build shopping experiences designed to support your business growth.",
+        sla: "04 // E-COMMERCE",
+        badge: "GROWTH ENGINES",
+        tags: ["#EcommerceDevelopment", "#OnlineStore", "#EcommerceWebsite", "#EcommerceSolutions"],
+        href: "/technology-solution/ecommerce-platform-engineering",
+        image: "/images/service_ecommerce_color.jpg",
       },
     ],
     faqs: [
@@ -163,19 +152,25 @@ export const categoryPagesData: Record<string, CategoryPageData> = {
 
   "digital-marketing": {
     slug: "digital-marketing",
+    metaTitle: "Digital Marketing Services | SEO & Social Media Marketing – RND Technosoft",
+    metaDescription:
+      "Grow your business with RND Technosoft's digital marketing services. Explore SEO, social media marketing, paid advertising and content marketing solutions.",
     bannerTitle: "DIGITAL",
     bannerSubtitle: "MARKETING",
     bannerImage: "/banner/digital-marketing.png",
     breadcrumb: "Digital Marketing",
-    divisionLabel: "SERVICE CATEGORY // DIVISION 02",
+    divisionLabel: "ACTIVE DIVISION // DIGITAL MARKETING",
     divisionNumber: "02",
     iconName: "TrendingUp",
-    heroTitle: "PERFORMANCE GROWTH &",
-    heroHighlight: "SEARCH DOMINANCE",
+    heroTitle: "DIGITAL GROWTH. BUILT ON STRATEGY.",
+    heroHighlight: "DRIVEN BY RESULTS.",
     heroDesc:
-      "Data-engineered customer acquisition models. We replace guesswork with algorithmic precision, deploying multi-channel performance funnels, technical backlink graphs, and behavioral CRO that consistently drive predictable revenue expansion.",
-    primaryCtaLabel: "EXPLORE SEO SPEC",
-    primaryCtaHref: "/digital-marketing/technical-seo-dominance",
+      "We help businesses strengthen their online presence, connect with the right audiences and turn digital visibility into meaningful opportunities. Through strategic SEO, social media marketing, paid advertising and compelling content, we create marketing experiences designed to accelerate business growth.",
+    supportingLine: "SEO • SOCIAL MEDIA • PAID ADVERTISING • CONTENT MARKETING",
+    primaryCtaLabel: "EXPLORE OUR SERVICES →",
+    primaryCtaHref: "#disciplines",
+    secondaryCtaLabel: "PLAN YOUR GROWTH ↗",
+    secondaryCtaHref: "/contact-us?intent=marketing",
     stats: [
       { val: "+180%", label: "Avg Traffic Surge", sub: "90-day programmatic SEO" },
       { val: "8.4x", label: "Avg ROAS", sub: "Across all paid channels" },
@@ -184,49 +179,50 @@ export const categoryPagesData: Record<string, CategoryPageData> = {
     ],
     disciplineHeading: "SELECT A SPECIALIZED DISCIPLINE",
     disciplineDesc:
-      "Explore dedicated campaign architecture, channel strategies, and performance SLAs.",
+      "We bring strategy, creativity and data together to build stronger digital brands, reaching the right people at the right time.",
     subcategories: [
       {
-        index: "02.1",
-        title: "Technical SEO & Search Dominance",
-        tagline: "+180% Traffic Surge",
-        desc: "Algorithmic keyword clusters, programmatic internal linking, crawl budget optimization, and top-3 organic ranking capture.",
-        tags: ["Semantic Indexing", "Core Web Vitals", "Backlinks", "Schema"],
-        sla: "+180% TRAFFIC SURGE",
-        badge: "SERP DOMINANCE",
+        index: "01 // ORGANIC GROWTH",
+        title: "SEARCH ENGINE OPTIMISATION (SEO)",
+        tagline: "Get discovered. Earn visibility. Grow organically.",
+        desc: "We improve your website's search visibility through keyword research, on-page and off-page SEO, technical optimisation, content strategy and quality link building. Our focus is on attracting relevant organic traffic and building sustainable search presence.",
+        tags: ["#SEO Services", "#TechnicalSEO", "#KeywordResearch", "#LinkBuilding", "#LocalSEO"],
+        sla: "01 // ORGANIC GROWTH",
+        badge: "ORGANIC GROWTH",
         href: "/digital-marketing/technical-seo-dominance",
         image: "/images/service_seo_color.jpg",
+        featured: true,
       },
       {
-        index: "02.2",
-        title: "Performance PPC & Paid Media",
-        tagline: "8.4x Avg ROAS",
-        desc: "High-ROI paid search and social campaigns across Google Ads, Meta, and TikTok with real-time ROAS telemetry dashboards.",
-        tags: ["Google Ads", "Meta Ads Manager", "TikTok Ads", "Attribution"],
-        sla: "8.4x AVG ROAS",
-        badge: "MULTI-CHANNEL",
-        href: "/digital-marketing/performance-ppc-advertising",
+        index: "02 // BRAND ENGAGEMENT",
+        title: "SOCIAL MEDIA MARKETING",
+        tagline: "Build communities. Start conversations. Create impact.",
+        desc: "We develop social media strategies that strengthen brand identity, increase audience engagement and build meaningful connections. From content planning and creative posts to reels, platform management and community engagement, we help brands stay relevant and recognisable.",
+        tags: ["#SocialMediaMarketing", "#InstagramMarketing", "#FacebookMarketing", "#SocialMediaManagement"],
+        sla: "02 // BRAND ENGAGEMENT",
+        badge: "COMMUNITY ENGAGEMENT",
+        href: "/digital-marketing/social-media-management",
         image: "/images/service_marketing.jpg",
       },
       {
-        index: "02.3",
-        title: "Social Media Strategy & Management",
-        tagline: "100% Organic-Driven",
-        desc: "Viral organic community building, platform-specific content cadence, and influencer amplification that establishes brand authority.",
-        tags: ["Content Calendars", "Audience Ops", "LinkedIn", "Instagram"],
-        sla: "100% ORGANIC",
-        badge: "COMMUNITY FIRST",
-        href: "/digital-marketing/social-media-management",
+        index: "03 // PAID GROWTH",
+        title: "PAID ADVERTISING & PERFORMANCE MARKETING",
+        tagline: "Reach the right audience. Make every campaign count.",
+        desc: "We plan and manage targeted advertising campaigns across Google, Meta and other relevant platforms. Through audience targeting, creative testing, campaign optimisation and performance tracking, we help businesses generate relevant traffic, enquiries and sales opportunities.",
+        tags: ["#GoogleAds", "#MetaAds", "#PPCAdvertising", "#PaidMedia", "#PerformanceMarketing"],
+        sla: "03 // PAID GROWTH",
+        badge: "PERFORMANCE ADS",
+        href: "/digital-marketing/performance-ppc-advertising",
         image: "/images/service_social.jpg",
       },
       {
-        index: "02.4",
-        title: "Content Strategy & Copywriting",
-        tagline: "Conversion-First Editorial",
-        desc: "High-authority editorial briefs, thought leadership articles, and high-converting commercial copy crafted for your target buyer persona.",
-        tags: ["Whitepapers", "Landing Copy", "Email Funnels", "Guides"],
-        sla: "CONVERSION-FIRST",
-        badge: "EDITORIAL AUTHORITY",
+        index: "04 // CREATIVE STRATEGY",
+        title: "CONTENT MARKETING & STRATEGY",
+        tagline: "Create stories that make your brand memorable.",
+        desc: "We develop purposeful content that communicates your brand's value and connects with your audience. From website copy and blogs to social media creatives, campaign messaging and marketing content, we turn ideas into engaging brand experiences.",
+        tags: ["#ContentMarketing", "#ContentStrategy", "#WebsiteContent", "#BlogWriting", "#CreativeCopywriting"],
+        sla: "04 // CREATIVE STRATEGY",
+        badge: "CONTENT & STRATEGY",
         href: "/digital-marketing/content-strategy-production",
         image: "/images/contet.png",
       },

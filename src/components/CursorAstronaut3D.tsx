@@ -232,14 +232,14 @@ export function CursorAstronautModel({
       let targetArmRX = 0;
       let targetArmRY = 0;
       let targetArmRZ = 0;
-      let targetLowerArmRX = 0;
+      const targetLowerArmRX = 0;
       let targetLowerArmRZ = 0;
       let targetHandRY = 0;
 
       let targetArmLX = 0;
       let targetArmLY = 0;
       let targetArmLZ = 0;
-      let targetLowerArmLX = 0;
+      const targetLowerArmLX = 0;
       let targetLowerArmLZ = 0;
       let targetHandLY = 0;
 

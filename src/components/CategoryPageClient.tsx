@@ -171,9 +171,47 @@ export default function CategoryPageClient({ data }: { data: CategoryPageData })
       />
 
       <main className="relative z-20 w-full bg-transparent overflow-hidden">
-        
+        {/* ── Category Hero & Overview Strip ── */}
+        <section className="w-full px-4 sm:px-8 lg:px-12 pt-14 pb-8 border-b border-white/10">
+          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-10">
+            <div className="max-w-4xl">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/60 border border-[#FFD400]/40 text-[#FFD400] backdrop-blur-md">
+                <Icon className="w-3.5 h-3.5" />
+                <span>{data.divisionLabel}</span>
+              </div>
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.05] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
+                {data.heroTitle}{" "}
+                <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.45)]">
+                  {data.heroHighlight}
+                </span>
+              </h1>
+              {data.supportingLine && (
+                <p className="text-xs sm:text-sm font-mono uppercase tracking-[0.2em] text-[#FFD400] font-semibold mt-4">
+                  {data.supportingLine}
+                </p>
+              )}
+              {data.heroDesc && (
+                <p className="text-sm sm:text-base font-normal max-w-2xl mt-4 leading-relaxed text-neutral-300">
+                  {data.heroDesc}
+                </p>
+              )}
+            </div>
+
+            <div className="shrink-0 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+              <CyberButton href={data.primaryCtaHref} variant="gold" size="md">
+                {data.primaryCtaLabel}
+              </CyberButton>
+              {data.secondaryCtaHref && data.secondaryCtaLabel && (
+                <CyberButton href={data.secondaryCtaHref} variant="dark" size="md">
+                  {data.secondaryCtaLabel}
+                </CyberButton>
+              )}
+            </div>
+          </div>
+        </section>
+
         {/* ── Sub-Categories Grid ── */}
-        <section className="w-full px-4 sm:px-8 lg:px-12 py-16 sm:py-20">
+        <section id="disciplines" className="w-full px-4 sm:px-8 lg:px-12 py-16 sm:py-20 scroll-mt-28">
           <div className="max-w-7xl mx-auto">
             <div className="mb-12 pb-6 border-b border-white/10">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase text-white">

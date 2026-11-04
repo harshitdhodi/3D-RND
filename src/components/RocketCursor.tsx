@@ -24,6 +24,7 @@ export default function RocketCursor() {
   const pos = useRef({ x: -100, y: -100 });
   const prevPos = useRef({ x: -100, y: -100 });
   const angleRef = useRef(-45);
+  const isInitialized = useRef(false);
 
   useEffect(() => {
     // Only enable on desktop pointer devices
@@ -46,6 +47,13 @@ export default function RocketCursor() {
     const colors = ["#FFD400", "#FF9900", "#FF5500", "#FFFFFF", "#FFE066"];
 
     const handleMouseMove = (e: MouseEvent) => {
+      // Initialize cursor position immediately on first mouse move
+      if (!isInitialized.current) {
+        pos.current = { x: e.clientX, y: e.clientY };
+        prevPos.current = { x: e.clientX, y: e.clientY };
+        isInitialized.current = true;
+      }
+      
       pos.current = { x: e.clientX, y: e.clientY };
       if (!isVisible) setIsVisible(true);
 
@@ -115,8 +123,8 @@ export default function RocketCursor() {
 
     // Animation loop for rocket smooth follow and sparks
     let animId: number;
-    let currentX = -100;
-    let currentY = -100;
+    let currentX = pos.current.x;
+    let currentY = pos.current.y;
     let currentAngle = -45;
 
     const render = () => {
@@ -192,7 +200,10 @@ export default function RocketCursor() {
         className={`fixed top-0 left-0 pointer-events-none z-[9999] transition-opacity duration-300 will-change-transform ${
           isVisible ? "opacity-100" : "opacity-0"
         }`}
-        style={{ transform: "translate3d(-100px, -100px, 0)" }}
+        style={{ 
+          transform: "translate3d(-100px, -100px, 0) translate(-50%, -50%)",
+          visibility: isVisible ? "visible" : "hidden"
+        }}
       >
         <div className="relative flex items-center justify-center">
           {/* Engine Thruster Glow */}

@@ -108,6 +108,14 @@ export default function CursorAstronaut({
     return result;
   }, [bones]);
 
+  const bonesRef = useRef(bones);
+  const baseRotationsRef = useRef(baseRotations);
+
+  React.useEffect(() => {
+    bonesRef.current = bones;
+    baseRotationsRef.current = baseRotations;
+  }, [bones, baseRotations]);
+
   // 3. 60/120 FPS Physics & Kinematics Loop
   useFrame((state, delta) => {
     const pointerX = state.pointer.x; // -1 (left) to +1 (right)
@@ -124,8 +132,8 @@ export default function CursorAstronaut({
       targetY: number,
       targetZ: number
     ) => {
-      const bone = bones[key];
-      const base = baseRotations[key];
+      const bone = bonesRef.current[key];
+      const base = baseRotationsRef.current[key];
       if (!bone || !base) return;
 
       bone.rotation.x = THREE.MathUtils.lerp(

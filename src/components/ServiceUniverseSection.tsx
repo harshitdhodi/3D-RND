@@ -938,18 +938,30 @@ export default function ServiceUniverseSection({
 
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Header without filter tabs */}
-          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+          <div className="text-center max-w-4xl mx-auto mb-10 sm:mb-12">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>DIVISION 0{matchedDivision.tierNumber} {"//"} PRODUCTION TECHNOLOGY ECOSYSTEM</span>
+              <span>✳ DIVISION 0{matchedDivision.tierNumber} {"//"} PRODUCTION TECHNOLOGY ECOSYSTEM</span>
             </div>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.05] text-white">
-              {matchedDivision.serviceName}{" "}
-              <span className="text-[#FFD400]">TECHNOLOGY ARCHITECTURE</span>
+              {matchedDivision.id.includes("technology") ? (
+                <>THE TECHNOLOGY BEHIND <span className="text-[#FFD400]">EVERY DIGITAL SOLUTION</span></>
+              ) : (
+                <>{matchedDivision.serviceName} <span className="text-[#FFD400]">TECHNOLOGY ARCHITECTURE</span></>
+              )}
             </h2>
-            <p className="text-xs sm:text-sm md:text-base font-normal mt-3 leading-relaxed text-neutral-300 font-[family-name:var(--font-jakarta)]">
-              {matchedDivision.tagline}
-            </p>
+            {matchedDivision.id.includes("technology") ? (
+              <div className="text-xs sm:text-sm md:text-base font-normal mt-4 space-y-2 leading-relaxed text-neutral-300 font-[family-name:var(--font-jakarta)] max-w-3xl mx-auto text-left sm:text-center">
+                <p>At RND Technosoft, we believe the right technology makes the difference between a functional product and a powerful digital solution.</p>
+                <p>Our development ecosystem brings together modern frontend frameworks, backend technologies, robust database systems, cross-platform development tools and cloud-ready deployment technologies.</p>
+                <p>Whether you need custom website development, enterprise software, web application development or mobile app solutions, our technology capabilities help create secure, scalable and performance-driven digital experiences.</p>
+                <p className="font-semibold text-white pt-1">From concept to deployment, we engineer technology that moves your business forward.</p>
+              </div>
+            ) : (
+              <p className="text-xs sm:text-sm md:text-base font-normal mt-3 leading-relaxed text-neutral-300 font-[family-name:var(--font-jakarta)]">
+                {matchedDivision.tagline}
+              </p>
+            )}
           </div>
 
           {/* Focused Division Card */}

@@ -179,16 +179,23 @@ export default function CategoryPageClient({ data }: { data: CategoryPageData })
                 <Icon className="w-3.5 h-3.5" />
                 <span>{data.divisionLabel}</span>
               </div>
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.05] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
-                {data.heroTitle}{" "}
-                <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.45)]">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-[44px] xl:text-[52px] font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.1] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
+                <span className="block sm:whitespace-nowrap">
+                  {data.heroTitle}
+                </span>
+                <span className="block text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.45)] sm:whitespace-nowrap">
                   {data.heroHighlight}
                 </span>
               </h1>
               {data.supportingLine && (
-                <p className="text-xs sm:text-sm font-mono uppercase tracking-[0.2em] text-[#FFD400] font-semibold mt-4">
-                  {data.supportingLine}
-                </p>
+                <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs sm:text-sm font-mono uppercase tracking-[0.2em] text-[#FFD400] font-semibold mt-4">
+                  {data.supportingLine.split("•").map((item, idx, arr) => (
+                    <React.Fragment key={idx}>
+                      <span className="whitespace-nowrap">{item.trim()}</span>
+                      {idx < arr.length - 1 && <span className="text-neutral-500">•</span>}
+                    </React.Fragment>
+                  ))}
+                </div>
               )}
               {data.heroDesc && (
                 <p className="text-sm sm:text-base font-normal max-w-2xl mt-4 leading-relaxed text-neutral-300">
@@ -266,9 +273,12 @@ export default function CategoryPageClient({ data }: { data: CategoryPageData })
         {/* ── FAQs ── */}
         <section className="w-full px-4 sm:px-8 lg:px-12 py-20 border-t border-white/10">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <h2 className="text-3xl sm:text-4xl font-[family-name:var(--font-syne)] font-bold uppercase text-white">
-                COMMON <span className="text-[#FFD400]">QUESTIONS</span>
+            <div className="text-center max-w-3xl mx-auto mb-12">
+              <span className="text-xs font-mono font-bold tracking-[0.25em] text-[#FFD400] uppercase block mb-2">
+                FREQUENTLY ASKED QUESTIONS
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-[family-name:var(--font-syne)] font-bold uppercase text-white tracking-tight">
+                {data.bannerTitle} SOLUTIONS – <span className="text-[#FFD400]">ANSWERS THAT MOVE YOU FORWARD.</span>
               </h2>
             </div>
             <div className="space-y-3">

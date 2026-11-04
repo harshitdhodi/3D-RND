@@ -97,7 +97,7 @@ export default function FeaturedProjectsSection() {
   return (
     <section
       id="work"
-      className="relative bg-transparent text-white overflow-hidden py-20 sm:py-28 lg:py-32 selection:bg-[#FFD400] selection:text-black border-t border-white/5"
+      className="relative bg-transparent text-white overflow-hidden py-20 sm:py-24 lg:py-28 px-4 sm:px-8 lg:px-12 selection:bg-[#FFD400] selection:text-black border-t border-white/5"
     >
       {/* Soft Nebula Ambient Flare */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-[#FFD400]/5 blur-[200px] rounded-full pointer-events-none" />

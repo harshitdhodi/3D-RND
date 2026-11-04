@@ -10,11 +10,11 @@ export default function RnDFooter() {
   };
 
   return (
-    <footer className="relative bg-black text-white pt-20 pb-12 border-t border-white/10 overflow-hidden">
+    <footer className="relative bg-black text-white pt-20 sm:pt-24 lg:pt-28 pb-12 border-t border-white/10 px-4 sm:px-8 lg:px-12 overflow-hidden">
       {/* Ambient Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[250px] bg-[#FFD400]/5 blur-[160px] rounded-full pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-6 sm:px-12">
+      <div className="relative max-w-7xl mx-auto">
         {/* Main Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-16 border-b border-white/10">
           {/* Brand Info & Mission */}

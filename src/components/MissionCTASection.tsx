@@ -20,12 +20,12 @@ export default function MissionCTASection() {
   };
 
   return (
-    <section id="contact" className="relative py-28 sm:py-36 bg-transparent text-white overflow-hidden border-t border-white/5">
+    <section id="contact" className="relative py-20 sm:py-24 lg:py-28 bg-transparent text-white overflow-hidden border-t border-white/5 px-4 sm:px-8 lg:px-12">
       {/* Warp Portal Ambient Glows */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-[#FFD400]/8 blur-[200px] rounded-full pointer-events-none" />
       <div className="absolute -bottom-20 left-1/4 w-[500px] h-[500px] bg-cyan-500/5 blur-[180px] rounded-full pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-6 sm:px-12">
+      <div className="relative max-w-7xl mx-auto">
         <div className="relative rounded-3xl bg-gradient-to-b from-white/[0.05] to-white/[0.015] border border-white/15 p-8 sm:p-14 lg:p-16 shadow-[0_30px_90px_rgba(0,0,0,0.85)] overflow-hidden">
           {/* Top Amber Accent Line */}
           <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-[#FFD400] to-transparent shadow-[0_0_20px_#FFD400]" />

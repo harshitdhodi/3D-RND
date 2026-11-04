@@ -105,7 +105,7 @@ export default function ServiceCardsSection() {
   return (
     <section
       id="services"
-      className="py-20 md:py-28 bg-[#06070a] text-white overflow-visible relative border-t border-white/5 px-4 sm:px-8 lg:px-12"
+      className="py-20 sm:py-24 lg:py-28 bg-[#06070a] text-white overflow-visible relative border-t border-white/5 px-4 sm:px-8 lg:px-12"
     >
       {/* Background Ambient Glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[900px] h-[450px] bg-[#FFD400]/4 blur-[180px] rounded-full pointer-events-none" />
@@ -144,7 +144,7 @@ export default function ServiceCardsSection() {
         {/* Dynamic Split Layout: Left side scrolls naturally, Right side remains sticky */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start relative w-full">
           {/* ================= SCROLLABLE LEFT SIDE: ACCORDION SERVICE CARDS ================= */}
-          <div className="lg:col-span-6 space-y-6 pb-28">
+          <div className="lg:col-span-6 space-y-6 pb-6">
             {services.map((service, idx) => {
               const isActive = activeTab === idx;
 

@@ -42,8 +42,9 @@ export default function IndustriesIndexPage() {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
-        company: "",
-        timeline: "Immediate / Q4",
+        service: "",
+        budget: "",
+        timeline: "",
         message: "",
     });
 
@@ -219,7 +220,7 @@ export default function IndustriesIndexPage() {
 
             {/* Page Banner with Typewriter Title, Slow Cinematic Zoom & Parallax */}
             <PageBanner
-                title="INDUSTRIES & DOMAINS"
+                title="INDUSTRIES WE SERVE"
                 breadcrumb="INDUSTRIES"
                 imageSrc="/banner/industries.png"
             />
@@ -230,48 +231,45 @@ export default function IndustriesIndexPage() {
                 className="relative z-20 w-full mt-[50px] rounded-t-[32px] sm:rounded-t-[44px] bg-[#050.85)]"
             >
                 {/* =========================================================================
-            1. ENTERPRISE ENGINEERING PHILOSOPHY HERO BAR
+            1. INDUSTRIES HERO BAR
             ========================================================================= */}
                 <section className="max-w-7xl mx-auto px-6 md:px-12 pt-14 pb-8">
                     <div className="industry-hero-card p-8 sm:p-12 bg-gradient-to-r from-[#0c0e14]/40 via-[#121520]/40 to-[#0c0e14]/40 backdrop-blur-sm border border-white/10 shadow-2xl relative overflow-hidden">
                         <div className="relative z-10 max-w-3xl space-y-4">
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase">
                                 <Sparkles className="w-3.5 h-3.5" />
-                                <span>CROSS-DOMAIN ENTERPRISE ARCHITECTURE</span>
+                                <span>✧ INDUSTRIES WE EMPOWER // SOLUTIONS WITHOUT BOUNDARIES</span>
                             </div>
                             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold text-white uppercase tracking-tight leading-tight">
-                                Software Engineered For Regulated &amp; High-Stakes Verticals
+                                BUILT FOR EVERY INDUSTRY.{" "}
+                                <span className="text-[#FFD400]">ENGINEERED FOR WHAT&apos;S NEXT.</span>
                             </h1>
                             <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed">
-                                We combine deep sector-specific compliance (SCADA, HIPAA, PCI-DSS, SOC2) with cutting-edge 3D spatial web capabilities and sub-second cloud performance. Explore our specialized engineering blueprints across 9 core industry domains.
+                                Every industry has a different challenge. Every business has a different ambition. At RND Technosoft, we bring technology, digital marketing, branding and creative production together to build solutions that help businesses adapt, compete and grow. From emerging startups to established enterprises, we turn industry-specific challenges into opportunities through innovation, strategic thinking and purposeful execution.
                             </p>
                         </div>
 
-                        {/* Quick Metrics Ticker with Animated Counters */}
+                        {/* Quick Metrics */}
                         <div className="mt-8 pt-6 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center sm:text-left">
                             <div className="industry-metric-item">
-                                <span className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-[#FFD400]">
-                                    <AnimatedCounter value={2.4} prefix="$" suffix="B+" decimals={1} duration={2} />
-                                </span>
-                                <p className="text-xs font-mono text-neutral-400 mt-0.5">Daily Volume Processed</p>
+                                <span className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-[#FFD400]">2018</span>
+                                <p className="text-xs font-mono text-[#FFD400]/80 uppercase tracking-wider font-semibold mt-0.5">Established</p>
+                                <p className="text-[11px] font-mono text-neutral-400 mt-0.5">Building digital solutions since 2018</p>
                             </div>
                             <div className="industry-metric-item">
-                                <span className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-white">
-                                    <AnimatedCounter value={100} suffix="%" duration={1.6} />
-                                </span>
-                                <p className="text-xs font-mono text-neutral-400 mt-0.5">HIPAA &amp; SOC2 Compliance</p>
+                                <span className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-white">04</span>
+                                <p className="text-xs font-mono text-[#FFD400]/80 uppercase tracking-wider font-semibold mt-0.5">Core Divisions</p>
+                                <p className="text-[11px] font-mono text-neutral-400 mt-0.5">Technology, Marketing, Design &amp; Media</p>
                             </div>
                             <div className="industry-metric-item">
-                                <span className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-[#FFD400]">
-                                    <AnimatedCounter value={340} prefix="+" suffix="%" duration={2.2} />
-                                </span>
-                                <p className="text-xs font-mono text-neutral-400 mt-0.5">Average Conversion Lift</p>
+                                <span className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-[#FFD400]">360°</span>
+                                <p className="text-xs font-mono text-[#FFD400]/80 uppercase tracking-wider font-semibold mt-0.5">Digital Capabilities</p>
+                                <p className="text-[11px] font-mono text-neutral-400 mt-0.5">Integrated services under one roof</p>
                             </div>
                             <div className="industry-metric-item">
-                                <span className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-white">
-                                    <AnimatedCounter value={14} suffix=" Days" duration={1.5} />
-                                </span>
-                                <p className="text-xs font-mono text-neutral-400 mt-0.5">Rapid MVP Deployment</p>
+                                <span className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-white">B2B</span>
+                                <p className="text-xs font-mono text-[#FFD400]/80 uppercase tracking-wider font-semibold mt-0.5">Business Focus</p>
+                                <p className="text-[11px] font-mono text-neutral-400 mt-0.5">Solutions designed around business needs</p>
                             </div>
                         </div>
                     </div>
@@ -284,14 +282,14 @@ export default function IndustriesIndexPage() {
                     <div className="industry-section-header mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
                         <div>
                             <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
-                                SECTOR SPECIFIC ARCHITECTURES
+                                INDUSTRIES WE SERVE
                             </span>
                             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-1">
-                                Explore Industry Specializations
+                                SOLUTIONS BUILT AROUND <span className="text-[#FFD400]">YOUR WORLD.</span>
                             </h2>
                         </div>
                         <p className="text-xs font-mono text-neutral-400">
-                            Showing {filteredIndustries.length} Dedicated Industry Hubs
+                            Showing {filteredIndustries.length} Industry Hubs
                         </p>
                     </div>
 
@@ -402,28 +400,31 @@ export default function IndustriesIndexPage() {
                         {/* Left Info */}
                         <div className="industry-consult-left lg:col-span-5 space-y-5">
                             <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold flex items-center gap-2">
-                                <Briefcase className="w-4 h-4" />
-                                <span>EXECUTIVE ARCHITECTURE REVIEW</span>
+                                <Sparkles className="w-4 h-4" />
+                                <span>✧ LET&apos;S BUILD SOMETHING MEANINGFUL</span>
                             </span>
                             <h2 className="font-[family-name:var(--font-syne)] text-2xl sm:text-3xl lg:text-4xl text-white font-bold uppercase leading-tight">
-                                Plan Your Enterprise Solution
+                                YOUR INDUSTRY.<br />
+                                OUR EXPERTISE.<br />
+                                <span className="text-[#FFD400]">ONE SHARED VISION.</span>
                             </h2>
                             <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light">
-                                Consult with our Principal Architects. We evaluate your industry regulatory compliance, current monolithic constraints, and deliver an actionable 60-day migration blueprint.
+                                Every business has a different challenge and a bigger ambition. Tell us where you want to go, and our team will help you identify the right digital, creative and technology solutions to get there.
                             </p>
 
-                            <div className="p-4 bg-white/[0.02] border border-white/10 space-y-2 text-xs font-mono text-neutral-300">
+                            <div className="p-4 bg-white/[0.02] border border-white/10 space-y-2.5 text-xs font-mono text-neutral-300">
+                                <p className="text-[10px] font-mono uppercase tracking-[0.22em] text-[#FFD400] font-semibold mb-2">WHY CONNECT WITH RND?</p>
                                 <div className="flex items-center gap-2">
-                                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400]" />
-                                    <span>Strict NDA &amp; Intellectual Property Protection</span>
+                                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400] shrink-0" />
+                                    <span>Solutions tailored to your business goals</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400]" />
-                                    <span>Sub-24h Direct Architect Reply Guarantee</span>
+                                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400] shrink-0" />
+                                    <span>Integrated technology and creative expertise</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400]" />
-                                    <span>Compliance Audits: HIPAA, SOC2, PCI-DSS Level 1</span>
+                                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400] shrink-0" />
+                                    <span>A collaborative approach from concept to execution</span>
                                 </div>
                             </div>
                         </div>
@@ -436,23 +437,34 @@ export default function IndustriesIndexPage() {
                                         <CheckCircle2 className="w-6 h-6" />
                                     </div>
                                     <h3 className="font-[family-name:var(--font-syne)] text-xl font-bold text-white uppercase">
-                                        Inquiry Encrypted &amp; Received
+                                        Enquiry Received
                                     </h3>
                                     <p className="text-xs text-neutral-300 font-mono max-w-md mx-auto">
-                                        Thank you. A Senior Industry Solutions Architect will review your requirements and respond within 24 hours.
+                                        Thank you. Our team will review your requirements and get in touch to discuss the next steps.
                                     </p>
                                 </div>
                             ) : (
                                 <form onSubmit={handleFormSubmit} className="space-y-4">
+                                    {/* Form header */}
+                                    <div className="pb-3 border-b border-white/10">
+                                        <h3 className="font-[family-name:var(--font-syne)] text-lg font-bold text-white uppercase tracking-tight">
+                                            Initiate Your Project Brief
+                                        </h3>
+                                        <p className="text-xs text-neutral-400 font-light mt-0.5">
+                                            Share a few details about your business and requirements. Our team will connect with you to discuss the next steps.
+                                        </p>
+                                    </div>
+
+                                    {/* Row 1: Name + Email */}
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                                Your Full Name *
+                                                Your Name <span className="text-red-400">*</span>
                                             </label>
                                             <input
                                                 type="text"
                                                 required
-                                                placeholder="Dr. Siddharth Mehta"
+                                                placeholder="Your full name"
                                                 value={formData.name}
                                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                                 className="w-full px-3.5 py-2.5 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors"
@@ -460,12 +472,12 @@ export default function IndustriesIndexPage() {
                                         </div>
                                         <div>
                                             <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                                Work Email Address *
+                                                Business Email Address <span className="text-red-400">*</span>
                                             </label>
                                             <input
                                                 type="email"
                                                 required
-                                                placeholder="siddharth@enterprise.com"
+                                                placeholder="your@business.com"
                                                 value={formData.email}
                                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                                 className="w-full px-3.5 py-2.5 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors"
@@ -473,47 +485,80 @@ export default function IndustriesIndexPage() {
                                         </div>
                                     </div>
 
+                                    {/* Row 2: Industry + Service */}
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                                Target Industry Domain
+                                                Select Your Industry <span className="text-red-400">*</span>
                                             </label>
                                             <select
+                                                required
                                                 value={inquiryIndustry}
                                                 onChange={(e) => setInquiryIndustry(e.target.value)}
                                                 className="w-full px-3 py-2.5 text-xs font-mono bg-[#0c0e14] border border-white/15 text-white focus:outline-none focus:border-[#FFD400] transition-colors"
                                             >
-                                                {industriesList.map((ind) => (
-                                                    <option key={ind.slug} value={ind.title}>
-                                                        {ind.number} - {ind.title}
-                                                    </option>
-                                                ))}
+                                                <option value="" disabled>Select your industry</option>
+                                                <option value="Manufacturing & Industrial">Manufacturing &amp; Industrial</option>
+                                                <option value="Healthcare & Dental">Healthcare &amp; Dental</option>
+                                                <option value="Food & FMCG">Food &amp; FMCG</option>
+                                                <option value="Retail & E-Commerce">Retail &amp; E-Commerce</option>
+                                                <option value="Hospitality & Resorts">Hospitality &amp; Resorts</option>
+                                                <option value="Education & Training">Education &amp; Training</option>
+                                                <option value="Real Estate & Construction">Real Estate &amp; Construction</option>
+                                                <option value="Startups & Professional Services">Startups &amp; Professional Services</option>
+                                                <option value="Travel & Tourism">Travel &amp; Tourism</option>
+                                                <option value="Finance & FinTech">Finance &amp; FinTech</option>
+                                                <option value="Other">Other</option>
                                             </select>
                                         </div>
-
                                         <div>
                                             <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                                Estimated Deployment Timeline
+                                                Service You&apos;re Interested In
                                             </label>
                                             <select
-                                                value={formData.timeline}
-                                                onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}
+                                                value={formData.service}
+                                                onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                                                 className="w-full px-3 py-2.5 text-xs font-mono bg-[#0c0e14] border border-white/15 text-white focus:outline-none focus:border-[#FFD400] transition-colors"
                                             >
-                                                <option value="Immediate / Q4">Immediate / Urgent (Next 30 Days)</option>
-                                                <option value="Q1 2027">Q1 2027 (Next 60-90 Days)</option>
-                                                <option value="Exploratory">Long-term Strategic Evaluation</option>
+                                                <option value="">Select a service</option>
+                                                <option value="Technology Solutions">Technology Solutions</option>
+                                                <option value="Digital Marketing">Digital Marketing</option>
+                                                <option value="Branding & Design">Branding &amp; Design</option>
+                                                <option value="Media Production">Media Production</option>
+                                                <option value="All / Integrated Solution">All / Integrated Solution</option>
                                             </select>
                                         </div>
                                     </div>
 
+                                    {/* Row 3: Budget */}
                                     <div>
                                         <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                            Technical Scope &amp; Challenges
+                                            Expected Budget
+                                        </label>
+                                        <select
+                                            value={formData.budget}
+                                            onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                                            className="w-full px-3 py-2.5 text-xs font-mono bg-[#0c0e14] border border-white/15 text-white focus:outline-none focus:border-[#FFD400] transition-colors"
+                                        >
+                                            <option value="">Select budget range</option>
+                                            <option value="Below ₹25,000">Below ₹25,000</option>
+                                            <option value="₹25,000 – ₹50,000">₹25,000 – ₹50,000</option>
+                                            <option value="₹50,000 – ₹1,00,000">₹50,000 – ₹1,00,000</option>
+                                            <option value="₹1,00,000 – ₹3,00,000">₹1,00,000 – ₹3,00,000</option>
+                                            <option value="₹3,00,000 – ₹5,00,000">₹3,00,000 – ₹5,00,000</option>
+                                            <option value="₹5,00,000+">₹5,00,000+</option>
+                                            <option value="Flexible / Need Consultation">Flexible / Need Consultation</option>
+                                        </select>
+                                    </div>
+
+                                    {/* Row 4: Project Brief */}
+                                    <div>
+                                        <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
+                                            Tell Us About Your Project
                                         </label>
                                         <textarea
                                             rows={3}
-                                            placeholder="Describe your current system bottlenecks, compliance requirements, or target KPIs..."
+                                            placeholder="Describe your business, objectives, challenges and what you're looking to achieve..."
                                             value={formData.message}
                                             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                                             className="w-full p-3 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors resize-none"
@@ -527,10 +572,10 @@ export default function IndustriesIndexPage() {
                                             className="w-full sm:w-auto px-8 py-3.5 bg-[#FFD400] hover:bg-[#ffe34d] text-black text-xs font-mono uppercase tracking-[0.2em] font-bold transition-all shadow-[0_0_20px_rgba(255,212,0,0.3)] flex items-center justify-center space-x-2 group cursor-pointer disabled:opacity-60"
                                         >
                                             {isSubmitting ? (
-                                                <span>Encrypting Scope...</span>
+                                                <span>Sending...</span>
                                             ) : (
                                                 <>
-                                                    <span>Transmit Industry Inquiry</span>
+                                                    <span>Submit Project Brief</span>
                                                     <Send className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                                                 </>
                                             )}

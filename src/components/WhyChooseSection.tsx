@@ -901,7 +901,7 @@ export default function WhyChooseSection({
     <section
       ref={sectionRef}
       id="why-choose"
-      className={`relative w-full px-4 sm:px-8 lg:px-12 py-16 sm:py-24 bg-transparent text-white overflow-hidden ${className}`}
+      className={`relative w-full px-4 sm:px-8 lg:px-12 py-20 sm:py-24 lg:py-28 bg-transparent text-white overflow-hidden ${className}`}
     >
       {/* Background radial atmosphere with subtle ambient breathing */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] bg-[#FFD400]/[0.03] blur-[140px] pointer-events-none rounded-full animate-ambient-pulse" />

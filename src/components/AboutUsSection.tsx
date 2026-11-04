@@ -180,7 +180,7 @@ export default function AboutUsSection() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative z-20 -mt-[100vh] min-h-screen text-white pt-16 sm:pt-20 lg:pt-24 pb-16 sm:pb-20 lg:pb-24 px-4 sm:px-6 lg:px-12 overflow-hidden selection:bg-[#FFD400] selection:text-black shadow-[0_-50px_140px_rgba(0,0,0,0.99)] flex items-center border-t border-white/10"
+      className="relative z-20 -mt-[100vh] min-h-screen text-white py-20 sm:py-24 lg:py-28 px-4 sm:px-8 lg:px-12 overflow-hidden selection:bg-[#FFD400] selection:text-black shadow-[0_-50px_140px_rgba(0,0,0,0.99)] flex items-center border-t border-white/10"
       style={{
         backgroundColor: "#060812",
         backgroundImage:

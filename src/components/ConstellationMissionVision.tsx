@@ -283,9 +283,8 @@ export default function ConstellationMissionVision({
                           <Icon className="w-5 h-5" />
                         </div>
                         <div>
-                          <span className="text-[11px] font-mono text-[#FFD400] font-semibold block uppercase tracking-wider">
-                            NODE {v.number}
-                          </span>
+                          
+                          
                           <h3 className="font-[family-name:var(--font-archia-local)] text-sm sm:text-base font-bold text-white group-hover:text-[#FFD400] transition-colors leading-snug uppercase">
                             {v.name}
                           </h3>

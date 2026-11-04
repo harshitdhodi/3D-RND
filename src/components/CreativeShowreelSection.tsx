@@ -43,11 +43,11 @@ export default function CreativeShowreelSection() {
       : showreelItems.filter((item) => item.category === activeCategory);
 
   return (
-    <section id="showreel" className="relative py-28 sm:py-28 bg-transparent text-white overflow-hidden border-t border-white/5">
+    <section id="showreel" className="relative py-20 sm:py-24 lg:py-28 bg-transparent text-white overflow-hidden border-t border-white/5 px-4 sm:px-8 lg:px-12">
       {/* Ambient Glow */}
       {/* <div className="absolute top-1/2 left-1/3 w-[800px] h-[400px] bg-[#FFD400]/5 blur-[180px] rounded-full pointer-events-none" /> */}
 
-      <div className="relative max-w-7xl mx-auto px-6 sm:px-12">
+      <div className="relative max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
           <div>

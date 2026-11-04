@@ -31,7 +31,7 @@ function WaveText({
   delayOffset?: number;
 }) {
   return (
-    <span className={`inline-block ${className}`}>
+    <span className={`inline-block ${className}`} suppressHydrationWarning>
       {text.split("").map((char, i) => (
         <span
           key={i}
@@ -49,7 +49,7 @@ function WaveText({
 }
 
 export default function CosmicProcessSection({
-  className = "py-24 sm:py-32",
+  className = "py-20 sm:py-24 lg:py-28",
   badge = "// THE RND WAY | OUR METHODOLOGY",
   stageLabel = "// 6 STAGES OF OUR WORK",
   title = "THE PROCESS BEHIND",
@@ -274,7 +274,7 @@ export default function CosmicProcessSection({
     <section
       id="process"
       ref={sectionRef}
-      className={`relative w-full px-4 sm:px-8 lg:px-12 ${className} bg-transparent text-white overflow-hidden border-t border-white/5 selection:bg-[#FFD400] selection:text-black`}
+      suppressHydrationWarning className={`relative w-full px-4 sm:px-8 lg:px-12 ${className} bg-transparent text-white overflow-hidden border-t border-white/5 selection:bg-[#FFD400] selection:text-black`}
     >
       {/* Background Ambient Galaxy Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-[#FFD400]/4 blur-[180px] rounded-full pointer-events-none" />
@@ -289,7 +289,12 @@ export default function CosmicProcessSection({
             <span className="text-[#FFD400] font-semibold">{badge}</span>
           </div>
 
-         
+          <div className="hidden sm:flex items-center space-x-4">
+            <span className="text-neutral-500">ENGINEERING // AGENCY</span>
+            <span className="font-[family-name:var(--font-syne)] font-bold text-lg sm:text-xl text-[#FFD400] tracking-wider leading-none">
+              RND TECHNOSOFT
+            </span>
+          </div>
         </div>
 
         {/* ================= MAIN FRAMED CYBER CONTAINER ================= */}
@@ -401,7 +406,7 @@ export default function CosmicProcessSection({
                           <p className="text-xs sm:text-[13px] font-medium text-black/85 font-mono leading-snug">
                             {step.tagline}
                           </p>
-                          <p className="text-xs sm:text-[13.5px] xl:text-[16px] font-medium text-black/85 font-mono leading-snug">
+                          <p className="text-xs sm:text-[13.5px] xl:text-[14px] font-normal leading-relaxed text-black/80 font-[family-name:var(--font-jakarta)]">
                             {step.desc}
                           </p>
                         </div>
@@ -412,7 +417,25 @@ export default function CosmicProcessSection({
                       )}
                     </div>
 
-                    
+                    {/* Bottom of Step Card: Full output data without truncation */}
+                    {isActive ? (
+                      <div className="pt-2.5 border-t border-black/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mt-auto">
+                        <span className="text-[10px] xl:text-[11px] font-mono font-bold tracking-wider uppercase leading-tight text-black/90">
+                          OUTPUT: {step.deliverable}
+                        </span>
+                        <Link
+                          href="#contact"
+                          className="px-3.5 py-1.5 rounded-lg bg-black text-[#FFD400] text-xs font-mono font-bold tracking-wider uppercase inline-flex items-center space-x-1.5 hover:bg-neutral-900 transition-colors shadow-sm shrink-0"
+                        >
+                          <span>MORE DETAIL</span>
+                          <ArrowUpRight className="w-3.5 h-3.5" />
+                        </Link>
+                      </div>
+                    ) : (
+                      <div className="font-mono text-[11px] opacity-75 font-semibold">
+                        0{idx + 1}
+                      </div>
+                    )}
                   </div>
                 );
               })}

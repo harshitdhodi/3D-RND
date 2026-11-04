@@ -74,16 +74,16 @@ export interface IndustryData {
 export const industriesList: IndustryData[] = [
   {
     slug: "manufacturing",
-    number: "8.2",
+    number: "01",
     title: "Manufacturing & Industrial",
     category: "Smart Manufacturing & Digital Transformation",
     badge: "ENTERPRISE MANUFACTURING ERP",
-    tagline: "From Traditional Factory Operations to Connected, Intelligent Manufacturing.",
+    tagline: "From traditional production floors to intelligent industrial ecosystems.",
     shortInfo: "Manufacturing businesses lose valuable time and resources to disconnected systems, manual production tracking, inventory inaccuracies, and reactive maintenance. RnD Technosoft transforms these operational challenges into connected digital ecosystems through custom manufacturing software, intelligent automation, and real-time business analytics. We engineer high-performance ERP platforms, production management systems, supply chain applications, and AI-powered solutions that help manufacturers improve productivity, optimize resources, and make smarter operational decisions.",
     heroMetrics: [
-      { label: "Production Visibility", value: "Real-Time Insights" },
-      { label: "Process Automation", value: "Reduced Manual Work" },
-      { label: "Inventory Accuracy", value: "Connected Tracking" },
+      { label: "Production Efficiency", value: "Smarter Workflows" },
+      { label: "Process Automation", value: "Reduced Manual Effort" },
+      { label: "Digital Visibility", value: "Connected Operations" },
     ],
     challenges: [
       {

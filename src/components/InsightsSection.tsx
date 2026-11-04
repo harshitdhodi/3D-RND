@@ -1,37 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { BookOpen, ArrowUpRight, Calendar, Clock } from "lucide-react";
 import CyberButton from "@/components/CyberButton";
-import { blogsData, BlogDetail } from "@/data/blogsData";
-import { fetchInsightsArticles } from "@/lib/cms";
+import { blogsData } from "@/data/blogsData";
 
 export default function InsightsSection() {
-  const [articles, setArticles] = useState<BlogDetail[]>(() => blogsData.slice(0, 3));
-
-  useEffect(() => {
-    let isMounted = true;
-    fetchInsightsArticles()
-      .then((data) => {
-        if (isMounted && data && data.length > 0) {
-          setArticles(data.slice(0, 3));
-        }
-      })
-      .catch(() => {});
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const articles = blogsData.slice(0, 3);
 
   return (
-    <section id="insights" className="relative py-28 sm:py-28 bg-transparent text-white overflow-hidden border-t border-white/5">
+    <section id="insights" className="relative py-20 sm:py-24 lg:py-28 bg-transparent text-white overflow-hidden border-t border-white/5 px-4 sm:px-8 lg:px-12">
       {/* Ambient Glow */}
       <div className="absolute top-1/2 right-1/4 w-[600px] h-[350px] bg-[#FFD400]/5 blur-[160px] rounded-full pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-6 sm:px-12">
+      <div className="relative max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
           <div>

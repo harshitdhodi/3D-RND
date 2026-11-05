@@ -219,8 +219,8 @@ export default function IndustriesIndexPage() {
         healthcare: "/Industries/healthcare_mockup.png",
         "food-fmcg": "/Industries/food_mockup.png",
         "retail-ecommerce": "/Industries/retail_mockup.png",
-        hospitality: "/Industries/Hospital.png",
-        education: "/Industries/education.png",
+        hospitality: "/Industries/hospitality_mockup.png",
+        education: "/Industries/education_mockup.png",
     };
 
     return (

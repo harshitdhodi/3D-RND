@@ -13,7 +13,7 @@ export default function ContactUsPage() {
       <PageBanner
         title="GET IN TOUCH"
         breadcrumb="CONTACT US"
-        imageSrc="/banner/contact.png"
+        imageSrc="/NewBanner/contactus.png"
       />
 
       <main className="relative z-10">

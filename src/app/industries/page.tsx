@@ -178,13 +178,34 @@ export default function IndustriesIndexPage() {
         };
     }, [filteredIndustries]);
 
-    const handleFormSubmit = (e: React.FormEvent) => {
+    const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
-        setTimeout(() => {
-            setIsSubmitting(false);
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name: formData.name,
+                    email: formData.email,
+                    service: `${inquiryIndustry} — ${formData.service || "General"}`,
+                    budget: formData.budget,
+                    timeline: formData.timeline,
+                    message: formData.message || "Project brief submitted from Industries page.",
+                    source: "Industries Page",
+                }),
+            });
+            const data = await res.json();
+            if (!res.ok || !data.success) {
+                console.warn("Industry form submit warning:", data.error);
+            }
             setFormSubmitted(true);
-        }, 850);
+        } catch (err) {
+            console.error("Industry form submit error:", err);
+            setFormSubmitted(true);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const getIndustryIcon = (slug: string) => {

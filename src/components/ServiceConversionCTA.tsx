@@ -83,15 +83,41 @@ export default function ServiceConversionCTA({
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrorMessage(null);
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phoneCode: formData.phoneCode,
+          phone: formData.phone,
+          service: formData.service,
+          budget: formData.budget,
+          message: formData.message,
+          source: "Service Conversion CTA",
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Failed to deliver inquiry. Please try again.");
+      }
+
       setIsSubmitted(true);
-    }, 850);
+    } catch (err: any) {
+      console.error("ServiceConversionCTA error:", err);
+      setErrorMessage(err.message || "Failed to send enquiry. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {
@@ -365,6 +391,9 @@ export default function ServiceConversionCTA({
                           </>
                         )}
                       </button>
+                      {errorMessage && (
+                        <p className="text-xs text-red-400 font-mono mt-3 text-center">{errorMessage}</p>
+                      )}
 
                       <div className="mt-4 text-center">
                         <p className="text-xs text-neutral-300 font-medium font-[family-name:var(--font-jakarta)]">

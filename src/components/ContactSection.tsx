@@ -38,6 +38,7 @@ export default function ContactSection() {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [copiedKey, setCopiedKey] = useState<string | null>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     // Mouse spotlight coordinates for interactive card glow
     const [mousePos, setMousePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -232,13 +233,35 @@ export default function ContactSection() {
         setFormData((prev) => ({ ...prev, agreed: e.target.checked }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!formData.name || !formData.email || !formData.message) return;
 
         setIsSubmitting(true);
-        setTimeout(() => {
-            setIsSubmitting(false);
+        setErrorMessage(null);
+
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name: formData.name,
+                    email: formData.email,
+                    phoneCode: formData.phoneCode,
+                    phone: formData.phone,
+                    message: formData.message,
+                    source: "Contact Us Page",
+                }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok || !data.success) {
+                throw new Error(data.error || "Failed to deliver inquiry. Please try again.");
+            }
+
             setIsSubmitted(true);
             setFormData({
                 name: "",
@@ -248,8 +271,14 @@ export default function ContactSection() {
                 message: "",
                 agreed: true,
             });
-            setTimeout(() => setIsSubmitted(false), 6000);
-        }, 900);
+            setTimeout(() => setIsSubmitted(false), 8000);
+        } catch (err: any) {
+            console.error("Submission error:", err);
+            setErrorMessage(err.message || "Failed to send message. Please verify your connection or try again.");
+            setTimeout(() => setErrorMessage(null), 8000);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const copyToClipboard = (text: string, key: string) => {
@@ -524,6 +553,14 @@ export default function ContactSection() {
                                     <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl flex items-center gap-3 text-xs font-mono text-emerald-400 animate-fadeIn">
                                         <CheckCircle2 className="w-5 h-5 shrink-0" />
                                         <span>Thank you! Your message has been received. Our team will contact you within 2 hours.</span>
+                                    </div>
+                                )}
+
+                                {/* Error Toast */}
+                                {errorMessage && (
+                                    <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center gap-3 text-xs font-mono text-red-400 animate-fadeIn">
+                                        <span className="w-2 h-2 rounded-full bg-red-400 shrink-0 animate-ping" />
+                                        <span>{errorMessage}</span>
                                     </div>
                                 )}
                             </form>

@@ -5,11 +5,9 @@ import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
-    ArrowRight,
     ArrowUpRight,
     Sparkles,
     Shield,
-    Zap,
     CheckCircle2,
     Send,
     Building2,
@@ -22,6 +20,7 @@ import {
     Rocket,
     Plane,
     Factory,
+    Landmark,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import RnDFooter from "@/components/RnDFooter";
@@ -30,10 +29,10 @@ import PageBanner from "@/components/PageBanner";
 import PrintRevealImage from "@/components/PrintRevealImage";
 import WaveText from "@/components/WaveText";
 import AnimatedCounter from "@/components/AnimatedCounter";
-import { industriesList, IndustryData } from "@/data/industriesData";
+import { industriesList } from "@/data/industriesData";
 
 export default function IndustriesIndexPage() {
-    const [selectedCategory, setSelectedCategory] = useState("All");
+    const [selectedCategory] = useState("All");
     const [inquiryIndustry, setInquiryIndustry] = useState(industriesList[0].title);
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -208,6 +207,8 @@ export default function IndustriesIndexPage() {
                 return Rocket;
             case "travel-tourism":
                 return Plane;
+            case "finance-fintech":
+                return Landmark;
             default:
                 return Briefcase;
         }
@@ -222,7 +223,7 @@ export default function IndustriesIndexPage() {
             <PageBanner
                 title="INDUSTRIES WE SERVE"
                 breadcrumb="INDUSTRIES"
-                imageSrc="/banner/industries.png"
+                imageSrc="/NewBanner/Industry page banner.png"
             />
 
             {/* Main Content with Layered Overlap over the Banner */}
@@ -324,8 +325,9 @@ export default function IndustriesIndexPage() {
 
                                                 {/* Meta Tags: Number • Category • Standard */}
                                                 <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-neutral-400">
-                                                    <span className="px-2.5 py-0.5 bg-[#FFD400]/15 text-[#FFD400] border border-[#FFD400]/30 font-bold">
-                                                        VERTICAL {ind.number}
+                                                    <span className="px-2.5 py-0.5 bg-[#FFD400]/15 text-[#FFD400] border border-[#FFD400]/30 font-bold flex items-center gap-1.5">
+                                                        <Icon className="w-3 h-3" />
+                                                        <span>VERTICAL {ind.number}</span>
                                                     </span>
                                                     <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10">
                                                         {ind.category}
@@ -344,9 +346,16 @@ export default function IndustriesIndexPage() {
                                                 </h3>
 
                                                 {/* Tagline */}
-                                                <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
+                                                <p className="text-xs sm:text-sm text-[#FFD400] font-mono font-medium tracking-wide">
                                                     {ind.tagline}
                                                 </p>
+
+                                                {/* Short Info */}
+                                                {ind.shortInfo && (
+                                                    <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed line-clamp-3 sm:line-clamp-4">
+                                                        {ind.shortInfo}
+                                                    </p>
+                                                )}
 
                                                 {/* Key Metrics Pills with Animated Counter */}
                                                 <div className="flex flex-wrap items-center gap-2 pt-1">

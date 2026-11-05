@@ -2,7 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 import {
   Sparkles,
   Quote,
@@ -80,14 +79,16 @@ export default function TeamCultureSection({
   ];
 
   return (
-    <section id="team-culture" className={`relative w-full ${className}`}>
+    <section id="team-culture" className={`relative w-full px-3 sm:px-6 md:px-8 lg:px-12 ${className}`}>
       {/* Ambient Cosmic Background Glows */}
       <div className="absolute top-1/3 left-1/4 -translate-x-1/2 w-[700px] h-[500px] bg-[#FFD400]/4 blur-[180px] rounded-full pointer-events-none -z-10" />
       <div className="absolute bottom-10 right-10 w-[550px] h-[450px] bg-[#c59a58]/5 blur-[160px] rounded-full pointer-events-none -z-10" />
 
-      {/* =========================================================================
-          SECTION HEADER
-          ========================================================================= */}
+      {/* Max Width Container - Aligns with Navbar Logo (left) and Navbar Button (right) */}
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* =========================================================================
+            SECTION HEADER
+            ========================================================================= */}
       <div className="mb-14 sm:mb-18 border-b border-white/10 pb-8 sm:pb-12">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4">
           <Users className="w-3.5 h-3.5" />
@@ -168,14 +169,14 @@ export default function TeamCultureSection({
               <div className="relative pl-6 sm:pl-8 border-l-2 border-[#FFD400] py-2 space-y-3 bg-white/[0.02] p-5 rounded-r-xl">
                 <Quote className="w-8 h-8 text-[#FFD400]/40 absolute -top-3 -left-3 fill-current" />
                 <p className="text-sm sm:text-base text-neutral-200 font-light italic leading-relaxed">
-                 As the driving force behind RND Technosoft, Mr. Ravi Shah leads the company's vision of bringing technology and creativity together. With a focus on innovation, business growth and meaningful client partnerships, he continues to guide RND towards creating solutions that empower businesses and unlock new possibilities. <br/>
+                 As the driving force behind RND Technosoft, Mr. Ravi Shah leads the company&apos;s vision of bringing technology and creativity together. With a focus on innovation, business growth and meaningful client partnerships, he continues to guide RND towards creating solutions that empower businesses and unlock new possibilities. <br/>
                  His vision is to build an organisation where technology, strategy and creativity work together to turn ambitious ideas into lasting impact.
 
 
                 </p>
-                <span className="text-md italic font-mono text-[#FFD400] font-medium block">"True innovation happens when technology meets vision, creativity meets strategy, and ideas are transformed into opportunities. At RND Technosoft, we believe in building more than solutions — we believe in creating possibilities."</span>
+                <span className="text-md italic font-mono text-[#FFD400] font-medium block">&ldquo;True innovation happens when technology meets vision, creativity meets strategy, and ideas are transformed into opportunities. At RND Technosoft, we believe in building more than solutions — we believe in creating possibilities.&rdquo;</span>
                 <span className="text-xs font-mono text-[#FFD400] font-medium block">
-                  — Siddharth Rao, Founder &amp; CEO
+                  — Mr. Ravi Shah, Founder &amp; CEO
                 </span>
               </div>
 
@@ -290,7 +291,8 @@ export default function TeamCultureSection({
           ))}
         </div>
       </div>
-    </section>
+    </div>
+  </section>
   );
 }
 

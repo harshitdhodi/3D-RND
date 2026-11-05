@@ -1,12 +1,12 @@
 "use client";
 
 function getCategoryBanner(parentPath: string | undefined, type: string | undefined): string {
-    if (parentPath?.includes("technology-solution")) return "/banner/technology.png";
-    if (parentPath?.includes("digital-marketing")) return "/banner/digital-marketing.png";
-    if (parentPath?.includes("branding-design")) return "/banner/branding-design.png";
-    if (parentPath?.includes("media-production")) return "/banner/media-production.png";
-    if (type === "portfolio") return "/banner/portfolio.png";
-    return "/banner/service.png";
+    if (parentPath?.includes("technology-solution")) return "/NewBanner/serviceCategories.jpg";
+    if (parentPath?.includes("digital-marketing")) return "/NewBanner/serviceCategories.jpg";
+    if (parentPath?.includes("branding-design")) return "/NewBanner/serviceCategories.jpg";
+    if (parentPath?.includes("media-production")) return "/NewBanner/serviceCategories.jpg";
+    if (type === "portfolio") return "/NewBanner/protfolio page banner.png";
+    return "/NewBanner/our ecocystem banner.png";
 }
 
 import React, { useState } from "react";

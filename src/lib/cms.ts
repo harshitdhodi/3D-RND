@@ -19,7 +19,7 @@ export interface InsightsBriefingData {
 export const DEFAULT_BANNER: InsightsBannerData = {
   title: "ENGINEERING INSIGHTS",
   breadcrumb: "INSIGHTS",
-  image: "/banner/insights.png",
+  image: "/NewBanner/blogs banner.png",
   description: "<p>Deep technical analyses, architecture blueprints, and spatial engineering breakthroughs from our engineering team.</p>",
 };
 

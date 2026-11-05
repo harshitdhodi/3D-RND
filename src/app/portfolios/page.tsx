@@ -169,7 +169,7 @@ export default function PortfoliosPage() {
       <PageBanner
         title="PORTFOLIO ARCHIVE"
         breadcrumb="PORTFOLIOS"
-        imageSrc="/banner/portfolio.png"
+        imageSrc="/NewBanner/protfolio page banner.png"
       />
 
       {/* Main Content Area */}

@@ -9,7 +9,6 @@ import {
     Shield,
     Zap,
     CheckCircle2,
-    Send,
     Building2,
     Briefcase,
     ShoppingBag,
@@ -145,7 +144,7 @@ export default function IndustryDetailClientView({
             {/* Page Banner with Typewriter Title, Slow Zoom & Parallax */}
             <PageBanner title={industry.title}
                 breadcrumb={industry.title}
-                parentBreadcrumb={{ label: "INDUSTRIES", href: "/industries" }} imageSrc="/banner/industries.png" />
+                parentBreadcrumb={{ label: "INDUSTRIES", href: "/industries" }} imageSrc="/NewBanner/Industry page banner.png" />
 
             {/* Overlapping Main Content */}
             <main className="relative z-20 w-full mt-[50px] rounded-t-[32px] sm:rounded-t-[44px] bg-transparent 
@@ -159,9 +158,7 @@ export default function IndustryDetailClientView({
                             {/* Left Column (8 cols): Short Info & Tagline */}
                             <div className="lg:col-span-8 space-y-4">
                                 <div className="flex flex-wrap items-center gap-2">
-                                    <span className="px-3 py-1 rounded-full bg-[#FFD400]/15 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-bold tracking-[0.2em] uppercase">
-                                        VERTICAL {industry.number} {"//"} {industry.badge}
-                                    </span>
+                                   
                                     <span className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-neutral-300 text-xs font-mono">
                                         {industry.category}
                                     </span>
@@ -179,7 +176,15 @@ export default function IndustryDetailClientView({
                             {/* Right Column (4 cols): Hero Key Metrics */}
                             <div className="lg:col-span-4 bg-black/40 border border-white/10 p-6 space-y-4">
                                 <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#FFD400] font-bold block border-b border-white/10 pb-2">
-                                    AUDITED BENCHMARKS
+                                    {industry.slug === "healthcare" 
+                                        ? "HEALTHCARE PRIORITIES" 
+                                        : industry.slug === "food-fmcg"
+                                        ? "BUSINESS GROWTH PRIORITIES"
+                                        : industry.slug === "retail-ecommerce"
+                                        ? "RETAIL GROWTH PRIORITIES"
+                                        : industry.slug === "hospitality"
+                                        ? "HOSPITALITY GROWTH PRIORITIES"
+                                        : "AUDITED BENCHMARKS"}
                                 </span>
                                 <div className="space-y-4">
                                     {industry.heroMetrics.map((metric, mIdx) => (
@@ -197,7 +202,16 @@ export default function IndustryDetailClientView({
                         </div>
 
                         {/* 3 Core Engineering Pillars */}
-                        <div className="mt-10 pt-8 border-t border-white/10 grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="mt-10 pt-8 border-t border-white/10">
+                            <h3 className="text-sm font-mono uppercase tracking-[0.2em] text-[#FFD400] font-bold mb-6">
+                                {industry.slug === "healthcare" ? "BUILDING A HEALTHIER DIGITAL ECOSYSTEM." : "CORE CAPABILITIES"}
+                            </h3>
+                            {industry.slug === "healthcare" && (
+                                <p className="text-xs sm:text-sm text-neutral-400 font-light leading-relaxed mb-6">
+                                    From patient-facing digital platforms to a stronger healthcare brand, we bring technology and creativity together to help healthcare businesses move forward.
+                                </p>
+                            )}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {industry.pillars.map((pillar, pIdx) => {
                                 const IconComponent = getPillarIcon(pillar.icon);
                                 return (
@@ -217,6 +231,7 @@ export default function IndustryDetailClientView({
                                     </div>
                                 );
                             })}
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -228,13 +243,30 @@ export default function IndustryDetailClientView({
                     <div className="mb-10 max-w-3xl">
                         <span className="text-xs font-mono uppercase tracking-[0.25em] text-red-400 font-semibold flex items-center gap-2">
                             <AlertTriangle className="w-4 h-4 text-red-400" />
-                            <span>SECTOR PAIN POINTS &amp; ARCHITECTURAL BOTTLENECKS</span>
+                            <span>INDUSTRY CHALLENGES // OPERATIONAL BOTTLENECKS</span>
                         </span>
                         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-2">
-                            Core Challenges Facing {industry.title}
+                            {industry.slug === "healthcare" 
+                                ? "THE CHALLENGES BEHIND MODERN HEALTHCARE." 
+                                : industry.slug === "food-fmcg"
+                                ? "THE CHALLENGES BEHIND EVERY FAST-MOVING MARKET."
+                                : industry.slug === "retail-ecommerce"
+                                ? "THE CHALLENGES SHAPING MODERN RETAIL."
+                                : industry.slug === "hospitality"
+                                ? "THE CHALLENGES BEHIND EVERY GUEST EXPERIENCE."
+                                : "WHAT'S HOLDING YOUR INDUSTRY BACK?"}
                         </h2>
                         <p className="text-xs sm:text-sm text-neutral-400 font-mono mt-2">
-                            Legacy software and fragmented systems create compounding technical debt in this vertical. Here is what modern engineering must overcome:
+                            {industry.slug === "healthcare" 
+                                ? "Healthcare businesses face increasing pressure to deliver seamless experiences while managing daily operations and staying visible in a competitive digital landscape. The right digital approach can help address these challenges."
+                                : industry.slug === "food-fmcg"
+                                ? "Food and FMCG businesses operate in a competitive environment where customer expectations, product availability and brand visibility constantly evolve. Disconnected systems and inconsistent digital experiences can make it harder to keep pace."
+                                : industry.slug === "retail-ecommerce"
+                                ? "Retail businesses face constantly evolving customer expectations, increased competition and the need to create seamless shopping experiences across multiple touchpoints. The right digital approach can help address these challenges and create more engaging customer journeys."
+                                : industry.slug === "hospitality"
+                                ? "Hospitality businesses operate in a highly experience-driven market. Guests expect convenient booking journeys, engaging digital content and consistent service information. Businesses need the right digital foundation to meet these expectations and stand out."
+                                : "Manufacturing businesses face growing operational and digital challenges. We help identify these gaps and build practical solutions that move businesses forward."
+                            }
                         </p>
                     </div>
 
@@ -285,13 +317,33 @@ export default function IndustryDetailClientView({
                     <div className="mb-10 max-w-3xl">
                         <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold flex items-center gap-2">
                             <Zap className="w-4 h-4 text-[#FFD400]" />
-                            <span>SYNERGISTIC ARCHITECTURAL CAPABILITIES</span>
+                            <span>
+                                {industry.slug === "healthcare" ? "OUR SOLUTIONS" : "INTEGRATED SOLUTIONS // INDUSTRY-FOCUSED CAPABILITIES"}
+                            </span>
                         </span>
                         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-2">
-                            How RnD&apos;s Services Solve {industry.title}
+                            {industry.slug === "healthcare" 
+                                ? "TECHNOLOGY AND CREATIVITY, WORKING FOR BETTER HEALTHCARE."
+                                : industry.slug === "food-fmcg"
+                                ? "POWERING FOOD & FMCG BRANDS THROUGH DIGITAL INNOVATION."
+                                : industry.slug === "retail-ecommerce"
+                                ? "ENGINEERING BETTER SHOPPING EXPERIENCES. BUILDING STRONGER RETAIL BRANDS."
+                                : industry.slug === "hospitality"
+                                ? "TECHNOLOGY MEETS HOSPITALITY. EXPERIENCES MEET EXPECTATIONS."
+                                : "THE RIGHT TECHNOLOGY. THE RIGHT STRATEGY. THE RIGHT IMPACT."
+                            }
                         </h2>
                         <p className="text-xs sm:text-sm text-neutral-400 font-mono mt-2">
-                            Rather than isolated point-solutions, we deploy coordinated service combinations tailored to the regulatory, UX, and operational demands of this sector.
+                            {industry.slug === "healthcare"
+                                ? "We combine digital expertise across four key service areas to help healthcare organisations strengthen their operations, improve communication and build a more effective digital presence."
+                                : industry.slug === "food-fmcg"
+                                ? "From e-commerce platforms to product campaigns, we bring technology and creativity together to help food and FMCG businesses strengthen their digital presence and create meaningful consumer experiences."
+                                : industry.slug === "retail-ecommerce"
+                                ? "We combine e-commerce development, digital marketing, creative design and visual storytelling to help retail businesses create better product experiences, reach relevant customers and build stronger brand connections."
+                                : industry.slug === "hospitality"
+                                ? "From direct booking experiences to destination storytelling, we combine technology and creativity to help hospitality businesses connect with guests and build stronger digital experiences."
+                                : "We bring multiple capabilities together to help manufacturing businesses strengthen their operations, improve digital visibility and build a competitive market presence."
+                            }
                         </p>
                     </div>
 
@@ -360,14 +412,26 @@ export default function IndustryDetailClientView({
                     <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                         <div>
                             <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
-                                PROVEN EXECUTION ARCHIVES
+                                {industry.slug === "healthcare" ? "SELECTED WORK" : "OUR WORK // INDUSTRY SOLUTIONS"}
                             </span>
                             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-1">
-                                Featured Works &amp; Systems
+                                {industry.slug === "healthcare"
+                                    ? "DIGITAL SOLUTIONS MAKING A DIFFERENCE."
+                                    : industry.slug === "food-fmcg"
+                                    ? "DIGITAL EXPERIENCES. REAL-WORLD BUSINESS POSSIBILITIES."
+                                    : industry.slug === "retail-ecommerce"
+                                    ? "REIMAGINING HOW CUSTOMERS DISCOVER AND EXPERIENCE PRODUCTS."
+                                    : industry.slug === "hospitality"
+                                    ? "SHOWCASING DESTINATIONS. CREATING DIGITAL EXPERIENCES."
+                                    : "IDEAS ENGINEERED INTO REAL-WORLD SOLUTIONS."
+                                }
                             </h2>
                         </div>
                         <p className="text-xs font-mono text-neutral-400">
-                            Showing {industry.works.length} Production Deployments
+                            {industry.slug === "healthcare" 
+                                ? `${industry.works.length} Digital Solutions`
+                                : `Showing ${industry.works.length} Solution Concepts`
+                            }
                         </p>
                     </div>
 
@@ -472,13 +536,31 @@ export default function IndustryDetailClientView({
                     <div className="mb-10 max-w-3xl">
                         <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold flex items-center gap-2">
                             <Clock className="w-4 h-4 text-[#FFD400]" />
-                            <span>PHASED DEPLOYMENT ROADMAP</span>
+                            <span>{industry.slug === "healthcare" ? "PROJECT ROADMAP" : "OUR APPROACH // FROM VISION TO EXECUTION"}</span>
                         </span>
                         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-2">
-                            Tailored Engineering Process for {industry.title}
+                            {industry.slug === "healthcare"
+                                ? "FROM UNDERSTANDING YOUR NEEDS TO DELIVERING THE RIGHT SOLUTION."
+                                : industry.slug === "food-fmcg"
+                                ? "FROM PRODUCT VISION TO MARKET-READY DIGITAL EXPERIENCES."
+                                : industry.slug === "retail-ecommerce"
+                                ? "FROM SHOPPING CONCEPT TO CONNECTED COMMERCE."
+                                : industry.slug === "hospitality"
+                                ? "FROM FIRST DISCOVERY TO A MEMORABLE DIGITAL EXPERIENCE."
+                                : "A CLEARER PATH FROM CHALLENGE TO SOLUTION."
+                            }
                         </h2>
                         <p className="text-xs sm:text-sm text-neutral-400 font-mono mt-2">
-                            A battle-tested 4-stage sprint methodology balancing rapid prototyping with strict industry compliance, security audits, and zero-downtime cutover.
+                            {industry.slug === "healthcare"
+                                ? "Every healthcare organisation has different goals. Our process begins with understanding your requirements and shaping a solution that aligns with your business, audience and long-term vision."
+                                : industry.slug === "food-fmcg"
+                                ? "Every food and FMCG business has a different market, audience and operating model. Our process aligns the right technology and creative services with your business objectives."
+                                : industry.slug === "retail-ecommerce"
+                                ? "Every retail business has different products, customers and operational requirements. Our process helps define the right platform, design approach and integrations to create engaging shopping experiences."
+                                : industry.slug === "hospitality"
+                                ? "Every hospitality brand has its own personality, audience and service expectations. Our process begins with understanding your property and business goals before shaping the right digital and creative solution."
+                                : "Every manufacturing business has unique requirements. Our collaborative approach ensures that every project starts with understanding your business and ends with a solution aligned with your goals."
+                            }
                         </p>
                     </div>
 
@@ -532,7 +614,7 @@ export default function IndustryDetailClientView({
                     <div className="p-8 sm:p-12 bg-[#090b10]/50 backdrop-blur-md border border-[#FFD400]/30 shadow-2xl relative overflow-hidden">
                         {/* Background Aesthetic Watermark */}
                         <div className="absolute right-4 bottom-2 text-white/[0.02] text-8xl sm:text-9xl font-black select-none pointer-events-none font-mono">
-                            CASE STUDY
+                            {industry.slug === "healthcare" ? "SUCCESS STORY" : "CASE STUDY"}
                         </div>
 
                         <div className="relative z-10 space-y-8">
@@ -541,10 +623,19 @@ export default function IndustryDetailClientView({
                                 <div>
                                     <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold flex items-center gap-2">
                                         <Sparkles className="w-4 h-4" />
-                                        <span>IN-DEPTH TRANSFORMATION CASE STUDY</span>
+                                        <span>{industry.slug === "healthcare" ? "SUCCESS STORY" : "INDUSTRY SPOTLIGHT // BUSINESS TRANSFORMATION"}</span>
                                     </span>
                                     <h2 className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-1">
-                                        {industry.caseStudy.title}
+                                        {industry.slug === "healthcare"
+                                            ? "TRANSFORMING HEALTHCARE EXPERIENCES THROUGH DIGITAL INNOVATION."
+                                            : industry.slug === "food-fmcg"
+                                            ? "HELPING A FOOD BRAND GROW BEYOND ITS SHELVES."
+                                            : industry.slug === "retail-ecommerce"
+                                            ? "TURNING DIGITAL SHOPPING INTO A MORE ENGAGING EXPERIENCE."
+                                            : industry.slug === "hospitality"
+                                            ? "TURNING HOSPITALITY BRANDS INTO DESTINATIONS GUESTS DISCOVER."
+                                            : "TURNING COMPLEX OPERATIONS INTO CONNECTED POSSIBILITIES."
+                                        }
                                     </h2>
                                 </div>
                                 <div className="text-xs font-mono px-3 py-1.5 bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] shrink-0 self-start sm:self-center">
@@ -619,27 +710,45 @@ export default function IndustryDetailClientView({
                         <div className="lg:col-span-5 space-y-5">
                             <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold flex items-center gap-2">
                                 <Briefcase className="w-4 h-4" />
-                                <span>EXECUTIVE ARCHITECTURE CONSULTATION</span>
+                                <span>{industry.slug === "healthcare" ? "PROJECT ENQUIRY" : "MANUFACTURING & INDUSTRIAL // LET'S CONNECT"}</span>
                             </span>
                             <h2 className="font-[family-name:var(--font-syne)] text-2xl sm:text-3xl lg:text-4xl text-white font-bold uppercase leading-tight">
-                                Request {industry.title} Architecture Brief
+                                {industry.slug === "healthcare"
+                                    ? "READY TO TAKE YOUR HEALTHCARE BUSINESS FORWARD?"
+                                    : industry.slug === "food-fmcg"
+                                    ? "READY TO TAKE YOUR FOOD BRAND TO THE NEXT LEVEL?"
+                                    : industry.slug === "retail-ecommerce"
+                                    ? "READY TO BUILD YOUR NEXT RETAIL EXPERIENCE?"
+                                    : industry.slug === "hospitality"
+                                    ? "READY TO MAKE YOUR HOSPITALITY BRAND UNFORGETTABLE?"
+                                    : "READY TO MOVE YOUR BUSINESS FORWARD?"
+                                }
                             </h2>
                             <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light">
-                                Connect directly with our Principal Enterprise Architect specializing in {industry.title}. We provide system architecture blueprints, cost modeling, and compliance audits for your project.
+                                {industry.slug === "healthcare"
+                                    ? "Whether you're building a new healthcare website, strengthening your clinic's digital presence or exploring custom technology, let's create a solution that supports your next stage of growth."
+                                    : industry.slug === "food-fmcg"
+                                    ? "Whether you're launching a new product, building an online store or looking to strengthen your brand presence, RND Technosoft can help bring your next digital initiative to life."
+                                    : industry.slug === "retail-ecommerce"
+                                    ? "Whether you're building a new e-commerce platform, improving your online storefront or creating more engaging product experiences, let's bring your retail vision to life."
+                                    : industry.slug === "hospitality"
+                                    ? "Whether you're launching a new resort, upgrading your hotel's website or looking to attract more guests online, let's create digital experiences that make your property stand out."
+                                    : "Whether you want to modernize your digital infrastructure, build custom business software, strengthen your industrial brand or reach new customers, RND Technosoft is ready to explore the possibilities with you."
+                                }
                             </p>
 
                             <div className="p-4 bg-white/[0.02] border border-white/10 space-y-2 text-xs font-mono text-neutral-300">
                                 <div className="flex items-center gap-2">
                                     <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400]" />
-                                    <span>Comprehensive NDA Guarantee Before Technical Calls</span>
+                                    <span>Let&apos;s Discuss Your Next Project</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400]" />
-                                    <span>Direct Principal Architect Response in 24 Hours</span>
+                                    <span>Tell Us About Your Requirements</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400]" />
-                                    <span>Sector Compliance: {industry.badge}</span>
+                                    <span>Our Team Will Connect With You</span>
                                 </div>
                             </div>
                         </div>
@@ -652,10 +761,10 @@ export default function IndustryDetailClientView({
                                         <CheckCircle2 className="w-6 h-6" />
                                     </div>
                                     <h3 className="font-[family-name:var(--font-syne)] text-xl font-bold text-white uppercase">
-                                        Inquiry Encrypted &amp; Received
+                                        Thank You For Your Inquiry
                                     </h3>
                                     <p className="text-xs text-neutral-300 font-mono max-w-md mx-auto">
-                                        Thank you. Our Principal Solutions Lead for {industry.title} will review your specifications and contact you shortly.
+                                        We&apos;ve received your project details. Our team will review your requirements and connect with you shortly to discuss the next steps.
                                     </p>
                                 </div>
                             ) : (
@@ -663,12 +772,12 @@ export default function IndustryDetailClientView({
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                                Your Full Name *
+                                                Your Name *
                                             </label>
                                             <input
                                                 type="text"
                                                 required
-                                                placeholder="Executive Name"
+                                                placeholder="Your Name"
                                                 value={formData.name}
                                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                                 className="w-full px-3.5 py-2.5 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors"
@@ -676,12 +785,12 @@ export default function IndustryDetailClientView({
                                         </div>
                                         <div>
                                             <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                                Work Email Address *
+                                                Business Email *
                                             </label>
                                             <input
                                                 type="email"
                                                 required
-                                                placeholder="executive@enterprise.com"
+                                                placeholder="email@company.com"
                                                 value={formData.email}
                                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                                 className="w-full px-3.5 py-2.5 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors"
@@ -692,12 +801,12 @@ export default function IndustryDetailClientView({
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                                Organization / Enterprise Name *
+                                                Company Name *
                                             </label>
                                             <input
                                                 type="text"
                                                 required
-                                                placeholder="Organization Ltd."
+                                                placeholder="Company Name"
                                                 value={formData.company}
                                                 onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                                                 className="w-full px-3.5 py-2.5 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors"
@@ -706,27 +815,33 @@ export default function IndustryDetailClientView({
 
                                         <div>
                                             <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                                Target Launch Window
+                                                What Do You Need?
                                             </label>
                                             <select
                                                 value={formData.timeline}
                                                 onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}
                                                 className="w-full px-3 py-2.5 text-xs font-mono bg-[#0c0e14]/60 backdrop-blur-sm border border-white/15 text-white focus:outline-none focus:border-[#FFD400] transition-colors"
                                             >
-                                                <option value="Next 30 Days">Immediate (Next 30 Days)</option>
-                                                <option value="Next 60-90 Days">Next Quarter (60-90 Days)</option>
-                                                <option value="Strategic Planning">Long-Term Strategic Evaluation</option>
+                                                <option value="Website Development">Website Development</option>
+                                                <option value="Custom Software Development">Custom Software Development</option>
+                                                <option value="Mobile Application Development">Mobile Application Development</option>
+                                                <option value="E-Commerce Development">E-Commerce Development</option>
+                                                <option value="SEO & Digital Marketing">SEO &amp; Digital Marketing</option>
+                                                <option value="Branding & Design">Branding &amp; Design</option>
+                                                <option value="Photography & Videography">Photography &amp; Videography</option>
+                                                <option value="Multiple Services">Multiple Services</option>
+                                                <option value="Not Sure Yet">Not Sure Yet</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div>
                                         <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                            Technical Challenges or Architecture Scope
+                                            Tell Us About Your Requirements
                                         </label>
                                         <textarea
-                                            rows={3}
-                                            placeholder={`Tell us about your ${industry.title} software needs, current platform pain points, or expected scale...`}
+                                            rows={4}
+                                            placeholder="Share your business details, requirements and objectives..."
                                             value={formData.message}
                                             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                                             className="w-full p-3 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors resize-none"
@@ -740,11 +855,11 @@ export default function IndustryDetailClientView({
                                             className="w-full sm:w-auto px-8 py-3.5 bg-[#FFD400] hover:bg-[#ffe34d] text-black text-xs font-mono uppercase tracking-[0.2em] font-bold transition-all shadow-[0_0_20px_rgba(255,212,0,0.3)] flex items-center justify-center space-x-2 group cursor-pointer disabled:opacity-60"
                                         >
                                             {isSubmitting ? (
-                                                <span>Encrypting Scope...</span>
+                                                <span>SENDING...</span>
                                             ) : (
                                                 <>
-                                                    <span>Transmit Consultation Brief</span>
-                                                    <Send className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                                                    <span>START YOUR PROJECT</span>
+                                                    <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                                                 </>
                                             )}
                                         </button>
@@ -761,10 +876,19 @@ export default function IndustryDetailClientView({
                 <section className="max-w-7xl mx-auto px-6 md:px-12 py-14 border-t border-white/10">
                     <div className="mb-8">
                         <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
-                            KNOWLEDGE &amp; COMPLIANCE
+                            {industry.slug === "healthcare" ? "EVERYTHING YOU NEED TO KNOW" : "MANUFACTURING & INDUSTRIAL // KNOW BEFORE YOU BEGIN"}
                         </span>
                         <h2 className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-1">
-                            Frequently Asked Questions
+                            {industry.slug === "healthcare"
+                                ? "EVERYTHING YOU NEED TO KNOW ABOUT OUR HEALTHCARE SOLUTIONS."
+                                : industry.slug === "food-fmcg"
+                                ? "YOUR QUESTIONS. OUR DIGITAL EXPERTISE."
+                                : industry.slug === "retail-ecommerce"
+                                ? "EVERYTHING YOU NEED TO KNOW ABOUT OUR RETAIL SOLUTIONS."
+                                : industry.slug === "hospitality"
+                                ? "EVERYTHING YOU NEED TO KNOW ABOUT OUR HOSPITALITY SOLUTIONS."
+                                : "FREQUENTLY ASKED QUESTIONS"
+                            }
                         </h2>
                     </div>
 

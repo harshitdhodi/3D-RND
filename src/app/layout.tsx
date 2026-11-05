@@ -1,30 +1,30 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans, Geist_Mono, Bebas_Neue, Syne } from "next/font/google";
 import localFont from "next/font/local";
 import GlobalCursor from "@/components/GlobalCursor";
 import "./globals.css";
 
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
+const plusJakarta = localFont({
+  src: "../../public/fonts/plus-jakarta-sans-variable.woff2",
   variable: "--font-jakarta",
-  weight: ["300", "400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
+const geistMono = localFont({
+  src: "../../public/fonts/geist-mono.woff2",
   variable: "--font-geist-mono",
-  subsets: ["latin"],
+  display: "swap",
 });
 
-const bebasNeue = Bebas_Neue({
-  weight: "400",
-  subsets: ["latin"],
+const bebasNeue = localFont({
+  src: "../../public/fonts/bebas-neue.woff2",
   variable: "--font-bebas",
+  display: "swap",
 });
 
-const syne = Syne({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+const syne = localFont({
+  src: "../../public/fonts/syne-variable.woff2",
   variable: "--font-syne",
+  display: "swap",
 });
 
 const archia = localFont({

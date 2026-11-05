@@ -6,7 +6,7 @@ import SpaceBackground from "@/components/SpaceBackground";
 
 export default function ContactUsPage() {
   return (
-    <div className="relative min-h-screen bg-[#050608] text-white">
+    <div className="font-archia relative min-h-screen bg-[#050608] text-white">
       <SpaceBackground />
       <Navbar />
       

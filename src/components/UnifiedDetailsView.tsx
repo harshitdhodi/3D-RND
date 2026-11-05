@@ -101,7 +101,7 @@ export interface UnifiedDetailsViewProps {
     allServicesOrItems?: RelatedItemSummary[];
     prevItem?: RelatedItemSummary | null;
     nextItem?: RelatedItemSummary | null;
-    parentPath: string; // e.g. "/services", "/portfolios", "/blogs"
+    parentPath: string; // e.g. "/services", "/portfolio", "/blogs"
     parentLabel: string; // e.g. "Services", "Portfolio", "Blogs"
 }
 
@@ -221,7 +221,7 @@ export default function UnifiedDetailsView({
 
 
     return (
-        <div className="relative min-h-screen bg-transparent text-white selection:bg-[#FFD400] selection:text-black font-sans">
+        <div className="relative min-h-screen bg-transparent text-white selection:bg-[#FFD400] selection:text-black font-archia">
             {/* Background Galactic Starfield */}
             <SpaceBackground />
 
@@ -471,20 +471,20 @@ export default function UnifiedDetailsView({
                 {/* =========================================================================
             4.6. WHY TEAM UP WITH US (Proven Engineering Edge & Capabilities)
             ========================================================================= */}
-                <WhyChooseSection
+                {/* <WhyChooseSection
                     category={item.category}
                     serviceId={item.id}
-                />
-
+                /> */}
+ 
                 {/* =========================================================================
             4.7. SERVICE-RELATED PORTFOLIO CASE STUDIES
             ========================================================================= */}
-                <ServiceRelatedProjectsSection
+                {/* <ServiceRelatedProjectsSection
                     category={item.category}
                     currentServiceId={item.id}
                     title={`${item.title} PRODUCTION CASE STUDIES`}
                     subtitle={`Explore verified live platforms, conversion benchmarks, and architecture blueprints engineered by our squads for ${item.title}.`}
-                />
+                /> */}
 
                 {/* =========================================================================
             5. SERVICE CLARIFICATIONS & FAQ ACCORDION (Matching Reference Page)
@@ -614,125 +614,6 @@ export default function UnifiedDetailsView({
                     subtitle="Share your technical goals, target timeline, and key milestones. Our principal software architects will review your brief and respond within 4 business hours."
                 />
 
-                {/* =========================================================================
-            8. RECENT & RELATED DATA SECTION (Matching Reference Page)
-            ========================================================================= */}
-                {allServicesOrItems.length > 0 && (
-                    <section className="w-full px-4 sm:px-8 lg:px-12 pb-24 border-t border-white/10 pt-16">
-                        <div className="max-w-7xl mx-auto">
-                        <div className="flex flex-col sm:flex-row items-baseline justify-between mb-10 gap-4">
-                            <div>
-                                <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#FFD400] font-semibold block mb-1">
-                                    Explore Ecosystem
-                                </span>
-                                <h3 className="font-[family-name:var(--font-syne)] text-2xl sm:text-3xl text-white font-bold uppercase">
-                                    Related {parentLabel}
-                                </h3>
-                            </div>
-                            <Link
-                                href={parentPath}
-                                className="inline-flex items-center space-x-1.5 text-xs font-mono uppercase tracking-wider text-neutral-400 hover:text-[#FFD400] transition-colors"
-                            >
-                                <span>View Full Registry</span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                            </Link>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {allServicesOrItems
-                                .filter((s) => s.id !== item.id)
-                                .slice(0, 3)
-                                .map((rel, rIdx) => (
-                                    <Link
-                                        key={rIdx}
-                                        href={`${parentPath}/${rel.id}`}
-                                        prefetch={false}
-                                        className="rounded-2xl border border-white/10 bg-[#0c0e14] overflow-hidden hover:border-[#FFD400]/50 hover:shadow-[0_0_30px_rgba(255,212,0,0.15)] transition-all group flex flex-col"
-                                    >
-                                        <div className="relative aspect-[16/10] overflow-hidden">
-                                            <Image
-                                                src={rel.image || "/images/service_webdev.jpg"}
-                                                alt={rel.title}
-                                                fill
-                                                className="object-cover group-hover:scale-105 transition-transform duration-700 brightness-90"
-                                            />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-[#0c0e14] via-transparent to-transparent" />
-                                            <div className="absolute top-4 left-4">
-                                                <span className="text-[10px] font-mono uppercase tracking-widest text-[#FFD400] px-2.5 py-1 rounded bg-black/70 backdrop-blur-md border border-white/10">
-                                                    {rel.index || `0${rIdx + 1}`}
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                                            <div className="space-y-1.5">
-                                                <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400">
-                                                    {rel.category}
-                                                </span>
-                                                <h4 className="font-[family-name:var(--font-syne)] text-lg text-white font-bold uppercase group-hover:text-[#FFD400] transition-colors">
-                                                    {rel.title}
-                                                </h4>
-                                                <p className="text-xs text-neutral-300 font-light line-clamp-2 leading-relaxed">
-                                                    {rel.tagline}
-                                                </p>
-                                            </div>
-
-                                            <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs font-mono text-[#FFD400]">
-                                                <span>Explore Discipline</span>
-                                                <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                                            </div>
-                                        </div>
-                                    </Link>
-                                ))}
-                        </div>
-
-                        {/* Prev / Next Mission Control */}
-                        {(prevItem || nextItem) && (
-                            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-10 mt-12 border-t border-white/10">
-                                {prevItem ? (
-                                    <Link
-                                        href={`${parentPath}/${prevItem.id}`}
-                                        prefetch={false}
-                                        className="group flex items-center gap-3.5 p-4 sm:px-6 rounded-2xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 hover:border-[#FFD400]/40 transition-all w-full sm:w-auto"
-                                    >
-                                        <ArrowLeft className="w-4 h-4 text-[#FFD400] group-hover:-translate-x-1 transition-transform" />
-                                        <div className="text-left">
-                                            <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block">
-                                                Previous Mission
-                                            </span>
-                                            <span className="text-sm font-bold text-white group-hover:text-[#FFD400] transition-colors">
-                                                {prevItem.title}
-                                            </span>
-                                        </div>
-                                    </Link>
-                                ) : (
-                                    <div className="hidden sm:block" />
-                                )}
-
-                                {nextItem ? (
-                                    <Link
-                                        href={`${parentPath}/${nextItem.id}`}
-                                        prefetch={false}
-                                        className="group flex items-center justify-end gap-3.5 p-4 sm:px-6 rounded-2xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 hover:border-[#FFD400]/40 transition-all w-full sm:w-auto ml-auto"
-                                    >
-                                        <div className="text-right">
-                                            <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block">
-                                                Next Mission
-                                            </span>
-                                            <span className="text-sm font-bold text-white group-hover:text-[#FFD400] transition-colors">
-                                                {nextItem.title}
-                                            </span>
-                                        </div>
-                                        <ArrowRight className="w-4 h-4 text-[#FFD400] group-hover:translate-x-1 transition-transform" />
-                                    </Link>
-                                ) : (
-                                    <div className="hidden sm:block" />
-                                )}
-                            </div>
-                        )}
-                        </div>
-                    </section>
-                )}
             </main>
 
             {/* Global Footer */}

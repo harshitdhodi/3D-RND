@@ -72,24 +72,24 @@ const CASE_STUDIES: CaseStudyItem[] = [
     tags: ["PPC Advertising", "Technical SEO", "Conversion Rate Optimization", "Analytics"],
   },
   {
-    id: "lumen-sal",
+    id: "balaji-multipack",
     category: "Branding & Design",
     divisionBadge: "DIV 03 // BRANDING",
-    client: "Lumen Architecture Atelier",
-    title: "Spatial 3D Showroom & Bespoke European Brand Identity",
-    tagline: "Translating tactile architectural craftsmanship into an interactive 60 FPS WebGL browser experience.",
+    client: "Balaji Multipack Pvt. Ltd.",
+    title: "Corporate Visual Identity & Sustainable Packaging Architecture",
+    tagline: "End-to-end industrial packaging brand system with cohesive corporate stationery and brand guidelines.",
     challenge:
-      "Traditional static 2D PDF catalog failed to communicate the tactile luxury and spatial nuance of high-end architectural commissions.",
+      "Unifying diverse packaging product lines into a cohesive brand hierarchy that resonates with enterprise procurement directors.",
     outcome:
-      "Developed a real-time WebGL engine with celestial lighting simulations and an atomic design system commanding ultra-luxury prestige.",
-    image: "/images/project_lumen_sal.jpg",
-    href: "/portfolios/lumen-sal",
+      "Engineered an authoritative corporate identity, complete stationery suite, customized brand book, and physical packaging prototypes.",
+    image: "/Branding/B1.png",
+    href: "/portfolios/balaji-multipack",
     metrics: [
-      { value: "60 FPS", label: "WebGL PBR Engine" },
-      { value: "+657%", label: "Session Dwell Time" },
-      { value: "99/100", label: "Lighthouse Score" },
+      { value: "100%", label: "Brand Consistency" },
+      { value: "+320%", label: "Brand Recall Lift" },
+      { value: "45+", label: "Brand Touchpoints" },
     ],
-    tags: ["Spatial 3D", "Brand Identity", "Design System", "Three.js"],
+    tags: ["Brand Identity", "Packaging Design", "Stationery", "Brand System"],
   },
   {
     id: "mission-ops",
@@ -247,7 +247,7 @@ export default function ServiceCaseStudies() {
 
         {/* Explore All Portfolios link */}
         <div className="mt-12 text-center">
-          <Link href="/portfolios" prefetch={false} className="inline-block">
+          <Link href="/portfolio" prefetch={false} className="inline-block">
             <div className="group relative inline-flex items-center justify-between rounded-full overflow-hidden bg-[#12141a]/95 hover:bg-[#1a1d26] border border-white/15 hover:border-[#FFD400]/70 text-white shadow-[0_4px_20px_rgba(0,0,0,0.6)] hover:shadow-[0_0_25px_rgba(255,212,0,0.28)] transition-all duration-300 hover:scale-[1.025] active:scale-[0.98] cursor-pointer select-none px-6 py-3 text-xs sm:text-sm font-mono font-bold tracking-[0.2em] uppercase gap-4">
               <span className="relative z-10 text-white group-hover:text-[#FFD400]">
                 EXPLORE ALL RECENT WORK (PORTFOLIO)

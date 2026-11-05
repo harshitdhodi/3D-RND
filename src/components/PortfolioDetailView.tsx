@@ -62,7 +62,7 @@ export default function PortfolioDetailView({
       <PageBanner
         title={project.title}
         breadcrumb={project.category}
-        parentBreadcrumb={{ label: "Portfolios", href: "/portfolios" }}
+        parentBreadcrumb={{ label: "Portfolio", href: "/portfolio" }}
         imageSrc="/NewBanner/protfolio page banner.png"
       />
 
@@ -504,7 +504,7 @@ export default function PortfolioDetailView({
                 EXPLORE RELATED CASE STUDIES
               </span>
               <Link
-                href="/portfolios"
+                href="/portfolio"
                 className="text-xs font-mono text-neutral-400 hover:text-white flex items-center gap-1"
               >
                 <span>View Full Archive</span>

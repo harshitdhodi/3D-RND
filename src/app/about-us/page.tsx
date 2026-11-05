@@ -197,7 +197,7 @@ export default function AboutUsPage() {
       <PageBanner
         title="ABOUT RND"
         breadcrumb="ABOUT US"
-        imageSrc="/NewBanner/Origin page banner.png"
+        imageSrc="/NewBanner/about.png"
       />
 
       {/* Dynamic Rocket Scroll Experience (Below Banner) */}

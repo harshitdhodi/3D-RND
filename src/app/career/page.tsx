@@ -186,7 +186,7 @@ export default function CareerPage() {
     return (
         <div
             ref={pageRef}
-            className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black font-sans"
+            className="font-archia relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black"
         >
             {/* Background Starfield */}
             <SpaceBackground />

@@ -105,7 +105,7 @@ export default function ServicesPage() {
   }, [activeCategory, searchQuery]);
 
   return (
-    <div className="relative min-h-screen bg-transparent text-white selection:bg-[#FFD400] selection:text-black">
+    <div className="font-archia relative min-h-screen bg-transparent text-white selection:bg-[#FFD400] selection:text-black">
       {/* Background Starfield Canvas */}
       <SpaceBackground />
 

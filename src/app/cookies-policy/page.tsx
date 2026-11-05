@@ -102,7 +102,7 @@ export default function CookiesPolicyPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400]/20 selection:text-[#FFD400]">
+    <div className="font-archia relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400]/20 selection:text-[#FFD400]">
       <SpaceBackground />
       <Navbar />
 

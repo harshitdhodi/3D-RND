@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, redirect } from "next/navigation";
 import {
   ArrowUpRight,
   ArrowLeft,
@@ -17,6 +17,9 @@ import {
   Smartphone,
   Palette,
   Video,
+  ShieldCheck,
+  Award,
+  Activity,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import RnDFooter from "@/components/RnDFooter";
@@ -27,6 +30,7 @@ import {
   PortfolioProjectDetail,
   PORTFOLIO_CATEGORIES,
   PortfolioCategory,
+  getPortfolioById,
 } from "@/data/portfolioData";
 
 // Category metadata mapping
@@ -36,7 +40,7 @@ const CATEGORY_META: Record<PortfolioCategory, {
   icon: React.ReactNode;
   color: string;
   bannerImage: string;
-  stats: { label: string; value: string }[];
+  stats: { label: string; value: string; sub?: string }[];
 }> = {
   "Website & Web Application Projects": {
     title: "Website & Web Applications",
@@ -45,9 +49,9 @@ const CATEGORY_META: Record<PortfolioCategory, {
     color: "#FFD400",
     bannerImage: "/banner/service.png",
     stats: [
-      { label: "Projects Delivered", value: "50+" },
-      { label: "Technologies", value: "15+" },
-      { label: "Client Satisfaction", value: "98%" },
+      { label: "Projects Delivered", value: "50+", sub: "Production web & enterprise platforms" },
+      { label: "Technologies", value: "15+", sub: "Modern scalable stacks & frameworks" },
+      { label: "Client Satisfaction", value: "98%", sub: "Long-term client SLA & delivery rating" },
     ],
   },
   "Mobile App Projects": {
@@ -57,9 +61,9 @@ const CATEGORY_META: Record<PortfolioCategory, {
     color: "#00D4FF",
     bannerImage: "/banner/technology.png",
     stats: [
-      { label: "Apps Launched", value: "30+" },
-      { label: "Downloads", value: "2M+" },
-      { label: "App Store Rating", value: "4.8★" },
+      { label: "Apps Launched", value: "30+", sub: "High-performance iOS & Android products" },
+      { label: "Downloads", value: "2M+", sub: "Verified global user interactions" },
+      { label: "App Store Rating", value: "4.8★", sub: "Average public app store feedback" },
     ],
   },
   "Digital Marketing Projects": {
@@ -69,9 +73,9 @@ const CATEGORY_META: Record<PortfolioCategory, {
     color: "#FF6B35",
     bannerImage: "/banner/digital-marketing.png",
     stats: [
-      { label: "Campaigns Run", value: "100+" },
-      { label: "Avg. ROI Increase", value: "340%" },
-      { label: "Traffic Growth", value: "500%" },
+      { label: "Campaigns Run", value: "100+", sub: "Full-funnel digital growth operations" },
+      { label: "Avg. ROI Increase", value: "340%", sub: "Measurable commercial conversion lift" },
+      { label: "Traffic Growth", value: "500%", sub: "Organic SEO & precision acquisition" },
     ],
   },
   "Branding & Graphic Design": {
@@ -81,9 +85,9 @@ const CATEGORY_META: Record<PortfolioCategory, {
     color: "#9D4EDD",
     bannerImage: "/banner/branding-design.png",
     stats: [
-      { label: "Brands Created", value: "80+" },
-      { label: "Design Assets", value: "5K+" },
-      { label: "Industries Served", value: "25+" },
+      { label: "Brands Created", value: "80+", sub: "Comprehensive visual identity systems" },
+      { label: "Design Assets", value: "5K+", sub: "Vector, collateral & digital deliverables" },
+      { label: "Industries Served", value: "25+", sub: "Cross-sector domain knowledge" },
     ],
   },
   "Videography & Photography": {
@@ -93,9 +97,9 @@ const CATEGORY_META: Record<PortfolioCategory, {
     color: "#F72585",
     bannerImage: "/banner/media-production.png",
     stats: [
-      { label: "Productions", value: "200+" },
-      { label: "Total Views", value: "10M+" },
-      { label: "Award Wins", value: "15+" },
+      { label: "Productions", value: "200+", sub: "Commercial films & cinematic showcases" },
+      { label: "Total Views", value: "10M+", sub: "Audience reach across media channels" },
+      { label: "Award Wins", value: "15+", sub: "Creative excellence recognitions" },
     ],
   },
 };
@@ -304,11 +308,16 @@ export default function PortfolioCategoryPage() {
   );
 
   if (!category) {
+    const project = getPortfolioById(categorySlug);
+    if (project) {
+      redirect(`/portfolios/${project.id}`);
+    }
+
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">Category Not Found</h1>
-          <Link href="/portfolios" className="text-[#FFD400] hover:underline">
+          <Link href="/portfolio" className="text-[#FFD400] hover:underline">
             Back to Portfolio
           </Link>
         </div>
@@ -322,14 +331,15 @@ export default function PortfolioCategoryPage() {
   );
 
   return (
-    <div className="relative min-h-screen bg-[#050608] text-white">
+    <div className="font-archia relative min-h-screen bg-[#050608] text-white">
       <SpaceBackground />
       <Navbar />
 
       {/* Banner */}
       <PageBanner
         title={categoryMeta.title.toUpperCase()}
-        breadcrumb={`PORTFOLIO / ${categoryMeta.title.toUpperCase()}`}
+        parentBreadcrumb={{ label: "PORTFOLIO", href: "/portfolio" }}
+        breadcrumb={categoryMeta.title.toUpperCase()}
         imageSrc={categoryMeta.bannerImage}
       />
 
@@ -353,7 +363,7 @@ export default function PortfolioCategoryPage() {
                 </p>
               </div>
               <Link
-                href="/portfolios"
+                href="/portfolio"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 text-white border border-white/20 font-mono text-xs uppercase font-bold hover:bg-white/10 hover:border-[#FFD400]/50 transition-all"
               >
                 <ArrowLeft className="w-4 h-4" />
@@ -366,7 +376,7 @@ export default function PortfolioCategoryPage() {
               <div className="text-center py-20 rounded-2xl bg-white/5 border border-white/10">
                 <p className="text-neutral-400 mb-4">No projects available in this category yet.</p>
                 <Link
-                  href="/portfolios"
+                  href="/portfolio"
                   className="inline-flex items-center gap-2 text-[#FFD400] hover:underline"
                 >
                   <span>Browse all projects</span>
@@ -376,10 +386,9 @@ export default function PortfolioCategoryPage() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 {categoryProjects.map((project: PortfolioProjectDetail, idx: number) => (
-                  <Link
+                  <div
                     key={project.id}
-                    href={`/portfolios/${project.id}`}
-                    className="group relative rounded-3xl overflow-hidden bg-[#0c0e14] border border-white/10 hover:border-[#FFD400]/60 transition-all duration-500 shadow-2xl aspect-4/3"
+                    className="group relative rounded-3xl overflow-hidden bg-[#0c0e14] border border-white/10 hover:border-[#FFD400]/60 transition-all duration-500 shadow-2xl aspect-4/3 cursor-default"
                   >
                     {/* Project Image - Full Card */}
                     <div className="relative w-full h-full overflow-hidden">
@@ -407,11 +416,7 @@ export default function PortfolioCategoryPage() {
                           {project.title}
                         </h3>
                         
-                        {/* View Project Link */}
-                        <div className="flex items-center gap-2 text-sm font-mono uppercase text-[#FFD400]">
-                          <span>View Project</span>
-                          <ArrowUpRight className="w-4 h-4" />
-                        </div>
+                    
                       </div>
                       
                       {/* Index Badge - Always visible */}
@@ -427,52 +432,120 @@ export default function PortfolioCategoryPage() {
                         </div>
                       )}
                     </div>
-                  </Link>
+                  </div>
                 ))}
               </div>
             )}
           </div>
         </section>
 
-        {/* Category Info Section - Now After Projects */}
-        <section className="bg-black w-full px-4 sm:px-8 lg:px-12 py-16">
-          <div className="max-w-7xl mx-auto">
-            {/* Category Header */}
-            <div className="flex flex-col lg:flex-row gap-8 items-start mb-12">
-              <div
-                className="shrink-0 w-20 h-20 rounded-2xl flex items-center justify-center"
-                style={{ backgroundColor: `${categoryMeta.color}20`, border: `2px solid ${categoryMeta.color}40` }}
-              >
-                <div style={{ color: categoryMeta.color }}>
-                  {categoryMeta.icon}
+        {/* Category Info & Performance Metrics Section */}
+        <section
+          className="relative w-full px-4 sm:px-8 lg:px-12 py-20 lg:py-24 overflow-hidden border-t border-white/[0.08]"
+          style={{
+            backgroundColor: "#05070D",
+            backgroundImage:
+              "radial-gradient(ellipse 90% 60% at 50% 0%, rgba(255, 212, 0, 0.04) 0%, rgba(5, 7, 13, 0.98) 70%, #030408 100%)",
+          }}
+        >
+          {/* Subtle Ambient Space Accent */}
+          <div className="absolute inset-0 pointer-events-none select-none overflow-hidden">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[350px] bg-[#FFD400]/[0.03] blur-[140px] rounded-full" />
+            <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:28px_28px] opacity-40" />
+            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+          </div>
+
+          <div className="relative z-10 max-w-7xl mx-auto">
+            {/* Category Header Card */}
+            <div className="relative rounded-3xl bg-gradient-to-b from-white/[0.04] via-white/[0.015] to-transparent border border-white/[0.08] p-8 sm:p-10 lg:p-12 mb-10 lg:mb-12 backdrop-blur-xl shadow-2xl">
+              <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 items-start">
+                
+                {/* Executive Category Icon Frame */}
+                <div className="relative shrink-0 group">
+                  <div
+                    className="absolute -inset-1 rounded-2xl opacity-30 blur-md group-hover:opacity-70 transition-opacity duration-500"
+                    style={{ backgroundColor: `${categoryMeta.color}50` }}
+                  />
+                  <div className="relative w-20 h-20 rounded-2xl flex items-center justify-center bg-[#0B0E17] border border-white/15 shadow-xl transition-all duration-300 group-hover:border-[#FFD400]/60">
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-105"
+                      style={{
+                        backgroundColor: `${categoryMeta.color}15`,
+                        color: categoryMeta.color,
+                        boxShadow: `inset 0 0 16px ${categoryMeta.color}20`,
+                      }}
+                    >
+                      {categoryMeta.icon}
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="flex-1">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider mb-4 bg-white/5 border border-[#FFD400]/30 text-[#FFD400]">
-                  <Layers className="w-3.5 h-3.5" />
-                  <span>{category}</span>
+
+                {/* Header Content */}
+                <div className="flex-1 space-y-4">
+                  {/* Category Pill Tag */}
+                  <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full text-[11px] font-mono uppercase tracking-[0.2em] bg-white/[0.04] border border-white/10 text-neutral-300 backdrop-blur-md">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#FFD400] shadow-[0_0_8px_#FFD400]" />
+                    <span className="text-[#FFD400] font-semibold">OVERVIEW</span>
+                    <span className="text-white/20">//</span>
+                    <span className="text-neutral-400">{category}</span>
+                  </div>
+
+                  {/* Formal Headline */}
+                  <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white font-[family-name:var(--font-archia)]">
+                    About <span className="text-[#FFD400]">{categoryMeta.title}</span>
+                  </h2>
+
+                  {/* Narrative Description */}
+                  <p className="text-sm sm:text-base lg:text-lg text-neutral-300 leading-relaxed max-w-4xl font-light">
+                    {categoryMeta.description}
+                  </p>
                 </div>
-                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-white">
-                  About {categoryMeta.title}
-                </h2>
-                <p className="text-base sm:text-lg text-neutral-300 leading-relaxed max-w-4xl">
-                  {categoryMeta.description}
-                </p>
               </div>
             </div>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6">
+            {/* Formal Performance Metrics Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 lg:gap-6">
               {categoryMeta.stats.map((stat, idx) => (
                 <div
                   key={idx}
-                  className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-[#FFD400]/50 transition-all group"
+                  className="group relative rounded-2xl bg-gradient-to-b from-[#0F131D]/90 via-[#0A0D14]/90 to-[#05070B]/90 border border-white/[0.08] hover:border-[#FFD400]/50 p-6 sm:p-7 lg:p-8 transition-all duration-400 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.9),0_0_35px_rgba(255,212,0,0.08)] backdrop-blur-xl overflow-hidden flex flex-col justify-between"
                 >
-                  <div className="text-3xl sm:text-4xl font-bold text-[#FFD400] mb-2 group-hover:scale-110 transition-transform">
-                    {stat.value}
+                  {/* Top Golden Hairline Highlight on Hover */}
+                  <div className="absolute top-0 inset-x-6 h-[2px] bg-gradient-to-r from-transparent via-[#FFD400]/0 to-transparent group-hover:via-[#FFD400]/80 transition-all duration-500" />
+
+                  {/* Corner Ambient Glow */}
+                  <div className="absolute -top-10 -right-10 w-28 h-28 bg-[#FFD400]/0 group-hover:bg-[#FFD400]/[0.08] rounded-full blur-2xl transition-all duration-500 pointer-events-none" />
+
+                  {/* Upper Tag Row: Formal Index & Verification Indicator */}
+                  <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/[0.06]">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-[10px] tracking-widest uppercase text-neutral-400 px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08]">
+                        METRIC [0{idx + 1}]
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-[10px] font-mono text-neutral-400 group-hover:text-[#FFD400] transition-colors">
+                      <ShieldCheck className="w-3.5 h-3.5 text-[#FFD400]" />
+                      <span className="uppercase tracking-wider">VERIFIED</span>
+                    </div>
                   </div>
-                  <div className="text-sm text-neutral-400 uppercase tracking-wide font-mono">
-                    {stat.label}
+
+                  {/* Middle Row: Primary Metric Value */}
+                  <div className="mb-4">
+                    <div className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-white tracking-tight leading-none group-hover:text-[#FFD400] transition-colors duration-300 font-[family-name:var(--font-archia)]">
+                      {stat.value}
+                    </div>
+                  </div>
+
+                  {/* Lower Row: Formal Label & Context Subtitle */}
+                  <div className="space-y-1.5 pt-2">
+                    <div className="text-xs sm:text-sm font-semibold tracking-[0.14em] uppercase text-white font-mono group-hover:text-[#FFD400] transition-colors duration-300">
+                      {stat.label}
+                    </div>
+                    {stat.sub && (
+                      <div className="text-xs text-neutral-400 font-light leading-relaxed">
+                        {stat.sub}
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -506,7 +579,7 @@ export default function PortfolioCategoryPage() {
                   <ArrowUpRight className="w-4 h-4" />
                 </Link>
                 <Link
-                  href="/portfolios"
+                  href="/portfolio"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-white/5 text-white border border-white/20 font-mono text-sm uppercase font-bold hover:bg-white/10 transition-all"
                 >
                   <span>View All Projects</span>

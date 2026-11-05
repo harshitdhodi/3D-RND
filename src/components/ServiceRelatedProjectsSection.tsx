@@ -121,7 +121,7 @@ export default function ServiceRelatedProjectsSection({
 
         <div className="shrink-0">
           <Link
-            href="/portfolios"
+            href="/portfolio"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.05] hover:bg-[#FFD400] border border-white/15 hover:border-[#FFD400] text-xs font-mono uppercase tracking-[0.16em] text-white hover:text-black transition-all duration-300 group"
           >
             <span>VIEW ALL 15 PORTFOLIOS</span>

@@ -158,7 +158,7 @@ export default function CategoryPageClient({ data }: { data: CategoryPageData })
   const subCount = data.subcategories.length;
 
   return (
-    <div className="relative min-h-screen bg-transparent text-white selection:bg-[#FFD400] selection:text-black">
+    <div className="relative min-h-screen bg-transparent text-white selection:bg-[#FFD400] selection:text-black font-archia">
       <SpaceBackground />
       <Navbar />
 

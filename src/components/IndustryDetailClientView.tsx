@@ -137,7 +137,7 @@ export default function IndustryDetailClientView({
     };
 
     return (
-        <div className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black font-sans">
+        <div className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black font-archia">
             <SpaceBackground />
             <Navbar />
 
@@ -184,6 +184,8 @@ export default function IndustryDetailClientView({
                                         ? "RETAIL GROWTH PRIORITIES"
                                         : industry.slug === "hospitality"
                                         ? "HOSPITALITY GROWTH PRIORITIES"
+                                        : industry.slug === "education"
+                                        ? "EDUCATION GROWTH PRIORITIES"
                                         : "AUDITED BENCHMARKS"}
                                 </span>
                                 <div className="space-y-4">
@@ -254,6 +256,8 @@ export default function IndustryDetailClientView({
                                 ? "THE CHALLENGES SHAPING MODERN RETAIL."
                                 : industry.slug === "hospitality"
                                 ? "THE CHALLENGES BEHIND EVERY GUEST EXPERIENCE."
+                                : industry.slug === "education"
+                                ? "THE CHALLENGES SHAPING MODERN EDUCATION."
                                 : "WHAT'S HOLDING YOUR INDUSTRY BACK?"}
                         </h2>
                         <p className="text-xs sm:text-sm text-neutral-400 font-mono mt-2">
@@ -265,6 +269,8 @@ export default function IndustryDetailClientView({
                                 ? "Retail businesses face constantly evolving customer expectations, increased competition and the need to create seamless shopping experiences across multiple touchpoints. The right digital approach can help address these challenges and create more engaging customer journeys."
                                 : industry.slug === "hospitality"
                                 ? "Hospitality businesses operate in a highly experience-driven market. Guests expect convenient booking journeys, engaging digital content and consistent service information. Businesses need the right digital foundation to meet these expectations and stand out."
+                                : industry.slug === "education"
+                                ? "Educational institutions and training providers are navigating changing student expectations, increasing competition and the growing demand for digital learning. The right technology and communication strategy can help create more connected educational experiences."
                                 : "Manufacturing businesses face growing operational and digital challenges. We help identify these gaps and build practical solutions that move businesses forward."
                             }
                         </p>
@@ -330,6 +336,8 @@ export default function IndustryDetailClientView({
                                 ? "ENGINEERING BETTER SHOPPING EXPERIENCES. BUILDING STRONGER RETAIL BRANDS."
                                 : industry.slug === "hospitality"
                                 ? "TECHNOLOGY MEETS HOSPITALITY. EXPERIENCES MEET EXPECTATIONS."
+                                : industry.slug === "education"
+                                ? "TECHNOLOGY THAT EMPOWERS LEARNING. CREATIVITY THAT INSPIRES GROWTH."
                                 : "THE RIGHT TECHNOLOGY. THE RIGHT STRATEGY. THE RIGHT IMPACT."
                             }
                         </h2>
@@ -342,6 +350,8 @@ export default function IndustryDetailClientView({
                                 ? "We combine e-commerce development, digital marketing, creative design and visual storytelling to help retail businesses create better product experiences, reach relevant customers and build stronger brand connections."
                                 : industry.slug === "hospitality"
                                 ? "From direct booking experiences to destination storytelling, we combine technology and creativity to help hospitality businesses connect with guests and build stronger digital experiences."
+                                : industry.slug === "education"
+                                ? "From educational websites and learning platforms to student-focused campaigns and institutional branding, we combine technology and creativity to help education businesses move forward."
                                 : "We bring multiple capabilities together to help manufacturing businesses strengthen their operations, improve digital visibility and build a competitive market presence."
                             }
                         </p>
@@ -423,6 +433,8 @@ export default function IndustryDetailClientView({
                                     ? "REIMAGINING HOW CUSTOMERS DISCOVER AND EXPERIENCE PRODUCTS."
                                     : industry.slug === "hospitality"
                                     ? "SHOWCASING DESTINATIONS. CREATING DIGITAL EXPERIENCES."
+                                    : industry.slug === "education"
+                                    ? "CREATING DIGITAL EXPERIENCES THAT MAKE LEARNING MORE ACCESSIBLE."
                                     : "IDEAS ENGINEERED INTO REAL-WORLD SOLUTIONS."
                                 }
                             </h2>
@@ -547,6 +559,8 @@ export default function IndustryDetailClientView({
                                 ? "FROM SHOPPING CONCEPT TO CONNECTED COMMERCE."
                                 : industry.slug === "hospitality"
                                 ? "FROM FIRST DISCOVERY TO A MEMORABLE DIGITAL EXPERIENCE."
+                                : industry.slug === "education"
+                                ? "FROM LEARNING REQUIREMENTS TO DIGITAL IMPLEMENTATION."
                                 : "A CLEARER PATH FROM CHALLENGE TO SOLUTION."
                             }
                         </h2>
@@ -559,6 +573,8 @@ export default function IndustryDetailClientView({
                                 ? "Every retail business has different products, customers and operational requirements. Our process helps define the right platform, design approach and integrations to create engaging shopping experiences."
                                 : industry.slug === "hospitality"
                                 ? "Every hospitality brand has its own personality, audience and service expectations. Our process begins with understanding your property and business goals before shaping the right digital and creative solution."
+                                : industry.slug === "education"
+                                ? "Every educational organisation has different learners, teaching methods and operational requirements. Our process focuses on understanding your objectives and delivering a digital solution that supports your educational vision."
                                 : "Every manufacturing business has unique requirements. Our collaborative approach ensures that every project starts with understanding your business and ends with a solution aligned with your goals."
                             }
                         </p>
@@ -634,6 +650,8 @@ export default function IndustryDetailClientView({
                                             ? "TURNING DIGITAL SHOPPING INTO A MORE ENGAGING EXPERIENCE."
                                             : industry.slug === "hospitality"
                                             ? "TURNING HOSPITALITY BRANDS INTO DESTINATIONS GUESTS DISCOVER."
+                                            : industry.slug === "education"
+                                            ? "TRANSFORMING THE WAY EDUCATION CONNECTS WITH LEARNERS."
                                             : "TURNING COMPLEX OPERATIONS INTO CONNECTED POSSIBILITIES."
                                         }
                                     </h2>
@@ -721,6 +739,8 @@ export default function IndustryDetailClientView({
                                     ? "READY TO BUILD YOUR NEXT RETAIL EXPERIENCE?"
                                     : industry.slug === "hospitality"
                                     ? "READY TO MAKE YOUR HOSPITALITY BRAND UNFORGETTABLE?"
+                                    : industry.slug === "education"
+                                    ? "READY TO SHAPE THE FUTURE OF LEARNING?"
                                     : "READY TO MOVE YOUR BUSINESS FORWARD?"
                                 }
                             </h2>
@@ -733,6 +753,8 @@ export default function IndustryDetailClientView({
                                     ? "Whether you're building a new e-commerce platform, improving your online storefront or creating more engaging product experiences, let's bring your retail vision to life."
                                     : industry.slug === "hospitality"
                                     ? "Whether you're launching a new resort, upgrading your hotel's website or looking to attract more guests online, let's create digital experiences that make your property stand out."
+                                    : industry.slug === "education"
+                                    ? "Whether you're launching an online learning platform, upgrading your institution's website or looking to attract more students, let's create digital experiences that support your educational goals."
                                     : "Whether you want to modernize your digital infrastructure, build custom business software, strengthen your industrial brand or reach new customers, RND Technosoft is ready to explore the possibilities with you."
                                 }
                             </p>
@@ -887,6 +909,8 @@ export default function IndustryDetailClientView({
                                 ? "EVERYTHING YOU NEED TO KNOW ABOUT OUR RETAIL SOLUTIONS."
                                 : industry.slug === "hospitality"
                                 ? "EVERYTHING YOU NEED TO KNOW ABOUT OUR HOSPITALITY SOLUTIONS."
+                                : industry.slug === "education"
+                                ? "EVERYTHING YOU NEED TO KNOW ABOUT OUR EDUCATION SOLUTIONS."
                                 : "FREQUENTLY ASKED QUESTIONS"
                             }
                         </h2>

@@ -105,7 +105,7 @@ export default function AstronautTestPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black font-sans antialiased overflow-x-hidden">
+    <div className="font-archia relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black antialiased overflow-x-hidden">
       <SpaceBackground />
       <Navbar />
 

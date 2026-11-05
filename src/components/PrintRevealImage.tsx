@@ -17,6 +17,7 @@ export interface PrintRevealImageProps {
   badge?: string;
   direction?: RevealDirection;
   index?: number;
+  objectFit?: "cover" | "contain";
 }
 
 export default function PrintRevealImage({
@@ -29,6 +30,7 @@ export default function PrintRevealImage({
   badge,
   direction = "auto",
   index = 0,
+  objectFit = "cover",
 }: PrintRevealImageProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const imgWrapperRef = useRef<HTMLDivElement>(null);
@@ -125,7 +127,7 @@ export default function PrintRevealImage({
           fill={fill}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
           priority={priority}
-          className="object-contain w-full h-full group-hover/print:scale-[1.03] transition-transform duration-700 ease-out"
+          className={`${objectFit === "contain" ? "object-contain" : "object-cover"} w-full h-full group-hover/print:scale-[1.03] transition-transform duration-700 ease-out`}
         />
       </div>
 

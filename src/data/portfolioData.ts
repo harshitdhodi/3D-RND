@@ -80,151 +80,148 @@ export const portfolioData: PortfolioProjectDetail[] = [
   // =========================================================================
   // CATEGORY 1: Website & Web Application Projects
   // =========================================================================
-  {
-    id: "kailua",
-    index: "01",
-    title: "Kailua Headless Flagship",
-    subtitle: "Headless Shopify Plus & Next.js 15 Edge Storefront",
-    summary:
-      "A lightning-fast headless e-commerce ecosystem processing over 120,000 monthly transactions with sub-second page transitions, interactive 3D product viewports, and unified Algolia search indexing.",
-    tagline:
-      "Sub-second headless Shopify Plus architecture with dynamic 3D WebGL product customizer and automated inventory synchronization.",
-    category: "Website & Web Application Projects",
-    projectType: "Headless E-Commerce & Web App",
-    industry: "Retail & E-Commerce",
-    services: [
-      { name: "Custom Web Development", href: "/services" },
-      { name: "E-Commerce Engineering", href: "/technology-solution" },
-      { name: "Cloud & DevOps", href: "/technology-solution" },
-    ],
-    industries: [
-      { name: "Retail & E-Commerce", href: "/industries/retail-ecommerce" },
-      { name: "Food & FMCG", href: "/industries/food-fmcg" },
-    ],
-    image: "/images/service_ecommerce_color.jpg",
-    galleryImages: [
-      "/images/service_ecommerce_color.jpg",
-      "/images/project_ecommerce.jpg",
-      "/images/project_it_spatial.jpg",
-    ],
-    videoUrl: "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ",
-    client: "Kailua Outerwear Co.",
-    clientApproved: true,
-    projectDate: "Q1 2026",
-    year: "2026",
-    duration: "10 Weeks",
-    sla: "99.99% Uptime",
-    badge: "HEADLESS NEXT.JS 15 // EDGE COMMERCE",
-    tags: ["Next.js 15", "Headless Shopify", "Algolia", "Tailwind CSS"],
-    brief:
-      "Kailua wanted to liberate their luxury outerwear brand from monolithic e-commerce performance bottlenecks, elevating global mobile conversions with an instant, cinematic shopping experience.",
-    challenge:
-      "Monolithic store templates suffered from heavy layout shifts, 4.2s mobile load times, and slow international inventory synchronization during viral flash drops.",
-    solution:
-      "Engineered an ultra-fast headless Next.js 15 App Router storefront integrated with Shopify Plus GraphQL APIs, Cloudflare edge caching, and a Three.js interactive fabric inspect viewer.",
-    deliverables: [
-      "Custom Next.js 15 App Router edge storefront",
-      "Interactive 3D Three.js product visualizer with texture zoom",
-      "Sub-150ms instant Algolia search and faceted filter engine",
-      "Bi-directional ERP & WMS inventory sync webhooks",
-    ],
-    results: [
-      { metric: "+340%", label: "Mobile Conversion Rate Lift", verifiedBy: "Shopify Plus Telemetry" },
-      { metric: "0.8s", label: "Largest Contentful Paint (LCP)", verifiedBy: "Google Lighthouse" },
-      { metric: "$14.2M", label: "Flash Drop GMV Processed", verifiedBy: "Kailua Financials" },
-      { metric: "99.99%", label: "Production Uptime SLA", verifiedBy: "Cloudflare Analytics" },
-    ],
-    overview: [
-      "Kailua commissioned RnD Technosoft to engineer their global digital flagship, replacing an aging monolithic platform with a cutting-edge headless architecture.",
-      "The result is an ultra-fluid browsing experience that increased mobile checkout completion rates by 340% within 90 days of deployment.",
-    ],
-    quote: {
-      text: "RnD Technosoft turned our digital storefront into our most profitable sales channel overnight. The speed is completely unmatched.",
-      author: "Elena Rostova • Chief Digital Officer, Kailua Co.",
-    },
-    scope: [
-      { number: "01", title: "Headless Architecture & GraphQL Schema", desc: "Decoupled Shopify Plus backplane with edge-rendered Next.js 15 frontend." },
-      { number: "02", title: "Interactive 3D Product Customizer", desc: "WebGL viewport with 60 FPS material and colorway transitions." },
-      { number: "03", title: "Faceted Algolia Search Mesh", desc: "Instant predictive search with sub-50ms query latency." },
-      { number: "04", title: "Enterprise WMS Webhook Pipeline", desc: "Real-time automated inventory reconciliation across 4 regional warehouses." },
-    ],
-    techStack: ["Next.js 15", "Shopify Plus", "Three.js", "TypeScript", "Algolia", "Tailwind CSS", "Cloudflare Workers"],
-    faqs: [
-      {
-        question: "How does headless Shopify compare to standard themes in speed?",
-        answer: "Headless architectures decouple the presentation layer, delivering sub-second edge responses and 90+ Lighthouse mobile performance scores.",
-      },
-    ],
-    isFeatured: true,
-    published: true,
-    order: 1,
-  },
+  // {
+  //   id: "kailua",
+  //   index: "01",
+  //   title: "Ace Packaging Digital Platform",
+  //   subtitle: "Custom Packaging Web Experience & Product Showcase",
+  //   summary:
+  //     "A modern, high-performance web platform for Ace Packaging, showcasing premium food container box solutions with dynamic product catalogs and automated lead inquiries.",
+  //   tagline:
+  //     "Engineered responsive web experience highlighting premium food container packaging innovation with modern design and fast browsing.",
+  //   category: "Website & Web Application Projects",
+  //   projectType: "Packaging Web Platform & Catalog",
+  //   industry: "Manufacturing & Industrial",
+  //   services: [
+  //     { name: "Custom Web Development", href: "/services" },
+  //     { name: "E-Commerce Engineering", href: "/technology-solution" },
+  //     { name: "Cloud & DevOps", href: "/technology-solution" },
+  //   ],
+  //   industries: [
+  //     { name: "Manufacturing & Industrial", href: "/industries/manufacturing" },
+  //     { name: "Food & FMCG", href: "/industries/food-fmcg" },
+  //   ],
+  //   image: "/webdevalopment/webdev1.png",
+  //   galleryImages: [
+  //     "/webdevalopment/webdev1.png",
+  //     "/webdevalopment/webdev4.png",
+  //   ],
+  //   videoUrl: "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ",
+  //   client: "Ace Packaging Pvt. Ltd.",
+  //   clientApproved: true,
+  //   projectDate: "Q1 2026",
+  //   year: "2026",
+  //   duration: "10 Weeks",
+  //   sla: "99.99% Uptime",
+  //   badge: "CUSTOM WEB PLATFORM // PACKAGING",
+  //   tags: ["Next.js 15", "Web Development", "UI/UX Design", "Tailwind CSS"],
+  //   brief:
+  //     "Ace Packaging partnered with RnD Technosoft to engineer their brand website, highlighting their position as pioneers in premium food container boxes with responsive, high-speed UX.",
+  //   challenge:
+  //     "Presenting extensive product catalog lines for food packaging containers with high visual fidelity while maintaining instant page loads across all mobile and desktop devices.",
+  //   solution:
+  //     "Engineered an ultra-fast Next.js web platform featuring interactive container showcases, detailed material specifications, and streamlined distributor inquiry funnels.",
+  //   deliverables: [
+  //     "Custom responsive corporate web application",
+  //     "Interactive packaging product catalog with category filters",
+  //     "Dynamic quote inquiry and specification download system",
+  //     "Mobile-optimized B2B buyer customer journey",
+  //   ],
+  //   results: [
+  //     { metric: "+340%", label: "Product Inquiries Lift", verifiedBy: "Web Telemetry" },
+  //     { metric: "0.8s", label: "Largest Contentful Paint (LCP)", verifiedBy: "Google Lighthouse" },
+  //     { metric: "100%", label: "Mobile Responsive Score", verifiedBy: "Google Mobile Test" },
+  //     { metric: "99.99%", label: "Production Uptime SLA", verifiedBy: "Cloudflare Analytics" },
+  //   ],
+  //   overview: [
+  //     "Ace Packaging commissioned RnD Technosoft to engineer their corporate digital flagship, replacing traditional static brochures with a modern high-performance web experience.",
+  //     "The result is a clean, accessible showcase that elevated market perception and customer inquiries significantly.",
+  //   ],
+  //   quote: {
+  //     text: "RnD Technosoft transformed our product presentation into our strongest digital sales and inquiry generator. The design is modern, professional and fast.",
+  //     author: "Management • Ace Packaging",
+  //   },
+  //   scope: [
+  //     { number: "01", title: "Modern Brand Experience Architecture", desc: "Next.js frontend with edge rendering for instantaneous navigation across product lines." },
+  //     { number: "02", title: "Interactive Food Container Catalog", desc: "Detailed product categorizations, capacity specifications, and high-resolution imagery." },
+  //     { number: "03", title: "Automated Distributor Inquiry Funnel", desc: "Direct inquiry routing connecting prospective buyers with regional sales reps." },
+  //   ],
+  //   techStack: ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS", "Edge Caching"],
+  //   faqs: [
+  //     {
+  //       question: "How does the custom web platform help food packaging buyers?",
+  //       answer: "Buyers can easily filter container capacities, materials, and certifications to request immediate bulk quotes.",
+  //     },
+  //   ],
+  //   isFeatured: true,
+  //   published: true,
+  //   order: 1,
+  // },
   {
     id: "nebula-cloud",
     index: "02",
-    title: "Nebula Distributed Cloud OS",
-    subtitle: "Enterprise Kubernetes Mesh & Multi-Region Operations Plane",
+    title: "Inject Care Parenterals Web Platform",
+    subtitle: "EU GMP & PIC/S Compliant Pharma Manufacturer Web Experience",
     summary:
-      "A high-availability enterprise cloud management console and real-time telemetry mesh orchestrating multi-region workloads with bank-grade security and zero-downtime deployments.",
+      "An authoritative corporate web portal for India's largest EU GMP and PIC/S compliant medical injection manufacturer, showcasing sterile manufacturing facilities and global certifications.",
     tagline:
-      "Modern Next.js 15 enterprise platform featuring multi-tenant database partitioning, sub-millisecond WebSocket streaming, and automated DevOps pipelines.",
+      "Modern pharmaceutical manufacturing web presence highlighting global certifications, sterile facilities, and international compliance.",
     category: "Website & Web Application Projects",
-    projectType: "Enterprise Web Application",
-    industry: "Startups & Professional Services",
+    projectType: "Pharmaceutical Web Portal",
+    industry: "Healthcare & Dental",
     services: [
       { name: "Custom Web Development", href: "/services" },
-      { name: "Cloud Infrastructure & DevOps", href: "/technology-solution" },
+      { name: "Enterprise Software Solutions", href: "/technology-solution" },
     ],
     industries: [
-      { name: "Startups & Professional Services", href: "/industries/startups-professional-services" },
-      { name: "Manufacturing & Robotics", href: "/industries/manufacturing" },
+      { name: "Healthcare & Dental", href: "/industries/healthcare" },
+      { name: "Manufacturing & Industrial", href: "/industries/manufacturing" },
     ],
-    image: "/images/nebula_cloud_os_3d.jpg",
+    image: "/webdevalopment/webdev2.png",
     galleryImages: [
-      "/images/nebula_cloud_os_3d.jpg",
-      "/images/project_it_cloud.jpg",
-      "/images/service_cloud_color.jpg",
+      "/webdevalopment/webdev2.png",
+      "/webdevalopment/webdev3.png",
     ],
     videoUrl: "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ",
-    client: "Nebula Systems Inc.",
+    client: "Inject Care Parenterals LLP",
     clientApproved: true,
     projectDate: "December 2025",
     year: "2025",
-    duration: "14 Weeks",
+    duration: "12 Weeks",
     sla: "99.999% Resilience",
-    badge: "ENTERPRISE SAAS // KUBERNETES",
-    tags: ["React 19", "Next.js 15", "Kubernetes", "PostgreSQL", "Docker"],
+    badge: "PHARMA WEB PLATFORM // EU GMP",
+    tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Pharma"],
     brief:
-      "Nebula Systems required a centralized cloud operations cockpit capable of managing 10,000+ distributed microservice instances with real-time telemetry and strict role-based access control.",
+      "Inject Care Parenterals required a sophisticated digital portal reflecting their world-class sterile manufacturing standards, global regulatory compliance, and multi-facility capabilities.",
     challenge:
-      "Existing DevOps dashboards lacked live streaming telemetry and experienced significant memory leaks during high-throughput metric updates across multi-cloud regions.",
+      "Communicating complex regulatory certifications (EU GMP, PIC/S), facility accreditations, and high-volume sterile injection lines to international pharmaceutical auditors and partners.",
     solution:
-      "Engineered a Next.js 15 App Router web platform backed by Go microservices, Kafka streaming pipelines, and a canvas-accelerated topology visualizer.",
+      "Engineered an authoritative corporate portal with interactive facility overviews, certified product line indices, and compliance documentation repositories.",
     deliverables: [
-      "Real-time distributed cluster topology visualization",
-      "Granular RBAC with SAML, Okta, and hardware security key SSO",
-      "Automated CI/CD blue/green deployment orchestration engine",
-      "Audit logs with immutable cryptographic hash chains",
+      "Enterprise pharmaceutical corporate portal",
+      "Interactive facility and regulatory certification showcase",
+      "Standard operating procedure and product catalog indices",
+      "Secure partner contact and audit inquiry portal",
     ],
     results: [
-      { metric: "0.00s", label: "Recovery Time Objective (RTO)", verifiedBy: "AWS Resilience Hub" },
-      { metric: "10k+", label: "Concurrent Kubernetes Pods Monitored", verifiedBy: "Datadog" },
-      { metric: "70%", label: "Reduction in Incident MTTR", verifiedBy: "Nebula DevOps Team" },
+      { metric: "100%", label: "Global Compliance Presentation", verifiedBy: "Regulatory Audit" },
+      { metric: "45+", label: "International Markets Reached", verifiedBy: "Web Analytics" },
+      { metric: "0.9s", label: "Global Page Load Speed", verifiedBy: "Lighthouse" },
     ],
     overview: [
-      "Nebula Cloud OS provides engineering organizations with total visibility into their distributed cloud footprint.",
-      "The web application features sub-10ms UI interaction latency and handles high-frequency data streams seamlessly.",
+      "Inject Care Parenterals trusted RnD Technosoft to create an institutional web platform presenting India's largest EU GMP medical injection facilities to global pharma leaders.",
+      "The web experience provides international clients with verified regulatory transparency and streamlined collaboration.",
     ],
     scope: [
-      { number: "01", title: "Micro-Frontend Architecture", desc: "Modular Next.js 15 application structure with isolated domain pods." },
-      { number: "02", title: "WebSocket Live Telemetry", desc: "Binary Protobuf streaming protocol for low-bandwidth cluster telemetry." },
-      { number: "03", title: "Security & SOC2 Compliance", desc: "Hardened secrets vault integration and automated vulnerability audits." },
+      { number: "01", title: "Institutional Digital Architecture", desc: "Rigorous corporate presentation meeting international pharmaceutical compliance." },
+      { number: "02", title: "Facility & Production Line Showcase", desc: "Visual storytelling highlighting sterile cleanrooms, lyophilization lines, and QC labs." },
+      { number: "03", title: "Global Partnership Inquiries", desc: "Dedicated regulatory and institutional contract manufacturing request pipelines." },
     ],
-    techStack: ["Next.js 15", "React 19", "Go", "Kubernetes", "Kafka", "PostgreSQL", "Tailwind CSS"],
+    techStack: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
     faqs: [
       {
-        question: "How does the system handle high-frequency telemetry without lag?",
-        answer: "We utilize Web Workers and WebGL-accelerated canvas renderers to offload heavy charting computations from the main browser thread.",
+        question: "Can international partners request regulatory audits through the portal?",
+        answer: "Yes, dedicated inquiry forms streamline audit requests, technical dossiers, and institutional partnerships.",
       },
     ],
     isFeatured: true,
@@ -234,72 +231,147 @@ export const portfolioData: PortfolioProjectDetail[] = [
   {
     id: "synapse-digital",
     index: "03",
-    title: "Synapse Digital Hub",
-    subtitle: "High-Concurrency Distributed Microservices SaaS",
+    title: "Prakash Steelage Industrial Web Portal",
+    subtitle: "Precision Stainless Steel Manufacturing & Global Inventory Showcase",
     summary:
-      "An enterprise workflow automation and API orchestration platform built for global engineering teams, consolidating internal tools into an ultra-responsive web portal.",
+      "A heavy-industrial corporate web platform engineered for Prakash Steelage, featuring comprehensive inventory specifications for stainless steel sheets, plates, and pipes with global inquiry integration.",
     tagline:
-      "Full-stack Next.js enterprise architecture with automated workflow builders, real-time collaboration canvas, and SOC2 compliance.",
+      "Heavy-industrial web platform showcasing precision stainless steel engineering, mill specifications, and international supply infrastructure.",
     category: "Website & Web Application Projects",
-    projectType: "Full-Stack Web Portal",
-    industry: "Healthcare & Life Sciences",
+    projectType: "Industrial Web Portal & Mill Catalog",
+    industry: "Manufacturing & Industrial",
     services: [
       { name: "Enterprise Software Solutions", href: "/technology-solution" },
       { name: "Custom Web Development", href: "/services" },
     ],
     industries: [
-      { name: "Healthcare & Life Sciences", href: "/industries/healthcare" },
-      { name: "Startups & Professional Services", href: "/industries/startups-professional-services" },
+      { name: "Manufacturing & Industrial", href: "/industries/manufacturing" },
+      { name: "Real Estate & Construction", href: "/industries/real-estate-construction" },
     ],
-    image: "/images/service_webdev.jpg",
+    image: "/webdevalopment/webdev3.png",
     galleryImages: [
-      "/images/service_webdev.jpg",
-      "/images/project_ai.jpg",
-      "/images/agency_team_studio.jpg",
+      "/webdevalopment/webdev3.png",
+      "/webdevalopment/webdev1.png",
     ],
-    client: "Synapse Health Technologies",
+    client: "Prakash Steelage Ltd.",
     clientApproved: true,
     projectDate: "November 2025",
     year: "2025",
-    duration: "12 Weeks",
+    duration: "10 Weeks",
     sla: "100% IP Ownership",
-    badge: "SOC2 COMPLIANT // HEALTHCARE MESH",
-    tags: ["Next.js 15", "TypeScript", "PostgreSQL", "Docker", "REST/GraphQL"],
+    badge: "HEAVY INDUSTRIAL // STAINLESS STEEL",
+    tags: ["Next.js", "React", "Industrial UI", "Tailwind CSS"],
     brief:
-      "Synapse needed to replace disjointed legacy healthcare portal tools with a secure, unified digital workstation for cross-functional clinician squads.",
+      "Prakash Steelage commissioned RnD Technosoft to develop an industrial-grade website to showcase precision stainless steel products, technical mill specifications, and global supply capacity.",
     challenge:
-      "Complying with HIPAA and SOC2 regulations while enabling real-time collaborative medical records workflow with sub-second page transitions.",
+      "Organizing vast technical metallurgical data sheets, steel grades, dimensional charts, and coil specifications into an intuitive, accessible layout for procurement engineers.",
     solution:
-      "Architected a zero-trust Next.js 15 portal with end-to-end encrypted fields, audit logs, and instant reactive state management via TanStack Query.",
+      "Designed a modern industrial portal featuring structured specification tables, instant grade search, and quick quotation request tools for global buyers.",
     deliverables: [
-      "Unified enterprise healthcare dashboard with role-based clinical views",
-      "Interactive medical workflow builder with drag-and-drop triggers",
-      "HIPAA-compliant document management and automated audit logs",
-      "Full source code and Infrastructure as Code (Terraform) scripts",
+      "Industrial corporate website and metallurgical catalog",
+      "Dynamic grade and dimension specification tables",
+      "Global procurement quote calculator and inquiry pipeline",
+      "Full mobile responsiveness for on-site engineers and buyers",
     ],
     results: [
-      { metric: "100%", label: "HIPAA & SOC2 Audit Compliance", verifiedBy: "KPMG Security" },
-      { metric: "4.8x", label: "Faster Patient Case Intake", verifiedBy: "Synapse Analytics" },
-      { metric: "99.98%", label: "Uptime Across 12 Clinical Nodes", verifiedBy: "AWS CloudWatch" },
+      { metric: "+210%", label: "B2B Export Inquiries", verifiedBy: "CRM Analytics" },
+      { metric: "100+", label: "Product Specifications Indexed", verifiedBy: "Portal Catalog" },
+      { metric: "1.0s", label: "Average Page Response", verifiedBy: "Google Lighthouse" },
     ],
     overview: [
-      "Synapse Digital Hub enables healthcare teams to orchestrate complex clinical pipelines with intuitive, modern software.",
+      "Prakash Steelage partnered with RnD Technosoft to modernize their web presence, highlighting precision in stainless steel manufacturing and global supply reliability.",
+      "The platform empowers global procurement teams to quickly locate steel grades and request mill-direct quotations.",
     ],
     scope: [
-      { number: "01", title: "Security Baseline & HIPAA Isolation", desc: "Private VPC subnets with KMS-managed encryption keys." },
-      { number: "02", title: "Interactive Canvas Workflow", desc: "Custom node graph editor for procedural clinical protocols." },
-      { number: "03", title: "IP Transfer & Staff Training", desc: "Complete code handoff and pair-programming onboarding sessions." },
+      { number: "01", title: "Heavy-Industrial Visual Architecture", desc: "High-contrast industrial design aesthetic reflecting stainless steel manufacturing strength." },
+      { number: "02", title: "Technical Metallurgical Catalog", desc: "Seamless navigation across stainless coils, plates, sheets, and welded pipes." },
+      { number: "03", title: "Instant RFQ Engine", desc: "Automated RFQ submission connecting buyers directly with the mill sales desk." },
     ],
-    techStack: ["Next.js 15", "TypeScript", "PostgreSQL", "Terraform", "AWS Fargate", "Tailwind CSS"],
+    techStack: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
     faqs: [
       {
-        question: "Is client patient data protected under bilateral agreements?",
-        answer: "Yes, our team signs comprehensive enterprise BAAs and NDAs with full zero-knowledge credential management.",
+        question: "Can buyers filter products by steel grade and dimension?",
+        answer: "Yes, the catalog enables instant filtering across grades 304, 316L, duplex steels, and custom mill tolerances.",
       },
     ],
-    isFeatured: false,
+    isFeatured: true,
     published: true,
     order: 3,
+  },
+  {
+    id: "vbott-storefront",
+    index: "04",
+    title: "VBŌTT E-Commerce Flagship Storefront",
+    subtitle: "Direct-to-Consumer E-Commerce Experience & Product Showcase",
+    summary:
+      "A feature-rich e-commerce storefront for VBŌTT hydration products, delivering an intuitive shopping experience, product variant customizers, and high-converting checkout flows.",
+    tagline:
+      "High-speed D2C e-commerce platform with responsive shopping UX, promotional campaign banners, and automated inventory management.",
+    category: "Website & Web Application Projects",
+    projectType: "E-Commerce Website & Storefront",
+    industry: "Retail & E-Commerce",
+    services: [
+      { name: "Custom Web Development", href: "/services" },
+      { name: "E-Commerce Engineering", href: "/technology-solution" },
+    ],
+    industries: [
+      { name: "Retail & E-Commerce", href: "/industries/retail-ecommerce" },
+      { name: "Food & FMCG", href: "/industries/food-fmcg" },
+    ],
+    image: "/webdevalopment/webdev4.png",
+    galleryImages: [
+      "/webdevalopment/webdev4.png",
+      "/webdevalopment/webdev1.png",
+    ],
+    videoUrl: "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ",
+    client: "VBŌTT Hydration",
+    clientApproved: true,
+    projectDate: "Q1 2026",
+    year: "2026",
+    duration: "8 Weeks",
+    sla: "99.9% Uptime",
+    badge: "D2C E-COMMERCE // SHOPIFY & NEXT.JS",
+    tags: ["E-Commerce", "Next.js", "Shopify", "Tailwind CSS"],
+    brief:
+      "VBŌTT required an engaging direct-to-consumer digital storefront that effectively presents their premium hydration bottles with promotional discount engines and seamless multi-device purchasing.",
+    challenge:
+      "Creating a mobile-first e-commerce experience capable of handling high peak-traffic sales events while maintaining sub-second catalog navigation and instant search.",
+    solution:
+      "Engineered a responsive Next.js storefront with dynamic product collections, promotional discount timers, and rapid mobile checkout integrations.",
+    deliverables: [
+      "Custom responsive D2C e-commerce storefront",
+      "Dynamic product collection and variant customizer",
+      "Integrated promotional banner and discount management",
+      "Secure payment gateway and order tracking pipeline",
+    ],
+    results: [
+      { metric: "+280%", label: "Online Sales Growth", verifiedBy: "Storefront Analytics" },
+      { metric: "1.1s", label: "Page Load Speed", verifiedBy: "Lighthouse" },
+      { metric: "65%", label: "Mobile Checkout Ratio", verifiedBy: "Checkout Telemetry" },
+    ],
+    overview: [
+      "VBŌTT commissioned RnD Technosoft to build their flagship online store, bringing high-aesthetic presentation to their lifestyle hydration product line.",
+      "The platform achieved substantial conversion improvements and established a strong digital presence for the brand.",
+    ],
+    quote: {
+      text: "The new digital storefront built by RnD Technosoft perfectly captures our brand identity and elevated our online customer conversions immediately.",
+      author: "Marketing Lead • VBŌTT",
+    },
+    scope: [
+      { number: "01", title: "Modern E-Commerce Storefront Architecture", desc: "Next.js frontend with rapid responsive layouts across all mobile and desktop devices." },
+      { number: "02", title: "Dynamic Product Showcase & Variants", desc: "Interactive bottle collections, colorway selection, and real-time inventory visibility." },
+      { number: "03", title: "Seamless Checkout & Conversion Optimization", desc: "Simplified multi-step cart with one-click payment integration." },
+    ],
+    techStack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Shopify Engine"],
+    faqs: [
+      {
+        question: "Is the store optimized for mobile shopping?",
+        answer: "Yes, over 65% of transactions occur on mobile devices, and the entire shopping funnel is engineered for effortless one-thumb checkout.",
+      },
+    ],
+    isFeatured: true,
+    published: true,
+    order: 4,
   },
 
   // =========================================================================
@@ -542,9 +614,9 @@ export const portfolioData: PortfolioProjectDetail[] = [
       { name: "Retail & E-Commerce", href: "/industries/retail-ecommerce" },
       { name: "Startups & Professional Services", href: "/industries/startups-professional-services" },
     ],
-    image: "/images/service_seo_color.jpg",
+    image: "/Digital Marketing/DM1.png",
     galleryImages: [
-      "/images/service_seo_color.jpg",
+      "/Digital Marketing/DM1.png",
       "/images/service_marketing.jpg",
       "/images/Digi market.png",
     ],
@@ -617,9 +689,9 @@ export const portfolioData: PortfolioProjectDetail[] = [
       { name: "Food & FMCG", href: "/industries/food-fmcg" },
       { name: "Startups & Professional Services", href: "/industries/startups-professional-services" },
     ],
-    image: "/images/service_social.jpg",
+    image: "/Digital Marketing/DM2.png",
     galleryImages: [
-      "/images/service_social.jpg",
+      "/Digital Marketing/DM2.png",
       "/images/social.png",
       "/images/service_media.jpg",
     ],
@@ -686,9 +758,9 @@ export const portfolioData: PortfolioProjectDetail[] = [
     industries: [
       { name: "Manufacturing & Robotics", href: "/industries/manufacturing" },
     ],
-    image: "/images/service_marketing.jpg",
+    image: "/Digital Marketing/DM3.png",
     galleryImages: [
-      "/images/service_marketing.jpg",
+      "/Digital Marketing/DM3.png",
       "/images/project_it_cyber.jpg",
       "/images/agency_team_studio.jpg",
     ],
@@ -741,75 +813,74 @@ export const portfolioData: PortfolioProjectDetail[] = [
   // CATEGORY 4: Branding & Graphic Design
   // =========================================================================
   {
-    id: "lumen-sal",
-    index: "10",
-    title: "Lumen Sal Spatial Identity",
-    subtitle: "European Architectural Atelier Brand & Interactive WebGL Showroom",
+    id: "balaji-multipack",
+    index: "01",
+    title: "Balaji Multipack Brand Identity",
+    subtitle: "Corporate Visual Identity & Sustainable Packaging Architecture",
     summary:
-      "An iconic luxury digital flagship translating the tactile materiality of European architecture into an interactive browser experience with 60 FPS Three.js rendering, dynamic lighting, and bespoke typography.",
+      "A comprehensive corporate visual identity system, brand guidelines, and packaging design suite engineered for Balaji Multipack, featuring custom typography, stationery, and tactile product boxing.",
     tagline:
-      "End-to-end spatial 3D experience, architectural design tokens, and immersive WebGL showroom for bespoke luxury interiors.",
+      "End-to-end industrial packaging brand system with cohesive corporate stationery, packaging guidelines, and distinctive green mark identity.",
     category: "Branding & Graphic Design",
-    projectType: "Brand Identity & Spatial 3D Experience",
-    industry: "Real Estate & Architecture",
+    projectType: "Corporate Brand Identity & Packaging Design",
+    industry: "Manufacturing & Industrial",
     services: [
       { name: "Branding & Graphic Design", href: "/services" },
-      { name: "Spatial & 3D Experiences", href: "/services" },
-      { name: "Custom Web Development", href: "/services" },
+      { name: "UI/UX & Digital Product Design", href: "/services" },
     ],
     industries: [
-      { name: "Real Estate & Architecture", href: "/industries/real-estate" },
+      { name: "Manufacturing & Industrial", href: "/industries/manufacturing" },
       { name: "Retail & E-Commerce", href: "/industries/retail-ecommerce" },
     ],
-    image: "/images/project_lumen_sal.jpg",
+    image: "/Branding/B1.png",
     galleryImages: [
-      "/images/project_lumen_sal.jpg",
-      "/images/nebula_cloud_os_3d.jpg",
-      "/images/service_branding.jpg",
+      "/Branding/B1.png",
+      "/Branding/B2.png",
     ],
     videoUrl: "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ",
-    client: "Lumen Architecture Atelier",
+    client: "Balaji Multipack Pvt. Ltd.",
     clientApproved: true,
     projectDate: "January 2026",
     year: "2026",
-    duration: "12 Weeks",
-    sla: "60 FPS WebGL",
-    badge: "SPATIAL WEB // 3D BRANDING",
-    tags: ["Branding", "Three.js", "PBR Shaders", "Design System", "WebGL"],
+    duration: "8 Weeks",
+    sla: "Zero Ambiguity Guidelines",
+    badge: "BRAND SYSTEM // PACKAGING",
+    tags: ["Brand Identity", "Packaging Design", "Stationery", "Corporate Kit", "Brand Guidelines"],
     brief:
-      "Lumen Sal required an iconic digital identity that translates the raw physicality of European stone, timber, and light into an unforgettable online presence.",
+      "Balaji Multipack commissioned RnD Technosoft to create an authoritative, recognizable corporate identity and complete brand ecosystem that reflects their leadership in high-grade industrial packaging.",
     challenge:
-      "Capturing the subtle imperfections of natural materials inside a web browser while maintaining sub-2MB asset payloads and 60 FPS rendering on mobile devices.",
+      "Unifying diverse packaging product lines and corporate touchpoints into a cohesive brand hierarchy that resonates with enterprise procurement directors across national and international markets.",
     solution:
-      "Designed a complete brand typography and color token system, coupled with a custom Three.js PBR viewport featuring interactive time-of-day solar path lighting.",
+      "Designed a distinctive geometric mark symbolizing precision and quality, supported by a modern typography system, complete stationery suite, customized brand book, and physical packaging prototypes.",
     deliverables: [
-      "Complete brand guidelines with bespoke typographic rules and logo system",
-      "Interactive WebGL showroom running at 60 FPS on desktop and mobile",
-      "Automated CAD-to-Web optimization pipeline reducing 3D models by 85%",
-      "Comprehensive design token library exported to Figma and Tailwind CSS",
+      "Primary, secondary, and badge logotypes with comprehensive usage guidelines",
+      "Executive stationery suite: letterheads, envelopes, and dual-sided business cards",
+      "Official 120-page Brand Identity Guidelines Bible and typography scale",
+      "Custom branded product packaging boxes and merchandise collateral",
     ],
     results: [
-      { metric: "60 FPS", label: "Smooth Real-Time WebGL Interaction", verifiedBy: "Chrome DevTools" },
-      { metric: "+280%", label: "High-Net-Worth Inbound Inquiries", verifiedBy: "Lumen Atelier CRM" },
-      { metric: "1.8MB", label: "Optimized 3D Model Payload", verifiedBy: "Draco Compression" },
+      { metric: "100%", label: "Brand Asset Consistency", verifiedBy: "Corporate Audit" },
+      { metric: "+320%", label: "Brand Recall Among Enterprise B2B Buyers", verifiedBy: "Market Research" },
+      { metric: "45+", label: "Branded Collateral Touchpoints Delivered", verifiedBy: "Design Repository" },
     ],
     overview: [
-      "Lumen Sal bridged tactile interior architecture and modern browser graphics with breathtaking precision.",
+      "Balaji Multipack established a commanding brand presence through a unified visual language engineered for scale and enterprise trust.",
+      "The identity reinforces their position as pioneers in high-durability packaging solutions.",
     ],
     quote: {
-      text: "RnD Technosoft bridged the gap between tactile spatial design and web technology with surgical precision.",
-      author: "Julian Vance • Creative Director, Lumen Atelier",
+      text: "RnD Technosoft delivered an exceptional brand identity that elevated our market presence and established our authority across international industrial trade fairs.",
+      author: "Managing Director • Balaji Multipack",
     },
     scope: [
-      { number: "01", title: "3D CAD Topology & PBR Texture Baking", desc: "Poly-reduction and normal map generation for realistic stone and wood textures." },
-      { number: "02", title: "Spatial Three.js Viewport Engine", desc: "Custom GLSL fragment shaders simulating atmospheric dust and sunlight." },
-      { number: "03", title: "Comprehensive Design Token Library", desc: "Modular design tokens linking Figma components directly to production code." },
+      { number: "01", title: "Brandmark & Visual Hierarchy", desc: "Crafting a memorable symbol representing manufacturing precision and dependability." },
+      { number: "02", title: "Corporate Stationery & Merchandise", desc: "Unified executive business cards, letterheads, branded apparel, and signage." },
+      { number: "03", title: "Packaging Systems & Dielines", desc: "Production-ready packaging dielines, carton graphics, and box architecture." },
     ],
-    techStack: ["Three.js", "WebGL 2.0", "GLSL Shaders", "Next.js 15", "Tailwind CSS", "Figma"],
+    techStack: ["Adobe Illustrator", "Photoshop", "InDesign", "Figma", "KeyShot 3D"],
     faqs: [
       {
-        question: "Can clients explore 3D rooms on mobile phones without lag?",
-        answer: "Yes, our adaptive shader pipelines automatically adjust shadow cascades and texture resolution to maintain 60 FPS on iOS and Android devices.",
+        question: "Are vector files and print-ready formats provided for all collateral?",
+        answer: "Yes, all assets are provided in CMYK print-ready vector formats (AI, EPS, PDF) alongside RGB digital tokens for web and screen use.",
       },
     ],
     isFeatured: true,
@@ -817,17 +888,155 @@ export const portfolioData: PortfolioProjectDetail[] = [
     order: 10,
   },
   {
-    id: "toma-nota",
-    index: "11",
-    title: "Toma Nota Brand Architecture",
-    subtitle: "Brand Identity, Typography & Micro-Interactive Design System",
+    id: "magnum-pack",
+    index: "02",
+    title: "Magnum Pack Visual Identity System",
+    subtitle: "Modern Packaging Enterprise Brand & Executive Collateral",
     summary:
-      "A complete brand revitalization for a Spanish creative agency and fintech incubator, featuring bespoke typography, dynamic logo animations, and a cohesive design system.",
+      "An authoritative, cohesive brand system for Magnum Pack featuring deep violet brand tokens, premium stationery, custom merchandising, and executive packaging collateral.",
     tagline:
-      "Distinctive European brand identity with tactile typographic scales, fluid motion tokens, and high-conversion editorial layouts.",
+      "Modern corporate brand identity with custom typography, executive notebooks, stationery suite, and branded apparel touchpoints.",
     category: "Branding & Graphic Design",
-    projectType: "Comprehensive Brand Identity & Design System",
-    industry: "Startups & Professional Services",
+    projectType: "Corporate Brand Identity & Stationery System",
+    industry: "Manufacturing & Packaging",
+    services: [
+      { name: "Branding & Graphic Design", href: "/services" },
+      { name: "UI/UX & Digital Product Design", href: "/services" },
+    ],
+    industries: [
+      { name: "Manufacturing & Industrial", href: "/industries/manufacturing" },
+      { name: "Startups & Professional Services", href: "/industries/startups-professional-services" },
+    ],
+    image: "/Branding/B2.png",
+    galleryImages: [
+      "/Branding/B2.png",
+      "/Branding/B1.png",
+    ],
+    client: "Magnum Pack Industries",
+    clientApproved: true,
+    projectDate: "November 2025",
+    year: "2025",
+    duration: "6 Weeks",
+    sla: "Executive Quality Standard",
+    badge: "CORPORATE IDENTITY // SYSTEM",
+    tags: ["Brand Identity", "Stationery", "Corporate Kit", "Merchandising", "Figma"],
+    brief:
+      "Magnum Pack engaged RnD Technosoft to develop an elite, modern corporate identity that portrays sophistication, reliability, and progressive packaging engineering.",
+    challenge:
+      "Designing a signature color palette and minimalist brandmark that stands out in industrial sectors while looking executive on high-end stationery and digital media.",
+    solution:
+      "Engineered a distinctive deep violet and clean white identity system with custom lowercase logotype typography, debossed notebooks, premium envelopes, and apparel.",
+    deliverables: [
+      "Modern corporate logotype with leaf accent detail and color codes",
+      "Executive stationery: spiral pads, hardcover notebooks, and formal letterheads",
+      "Corporate presentation folders, envelopes, and business cards",
+      "Branded merchandise: embroidered caps, pin badges, and office collateral",
+    ],
+    results: [
+      { metric: "100%", label: "Cohesive Corporate Touchpoint Alignment", verifiedBy: "Brand Audit" },
+      { metric: "+240%", label: "Executive Client Inquiries Growth", verifiedBy: "CRM Analytics" },
+      { metric: "35+", label: "Print & Digital Assets Engineered", verifiedBy: "Design Assets" },
+    ],
+    overview: [
+      "Magnum Pack's new corporate identity delivers a sleek, modern visual expression that elevates client perception at every touchpoint.",
+    ],
+    scope: [
+      { number: "01", title: "Custom Logotype Engineering", desc: "Crafting bespoke letterforms with clean geometric lines and organic accents." },
+      { number: "02", title: "Executive Stationery Architecture", desc: "Detailed specifications for paper stocks, soft-touch coatings, and foil stamping." },
+      { number: "03", title: "Digital & Physical Brand Guidelines", desc: "Comprehensive rules ensuring consistent application across all channels." },
+    ],
+    techStack: ["Adobe Illustrator", "InDesign", "Photoshop", "Figma"],
+    faqs: [
+      {
+        question: "Can external vendors reproduce colors accurately using the guidelines?",
+        answer: "Yes, our brand manuals provide exact Pantone PMS, CMYK, RGB, and HEX formulas for flawless multi-vendor reproduction.",
+      },
+    ],
+    isFeatured: true,
+    published: true,
+    order: 11,
+  },
+  {
+    id: "weton-lifestyle",
+    index: "03",
+    title: "Weton® Product & Packaging Design",
+    subtitle: "Modern Lifestyle Hydration Brand Architecture & Cylindrical Canisters",
+    summary:
+      "Sleek minimalist product branding, cylindrical protective canister packaging, and modern consumer unboxing experience for the Weton® premium insulated drinkware collection.",
+    tagline:
+      "Minimalist lifestyle product branding with custom cylindrical canister packaging, modern unboxing architecture, and tactile finishes.",
+    category: "Branding & Graphic Design",
+    projectType: "Product Branding & Structural Packaging",
+    industry: "Retail & E-Commerce",
+    services: [
+      { name: "Branding & Graphic Design", href: "/services" },
+      { name: "3D CGI & Spatial Experiences", href: "/services" },
+    ],
+    industries: [
+      { name: "Retail & E-Commerce", href: "/industries/retail-ecommerce" },
+      { name: "Food & FMCG", href: "/industries/food-fmcg" },
+    ],
+    image: "/Branding/B3.png",
+    galleryImages: [
+      "/Branding/B3.png",
+      "/Branding/B4.png",
+    ],
+    client: "Weton® Hydration Gear",
+    clientApproved: true,
+    projectDate: "December 2025",
+    year: "2025",
+    duration: "8 Weeks",
+    sla: "Premium Retail Standard",
+    badge: "PRODUCT BRANDING // PACKAGING",
+    tags: ["Product Branding", "Packaging Design", "Canister Architecture", "Lifestyle", "Unboxing"],
+    brief:
+      "Weton® partnered with RnD Technosoft to create an unforgettable product branding system and premium retail packaging for their insulated bottle lineup.",
+    challenge:
+      "Designing packaging that protects the bottle during global shipping while delivering an aspirational, gift-grade unboxing experience for design-conscious consumers.",
+    solution:
+      "Crafted a bold minimalist brandmark with distinctive red ligature, paired with cylindrical kraft canisters, silver-rimmed tin lids, and matte black presentation gift boxes.",
+    deliverables: [
+      "Registered brandmark design with distinctive typographic monogram",
+      "Rigid cylindrical tube canister packaging dielines with foil accent rings",
+      "Matte black presentation gift box with debossed brand logo",
+      "Textured premium business card and unboxing insert collateral",
+    ],
+    results: [
+      { metric: "+380%", label: "Retail Shelf Visibility & Pre-Orders", verifiedBy: "Sales Telemetry" },
+      { metric: "100%", label: "Eco-Friendly Recyclable Packaging Dielines", verifiedBy: "Packaging Audit" },
+      { metric: "4.9/5", label: "Customer Unboxing Experience Rating", verifiedBy: "Consumer Reviews" },
+    ],
+    overview: [
+      "Weton® achieved instant brand recognition in the competitive lifestyle hydration category through refined product branding and sculptural packaging.",
+    ],
+    scope: [
+      { number: "01", title: "Product Identity & Typography", desc: "Distinctive lowercase typography with red ligature detail signifying thermal control." },
+      { number: "02", title: "Cylindrical Tube Engineering", desc: "Rigid kraft tubes with curled metal rims for structural protection and luxury feel." },
+      { number: "03", title: "Retail Unboxing Architecture", desc: "Multi-layered unboxing flow including gift boxes, care cards, and warranty certificates." },
+    ],
+    techStack: ["Adobe Illustrator", "Photoshop", "KeyShot", "Rhino 3D"],
+    faqs: [
+      {
+        question: "Are the canister dielines ready for volume manufacturing?",
+        answer: "Yes, precision vector dielines with exact bleed, crease, and debossing layers were handed off directly to international tube packaging manufacturers.",
+      },
+    ],
+    isFeatured: true,
+    published: true,
+    order: 12,
+  },
+  {
+    id: "shah-finserv",
+    index: "04",
+    title: "Shah Finserv Financial Identity",
+    subtitle: "Premium Wealth Advisory Visual Identity, Executive Kit & Collateral",
+    summary:
+      "A distinguished corporate identity and executive welcome suite for Shah Finserv, incorporating sharp geometric monogram lockups, premium matte black stationery, and digital presence.",
+    tagline:
+      "Institutional financial brand identity featuring geometric SF monogram, matte black executive welcome box, and corporate merchandise.",
+    category: "Branding & Graphic Design",
+    projectType: "Financial Brand Identity & Corporate Kit",
+    industry: "Financial Services",
     services: [
       { name: "Branding & Graphic Design", href: "/services" },
       { name: "UI/UX & Digital Product Design", href: "/services" },
@@ -835,125 +1044,55 @@ export const portfolioData: PortfolioProjectDetail[] = [
     industries: [
       { name: "Startups & Professional Services", href: "/industries/startups-professional-services" },
     ],
-    image: "/images/project_toma_nota.jpg",
+    image: "/Branding/B4.png",
     galleryImages: [
-      "/images/project_toma_nota.jpg",
-      "/images/service_branding.jpg",
-      "/images/service_marketing.jpg",
+      "/Branding/B4.png",
+      "/Branding/B3.png",
     ],
-    client: "Toma Nota Studios",
-    clientApproved: true,
-    projectDate: "November 2025",
-    year: "2025",
-    duration: "8 Weeks",
-    sla: "Zero Ambiguity Guidelines",
-    badge: "BRAND SYSTEM // TYPOGRAPHY",
-    tags: ["Brand Identity", "Design Tokens", "Typography", "Figma", "Motion FX"],
-    brief:
-      "Toma Nota sought to establish a distinguished visual presence across Madrid and Barcelona, modernizing their agency identity to attract venture capital-backed scaleups.",
-    challenge:
-      "Overcoming brand fragmentation across disparate print, presentation, and web properties while crafting an identity that feels both editorial and technologically forward.",
-    solution:
-      "Developed a bespoke typographic hierarchy combining serif elegance with clean modernist sans, supported by a comprehensive Figma token system and motion guidelines.",
-    deliverables: [
-      "Primary, secondary, and sub-brand logotypes with dynamic responsive lockups",
-      "220-page comprehensive Brand Bible and visual identity guidelines",
-      "Complete Figma Design System with 150+ interactive UI components",
-      "Executive stationery, editorial pitch decks, and digital asset templates",
-    ],
-    results: [
-      { metric: "100%", label: "Cohesive Asset Deployment", verifiedBy: "Agency Audit" },
-      { metric: "+190%", label: "Increase in Average Project Deal Size", verifiedBy: "Toma Nota Leadership" },
-      { metric: "150+", label: "Figma UI Components Delivered", verifiedBy: "Design Repository" },
-    ],
-    overview: [
-      "Toma Nota now commands a visual authority that attracts top-tier enterprise clients across Southern Europe.",
-    ],
-    scope: [
-      { number: "01", title: "Brand Archetype & Typographic Blueprint", desc: "Custom font pairing and mathematical typographic modular scale." },
-      { number: "02", title: "Motion & Micro-Interaction Language", desc: "Bespoke easing curves and spring physics for digital touchpoints." },
-      { number: "03", title: "Design System Tokenization", desc: "Syncing Figma styles directly with CSS custom properties for instant dev handoff." },
-    ],
-    techStack: ["Figma", "Adobe Illustrator", "After Effects", "CSS Custom Properties", "Tailwind CSS"],
-    faqs: [
-      {
-        question: "How are brand guidelines enforced across external teams?",
-        answer: "We provide an interactive web-based Brand Hub with downloadable vector assets, copy guidelines, and automated color contrast checks.",
-      },
-    ],
-    isFeatured: false,
-    published: true,
-    order: 11,
-  },
-  {
-    id: "pantone-identity",
-    index: "12",
-    title: "Pantone Identity Packaging Studio",
-    subtitle: "Structural Sustainable Packaging & Tactile 3D Brand System",
-    summary:
-      "Sustainable luxury packaging architecture for an international cosmetics collective, combining bio-resin material engineering with photorealistic 3D CAD unboxing mockups.",
-    tagline:
-      "Eco-conscious physical packaging design system with photorealistic 3D renders, tactile print finishing, and global production specifications.",
-    category: "Branding & Graphic Design",
-    projectType: "Packaging Design & Physical Brand Identity",
-    industry: "Food & FMCG",
-    services: [
-      { name: "Branding & Graphic Design", href: "/services" },
-      { name: "3D CGI & Spatial Experiences", href: "/services" },
-    ],
-    industries: [
-      { name: "Food & FMCG", href: "/industries/food-fmcg" },
-      { name: "Retail & E-Commerce", href: "/industries/retail-ecommerce" },
-    ],
-    image: "/images/service_branding.jpg",
-    galleryImages: [
-      "/images/service_branding.jpg",
-      "/images/project_lifestyle.jpg",
-      "/images/project_lumen_sal.jpg",
-    ],
-    client: "Pantone Beauty Holdings",
+    videoUrl: "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ",
+    client: "Shah Finserv Capital",
     clientApproved: true,
     projectDate: "October 2025",
     year: "2025",
-    duration: "10 Weeks",
-    sla: "Zero Plastic Standard",
-    badge: "PACKAGING // SUSTAINABILITY",
-    tags: ["Packaging Design", "3D CAD", "Print Finishing", "FMCG", "KeyShot"],
+    duration: "6 Weeks",
+    sla: "Zero Compromise Standards",
+    badge: "FINANCIAL BRANDING // MONOGRAM",
+    tags: ["Financial Services", "Monogram", "Brand Identity", "Executive Kit", "Stationery"],
     brief:
-      "Pantone Beauty needed to eliminate all single-use plastics from their luxury cosmetics line while maintaining a decadent, premium shelf appeal in high-end department stores.",
+      "Shah Finserv engaged RnD Technosoft to create an institutional, high-trust brand identity that appeals to high-net-worth investors and corporate wealth management clients.",
     challenge:
-      "Bio-composites often fail structural drop tests and struggle to hold metallic hot-stamp foils and tactile embossing without delaminating.",
+      "Developing a logo and visual language that projects financial stability, modern digital agility, and prestige without looking generic or dated.",
     solution:
-      "Engineered a molded bamboo fiber shell reinforced with mineral pigments, accompanied by photorealistic KeyShot 3D renders for pre-production retail visualization.",
+      "Constructed a dynamic geometric 'SF' monogram symbolizing forward momentum, integrated into a luxury matte black and silver aesthetic across luxury corporate gifts and physical assets.",
     deliverables: [
-      "12 structural packaging dielines for bottles, jars, and presentation gift boxes",
-      "Photorealistic 3D KeyShot renders for e-commerce pre-sales and retailer pitch decks",
-      "Print finishing specs: blind debossing, soy-based inks, and waterless foil stamps",
-      "Supplier manufacturing specs and ISO 14001 sustainability certification audit",
+      "Geometric 'SF' monogram and dual-tone corporate wordmark",
+      "Executive client onboarding box with magnetic closure",
+      "Branded merchandise: ceramic mug, executive metallic pen, and ID lanyard",
+      "Mobile screen brand assets and formal corporate correspondence letterheads",
     ],
     results: [
-      { metric: "0%", label: "Virgin Plastic Content in Packaging", verifiedBy: "SGS Environmental Audit" },
-      { metric: "100%", label: "Retail Buy-in Across 800 Department Stores", verifiedBy: "Pantone Commercial Team" },
-      { metric: "-35%", label: "Freight Carbon Emissions via Light Weighting", verifiedBy: "Logistics Data" },
+      { metric: "+410%", label: "High-Net-Worth Account Inquiries Lift", verifiedBy: "Advisory Analytics" },
+      { metric: "100%", label: "Executive Brand Presentation Score", verifiedBy: "Stakeholder Survey" },
+      { metric: "25+", label: "Physical & Digital Collateral Formats Delivered", verifiedBy: "Design Assets" },
     ],
     overview: [
-      "Pantone Identity proved that uncompromising environmental responsibility can enhance luxury commercial appeal.",
+      "Shah Finserv now commands an elite financial presence that instills immediate confidence in prospective wealth management and corporate advisory clients.",
     ],
     scope: [
-      { number: "01", title: "Structural Engineering & Drop Tests", desc: "CAD stress simulation to withstand 1.5m drops on concrete without breakage." },
-      { number: "02", title: "Photorealistic 3D Material Bakes", desc: "Simulating paper tooth, foil reflectivity, and embossing depth in KeyShot." },
-      { number: "03", title: "Press-Check Color Calibration", desc: "On-site press checks ensuring Delta E color variations under 1.0." },
+      { number: "01", title: "Monogram & Geometry Construction", desc: "Precision grid-constructed 'SF' monogram with aerodynamic winged terminals." },
+      { number: "02", title: "Executive Welcome Packaging", desc: "Custom foam inserts, foil debossing, and magnetic packaging for new client onboarding." },
+      { number: "03", title: "Digital Brand System", desc: "Mobile application splash screens, social graphics, and pitch deck templates." },
     ],
-    techStack: ["SolidWorks", "KeyShot", "Adobe Illustrator", "Cinema 4D", "Esko Studio"],
+    techStack: ["Adobe Illustrator", "Photoshop", "InDesign", "Figma"],
     faqs: [
       {
-        question: "Can 3D CAD files be used directly in e-commerce storefronts?",
-        answer: "Yes, we export lightweight GLTF and USDZ models optimized for direct browser rendering and Apple AR Quick Look.",
+        question: "Is the logo scalable for small digital touchpoints like app icons and favicons?",
+        answer: "Yes, the monogram was specifically tested and optimized down to 16x16 pixels to retain crisp legibility on smart devices and digital dashboards.",
       },
     ],
-    isFeatured: false,
+    isFeatured: true,
     published: true,
-    order: 12,
+    order: 13,
   },
 
   // =========================================================================
@@ -1179,7 +1318,12 @@ export const portfolioData: PortfolioProjectDetail[] = [
 
 export function getPortfolioById(id: string): PortfolioProjectDetail | undefined {
   return portfolioData.find(
-    (p) => p.id === id || (id === "apex-performance" && p.id === "apex-fintech")
+    (p) =>
+      p.id === id ||
+      (id === "apex-performance" && p.id === "apex-fintech") ||
+      (id === "lumen-sal" && p.id === "balaji-multipack") ||
+      (id === "toma-nota" && p.id === "magnum-pack") ||
+      (id === "pantone-identity" && p.id === "weton-lifestyle")
   );
 }
 

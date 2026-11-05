@@ -30,6 +30,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/portfolios",
+        destination: "/portfolio",
+        permanent: true,
+      },
+      {
         source: "/services/ecommerce-platforms",
         destination: "/technology-solution/ecommerce-platform-engineering",
         permanent: true,

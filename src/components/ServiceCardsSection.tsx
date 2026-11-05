@@ -29,7 +29,7 @@ export default function ServiceCardsSection() {
       tagline: "Websites • Applications • Software • E-commerce",
       description:
         "We engineer powerful digital experiences and intelligent software built around the way your business works. From responsive website development and custom web applications to mobile apps, enterprise software and eCommerce platforms, we turn complex requirements into seamless digital solutions.",
-      heroImage: "/images/weddev.png",
+      heroImage: "/images/service_cloud_color.jpg",
       slug: "technology-solutions",
       badge: "Build smarter. Scale without limits.",
       scope: [
@@ -48,7 +48,7 @@ export default function ServiceCardsSection() {
       tagline: "SEO • Social Media • Paid Advertising • Content",
       description:
         "We turn digital visibility into meaningful business opportunities. Through strategic SEO, social media marketing, performance-driven paid advertising and compelling content, we help brands reach the right audience, strengthen engagement and generate measurable growth.",
-      heroImage: "/images/digi_market.png",
+      heroImage: "/images/service_marketing.jpg",
       slug: "digital-marketing",
       badge: "Get noticed. Get chosen. Grow faster.",
       scope: [
@@ -67,7 +67,7 @@ export default function ServiceCardsSection() {
       tagline: "Brand Identity • Graphic Design • Marketing Collateral",
       description:
         "We transform business identities into memorable brand experiences. From distinctive brand identity design and creative graphic design to impactful marketing collateral, we create visual systems that communicate your value, build recognition and leave a lasting impression.",
-      heroImage: "/images/contet.png",
+      heroImage: "/images/service_branding.jpg",
       slug: "branding-design",
       badge: "Make your brand impossible to overlook.",
       scope: [
@@ -86,7 +86,7 @@ export default function ServiceCardsSection() {
       tagline: "Videography • Photography • Editing • Creative Production",
       description:
         "We bring ideas to life through compelling visual storytelling. From professional photography and cinematic videography to video editing and creative media production, we create engaging visual content that connects brands with audiences and makes every story count.",
-      heroImage: "/images/social.png",
+      heroImage: "/images/service_media.jpg",
       slug: "media-production",
       badge: "Capture attention. Create experiences. Tell stories.",
       scope: [
@@ -273,7 +273,7 @@ export default function ServiceCardsSection() {
                         unoptimized
                         priority={idx === 0 || idx === 1}
                         sizes="(max-width: 1024px) 100vw, 50vw"
-                        className="object-contain object-center transition-all duration-700 ease-out"
+                        className="object-cover object-center transition-all duration-700 ease-out"
                       />
                     </div>
                   );

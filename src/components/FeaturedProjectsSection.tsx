@@ -19,69 +19,69 @@ interface ProjectItem {
 }
 
 export default function FeaturedProjectsSection() {
-  // Center card (index 2: Lumen Sal Spatial 3D) is open by default
+  // Center card (index 2: Shanti Patra Cloud ERP) is open by default
   const [activeIndex, setActiveIndex] = useState(2);
 
   const projects: ProjectItem[] = [
     {
-      id: "quantum-mobile-os",
+      id: "meritrack-mobile-suite",
       category: "MOBILE APP",
-      tag: "MOBILE APP // FINTECH",
-      verticalTitle: "QUANTUM MOBILE WEALTH",
-      title: "Quantum Mobile Wealth Suite",
-      location: "ZURICH // NEW YORK",
-      desc: "Cross-platform mobile wealth management app featuring hardware enclave biometric cryptography, offline WatermelonDB sync, and 60 FPS Skia graphics.",
-      image: "/images/project_it_fintech.jpg",
-      specs: "60 FPS Native // $850M+ AUM // 2026",
-      link: "/portfolios/quantum-mobile-os",
+      tag: "MOBILE APP PROJECTS // HEALTHCARE LOGISTICS",
+      verticalTitle: "MERITRACK MOBILE SUITE",
+      title: "MeriTRACK Surgical Logistics Suite",
+      location: "VAPI // MUMBAI",
+      desc: "High-reliability cross-platform mobile suite engineered for surgical implant tracking, hospital case scheduling, distributor allocation, and real-time medical sales representative telemetry.",
+      image: "/protfolio image/MeriTRACK Space App Showcase.png",
+      specs: "Native iOS & Android // Live Surgery Telemetry // 2026",
+      link: "/portfolio/mobile-app-projects",
     },
     {
-      id: "kailua",
-      category: "WEB APP",
-      tag: "WEBSITE & WEB APPS",
-      verticalTitle: "KAILUA HEADLESS FLAGSHIP",
-      title: "Kailua Headless Storefront",
-      location: "VANCOUVER // LONDON",
-      desc: "Lightning-fast headless Shopify Plus edge storefront engineered with Next.js 15, sub-150ms Algolia search, and interactive 3D WebGL fabric inspection.",
-      image: "/images/service_ecommerce_color.jpg",
-      specs: "0.8s LCP // +340% Conversions // 2026",
-      link: "/portfolios/kailua",
+      id: "ostech-automation",
+      category: "WEB PLATFORM",
+      tag: "WEBSITE & WEB APPLICATIONS // INDUSTRIAL AUTOMATION",
+      verticalTitle: "OSTECH AUTOMATION PLATFORM",
+      title: "OSTech Industrial Automation Flagship",
+      location: "GUJARAT // GLOBAL",
+      desc: "High-performance digital engineering platform for industrial packaging automation, featuring dynamic machinery catalogs, conveyor capability matrices, and interactive B2B inquiry funnels.",
+      image: "/protfolio image/OSTech Laptop in Orbital Showcase.png",
+      specs: "Next.js 15 // Sub-1s LCP // Industrial Automation // 2026",
+      link: "/portfolio/website-and-web-application-projects",
     },
     {
-      id: "lumen-sal",
-      category: "BRANDING",
-      tag: "BRANDING & 3D SPATIAL",
-      verticalTitle: "LUMEN SAL ATELIER",
-      title: "Lumen Sal Spatial 3D Showroom",
-      location: "GENEVA // PARIS",
-      desc: "Photorealistic Three.js & WebGL spatial interior showroom featuring dynamic PBR solar lighting shaders, procedural materials, and bespoke typography tokens.",
-      image: "/images/project_lumen_sal.jpg",
-      specs: "60 FPS WebGL // sub-2MB Draco // 2026",
-      link: "/portfolios/lumen-sal",
+      id: "shanti-patra-erp",
+      category: "ENTERPRISE ERP",
+      tag: "CUSTOM SOFTWARE // CLOUD ERP & CRM",
+      verticalTitle: "SHANTI PATRA CLOUD ERP",
+      title: "Shanti Patra Operations & MIS Suite",
+      location: "VAPI // NATIONAL",
+      desc: "Comprehensive cloud ERP platform managing manufacturing workflows: machine telemetry, printing lines, automated QC checks, live inventory tracking, and multi-tier sales order reconciliation.",
+      image: "/protfolio image/Shanti Patra Dashboard in Space.png",
+      specs: "Real-Time Shopfloor Telemetry // 98% QC Standard // 2026",
+      link: "/portfolio/website-and-web-application-projects",
     },
     {
-      id: "nebula-cloud",
-      category: "CLOUD INFRA",
-      tag: "WEBSITE & CLOUD PLATFORM",
-      verticalTitle: "NEBULA DISTRIBUTED OS",
-      title: "Nebula Distributed Cloud OS",
-      location: "FRANKFURT // SINGAPORE",
-      desc: "Autonomous multi-region Kubernetes cloud management console orchestrating 10,000+ pods with live WebSocket telemetry, zero-downtime blue/green deployments.",
-      image: "/images/nebula_cloud_os_3d.jpg",
-      specs: "0.00s RTO // 10k+ Pods // 2025",
-      link: "/portfolios/nebula-cloud",
+      id: "vbott-identity",
+      category: "BRAND IDENTITY",
+      tag: "BRANDING & GRAPHIC DESIGN // CORPORATE MERCHANDISE",
+      verticalTitle: "VBOTT CORPORATE IDENTITY",
+      title: "VBŌTT Luxury Identity & Packaging System",
+      location: "MUMBAI // NATIONAL",
+      desc: "Comprehensive corporate brand architecture, premium typography, minimalist stationery, executive gift packaging, and tactile stainless steel merchandise system for consumer hydration products.",
+      image: "/protfolio image/VBOTT Corporate Stationery in Space.png",
+      specs: "Complete Brand Guidelines // Premium Packaging Suite // 2026",
+      link: "/portfolio/branding-and-graphic-design",
     },
     {
-      id: "mission-ops",
-      category: "CINEMA",
-      tag: "VIDEOGRAPHY & PHOTOGRAPHY",
-      verticalTitle: "VANGUARD HIGH-ALTITUDE",
-      title: "Vanguard 8K Alpine Commercial",
-      location: "ZERMATT // SWISS ALPS",
-      desc: "Award-winning commercial film captured in minus 25°C blizzards using RED V-Raptor 8K cameras, high-altitude FPV drones, and Dolby Atmos spatial audio.",
-      image: "/images/project_forest_film.jpg",
-      specs: "8K Cinema // Dolby Atmos // 2025",
-      link: "/portfolios/mission-ops",
+      id: "tps-industrial-film",
+      category: "CINEMA & FILM",
+      tag: "VIDEOGRAPHY & PHOTOGRAPHY // INDUSTRIAL COMMERCIAL",
+      verticalTitle: "TPS FACILITY BRAND FILM",
+      title: "Total Packaging Services Cinema Commercial",
+      location: "VAPI // DAMAN",
+      desc: "Cinematic industrial commercial documenting advanced packaging infrastructure with 4K camera rigs, drone flythroughs, post-production color mastering, and precision manufacturing storytelling.",
+      image: "/protfolio image/TPS videography.png",
+      specs: "4K Cinema Commercial // Aerial Drone Telemetry // 2026",
+      link: "/portfolio/videography-and-photography",
     },
   ];
 
@@ -119,8 +119,8 @@ export default function FeaturedProjectsSection() {
           </p>
         </div>
 
-        {/* 5-Card Horizontal Interactive Accordion Grid */}
-        <div className="flex flex-col lg:flex-row gap-4 lg:gap-5 h-auto lg:h-[640px] items-stretch">
+        {/* 5-Card Horizontal Interactive Accordion Grid - Height decreased by 10% for large/xl screens (640px -> 576px) */}
+        <div className="flex flex-col lg:flex-row gap-4 lg:gap-5 h-auto lg:h-[576px] xl:h-[576px] items-stretch">
           {projects.map((project, index) => {
             const isActive = activeIndex === index;
 
@@ -129,27 +129,32 @@ export default function FeaturedProjectsSection() {
                 key={project.id}
                 onClick={() => setActiveIndex(index)}
                 onMouseEnter={() => setActiveIndex(index)}
-                className={`relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group border border-white/10 hover:border-[#FFD400]/60 shadow-2xl ${
+                className={`relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group border border-white/10 hover:border-[#FFD400]/60 shadow-2xl bg-[#050608] ${
                   isActive
-                    ? "project-card-expanded lg:flex-[4.8] flex-1 min-h-[480px] lg:min-h-0 ring-1 ring-[#FFD400]/40 translate-y-0 z-10"
+                    ? "project-card-expanded lg:flex-[5] flex-1 min-h-[440px] lg:min-h-0 ring-1 ring-[#FFD400]/40 translate-y-0 z-10"
                     : `project-card-collapsed lg:flex-[0.7] flex-none h-24 lg:h-auto min-w-0 z-0 ${verticalOffsets[index]}`
                 }`}
               >
-                {/* Background Image with Cinematic Color Grading */}
+                {/* Background Image: content-friendly size covering all parts without cropping when active */}
                 <Image
                   src={project.image}
                   alt={project.title}
                   fill
-                  sizes="(max-width: 1024px) 100vw, 33vw"
-                  className={`object-cover transition-transform duration-1000 ease-out ${
-                    isActive ? "scale-105" : "scale-100 group-hover:scale-110"
+                  unoptimized
+                  sizes="(max-width: 1024px) 100vw, (max-width: 1536px) 65vw, 55vw"
+                  className={`transition-all duration-700 ease-out ${
+                    isActive
+                      ? "object-contain object-center scale-100"
+                      : "object-cover object-center scale-100 group-hover:scale-110"
                   }`}
                 />
 
-                {/* Ambient Dark Gradient Vignette Overlay */}
+                {/* Ambient Dark Gradient Vignette Overlay - Only subtle vignette at bottom for readability */}
                 <div
-                  className={`absolute inset-0 bg-gradient-to-t from-black via-black/55 to-black/30 transition-opacity duration-500 ${
-                    isActive ? "opacity-90" : "opacity-75 group-hover:opacity-60"
+                  className={`absolute inset-0 pointer-events-none transition-opacity duration-500 ${
+                    isActive
+                      ? "bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-85"
+                      : "bg-black/60 group-hover:bg-black/40 opacity-75"
                   }`}
                 />
 
@@ -181,14 +186,14 @@ export default function FeaturedProjectsSection() {
 
                 {/* ================= ACTIVE (EXPANDED) VIEW ================= */}
                 <div
-                  className={`absolute inset-0 flex flex-col justify-between p-6 sm:p-8 lg:p-10 transition-all duration-700 ${
+                  className={`absolute inset-0 flex flex-col justify-between p-6 sm:p-8 lg:p-10 transition-all duration-700 pointer-events-none ${
                     isActive
-                      ? "opacity-100 pointer-events-auto translate-y-0 delay-100"
-                      : "opacity-0 pointer-events-none translate-y-6"
+                      ? "opacity-100 translate-y-0 delay-100"
+                      : "opacity-0 translate-y-6"
                   }`}
                 >
                   {/* Top Row: Category Tag & Location Micro-Pill */}
-                  <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+                  <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 pointer-events-auto">
                     <span className="px-3.5 py-1.5 rounded-full bg-black/80 border border-white/25 text-[11px] sm:text-xs font-mono font-medium tracking-widest text-[#FFD400] uppercase backdrop-blur-md shadow-md">
                       {project.tag}
                     </span>
@@ -199,25 +204,21 @@ export default function FeaturedProjectsSection() {
                     </span>
                   </div>
 
-                  {/* Middle & Bottom Group: Title, Description, Specs & Action Button */}
-                  <div className="space-y-3 sm:space-y-4 max-w-2xl">
-                    <h3 className="text-2xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold text-white tracking-tight leading-tight drop-shadow-[0_4px_25px_rgba(0,0,0,0.95)]">
+                  {/* Bottom Group: Compact Title, Specs & Action Button (Description removed for clean view) */}
+                  <div className="space-y-3 max-w-2xl pointer-events-auto">
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-[family-name:var(--font-syne)] font-bold text-white tracking-tight leading-snug drop-shadow-[0_2px_14px_rgba(0,0,0,0.95)]">
                       {project.title}
                     </h3>
 
-                    <p className="text-xs sm:text-sm lg:text-base text-neutral-100 font-light leading-relaxed line-clamp-3 sm:line-clamp-none drop-shadow-md">
-                      {project.desc}
-                    </p>
-
                     {/* Separator Line with Specifications & Sleek Pill Button */}
-                    <div className="pt-4 border-t border-white/20 flex flex-wrap items-center justify-between gap-3">
+                    <div className="pt-3 border-t border-white/20 flex flex-wrap items-center justify-between gap-3">
                       <span className="text-xs sm:text-sm font-mono text-[#FFD400] tracking-wider font-semibold">
                         {project.specs}
                       </span>
 
                       <Link
                         href={project.link}
-                        className="inline-flex items-center gap-1.5 px-6 py-2.5 rounded-full bg-[#FFD400] hover:bg-[#ffe34d] text-black font-bold text-xs tracking-widest uppercase transition-all duration-300 shadow-lg hover:shadow-[0_0_25px_rgba(255,212,0,0.45)] hover:scale-105 active:scale-95"
+                        className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#FFD400] hover:bg-[#ffe34d] text-black font-bold text-xs tracking-widest uppercase transition-all duration-300 shadow-lg hover:shadow-[0_0_20px_rgba(255,212,0,0.45)] hover:scale-105 active:scale-95"
                       >
                         <span>EXPLORE CASE STUDY</span>
                         <ArrowUpRight className="w-3.5 h-3.5" />
@@ -233,7 +234,7 @@ export default function FeaturedProjectsSection() {
         {/* View All Projects Action Link */}
         <div className="text-center mt-12 sm:mt-16">
           <Link
-            href="/portfolios"
+            href="/portfolio"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-white/15 hover:border-[#FFD400] text-white text-xs font-mono uppercase tracking-[0.2em] transition-all"
           >
             <span>VIEW ALL 15 PORTFOLIO CASE STUDIES</span>

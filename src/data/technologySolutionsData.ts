@@ -284,3 +284,132 @@ export const technologyRelatedSummaries: RelatedItemSummary[] = technologySubCat
   image: sub.image,
   tagline: sub.tagline,
 }));
+
+export const enterpriseSoftwareUnifiedDetail: UnifiedDetailItem = {
+  id: "enterprise-software-solutions",
+  index: "03",
+  title: "CUSTOM SOFTWARE DEVELOPMENT",
+  highlightText: "& BUSINESS AUTOMATION SOLUTIONS",
+  tagline: "From business process analysis to software development and deployment, we cover every essential layer of custom software engineering. Each solution is developed around your operational requirements, application functionality and long-term business objectives.",
+  category: "Technology Solutions",
+  image: "/images/nebula_cloud_os_3d.jpg",
+  galleryImages: [
+    "/images/nebula_cloud_os_3d.jpg",
+    "/images/service_webdev.jpg",
+    "/images/service_cloud_color.jpg",
+  ],
+  sla: "STRATEGY-LED DESIGN",
+  badge: "CUSTOM SOFTWARE // ERP // CRM // BUSINESS AUTOMATION",
+  overview: [
+    "Every business has unique processes, operational challenges and growth ambitions. Generic software doesn't always provide the flexibility or functionality needed to manage them effectively. RND Technosoft develops custom software solutions designed around your business requirements, helping you streamline operations, simplify workflows and bring essential business functions together through technology.",
+    "From enterprise applications and ERP systems to CRM platforms, inventory management and workflow automation, we engineer practical digital solutions that connect your processes, organise information and support your business as it evolves.",
+  ],
+  quote: {
+    text: "We believe great software starts with understanding how your business works. Our approach combines technology, functionality and thoughtful engineering to build solutions around your goals.",
+    author: "RND Technosoft • Custom Software Development",
+  },
+  deliverables: [
+    {
+      item: "Custom-Built Software Application",
+      detail: "Tailored software developed specifically around your business processes and requirements.",
+      standard: "Fully Customized",
+    },
+    {
+      item: "Source Code & Repository Handover",
+      detail: "Complete source code access with clean repository structure and documentation.",
+      standard: "100% Ownership",
+    },
+    {
+      item: "Technical Documentation & Testing",
+      detail: "Comprehensive technical documentation, user guides and quality assurance testing.",
+      standard: "Complete Documentation",
+    },
+    {
+      item: "Deployment & Maintenance Options",
+      detail: "Production deployment setup with ongoing maintenance and support packages available.",
+      standard: "Full Support",
+    },
+  ],
+  scope: [
+    {
+      number: "01",
+      title: "CUSTOM BUSINESS APPLICATIONS & ERP SYSTEMS",
+      desc: "Develop tailored business applications that bring essential operations into one organised platform. From ERP systems to employee portals and business management tools, we build software around your workflows.",
+      iconName: "Briefcase",
+    },
+    {
+      number: "02",
+      title: "BACKEND DEVELOPMENT & API INTEGRATION",
+      desc: "Build the application logic that powers your software. Develop custom backend functionality, connect third-party platforms and integrate business systems through suitable APIs.",
+      iconName: "Server",
+    },
+    {
+      number: "03",
+      title: "DATABASE MANAGEMENT & BUSINESS INTELLIGENCE",
+      desc: "Structure and manage business information through well-designed databases, reporting systems and interactive dashboards. Make important operational data easier to organise and access.",
+      iconName: "Database",
+    },
+    {
+      number: "04",
+      title: "SOFTWARE TESTING, SECURITY & DEPLOYMENT",
+      desc: "Prepare your software for reliable business use through functional testing, access controls, security considerations and structured deployment. Support future improvements through planned maintenance.",
+      iconName: "Shield",
+    },
+  ],
+  techStack: [
+    { name: "React", role: "Frontend Framework", badge: "Frontend" },
+    { name: "Node.js", role: "Backend Runtime", badge: "Backend" },
+    { name: "TypeScript", role: "Type Safety", badge: "Language" },
+    { name: "PostgreSQL", role: "Primary Database", badge: "Database" },
+    { name: "MongoDB", role: "NoSQL Database", badge: "Database" },
+    { name: "Express", role: "API Framework", badge: "API" },
+    { name: "Docker", role: "Containerization", badge: "DevOps" },
+    { name: "Redis", role: "Caching Layer", badge: "Cache" },
+    { name: "REST APIs", role: "API Architecture", badge: "Integration" },
+    { name: "GraphQL", role: "Query Language", badge: "API" },
+    { name: "AWS", role: "Cloud Platform", badge: "Cloud" },
+    { name: "CI/CD", role: "Deployment", badge: "Automation" },
+  ],
+  faqs: [
+    {
+      question: "What is custom software development, and why does my business need it?",
+      answer: "Custom software development involves building applications specifically around your business processes and requirements. It helps businesses manage unique workflows, automate repetitive tasks, organise information and create solutions that standard software may not fully support.",
+    },
+    {
+      question: "What types of custom software does RND Technosoft develop?",
+      answer: "We develop custom ERP and CRM systems, business management applications, inventory management software, HR and employee management systems, customer portals, workflow automation tools, dashboards and enterprise applications.",
+    },
+    {
+      question: "Can you develop software tailored to our existing business processes?",
+      answer: "Absolutely. We begin by understanding your current workflows, operational challenges and business objectives. Based on these requirements, we plan and develop software with features and functionality suited to the way your organisation operates.",
+    },
+    {
+      question: "What is the difference between custom software and ready-made software?",
+      answer: "Ready-made software offers predefined features for general business requirements. Custom software is developed specifically for your organisation, giving you greater flexibility over functionality, integrations, workflows and future enhancements.",
+    },
+    {
+      question: "Can you integrate custom software with our existing applications?",
+      answer: "Yes. We can assess your existing systems and develop suitable API integrations to connect applications, share information and streamline business workflows, depending on technical feasibility and third-party access.",
+    },
+    {
+      question: "Can you develop ERP and CRM software for our organisation?",
+      answer: "Yes. We can build customised ERP and CRM applications to support business activities such as customer management, sales tracking, inventory, employee management, reporting and other operational requirements.",
+    },
+    {
+      question: "How long does custom software development take?",
+      answer: "The development timeline depends on the project's complexity, number of modules, required integrations, design and testing requirements. After reviewing your project scope, we provide an estimated timeline and development milestones.",
+    },
+    {
+      question: "Will we receive the source code and ownership of the software?",
+      answer: "Source code access, intellectual property ownership, repository handover and technical documentation are defined in the project agreement. All applicable ownership and handover terms are discussed before development begins.",
+    },
+    {
+      question: "Do you provide software maintenance and support after deployment?",
+      answer: "Yes. We offer maintenance and support options that can include bug fixes, software updates, performance improvements, technical assistance and additional features based on the agreed support arrangement.",
+    },
+    {
+      question: "How much does custom software development cost?",
+      answer: "The cost depends on the software's functionality, complexity, number of modules, integrations and development timeline. Contact our team with your requirements to receive a customised project estimate.",
+    },
+  ],
+};

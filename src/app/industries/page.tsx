@@ -214,8 +214,17 @@ export default function IndustriesIndexPage() {
         }
     };
 
+    const INDUSTRY_CARD_IMAGES: Record<string, string> = {
+        manufacturing: "/Industries/manufacturing_mockup.png",
+        healthcare: "/Industries/healthcare_mockup.png",
+        "food-fmcg": "/Industries/food_mockup.png",
+        "retail-ecommerce": "/Industries/retail_mockup.png",
+        hospitality: "/Industries/Hospital.png",
+        education: "/Industries/education.png",
+    };
+
     return (
-        <div className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black font-sans">
+        <div className="font-archia relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black">
             <SpaceBackground />
             <Navbar />
 
@@ -299,6 +308,7 @@ export default function IndustriesIndexPage() {
                         {filteredIndustries.map((ind, idx) => {
                             const Icon = getIndustryIcon(ind.slug);
                             const previewWork = ind.works[0];
+                            const cardImage = INDUSTRY_CARD_IMAGES[ind.slug] || ind.image || previewWork?.image || "/Industries/manufacturing_mockup.png";
 
                             return (
                                 <article
@@ -310,12 +320,13 @@ export default function IndustriesIndexPage() {
                                         {/* Left: Project Image with Multi-Directional Glide & Settle Animation */}
                                         <div className="lg:col-span-5 xl:col-span-5 relative w-full h-[280px] sm:h-[340px] lg:h-auto min-h-full flex flex-col justify-stretch self-stretch overflow-hidden">
                                             <PrintRevealImage
-                                                src={previewWork.image}
-                                                alt={previewWork.title}
+                                                src={cardImage}
+                                                alt={previewWork?.title || ind.title}
                                                 badge={ind.badge}
                                                 aspectClass="w-full h-full min-h-full"
                                                 className="w-full h-full border-0 lg:border-r border-white/10"
                                                 index={idx}
+                                                objectFit="cover"
                                             />
                                         </div>
 

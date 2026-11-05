@@ -172,7 +172,7 @@ export default function InsightDetailView({
   const remainingFirstParagraph = firstParagraph.slice(1);
 
   return (
-    <div className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black font-sans">
+    <div className="font-archia relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black">
       {/* Background Galactic Starfield */}
       <SpaceBackground />
 

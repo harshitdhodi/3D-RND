@@ -118,41 +118,13 @@ export default function Navbar() {
       category: "Education & Learning",
       href: "/industries/education",
       icon: GraduationCap,
-    },
-    {
-      num: "07",
-      title: "Real Estate & Construction",
-      category: "Property & Infrastructure",
-      href: "/industries/real-estate",
-      icon: Building2,
-    },
-    {
-      num: "08",
-      title: "Startups & Professional Services",
-      category: "Business Innovation",
-      href: "/industries/startups-professional-services",
-      icon: Rocket,
-    },
-    {
-      num: "09",
-      title: "Travel & Tourism",
-      category: "Travel & Discovery",
-      href: "/industries/travel-tourism",
-      icon: Plane,
-    },
-    {
-      num: "10",
-      title: "Finance & FinTech",
-      category: "Financial Innovation",
-      href: "/industries/finance-fintech",
-      icon: Landmark,
-    },
+    }
   ];
 
   const navLinks = [
-    { name: "The Origin", href: "/about-us" },
+    { name: "Our Universe", href: "/about-us" },
     { name: "The Ecosystem", href: "/services", hasMega: true },
-    { name: "Mission Archives", href: "/portfolios" },
+    { name: "Our Creations", href: "/portfolio" },
     // { name: "Join the Orbit", href: "/career" },
     { name: "Sectors in Focus", href: "/industries", hasIndustriesMega: true },
     { name: "Insights", href: "/insights" },
@@ -185,7 +157,7 @@ export default function Navbar() {
               (link.href === "/about-us" && pathname === "/about-us") ||
               (link.href === "/contact-us" && pathname === "/contact-us") ||
               (link.href === "/services" && pathname?.startsWith("/services")) ||
-              (link.href === "/portfolios" && pathname?.startsWith("/portfolio")) ||
+              (link.href === "/portfolio" && pathname?.startsWith("/portfolio")) ||
               (link.href === "/career" && pathname === "/career") ||
               (link.href === "/insights" && pathname?.startsWith("/insights"));
 
@@ -368,7 +340,7 @@ export default function Navbar() {
               (link.href === "/about-us" && pathname === "/about-us") ||
               (link.href === "/contact-us" && pathname === "/contact-us") ||
               (link.href === "/services" && pathname === "/services") ||
-              (link.href === "/portfolios" && pathname === "/portfolios") ||
+              (link.href === "/portfolio" && pathname?.startsWith("/portfolio")) ||
               (link.href === "/career" && pathname === "/career") ||
               (link.href === "/industries" && pathname?.startsWith("/industries")) ||
               (link.href === "/insights" && pathname === "/insights");

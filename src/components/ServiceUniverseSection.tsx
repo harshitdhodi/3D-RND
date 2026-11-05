@@ -941,7 +941,7 @@ export default function ServiceUniverseSection({
           <div className="text-center max-w-4xl mx-auto mb-10 sm:mb-12">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>✳ DIVISION 0{matchedDivision.tierNumber} {"//"} PRODUCTION TECHNOLOGY ECOSYSTEM</span>
+              <span>✳ PRODUCTION TECHNOLOGY ECOSYSTEM</span>
             </div>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.05] text-white">
               {matchedDivision.id.includes("technology") ? (

@@ -282,28 +282,28 @@ export default function HeroSection() {
             {/* Middle: Grand Split Title - Positioned on left side of astronaut & right side of laptop */}
             <div className="flex items-end justify-between w-full my-auto pointer-events-none translate-y-[135%] sm:translate-y-[142%] md:translate-y-[148%] lg:translate-y-[155%] xl:translate-y-[170%] px-1 sm:px-2 md:px-3">
               <div className="flex items-center justify-start z-10">
-                <h2
+                <h1
                   data-no-gsap
                   style={{
                     textShadow:
                       "0 4px 15px rgba(0, 0, 0, 0.95), 0 12px 40px rgba(0, 0, 0, 0.9), 0 2px 4px rgba(0, 0, 0, 0.95)",
                   }}
-                  className="text-[#ffd400] text-[6.8vw] sm:text-[5.8vw] md:text-[4.8vw] lg:text-[62px] xl:text-[6rem] 2xl:text-[90px] font-[family-name:var(--font-archia)] font-light tracking-tight leading-none uppercase select-none drop-shadow-[0_15px_40px_rgba(0,0,0,0.9)] whitespace-nowrap"
+                  className="text-[#ffd400] text-[6.8vw] sm:text-[5.8vw] md:text-[4.8vw] lg:text-[62px] xl:text-[6rem] 2xl:text-[90px] font-[family-name:var(--font-syne)] font-bold tracking-tight leading-none uppercase select-none drop-shadow-[0_15px_40px_rgba(0,0,0,0.9)] whitespace-nowrap"
                 >
                   DIGITAL
-                </h2>
+                </h1>
               </div>
               <div className="flex items-center justify-end z-10">
-                <h2
+                <h1
                   data-no-gsap
                   style={{
                     textShadow:
                       "0 4px 15px rgba(0, 0, 0, 0.95), 0 12px 40px rgba(0, 0, 0, 0.9), 0 2px 4px rgba(0, 0, 0, 0.95)",
                   }}
-                  className="text-[#ffd400] text-[6.8vw] sm:text-[5.8vw] md:text-[4.8vw] lg:text-[62px] xl:text-[6rem] 2xl:text-[90px] font-[family-name:var(--font-archia)] font-light tracking-tight leading-none uppercase select-none drop-shadow-[0_15px_40px_rgba(0,0,0,0.9)] whitespace-nowrap text-right"
+                  className="text-[#ffd400] text-[6.8vw] sm:text-[5.8vw] md:text-[4.8vw] lg:text-[62px] xl:text-[6rem] 2xl:text-[90px] font-[family-name:var(--font-syne)] font-bold tracking-tight leading-none uppercase select-none drop-shadow-[0_15px_40px_rgba(0,0,0,0.9)] whitespace-nowrap text-right"
                 >
                   AGENCY
-                </h2>
+                </h1>
               </div>
             </div>
 

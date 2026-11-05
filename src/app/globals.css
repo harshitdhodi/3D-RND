@@ -155,6 +155,31 @@ h1, h2, h3, h4, h5, h6 {
   text-transform: none !important;
 }
 
+/* Hero Section (#home): Restore Syne bold uppercase typography and monospace cues over the frames */
+#home h1,
+#home h2,
+#home h3,
+#home [class*="font-syne"],
+#home [class*="--font-syne"],
+.font-archia #home h1,
+.font-archia #home h2,
+.font-archia #home h3,
+.font-archia #home [class*="font-syne"],
+.font-archia #home [class*="--font-syne"] {
+  font-family: var(--font-syne), 'Syne', sans-serif !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+}
+
+#home .font-mono,
+#home [class*="font-mono"],
+.font-archia #home .font-mono,
+.font-archia #home [class*="font-mono"] {
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

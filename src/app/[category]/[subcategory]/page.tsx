@@ -136,24 +136,46 @@ const SUBCATEGORY_CONFIGS: Record<string, SubcategoryConfig> = {
   "brand-identity-systems": {
     baseId: "brand-identity",
     title: "Brand Identity & Design Systems",
-    highlightText: "& Vector Design Tokens",
+    highlightText: "Create a Lasting Impression",
     tagline:
-      "Comprehensive brand identity guidelines, modern logos, typography scales, color palettes, and unified design token architectures.",
-    sla: "PRODUCTION-READY",
+      "Build a memorable brand with strategic positioning, visual identity development, and comprehensive brand guidelines.",
+    sla: "BRAND STRATEGY // IDENTITY DEVELOPMENT",
     category: "Branding & Design",
     image: "/images/service_branding.jpg",
-    badge: "DESIGN SYSTEMS // FIGMA TOKENS",
+    badge: "BRAND STRATEGY // IDENTITY DEVELOPMENT",
   },
   "ui-ux-spatial-design": {
-    baseId: "brand-identity",
-    title: "UI/UX & Spatial Web Architecture",
-    highlightText: "& 60 FPS Micro-Interactions",
+    baseId: "logo-design",
+    title: "Logo Design & Brand Identity",
+    highlightText: "Visual Identity Development",
     tagline:
-      "Next-gen user journeys, micro-interactive prototypes, and 3D web interfaces mapped through rigorous usability heatmaps.",
-    sla: "60 FPS INTERACTION",
+      "Create a distinctive logo and cohesive visual identity that represents your brand values and communicates your business message.",
+    sla: "VISUAL IDENTITY // BRAND RECOGNITION",
     category: "Branding & Design",
     image: "/images/service_branding.jpg",
-    badge: "SPATIAL 3D // HUMAN-CENTRIC",
+    badge: "VISUAL IDENTITY // BRAND RECOGNITION",
+  },
+  "graphic-design": {
+    baseId: "graphic-design",
+    title: "Graphic Design & Creative Communication",
+    highlightText: "Creative Visual Communication",
+    tagline:
+      "Professional graphic design services for social media, marketing materials, advertising campaigns, and print communications.",
+    sla: "CREATIVE VISUALS // GRAPHIC DESIGN",
+    category: "Branding & Design",
+    image: "/images/service_branding.jpg",
+    badge: "CREATIVE VISUALS // GRAPHIC DESIGN",
+  },
+  "marketing-collateral": {
+    baseId: "marketing-collateral",
+    title: "Marketing Collateral Design",
+    highlightText: "Brand Communication Materials",
+    tagline:
+      "Design professional marketing materials including brochures, catalogues, presentations, and business stationery.",
+    sla: "BRAND COMMUNICATION // MARKETING COLLATERAL",
+    category: "Branding & Design",
+    image: "/images/service_branding.jpg",
+    badge: "BRAND COMMUNICATION // MARKETING COLLATERAL",
   },
 
   // Media Production

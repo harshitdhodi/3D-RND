@@ -118,7 +118,7 @@ export default function ServicesPage() {
       <PageBanner
         title="INTEGRATED CAPABILITIES"
         breadcrumb="SERVICES"
-        imageSrc="/NewBanner/our ecocystem banner.png"
+        imageSrc="/banner/service.png"
       />
 
       <main className="relative z-20 w-full mt-[50px]   shadow-[0_-25px_60px_rgba(0,0,0,0.85)] overflow-hidden">

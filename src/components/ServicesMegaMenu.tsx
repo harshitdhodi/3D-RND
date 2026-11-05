@@ -64,12 +64,12 @@ export const SERVICE_MEGA_CATEGORIES: ServiceMegaCategory[] = [
         desc: "Microservices, AWS/GCP mesh & zero-trust infra",
       },
       {
-        title: "Mobile App Development",
+        title: "MOBILE APP DEVELOPMENT",
         href: "/technology-solution/mobile-applications",
         desc: "iOS & Android native, Flutter, 60fps spatial UI",
       },
       {
-        title: "E-Commerce Platforms",
+        title: "E-COMMERCE PLATFORMS",
         href: "/technology-solution/ecommerce-platform-engineering",
         desc: "Headless Shopify Plus & 3D product customizers",
       },

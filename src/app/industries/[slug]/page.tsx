@@ -22,7 +22,7 @@ export async function generateMetadata({
   const industry = industriesList.find((item) => item.slug === slug);
   if (!industry) {
     return {
-      title: "Industry Not Found | RnD Technosoft",
+      title: "Industry Not Found | RND Technosoft",
       robots: "noindex, nofollow",
     };
   }
@@ -49,7 +49,7 @@ export async function generateMetadata({
     ? "Hospitality Website & Digital Solutions | RND Technosoft"
     : isEducation
     ? "Education Website & Digital Solutions | RND Technosoft"
-    : `${industry.title} Software Solutions & 3D Engineering | RnD Technosoft`;
+    : `${industry.title} Digital Solutions | RND Technosoft`;
     
   const metaDescription = isManufacturing
     ? "Explore manufacturing and industrial digital solutions by RND Technosoft, including custom software development, business applications, website development, digital marketing and branding."
@@ -70,35 +70,40 @@ export async function generateMetadata({
     description: metaDescription,
     keywords: [
       industry.title,
+      `${industry.title} digital solutions`,
       `${industry.title} software solutions`,
       industry.category,
       industry.badge,
-      "RnD Technosoft",
-      "Enterprise 3D WebGL",
-      "Digital Twin Engineering",
+      "RND Technosoft",
+      "web development",
+      "custom software",
+      "digital marketing",
+      "SEO services",
+      "branding and design",
+      "media production",
       "Industry Solutions",
     ],
     alternates: {
       canonical: pageUrl,
     },
     openGraph: {
-      title: `${industry.title} | RnD Technosoft Industry Solutions`,
+      title: `${industry.title} | RND Technosoft Industry Solutions`,
       description: metaDescription,
       url: pageUrl,
-      siteName: "RnD Technosoft",
+      siteName: "RND Technosoft",
       type: "website",
       images: [
         {
           url: industry.works[0]?.image || "/images/nebula_cloud_os_3d.jpg",
           width: 1200,
           height: 630,
-          alt: `${industry.title} Architecture Solutions`,
+          alt: `${industry.title} Digital Solutions | RND Technosoft`,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${industry.title} Software & 3D WebGL | RnD Technosoft`,
+      title: metaTitle,
       description: metaDescription,
       images: [industry.works[0]?.image || "/images/nebula_cloud_os_3d.jpg"],
     },

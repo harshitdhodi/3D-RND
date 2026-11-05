@@ -76,6 +76,18 @@ export default function ServiceDetailsView({
     techStack: service.techStack,
     faqs: service.faqs,
     beforeAfter: service.beforeAfter,
+    deliverablesCardLabel: service.deliverablesCardLabel,
+    deliverablesCardDescription: service.deliverablesCardDescription,
+    deliverablesCtaLabel: service.deliverablesCtaLabel,
+    qualityCardLabel: service.qualityCardLabel,
+    quoteAuthor: service.quoteAuthor,
+    contactCardLabel: service.contactCardLabel,
+    contactCardHeading: service.contactCardHeading,
+    contactCardDescription: service.contactCardDescription,
+    contactCardHref: service.contactCardHref,
+    scopeSectionLabel: service.scopeSectionLabel,
+    scopeSectionHeading: service.scopeSectionHeading,
+    scopeSectionDescription: service.scopeSectionDescription,
   };
 
   // Map all services for the related section

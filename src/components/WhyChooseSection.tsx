@@ -1051,8 +1051,8 @@ export default function WhyChooseSection({
 
                   <div className="relative w-full h-full max-w-[340px] sm:max-w-[380px] aspect-[3/4] flex items-center justify-center animate-subtle-float">
                     <Image
-                      src="/images/why_choose_astronaut_shield.jpg"
-                      alt="Cyber Astronaut with Golden Energy Shield"
+                      src="/office/whychooseus.png"
+                      alt="Why Choose RnD Technosoft Astronaut"
                       fill
                       sizes="(max-width: 768px) 100vw, 400px"
                       className="object-contain select-none pointer-events-none group-hover:scale-105 transition-transform duration-700 ease-out"
@@ -1419,8 +1419,8 @@ export default function WhyChooseSection({
 
               <div className="relative w-full h-full max-w-[320px] sm:max-w-[360px] aspect-[3/4] flex items-center justify-center animate-subtle-float">
                 <Image
-                  src="/images/why_choose_astronaut_shield.jpg"
-                  alt="Cyber Astronaut with Golden Energy Shield"
+                  src="/office/whychooseus.png"
+                  alt="Why Choose RnD Technosoft Astronaut"
                   fill
                   sizes="(max-width: 768px) 100vw, 400px"
                   className="object-contain select-none pointer-events-none group-hover:scale-105 transition-transform duration-700 ease-out"

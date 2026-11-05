@@ -286,9 +286,9 @@ export default function AboutUsSection() {
 
           {/* ================= RIGHT COLUMN: ASTRONAUT & WORKSTATION IMAGE (INCREASED SIZE) ================= */}
           <div className="lg:col-span-6 xl:col-span-7 flex items-center justify-center lg:justify-end relative">
-            <div className="relative w-full max-w-[580px] sm:max-w-[640px] lg:max-w-[720px] xl:max-w-[800px] aspect-[612/408] transition-transform duration-500 hover:scale-[1.03] lg:scale-105 xl:scale-110 origin-center lg:origin-right">
+            <div className="relative w-full max-w-[580px] sm:max-w-[640px] lg:max-w-[720px] xl:max-w-[800px] aspect-[512/408] transition-transform duration-500 hover:scale-[1.03] lg:scale-105 xl:scale-110 origin-center lg:origin-right">
               <Image
-                src="/home-about2.png"
+                src="/office/about.png"
                 alt="RnD Technosoft Astronaut Workstation"
                 fill
                 priority

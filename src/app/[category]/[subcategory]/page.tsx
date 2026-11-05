@@ -16,6 +16,8 @@ interface SubcategoryConfig {
   category: string;
   image?: string;
   badge?: string;
+  metaTitle?: string;
+  metaDescription?: string;
 }
 
 const SUBCATEGORY_CONFIGS: Record<string, SubcategoryConfig> = {
@@ -30,6 +32,7 @@ const SUBCATEGORY_CONFIGS: Record<string, SubcategoryConfig> = {
     category: "Technology Solutions",
     image: "/images/service_webdev.jpg",
     badge: "CUSTOM WEB DEVELOPMENT",
+    metaTitle: "Custom Website Development Services | RND Technosoft",
   },
   "cloud-infrastructure-devops": {
     baseId: "web-cloud",
@@ -52,6 +55,7 @@ const SUBCATEGORY_CONFIGS: Record<string, SubcategoryConfig> = {
     category: "Technology Solutions",
     image: "/images/nebula_cloud_os_3d.jpg",
     badge: "CUSTOM SOFTWARE // ERP // CRM // BUSINESS AUTOMATION",
+    metaTitle: "Custom Software Development Services | RND Technosoft",
   },
   "ecommerce-platform-engineering": {
     baseId: "ecommerce-platforms",
@@ -63,6 +67,7 @@ const SUBCATEGORY_CONFIGS: Record<string, SubcategoryConfig> = {
     category: "Technology Solutions",
     image: "/images/service_ecommerce.jpg",
     badge: "E-COMMERCE // ONLINE STORES // DIGITAL COMMERCE",
+    metaTitle: "E-commerce Website Development Services | RND Technosoft",
   },
   "mobile-applications": {
     baseId: "mobile-apps",
@@ -74,6 +79,7 @@ const SUBCATEGORY_CONFIGS: Record<string, SubcategoryConfig> = {
     category: "Technology Solutions",
     image: "/images/service_mobile.jpg",
     badge: "ANDROID // iOS // CROSS-PLATFORM DEVELOPMENT",
+    metaTitle: "Mobile App Development Services | RND Technosoft",
   },
   "microservices-api-mesh": {
     baseId: "web-cloud",
@@ -97,6 +103,7 @@ const SUBCATEGORY_CONFIGS: Record<string, SubcategoryConfig> = {
     category: "Digital Marketing",
     image: "/images/service_marketing.jpg",
     badge: "ORGANIC GROWTH // TECHNICAL SEO // SEARCH VISIBILITY",
+    metaTitle: "SEO Services | Search Engine Optimization | RND Technosoft",
   },
   "performance-ppc-advertising": {
     baseId: "ppc-advertising",
@@ -108,6 +115,7 @@ const SUBCATEGORY_CONFIGS: Record<string, SubcategoryConfig> = {
     category: "Digital Marketing",
     image: "/images/service_marketing.jpg",
     badge: "PAID MEDIA // PERFORMANCE MARKETING",
+    metaTitle: "PPC & Paid Advertising Services | RND Technosoft",
   },
   "social-media-management": {
     baseId: "social-media",
@@ -119,6 +127,7 @@ const SUBCATEGORY_CONFIGS: Record<string, SubcategoryConfig> = {
     category: "Digital Marketing",
     image: "/images/service_social.jpg",
     badge: "SOCIAL-FIRST // BRAND & COMMUNITY GROWTH",
+    metaTitle: "Social Media Marketing Services | RND Technosoft",
   },
   "content-strategy-production": {
     baseId: "content-strategy",
@@ -130,19 +139,23 @@ const SUBCATEGORY_CONFIGS: Record<string, SubcategoryConfig> = {
     category: "Digital Marketing",
     image: "/images/service_marketing.jpg",
     badge: "CONTENT STRATEGY // BRAND STORYTELLING",
+    metaTitle: "Content Marketing Services | RND Technosoft",
   },
 
   // Branding & Design
   "brand-identity-systems": {
     baseId: "brand-identity",
-    title: "Brand Identity & Design Systems",
-    highlightText: "Create a Lasting Impression",
+    title: "BUILD A DISTINCTIVE BRAND",
+    highlightText: "CREATE A LASTING IMPRESSION",
     tagline:
-      "Build a memorable brand with strategic positioning, visual identity development, and comprehensive brand guidelines.",
+      "A strong brand is more than a logo or visual identity. It is the way your business communicates, connects with its audience and stands apart in a competitive marketplace.",
     sla: "BRAND STRATEGY // IDENTITY DEVELOPMENT",
     category: "Branding & Design",
     image: "/images/service_branding.jpg",
     badge: "BRAND STRATEGY // IDENTITY DEVELOPMENT",
+    metaTitle: "Brand Strategy & Development Services | RND Technosoft",
+    metaDescription:
+      "Build a memorable brand with RND Technosoft. Explore brand strategy, brand positioning, logo design, visual identity development and brand guidelines.",
   },
   "ui-ux-spatial-design": {
     baseId: "logo-design",
@@ -154,6 +167,7 @@ const SUBCATEGORY_CONFIGS: Record<string, SubcategoryConfig> = {
     category: "Branding & Design",
     image: "/images/service_branding.jpg",
     badge: "VISUAL IDENTITY // BRAND RECOGNITION",
+    metaTitle: "Logo & Brand Identity Design Services | RND Technosoft",
   },
   "graphic-design": {
     baseId: "graphic-design",
@@ -165,30 +179,51 @@ const SUBCATEGORY_CONFIGS: Record<string, SubcategoryConfig> = {
     category: "Branding & Design",
     image: "/images/service_branding.jpg",
     badge: "CREATIVE VISUALS // GRAPHIC DESIGN",
+    metaTitle: "Graphic Design Services | RND Technosoft",
   },
   "marketing-collateral": {
     baseId: "marketing-collateral",
-    title: "Marketing Collateral Design",
-    highlightText: "Brand Communication Materials",
+    title: "MARKETING COLLATERAL DESIGN & BRAND COMMUNICATION",
+    highlightText: "",
     tagline:
-      "Design professional marketing materials including brochures, catalogues, presentations, and business stationery.",
+      "Every business has a story to tell. The right marketing materials help you communicate it with clarity, professionalism and visual impact.",
     sla: "BRAND COMMUNICATION // MARKETING COLLATERAL",
     category: "Branding & Design",
     image: "/images/service_branding.jpg",
     badge: "BRAND COMMUNICATION // MARKETING COLLATERAL",
+    metaTitle: "Marketing Collateral Design Services | RND Technosoft",
+    metaDescription:
+      "Get professional marketing collateral design from RND Technosoft, including company profiles, brochures, product catalogues, flyers, presentations and business stationery.",
   },
 
   // Media Production
   "commercial-video-production": {
-    baseId: "commercial-media",
-    title: "Commercial Video & Brand Films",
-    highlightText: "& 8K Cinema Production",
+    baseId: "professional-videography",
+    title: "PROFESSIONAL VIDEOGRAPHY & CREATIVE VIDEO PRODUCTION",
+    highlightText: "",
     tagline:
-      "End-to-end commercial productions: scriptwriting, 4K/8K cinematography, sound engineering, and multi-platform promotional edits.",
-    sla: "CINEMA-GRADE 4K/8K",
+      "Every brand has a story worth showing. Professional videography transforms your ideas, products and experiences into compelling visual stories that capture attention and leave a lasting impression.",
+    sla: "VISUAL STORYTELLING // VIDEO PRODUCTION",
     category: "Media Production",
     image: "/images/service_media.jpg",
-    badge: "RED 8K // CINEMA PRODUCTION",
+    badge: "VISUAL STORYTELLING // VIDEO PRODUCTION",
+    metaTitle: "Professional Videography & Video Production Services | RND Technosoft",
+    metaDescription:
+      "RND Technosoft offers professional videography services, including corporate films, product videos, promotional videos, event coverage and social media video production.",
+  },
+  "commercial-photography": {
+    baseId: "professional-photography",
+    title: "PROFESSIONAL PHOTOGRAPHY & VISUAL BRAND STORYTELLING",
+    highlightText: "",
+    tagline:
+      "Great photography gives your brand a powerful visual identity. From showcasing products and capturing business environments to documenting people and experiences, professional photography helps communicate your brand's story through impactful imagery.",
+    sla: "VISUAL STORYTELLING // PROFESSIONAL PHOTOGRAPHY",
+    category: "Media Production",
+    image: "/images/showreel_thumb.jpg",
+    badge: "VISUAL STORYTELLING // PROFESSIONAL PHOTOGRAPHY",
+    metaTitle: "Professional Photography Services & Commercial Photography | RND Technosoft",
+    metaDescription:
+      "Explore professional photography services by RND Technosoft, including product photography, corporate portraits, lifestyle photography, brand shoots and event coverage.",
   },
   "motion-graphics-3d-cgi": {
     baseId: "commercial-media",
@@ -200,6 +235,43 @@ const SUBCATEGORY_CONFIGS: Record<string, SubcategoryConfig> = {
     category: "Media Production",
     image: "/images/service_media.jpg",
     badge: "BLENDER 3D // UNREAL ENGINE",
+    metaTitle: "Video Editing & Post-Production Services | RND Technosoft",
+  },
+  "video-editing": {
+    baseId: "commercial-media",
+    title: "Video Editing & Post-Production",
+    highlightText: "& Color Grading",
+    tagline:
+      "Professional video editing, color grading, sound design, and finishing touches that turn raw footage into cinematic stories.",
+    sla: "POST-PRODUCTION MASTERING",
+    category: "Media Production",
+    image: "/images/service_media.jpg",
+    badge: "POST-PRODUCTION",
+    metaTitle: "Video Editing & Post-Production Services | RND Technosoft",
+  },
+  "creative-production": {
+    baseId: "commercial-media",
+    title: "Creative Media Production",
+    highlightText: "& Campaign Execution",
+    tagline:
+      "End-to-end creative concepts, multimedia assets, and multi-platform campaign media production.",
+    sla: "FULL PRODUCTION SUITE",
+    category: "Media Production",
+    image: "/images/project_forest_film.jpg",
+    badge: "CREATIVE PRODUCTION",
+    metaTitle: "Creative Media Production Services | RND Technosoft",
+  },
+  "dedicated-squads": {
+    baseId: "commercial-media",
+    title: "Creative Media Production",
+    highlightText: "& Dedicated Creative Squads",
+    tagline:
+      "Dedicated multi-disciplinary creative squads for end-to-end media and campaign production.",
+    sla: "DEDICATED TEAMS",
+    category: "Media Production",
+    image: "/images/project_forest_film.jpg",
+    badge: "CREATIVE SQUADS",
+    metaTitle: "Creative Media Production Services | RND Technosoft",
   },
 };
 
@@ -257,6 +329,8 @@ function resolveService(
       category: customConfig.category || catMeta.categoryName,
       image: customConfig.image || baseService.image,
       badge: customConfig.badge || baseService.badge,
+      metaTitle: customConfig.metaTitle || baseService.metaTitle,
+      metaDescription: customConfig.metaDescription || baseService.metaDescription,
     };
 
     return {
@@ -331,10 +405,15 @@ export function generateStaticParams() {
       "ui-ux-spatial-design",
       "brand-identity",
       "commercial-media",
+      "marketing-collateral",
+      "graphic-design",
     ],
     "media-production": [
       "commercial-video-production",
+      "commercial-photography",
       "motion-graphics-3d-cgi",
+      "video-editing",
+      "creative-production",
       "commercial-media",
       "dedicated-squads",
     ],
@@ -360,13 +439,51 @@ export async function generateMetadata({
 
   if (!resolved) {
     return {
-      title: "Service Not Found | RnD Technosoft",
+      title: "Service Not Found | RND Technosoft",
+      robots: "noindex, nofollow",
     };
   }
 
+  const title = resolved.service.metaTitle ||
+    `${resolved.service.title} ${resolved.service.highlightText} | ${resolved.parentLabel}`;
+  const description = resolved.service.metaDescription || resolved.service.tagline;
+  const pageUrl = `https://rndtechnosoft.com/${category}/${subcategory}`;
+
   return {
-    title: `${resolved.service.title} ${resolved.service.highlightText} | ${resolved.parentLabel}`,
-    description: resolved.service.tagline,
+    title,
+    description,
+    keywords: [
+      resolved.service.title,
+      resolved.parentLabel,
+      resolved.service.category,
+      resolved.service.badge,
+      "RND Technosoft",
+      ...resolved.service.techStack.map((t) => t.name),
+    ],
+    alternates: {
+      canonical: pageUrl,
+    },
+    openGraph: {
+      title,
+      description,
+      url: pageUrl,
+      siteName: "RND Technosoft",
+      type: "website",
+      images: [
+        {
+          url: resolved.service.image || "/images/nebula_cloud_os_3d.jpg",
+          width: 1200,
+          height: 630,
+          alt: `${resolved.service.title} — RND Technosoft`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [resolved.service.image || "/images/nebula_cloud_os_3d.jpg"],
+    },
   };
 }
 

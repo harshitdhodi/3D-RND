@@ -507,6 +507,143 @@ export function FullColorToolLogo({
     );
   }
 
+  // Adobe Audition
+  if (norm.includes("audition")) {
+    return (
+      <svg className={className} viewBox="0 0 24 24">
+        <rect width="24" height="24" rx="4" fill="#00003A" />
+        <text
+          x="4.2"
+          y="16.5"
+          fill="#00E1D4"
+          fontFamily="system-ui, sans-serif"
+          fontWeight="bold"
+          fontSize="11.5"
+        >
+          Au
+        </text>
+      </svg>
+    );
+  }
+
+  // Cinema 4D
+  if (norm.includes("cinema") || norm.includes("c4d")) {
+    return (
+      <svg className={className} viewBox="0 0 24 24">
+        <rect width="24" height="24" rx="4" fill="#011A6B" />
+        <path d="M12 5l5 3v8l-5 3-5-3V8l5-3z" fill="#4D7CFE" />
+        <text x="5" y="16" fill="#FFFFFF" fontFamily="system-ui, sans-serif" fontWeight="bold" fontSize="7">
+          C4D
+        </text>
+      </svg>
+    );
+  }
+
+  // Adobe Lightroom
+  if (norm.includes("lightroom")) {
+    return (
+      <svg className={className} viewBox="0 0 24 24">
+        <rect width="24" height="24" rx="4" fill="#001E36" />
+        <text
+          x="4.2"
+          y="16.5"
+          fill="#31A8FF"
+          fontFamily="system-ui, sans-serif"
+          fontWeight="bold"
+          fontSize="11.5"
+        >
+          Lr
+        </text>
+      </svg>
+    );
+  }
+
+  // Capture One
+  if (norm.includes("capture")) {
+    return (
+      <svg className={className} viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="11" fill="#0E1318" stroke="#E0162B" strokeWidth="1.5" />
+        <circle cx="12" cy="12" r="5" fill="none" stroke="#E0162B" strokeWidth="1.5" />
+        <circle cx="12" cy="12" r="1.5" fill="#E0162B" />
+      </svg>
+    );
+  }
+
+  // Adobe Bridge
+  if (norm.includes("bridge")) {
+    return (
+      <svg className={className} viewBox="0 0 24 24">
+        <rect width="24" height="24" rx="4" fill="#2A0917" />
+        <text
+          x="4.2"
+          y="16.5"
+          fill="#FF5C00"
+          fontFamily="system-ui, sans-serif"
+          fontWeight="bold"
+          fontSize="11.5"
+        >
+          Br
+        </text>
+      </svg>
+    );
+  }
+
+  // Adobe Camera Raw
+  if (norm.includes("cameraraw") || norm.includes("camera raw")) {
+    return (
+      <svg className={className} viewBox="0 0 24 24">
+        <rect width="24" height="24" rx="4" fill="#1A1A2E" />
+        <circle cx="12" cy="12" r="6" fill="none" stroke="#00C8FF" strokeWidth="2" />
+        <circle cx="12" cy="12" r="2" fill="#00C8FF" />
+      </svg>
+    );
+  }
+
+  // Adobe InDesign
+  if (norm.includes("indesign")) {
+    return (
+      <svg className={className} viewBox="0 0 24 24">
+        <rect width="24" height="24" rx="4" fill="#330011" />
+        <text
+          x="4.2"
+          y="16.5"
+          fill="#FF3366"
+          fontFamily="system-ui, sans-serif"
+          fontWeight="bold"
+          fontSize="11.5"
+        >
+          Id
+        </text>
+      </svg>
+    );
+  }
+
+  // Canva
+  if (norm.includes("canva")) {
+    return (
+      <svg className={className} viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="11" fill="#7D2AE7" />
+        <path
+          fill="#FFFFFF"
+          d="M12 7.5c-2.5 0-4.5 2-4.5 4.5s2 4.5 4.5 4.5c1 0 2-.3 2.7-1l-.7-1c-.5.5-1.2.8-2 .8-1.4 0-2.5-1.1-2.5-2.5h5.5c0-.1.1-.3.1-.5 0-2-1.5-3.8-3.6-3.8zm-2.5 3.8c0-1.3 1.1-2.3 2.5-2.3s2.5 1 2.5 2.3h-5z"
+        />
+      </svg>
+    );
+  }
+
+  // Pinterest
+  if (norm.includes("pinterest")) {
+    return (
+      <svg className={className} viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="11" fill="#BD081C" />
+        <path
+          fill="#FFFFFF"
+          d="M12 3.5c-4.7 0-8.5 3.8-8.5 8.5 0 3.6 2.2 6.7 5.4 7.9-.1-.7-.1-1.7 0-2.5l1-4.2s-.2-.5-.2-1.2c0-1.1.7-2 1.5-2 .7 0 1 .5 1 1.2 0 .7-.5 1.8-.7 2.8-.2.8.4 1.5 1.2 1.5 1.5 0 2.5-1.9 2.5-4.1 0-1.7-1.1-3-3.2-3-2.3 0-3.8 1.7-3.8 3.7 0 .7.2 1.2.5 1.6l-.3 1c-.1.2-.2.3-.4.2-.9-.4-1.3-1.4-1.3-2.6 0-1.9 1.6-4.2 4.8-4.2 2.6 0 4.3 1.9 4.3 3.9 0 2.7-1.5 4.7-3.7 4.7-.7 0-1.4-.4-1.7-.9l-.5 1.8c-.2.7-.6 1.3-1 1.9.5.1 1 .2 1.5.2 4.7 0 8.5-3.8 8.5-8.5S16.7 3.5 12 3.5z"
+        />
+      </svg>
+    );
+  }
+
   // Fallback
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="#FFD400" strokeWidth="2">
@@ -621,7 +758,7 @@ const SERVICE_DIVISIONS: ServiceDivision[] = [
 // SUBCATEGORY SPECIFIC TAILORED TOOLS (Only the tools used for that subcategory)
 // ============================================================================
 
-const SUBCATEGORY_TOOLS_MAP: Record<string, { title: string; subtitle: string; tools: ToolItem[] }> = {
+const SUBCATEGORY_TOOLS_MAP: Record<string, { title: string; subtitle: string; label?: string; tools: ToolItem[] }> = {
   // Technology Solutions subcategories
   "web-development": {
     title: "CUSTOM WEB DEVELOPMENT TECH STACK",
@@ -755,13 +892,16 @@ const SUBCATEGORY_TOOLS_MAP: Record<string, { title: string; subtitle: string; t
 
   // Branding & Design subcategories
   "brand-identity-systems": {
-    title: "BRAND IDENTITY & DESIGN SYSTEMS STACK",
-    subtitle: "Precision vector identity creation, typography systems, and kinetic brand motion assets.",
+    title: "BRAND IDENTITY & DESIGN STACK",
+    subtitle: "Creative design and collaboration tools that support brand exploration, visual development and consistent identity systems.",
+    label: "CREATIVE DIRECTION // DESIGN STACK",
     tools: [
-      { id: "figma-brand", name: "Figma", tagline: "Vector Design Tokens & Guides" },
-      { id: "illustrator", name: "Adobe Illustrator", tagline: "Mathematical Vector Geometry" },
-      { id: "photoshop", name: "Adobe Photoshop", tagline: "Brand Imagery & Retouching" },
-      { id: "after-effects-design", name: "After Effects", tagline: "Kinetic Logo Animation" },
+      { id: "illustrator", name: "Adobe Illustrator", tagline: "Logo & Vector Identity Design" },
+      { id: "photoshop", name: "Adobe Photoshop", tagline: "Image Editing & Visual Assets" },
+      { id: "figma-brand", name: "Figma", tagline: "Brand Systems & Design Collaboration" },
+      { id: "indesign", name: "Adobe InDesign", tagline: "Brand Guidelines & Editorial Layouts" },
+      { id: "canva", name: "Canva", tagline: "Marketing & Brand Collateral" },
+      { id: "pinterest", name: "Pinterest", tagline: "Visual Research & Creative Inspiration" },
     ],
   },
   "ui-ux-spatial-design": {
@@ -775,16 +915,42 @@ const SUBCATEGORY_TOOLS_MAP: Record<string, { title: string; subtitle: string; t
       { id: "after-effects-design", name: "After Effects", tagline: "Micro-Interaction Timing" },
     ],
   },
+  "marketing-collateral": {
+    title: "MARKETING COLLATERAL DESIGN STACK",
+    subtitle: "Creative tools for developing professional layouts, branded documents and production-ready marketing materials.",
+    label: "CREATIVE PRODUCTION // DESIGN TOOLS",
+    tools: [
+      { id: "indesign", name: "Adobe InDesign", tagline: "Brochures, Catalogues & Editorial Layouts" },
+      { id: "illustrator", name: "Adobe Illustrator", tagline: "Vector Graphics & Print Design" },
+      { id: "photoshop", name: "Adobe Photoshop", tagline: "Image Editing & Visual Assets" },
+      { id: "figma-brand", name: "Figma", tagline: "Digital Layouts & Presentation Design" },
+      { id: "canva", name: "Canva", tagline: "Marketing Materials & Promotional Designs" },
+    ],
+  },
 
   // Media Production subcategories
   "commercial-video-production": {
-    title: "COMMERCIAL VIDEO PRODUCTION STACK",
-    subtitle: "8K cinema camera sensors, DaVinci Resolve color science, and multi-track narrative editing.",
+    title: "PROFESSIONAL VIDEO PRODUCTION STACK",
+    subtitle: "Creative production and editing tools that support video planning, filming, post-production and final delivery.",
+    label: "PRODUCTION WORKFLOW // CREATIVE TOOLS",
     tools: [
-      { id: "red-cinema", name: "RED Digital Cinema (8K)", tagline: "8K RAW Film Sensors" },
-      { id: "premiere", name: "Adobe Premiere Pro", tagline: "Cinema Narrative Assembly" },
-      { id: "davinci", name: "DaVinci Resolve", tagline: "Color Science & Mastering" },
-      { id: "after-effects-media", name: "Adobe After Effects", tagline: "Motion Tracking & Titles" },
+      { id: "premiere", name: "Adobe Premiere Pro", tagline: "Professional Video Editing" },
+      { id: "after-effects-media", name: "Adobe After Effects", tagline: "Motion Graphics & Visual Effects" },
+      { id: "davinci", name: "DaVinci Resolve", tagline: "Colour Grading & Post-Production" },
+      { id: "audition", name: "Adobe Audition", tagline: "Audio Editing & Enhancement" },
+      { id: "cinema-4d", name: "Cinema 4D", tagline: "3D Visuals & Motion Design" },
+    ],
+  },
+  "commercial-photography": {
+    title: "PROFESSIONAL PHOTOGRAPHY STACK",
+    subtitle: "Professional photography and editing tools for capturing, refining and delivering high-quality visual assets.",
+    label: "VISUAL PRODUCTION // CREATIVE TOOLS",
+    tools: [
+      { id: "lightroom", name: "Adobe Lightroom", tagline: "Photo Editing & Colour Correction" },
+      { id: "photoshop", name: "Adobe Photoshop", tagline: "Retouching & Image Enhancement" },
+      { id: "capture-one", name: "Capture One", tagline: "Professional Photo Processing" },
+      { id: "bridge", name: "Adobe Bridge", tagline: "Image Organisation & Asset Management" },
+      { id: "camera-raw", name: "Adobe Camera Raw", tagline: "RAW Image Processing" },
     ],
   },
   "motion-graphics-3d-cgi": {
@@ -886,7 +1052,7 @@ export default function ServiceUniverseSection({
           <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>VERIFIED PRODUCTION TECH STACK</span>
+              <span>{subcategoryConfig.label || "VERIFIED PRODUCTION TECH STACK"}</span>
             </div>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.05] text-white">
               {subcategoryConfig.title.split(" ").slice(0, -1).join(" ")}{" "}

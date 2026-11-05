@@ -59,11 +59,28 @@ export interface ServiceDetail {
   };
   faqs: ServiceFaq[];
   beforeAfter?: BeforeAfterData;
+  // ── Optional content overrides for per-service page customization ──
+  metaTitle?: string;
+  metaDescription?: string;
+  deliverablesCardLabel?: string;
+  deliverablesCardDescription?: string;
+  deliverablesCtaLabel?: string;
+  qualityCardLabel?: string;
+  quoteAuthor?: string;
+  contactCardLabel?: string;
+  contactCardHeading?: string;
+  contactCardDescription?: string;
+  contactCardHref?: string;
+  scopeSectionLabel?: string;
+  scopeSectionHeading?: string;
+  scopeSectionDescription?: string;
+  techStackSectionLabel?: string;
 }
 
 export const servicesData: ServiceDetail[] = [
   {
     id: "web-cloud",
+    metaTitle: "Custom Website Development Services | RND Technosoft",
     index: "[01]",
     title: "CUSTOM WEB DEVELOPMENT",
     highlightText: "ENGINEERED FOR PERFORMANCE",
@@ -293,6 +310,7 @@ export const servicesData: ServiceDetail[] = [
   },
   {
     id: "seo-search",
+    metaTitle: "SEO Services | Search Engine Optimization | RND Technosoft",
     index: "[02]",
     title: "SEARCH ENGINE OPTIMIZATION",
     highlightText: "GET FOUND. GET CHOSEN. GROW ORGANICALLY",
@@ -450,6 +468,7 @@ export const servicesData: ServiceDetail[] = [
   },
   {
     id: "mobile-apps",
+    metaTitle: "Mobile App Development Services | RND Technosoft",
     index: "[03]",
     title: "MOBILE APP DEVELOPMENT",
     highlightText: "BUILT TO CONNECT. DESIGNED TO PERFORM",
@@ -620,6 +639,7 @@ export const servicesData: ServiceDetail[] = [
   },
   {
     id: "ecommerce-platforms",
+    metaTitle: "E-commerce Website Development Services | RND Technosoft",
     index: "[04]",
     title: "E-COMMERCE WEBSITE DEVELOPMENT",
     highlightText: "BUILT TO SELL. DESIGNED TO GROW",
@@ -945,9 +965,30 @@ export const servicesData: ServiceDetail[] = [
         answer: "We typically present 2-3 distinct logo concepts based on the agreed brand direction. The number of concepts and revision rounds are defined during project scoping.",
       },
     ],
+    // ── Per-service page content overrides ──
+    metaTitle: "Brand Strategy & Development Services | RND Technosoft",
+    metaDescription:
+      "Build a memorable brand with RND Technosoft. Explore brand strategy, brand positioning, logo design, visual identity development and brand guidelines.",
+    deliverablesCardLabel: "BRAND DEVELOPMENT // DELIVERABLES",
+    deliverablesCardDescription:
+      "A structured brand development approach that gives your business a clear identity, consistent messaging and a visual direction across customer touchpoints.",
+    deliverablesCtaLabel: "REQUEST A BRAND STRATEGY",
+    qualityCardLabel: "BRAND QUALITY & DESIGN FRAMEWORK",
+    quoteAuthor: "RND Technosoft • Brand Strategy & Development",
+    contactCardLabel: "BRAND CONSULTATION",
+    contactCardHeading: "SPEAK WITH OUR CREATIVE TEAM",
+    contactCardDescription:
+      "Let's discuss your brand vision, business positioning and identity development requirements.",
+    contactCardHref: "/contact-us?intent=branding",
+    scopeSectionLabel: "BRAND IDENTITY // EXECUTION MATRIX",
+    scopeSectionHeading: "FROM BRAND VISION TO A DISTINCTIVE IDENTITY.",
+    scopeSectionDescription:
+      "We combine business understanding, creative direction and visual design to build a brand identity that communicates your value consistently.",
+    techStackSectionLabel: "CREATIVE DIRECTION // DESIGN STACK",
   },
   {
     id: "social-media",
+    metaTitle: "Social Media Marketing Services | RND Technosoft",
     index: "[06]",
     title: "SOCIAL MEDIA MARKETING",
     highlightText: "STRATEGY & BRAND GROWTH",
@@ -1105,6 +1146,7 @@ export const servicesData: ServiceDetail[] = [
   },
   {
     id: "ppc-advertising",
+    metaTitle: "PPC & Paid Advertising Services | RND Technosoft",
     index: "[07]",
     title: "PERFORMANCE PPC & PAID ADVERTISING",
     highlightText: "BUILT FOR GROWTH",
@@ -1263,6 +1305,7 @@ export const servicesData: ServiceDetail[] = [
   },
   {
     id: "content-strategy",
+    metaTitle: "Content Marketing Services | RND Technosoft",
     index: "[08]",
     title: "CONTENT MARKETING & STRATEGIC STORYTELLING",
     highlightText: "THAT BUILDS BRAND AUTHORITY",
@@ -1422,6 +1465,7 @@ export const servicesData: ServiceDetail[] = [
   },
   {
     id: "logo-design",
+    metaTitle: "Logo & Brand Identity Design Services | RND Technosoft",
     index: "[10]",
     title: "LOGO DESIGN & BRAND IDENTITY DEVELOPMENT",
     highlightText: "",
@@ -1571,6 +1615,7 @@ export const servicesData: ServiceDetail[] = [
   },
   {
     id: "graphic-design",
+    metaTitle: "Graphic Design Services | RND Technosoft",
     index: "[11]",
     title: "GRAPHIC DESIGN & CREATIVE VISUAL COMMUNICATION",
     highlightText: "",
@@ -1866,9 +1911,30 @@ export const servicesData: ServiceDetail[] = [
         answer: "Timelines depend on material complexity, page count, content readiness and revision cycles. A brochure typically takes 3-4 weeks, while simpler materials may be faster.",
       },
     ],
+    // ── Per-service page content overrides ──
+    metaTitle: "Marketing Collateral Design Services | RND Technosoft",
+    metaDescription:
+      "Get professional marketing collateral design from RND Technosoft, including company profiles, brochures, product catalogues, flyers, presentations and business stationery.",
+    deliverablesCardLabel: "BRAND COMMUNICATION // DESIGN DELIVERABLES",
+    deliverablesCardDescription:
+      "Professionally designed marketing materials that keep your brand communication consistent across every customer touchpoint.",
+    deliverablesCtaLabel: "REQUEST A DESIGN QUOTE",
+    qualityCardLabel: "DESIGN QUALITY // BRAND CONSISTENCY",
+    quoteAuthor: "RND Technosoft • Marketing Collateral Design",
+    contactCardLabel: "CREATIVE CONSULTATION",
+    contactCardHeading: "SPEAK WITH OUR DESIGN TEAM",
+    contactCardDescription:
+      "Need professional marketing materials for your business? Let's create designs that communicate your value.",
+    contactCardHref: "/contact-us?intent=branding",
+    scopeSectionLabel: "BRAND COMMUNICATION // DESIGN EXECUTION",
+    scopeSectionHeading: "TURN YOUR BUSINESS STORY INTO POWERFUL BRAND MATERIALS.",
+    scopeSectionDescription:
+      "We transform business information, product details and marketing messages into professionally structured visual materials that inform, engage and support business growth.",
+    techStackSectionLabel: "CREATIVE PRODUCTION // DESIGN TOOLS",
   },
   {
     id: "commercial-media",
+    metaTitle: "Professional Videography Services | RND Technosoft",
     index: "[13]",
     title: "COMMERCIAL FILM &",
     highlightText: "STUDIO PHOTOGRAPHY",
@@ -1997,6 +2063,7 @@ export const servicesData: ServiceDetail[] = [
   },
   {
     id: "dedicated-squads",
+    metaTitle: "Creative Media Production Services | RND Technosoft",
     index: "[08]",
     title: "DEDICATED AGENCY SQUADS &",
     highlightText: "ENTERPRISE RETAINERS",
@@ -2125,6 +2192,7 @@ export const servicesData: ServiceDetail[] = [
   },
   {
     id: "enterprise-software",
+    metaTitle: "Custom Software Development Services | RND Technosoft",
     index: "[05]",
     title: "CUSTOM SOFTWARE DEVELOPMENT",
     highlightText: "& BUSINESS AUTOMATION SOLUTIONS",
@@ -2462,6 +2530,346 @@ export const servicesData: ServiceDetail[] = [
         answer: "The cost depends on the platform, design requirements, product catalogue size, custom features, integrations and overall project scope. Contact our team with your requirements to receive a customised quotation.",
       },
     ],
+  },
+  {
+    id: "professional-videography",
+    index: "[14]",
+    title: "PROFESSIONAL VIDEOGRAPHY & CREATIVE VIDEO PRODUCTION",
+    highlightText: "",
+    tagline:
+      "Every brand has a story worth showing. Professional videography transforms your ideas, products and experiences into compelling visual stories that capture attention and leave a lasting impression.",
+    category: "Media Production",
+    image: "/images/service_media.jpg",
+    sla: "VISUAL STORYTELLING // VIDEO PRODUCTION",
+    avatarIcon: "🎬",
+    badge: "VISUAL STORYTELLING // VIDEO PRODUCTION",
+    heroStats: [
+      { value: "Corporate", label: "& Brand Videos", desc: "Professional business video production" },
+      { value: "Product", label: "& Promotional Videos", desc: "Engaging product showcases" },
+      { value: "Business", label: "& Event Coverage", desc: "Event and activity documentation" },
+      { value: "Edited", label: "Videos for Digital Platforms", desc: "Platform-ready content" },
+    ],
+    overview: [
+      "Every brand has a story worth showing. Professional videography transforms your ideas, products and experiences into compelling visual stories that capture attention and leave a lasting impression.",
+      "From corporate films and promotional videos to product showcases, brand campaigns and social media content, RND Technosoft creates engaging video experiences through thoughtful planning, professional filming and creative execution.",
+    ],
+    specs: [
+      "Corporate videos: company films, brand stories, business presentations",
+      "Product videos: showcases, demonstrations, promotional content",
+      "Event coverage: corporate events, launches, conferences, exhibitions",
+      "Social media: short-form videos, reels, behind-the-scenes content",
+    ],
+    architecturePillars: [
+      {
+        title: "CORPORATE & BRAND VIDEOGRAPHY",
+        desc: "Create corporate films, company introduction videos, brand stories and business presentations that showcase your organisation, people, culture and capabilities.",
+        iconName: "Building",
+        metrics: "Corporate Video Production",
+        tech: ["Corporate Films", "Brand Stories", "Company Videos", "Business Presentations"],
+      },
+      {
+        title: "PRODUCT & PROMOTIONAL VIDEOGRAPHY",
+        desc: "Capture your products, services and offerings through engaging product showcases, promotional videos, demonstrations and campaign visuals.",
+        iconName: "Package",
+        metrics: "Product Video Production",
+        tech: ["Product Showcases", "Promotional Videos", "Demos", "Campaign Visuals"],
+      },
+      {
+        title: "EVENT & BUSINESS COVERAGE",
+        desc: "Document corporate events, launches, conferences, exhibitions, business activities and special occasions through professional video coverage.",
+        iconName: "Calendar",
+        metrics: "Event Video Coverage",
+        tech: ["Event Coverage", "Launches", "Conferences", "Corporate Activities"],
+      },
+      {
+        title: "CREATIVE & SOCIAL MEDIA VIDEOGRAPHY",
+        desc: "Produce short-form videos, reels, behind-the-scenes footage, promotional clips and platform-ready video content designed for digital engagement.",
+        iconName: "Video",
+        metrics: "Social Media Video Production",
+        tech: ["Short-Form Videos", "Reels", "Behind-the-Scenes", "Digital Content"],
+      },
+    ],
+    techStack: [
+      { name: "Adobe Premiere Pro", role: "Professional Video Editing", badge: "Editing" },
+      { name: "Adobe After Effects", role: "Motion Graphics & Visual Effects", badge: "VFX" },
+      { name: "DaVinci Resolve", role: "Colour Grading & Post-Production", badge: "Post" },
+      { name: "Adobe Audition", role: "Audio Editing & Enhancement", badge: "Audio" },
+      { name: "Cinema 4D", role: "3D Visuals & Motion Design", badge: "3D" },
+    ],
+    processSteps: [
+      {
+        phase: "Phase 01",
+        title: "Concept & Planning",
+        duration: "Week 1",
+        deliverables: [
+          "Creative concept and video direction",
+          "Storyboard and shot planning",
+          "Production schedule and logistics",
+          "Location and talent coordination",
+        ],
+      },
+      {
+        phase: "Phase 02",
+        title: "Filming & Production",
+        duration: "Week 2",
+        deliverables: [
+          "Professional video filming",
+          "Multi-angle coverage",
+          "Audio recording",
+          "Behind-the-scenes capture",
+        ],
+      },
+      {
+        phase: "Phase 03",
+        title: "Editing & Post-Production",
+        duration: "Weeks 3 - 4",
+        deliverables: [
+          "Video editing and assembly",
+          "Colour correction and grading",
+          "Motion graphics and visual effects",
+          "Audio mixing and enhancement",
+        ],
+      },
+      {
+        phase: "Phase 04",
+        title: "Delivery & Formats",
+        duration: "Week 5",
+        deliverables: [
+          "Final video delivery in required formats",
+          "Platform-ready versions",
+          "Source files and project assets",
+          "Usage guidance",
+        ],
+      },
+    ],
+    deliverables: [
+      { item: "Corporate & Brand Videos", detail: "Professional corporate films, brand stories and business videos", standard: "HD & 4K" },
+      { item: "Product & Promotional Videos", detail: "Engaging product showcases and promotional video content", standard: "Multi-Format" },
+      { item: "Business & Event Coverage", detail: "Professional video coverage of corporate events and activities", standard: "Full Coverage" },
+      { item: "Edited Videos for Digital Platforms", detail: "Platform-ready edited videos for social media and digital channels", standard: "Platform-Ready" },
+    ],
+    caseStudy: {
+      client: "RND Technosoft",
+      metric: "Professional Videography",
+      desc: "A powerful video does more than capture a moment. It communicates a story, creates an experience and brings your brand closer to its audience.",
+      tag: "PRODUCTION QUALITY // CREATIVE EXECUTION",
+    },
+    faqs: [
+      {
+        question: "What types of videos does RND Technosoft produce?",
+        answer: "We produce corporate films, brand videos, product showcases, promotional videos, event coverage, social media content, reels and other business video content tailored to your requirements.",
+      },
+      {
+        question: "Do you handle the complete production process?",
+        answer: "Yes. We manage the full production workflow including concept development, planning, filming, editing, colour grading, audio enhancement and final delivery in the required formats.",
+      },
+      {
+        question: "Can you film at our office, factory or event location?",
+        answer: "Yes. We can film on-location at your premises, events, studios or other suitable locations. Travel, permits and logistics are discussed during project planning.",
+      },
+      {
+        question: "What video formats do you deliver?",
+        answer: "We deliver videos in formats suitable for web, social media, presentations and broadcast. This can include MP4, MOV and other formats based on your requirements.",
+      },
+      {
+        question: "Can you create short-form videos for social media?",
+        answer: "Yes. We produce short-form videos, reels and platform-ready content designed for Instagram, Facebook, LinkedIn, YouTube and other social media channels.",
+      },
+      {
+        question: "How long does video production take?",
+        answer: "Timelines depend on the video type, complexity, filming requirements and editing scope. A typical corporate video takes 2-4 weeks. We provide a project timeline after understanding your requirements.",
+      },
+    ],
+    // ── Per-service page content overrides ──
+    metaTitle: "Professional Videography Services | RND Technosoft",
+    metaDescription:
+      "RND Technosoft offers professional videography services, including corporate films, product videos, promotional videos, event coverage and social media video production.",
+    deliverablesCardLabel: "VIDEO PRODUCTION // PROJECT DELIVERABLES",
+    deliverablesCardDescription:
+      "Professionally produced video content tailored to your brand, audience and communication objectives.",
+    deliverablesCtaLabel: "REQUEST A VIDEO PRODUCTION QUOTE",
+    qualityCardLabel: "PRODUCTION QUALITY // CREATIVE EXECUTION",
+    quoteAuthor: "RND Technosoft • Professional Videography",
+    contactCardLabel: "PRODUCTION CONSULTATION",
+    contactCardHeading: "SPEAK WITH OUR CREATIVE TEAM",
+    contactCardDescription:
+      "Have a video concept in mind? Let's plan and produce something worth watching.",
+    contactCardHref: "/contact-us?intent=media",
+    scopeSectionLabel: "VIDEO PRODUCTION // CREATIVE EXECUTION",
+    scopeSectionHeading: "FROM CONCEPT TO CAMERA. BRING YOUR STORY TO LIFE.",
+    scopeSectionDescription:
+      "We combine creative direction, production planning and professional filming to create videos that present your brand, products and experiences with clarity and impact.",
+    techStackSectionLabel: "PRODUCTION WORKFLOW // CREATIVE TOOLS",
+  },
+  {
+    id: "professional-photography",
+    index: "[15]",
+    title: "PROFESSIONAL PHOTOGRAPHY & VISUAL BRAND STORYTELLING",
+    highlightText: "",
+    tagline:
+      "Great photography gives your brand a powerful visual identity. From showcasing products and capturing business environments to documenting people and experiences, professional photography helps communicate your brand's story through impactful imagery.",
+    category: "Media Production",
+    image: "/images/showreel_thumb.jpg",
+    sla: "VISUAL STORYTELLING // PROFESSIONAL PHOTOGRAPHY",
+    avatarIcon: "📸",
+    badge: "VISUAL STORYTELLING // PROFESSIONAL PHOTOGRAPHY",
+    heroStats: [
+      { value: "Product", label: "& Commercial Photography", desc: "Professional product visuals" },
+      { value: "Corporate", label: "& Professional Portraits", desc: "Business headshots and team photos" },
+      { value: "Lifestyle", label: "& Brand Photography", desc: "Brand storytelling imagery" },
+      { value: "Edited", label: "High-Resolution Images", desc: "Production-ready visual assets" },
+    ],
+    overview: [
+      "Great photography gives your brand a powerful visual identity. From showcasing products and capturing business environments to documenting people and experiences, professional photography helps communicate your brand's story through impactful imagery.",
+      "RND Technosoft creates visually compelling photographs for businesses, brands and marketing campaigns. Whether you need product photography, corporate portraits, lifestyle shoots, architectural images or promotional visuals, we focus on capturing every detail with creativity and purpose.",
+    ],
+    specs: [
+      "Product photography: product shots, catalogue images, commercial photography",
+      "Corporate photography: headshots, team portraits, workplace environments",
+      "Lifestyle & brand photography: brand campaigns, lifestyle imagery, promotional visuals",
+      "Architectural & event photography: interiors, commercial spaces, events, exhibitions",
+    ],
+    architecturePillars: [
+      {
+        title: "PRODUCT & COMMERCIAL PHOTOGRAPHY",
+        desc: "Showcase products through professional product shots, detailed close-ups, catalogue photography and promotional images designed for websites, e-commerce platforms and marketing campaigns.",
+        iconName: "Package",
+        metrics: "Product Photography",
+        tech: ["Product Shots", "Catalogue Photography", "Commercial Photography", "Promotional Images"],
+      },
+      {
+        title: "CORPORATE & BUSINESS PHOTOGRAPHY",
+        desc: "Capture professional headshots, team portraits, workplace environments, corporate activities and business events to present your organisation authentically.",
+        iconName: "Users",
+        metrics: "Corporate Photography",
+        tech: ["Headshots", "Team Portraits", "Workplace Photography", "Corporate Events"],
+      },
+      {
+        title: "LIFESTYLE & BRAND PHOTOGRAPHY",
+        desc: "Create storytelling-driven lifestyle images, brand campaigns and promotional visuals that communicate your brand personality, products and customer experiences.",
+        iconName: "Camera",
+        metrics: "Brand Photography",
+        tech: ["Lifestyle Photography", "Brand Campaigns", "Promotional Visuals", "Storytelling"],
+      },
+      {
+        title: "ARCHITECTURAL & EVENT PHOTOGRAPHY",
+        desc: "Photograph interiors, commercial spaces, buildings, exhibitions, conferences, launches and business events with attention to composition and detail.",
+        iconName: "Building",
+        metrics: "Architectural & Event Photography",
+        tech: ["Interior Photography", "Commercial Spaces", "Event Photography", "Exhibitions"],
+      },
+    ],
+    techStack: [
+      { name: "Adobe Lightroom", role: "Photo Editing & Colour Correction", badge: "Editing" },
+      { name: "Adobe Photoshop", role: "Retouching & Image Enhancement", badge: "Retouching" },
+      { name: "Capture One", role: "Professional Photo Processing", badge: "Processing" },
+      { name: "Adobe Bridge", role: "Image Organisation & Asset Management", badge: "Management" },
+      { name: "Adobe Camera Raw", role: "RAW Image Processing", badge: "RAW" },
+    ],
+    processSteps: [
+      {
+        phase: "Phase 01",
+        title: "Planning & Creative Direction",
+        duration: "Week 1",
+        deliverables: [
+          "Shoot concept and creative direction",
+          "Shot list and planning",
+          "Location and styling coordination",
+          "Props and requirements planning",
+        ],
+      },
+      {
+        phase: "Phase 02",
+        title: "Photography Session",
+        duration: "Week 2",
+        deliverables: [
+          "Professional photography session",
+          "Multiple angles and compositions",
+          "Lighting and set management",
+          "On-site review and adjustments",
+        ],
+      },
+      {
+        phase: "Phase 03",
+        title: "Editing & Post-Production",
+        duration: "Weeks 3 - 4",
+        deliverables: [
+          "Image selection and curation",
+          "Colour correction and editing",
+          "Retouching and enhancement",
+          "Format preparation",
+        ],
+      },
+      {
+        phase: "Phase 04",
+        title: "Delivery & Handover",
+        duration: "Week 5",
+        deliverables: [
+          "High-resolution image delivery",
+          "Web-optimised versions",
+          "Edited and retouched final images",
+          "Usage guidance",
+        ],
+      },
+    ],
+    deliverables: [
+      { item: "Product & Commercial Photography", detail: "Professional product shots and commercial photography for marketing and e-commerce", standard: "High-Resolution" },
+      { item: "Corporate & Professional Portraits", detail: "Professional headshots, team portraits and corporate photography", standard: "Professional Grade" },
+      { item: "Lifestyle & Brand Photography", detail: "Brand storytelling lifestyle images and promotional campaign photography", standard: "Campaign-Ready" },
+      { item: "Edited High-Resolution Images", detail: "Professionally edited and retouched high-resolution images", standard: "Production-Ready" },
+    ],
+    caseStudy: {
+      client: "RND Technosoft",
+      metric: "Professional Photography",
+      desc: "Every photograph tells a story. We capture the details, emotions and experiences that make your brand visually distinctive and memorable.",
+      tag: "VISUAL QUALITY // CREATIVE EXECUTION",
+    },
+    faqs: [
+      {
+        question: "What types of photography does RND Technosoft offer?",
+        answer: "We offer product photography, corporate portraits, lifestyle and brand photography, architectural photography, event coverage and commercial photography services tailored to your business needs.",
+      },
+      {
+        question: "Can you photograph at our office, studio or event location?",
+        answer: "Yes. We can photograph on-location at your premises, studio, events or other suitable locations. Travel, logistics and setup requirements are discussed during project planning.",
+      },
+      {
+        question: "Do you provide product photography for e-commerce?",
+        answer: "Yes. We create professional product photography suitable for e-commerce platforms, websites, catalogues and marketing materials with consistent lighting and clean backgrounds.",
+      },
+      {
+        question: "What image formats do you deliver?",
+        answer: "We deliver high-resolution edited images in JPEG, PNG and TIFF formats. We can also provide web-optimised versions and specific sizes based on your requirements.",
+      },
+      {
+        question: "Can you handle both photography and videography for our project?",
+        answer: "Yes. We can combine photography and videography services for a single project. This is often more efficient and ensures consistent visual direction across both formats.",
+      },
+      {
+        question: "How long does a photography session take?",
+        answer: "Session duration depends on the scope, number of subjects, locations and creative requirements. We provide a detailed schedule after understanding your project requirements.",
+      },
+    ],
+    // ── Per-service page content overrides ──
+    metaTitle: "Professional Photography Services | RND Technosoft",
+    metaDescription:
+      "Explore professional photography services by RND Technosoft, including product photography, corporate portraits, lifestyle photography, brand shoots and event coverage.",
+    deliverablesCardLabel: "PHOTOGRAPHY PRODUCTION // PROJECT DELIVERABLES",
+    deliverablesCardDescription:
+      "Professionally captured and edited photographs tailored to your brand, products and creative requirements.",
+    deliverablesCtaLabel: "REQUEST A PHOTOGRAPHY QUOTE",
+    qualityCardLabel: "VISUAL QUALITY // CREATIVE EXECUTION",
+    quoteAuthor: "RND Technosoft • Professional Photography",
+    contactCardLabel: "CREATIVE CONSULTATION",
+    contactCardHeading: "SPEAK WITH OUR CREATIVE TEAM",
+    contactCardDescription:
+      "Planning a product shoot, corporate photoshoot or brand campaign? Let's create visuals that make an impression.",
+    contactCardHref: "/contact-us?intent=media",
+    scopeSectionLabel: "PHOTOGRAPHY PRODUCTION // CREATIVE EXECUTION",
+    scopeSectionHeading: "CAPTURE THE DETAILS. COMMUNICATE THE STORY.",
+    scopeSectionDescription:
+      "We combine creative direction, thoughtful composition and professional photography techniques to create images that represent your brand with clarity and visual impact.",
+    techStackSectionLabel: "VISUAL PRODUCTION // CREATIVE TOOLS",
   },
 ];
 

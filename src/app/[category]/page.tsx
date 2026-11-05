@@ -28,13 +28,50 @@ export async function generateMetadata({
 
   if (!data) {
     return {
-      title: "Category Not Found | RnD Technosoft",
+      title: "Category Not Found | RND Technosoft",
+      robots: "noindex, nofollow",
     };
   }
 
+  const title =
+    data.metaTitle ||
+    `${data.heroTitle} ${data.heroHighlight} | ${data.breadcrumb || data.bannerTitle}`;
+  const description = data.metaDescription || data.heroDesc;
+  const pageUrl = `https://rndtechnosoft.com/${slug}`;
+
   return {
-    title: data.metaTitle || `${data.heroTitle} ${data.heroHighlight} | ${data.breadcrumb || data.bannerTitle}`,
-    description: data.metaDescription || data.heroDesc,
+    title,
+    description,
+    keywords: [
+      data.breadcrumb,
+      slug,
+      "RND Technosoft",
+      ...data.subcategories.map((s) => s.title),
+    ],
+    alternates: {
+      canonical: pageUrl,
+    },
+    openGraph: {
+      title,
+      description,
+      url: pageUrl,
+      siteName: "RND Technosoft",
+      type: "website",
+      images: [
+        {
+          url: data.bannerImage || "/images/nebula_cloud_os_3d.jpg",
+          width: 1200,
+          height: 630,
+          alt: `${data.breadcrumb} | RND Technosoft`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [data.bannerImage || "/images/nebula_cloud_os_3d.jpg"],
+    },
   };
 }
 

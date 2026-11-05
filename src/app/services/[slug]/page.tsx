@@ -44,11 +44,44 @@ export async function generateMetadata({
   const { slug } = await params;
   const service = getServiceById(slug);
 
+  const title = service
+    ? `${service.title} | RND Technosoft`
+    : "Service Redirect | RND Technosoft";
+  const description = service?.tagline || "Service capabilities overview";
+
   return {
-    title: service
-      ? `${service.title} | RnD Technosoft`
-      : "Service Redirect | RnD Technosoft",
-    description: service?.tagline || "Service capabilities overview",
+    title,
+    description,
+    keywords: [
+      service?.title,
+      service?.category,
+      "RND Technosoft",
+      "digital services",
+      service?.badge,
+    ].filter(Boolean) as string[],
+    openGraph: {
+      title,
+      description,
+      url: `https://rndtechnosoft.com/services/${slug}`,
+      siteName: "RND Technosoft",
+      type: "website",
+      images: service?.image
+        ? [
+            {
+              url: service.image,
+              width: 1200,
+              height: 630,
+              alt: `${service.title} — RND Technosoft`,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: service?.image ? [service.image] : undefined,
+    },
   };
 }
 

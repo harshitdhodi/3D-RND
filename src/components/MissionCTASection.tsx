@@ -6,6 +6,8 @@ import CyberButton from "@/components/CyberButton";
 
 export default function MissionCTASection() {
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -13,10 +15,46 @@ export default function MissionCTASection() {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
+    if (!formData.name || !formData.email || !formData.message) return;
+
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          service: formData.service,
+          message: formData.message,
+          source: "Homepage Mission CTA",
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Failed to send message. Please try again.");
+      }
+
+      setSubmitted(true);
+      setFormData({
+        name: "",
+        email: "",
+        service: "Websites & Web Apps",
+        message: "",
+      });
+      setTimeout(() => setSubmitted(false), 8000);
+    } catch (err: any) {
+      console.error("Mission CTA submit error:", err);
+      setErrorMessage(err.message || "Failed to send message.");
+      setTimeout(() => setErrorMessage(null), 8000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -172,11 +210,24 @@ export default function MissionCTASection() {
 
                     <button
                       type="submit"
-                      className="w-full py-3.5 px-6 rounded-lg bg-[#FFD400] hover:bg-[#ffe033] text-black font-bold text-sm transition-all shadow-[0_0_20px_rgba(255,212,0,0.3)] hover:shadow-[0_0_30px_rgba(255,212,0,0.5)] flex items-center justify-center gap-2 group"
+                      disabled={isSubmitting}
+                      className="w-full py-3.5 px-6 rounded-lg bg-[#FFD400] hover:bg-[#ffe033] disabled:opacity-50 text-black font-bold text-sm transition-all shadow-[0_0_20px_rgba(255,212,0,0.3)] hover:shadow-[0_0_30px_rgba(255,212,0,0.5)] flex items-center justify-center gap-2 group cursor-pointer"
                     >
-                      <span>SEND MESSAGE</span>
-                      <Send className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                      {isSubmitting ? (
+                        <>
+                          <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                          <span>SENDING...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>SEND MESSAGE</span>
+                          <Send className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                        </>
+                      )}
                     </button>
+                    {errorMessage && (
+                      <p className="text-xs text-red-400 font-mono mt-2 text-center">{errorMessage}</p>
+                    )}
                   </form>
                 )}
               </div>

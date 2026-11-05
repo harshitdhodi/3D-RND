@@ -158,7 +158,7 @@ export default function CategoryPageClient({ data }: { data: CategoryPageData })
   const subCount = data.subcategories.length;
 
   return (
-    <div className="relative min-h-screen bg-transparent text-white selection:bg-[#FFD400] selection:text-black font-archia">
+    <div className="relative min-h-screen bg-transparent text-white selection:bg-[#FFD400] selection:text-black font-archia overflow-x-hidden">
       <SpaceBackground />
       <Navbar />
 
@@ -170,20 +170,20 @@ export default function CategoryPageClient({ data }: { data: CategoryPageData })
         imageSrc={data.bannerImage}
       />
 
-      <main className="relative z-20 w-full bg-transparent overflow-hidden">
+      <main className="relative z-20 w-full max-w-full bg-transparent overflow-x-hidden">
         {/* ── Category Hero & Overview Strip ── */}
-        <section className="w-full px-4 sm:px-8 lg:px-12 pt-14 pb-8 border-b border-white/10">
-          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-10">
-            <div className="max-w-4xl">
+        <section className="w-full max-w-full px-4 sm:px-8 lg:px-12 pt-14 pb-8 border-b border-white/10 overflow-hidden">
+          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-8 pb-10">
+            <div className="flex-1 min-w-0 max-w-2xl xl:max-w-3xl">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/60 border border-[#FFD400]/40 text-[#FFD400] backdrop-blur-md">
                 <Icon className="w-3.5 h-3.5" />
                 <span>{data.divisionLabel}</span>
               </div>
-              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-[44px] xl:text-[52px] font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.1] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
-                <span className="block sm:whitespace-nowrap">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] xl:text-[46px] 2xl:text-[50px] font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.1] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
+                <span className="block break-words">
                   {data.heroTitle}
                 </span>
-                <span className="block text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.45)] sm:whitespace-nowrap">
+                <span className="block text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.45)] break-words">
                   {data.heroHighlight}
                 </span>
               </h1>
@@ -204,12 +204,12 @@ export default function CategoryPageClient({ data }: { data: CategoryPageData })
               )}
             </div>
 
-            <div className="shrink-0 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-              <CyberButton href={data.primaryCtaHref} variant="gold" size="md">
+            <div className="flex flex-col sm:flex-row lg:flex-col 2xl:flex-row items-stretch sm:items-center lg:items-end 2xl:items-center gap-3.5 shrink-0 max-w-full">
+              <CyberButton href={data.primaryCtaHref} variant="gold" size="md" className="whitespace-nowrap justify-center">
                 {data.primaryCtaLabel}
               </CyberButton>
               {data.secondaryCtaHref && data.secondaryCtaLabel && (
-                <CyberButton href={data.secondaryCtaHref} variant="dark" size="md">
+                <CyberButton href={data.secondaryCtaHref} variant="dark" size="md" className="whitespace-nowrap justify-center">
                   {data.secondaryCtaLabel}
                 </CyberButton>
               )}

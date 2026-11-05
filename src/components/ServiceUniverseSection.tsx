@@ -707,7 +707,7 @@ const SERVICE_DIVISIONS: ServiceDivision[] = [
     icon: TrendingUp,
     accentGlow: "#38bdf8",
     tools: [
-      { id: "ga4", name: "Google Analytics 4", tagline: "Event Telemetry & Funnels" },
+      { id: "ga4", name: "Google Analytics", tagline: "Event Telemetry & Funnels" },
       { id: "google-ads", name: "Google Ads", tagline: "High-Intent Bidding" },
       { id: "meta-ads", name: "Meta Ads", tagline: "Social Growth & Lookalikes" },
       { id: "semrush", name: "SEMrush", tagline: "Keyword & SERP Intelligence" },
@@ -852,7 +852,7 @@ const SUBCATEGORY_TOOLS_MAP: Record<string, { title: string; subtitle: string; l
       { id: "semrush", name: "SEMrush", tagline: "SERP & Competitor Intelligence" },
       { id: "ahrefs", name: "Ahrefs", tagline: "Backlink Graph Topology" },
       { id: "search-console", name: "Search Console", tagline: "Crawl Diagnostics & Health" },
-      { id: "ga4", name: "Google Analytics 4", tagline: "Organic Attribution Funnels" },
+      { id: "ga4", name: "Google Analytics", tagline: "Organic Attribution Funnels" },
       { id: "gtm", name: "Google Tag Manager", tagline: "Structured Data Injection" },
     ],
   },
@@ -862,7 +862,7 @@ const SUBCATEGORY_TOOLS_MAP: Record<string, { title: string; subtitle: string; l
     tools: [
       { id: "google-ads", name: "Google Ads", tagline: "High-Intent Keyword Bidding" },
       { id: "meta-ads", name: "Meta Ads", tagline: "Paid Social & Retargeting" },
-      { id: "ga4", name: "Google Analytics 4", tagline: "Multi-Touch Conversion Path" },
+      { id: "ga4", name: "Google Analytics", tagline: "Multi-Touch Conversion Path" },
       { id: "gtm", name: "Google Tag Manager", tagline: "Conversion Value Routing" },
       { id: "hubspot", name: "HubSpot", tagline: "Lead Qualification CRM" },
     ],
@@ -874,7 +874,7 @@ const SUBCATEGORY_TOOLS_MAP: Record<string, { title: string; subtitle: string; l
       { id: "meta-ads", name: "Meta Ads", tagline: "Community Engagement & Ads" },
       { id: "figma-brand", name: "Figma", tagline: "Social Asset Design Tokens" },
       { id: "photoshop", name: "Adobe Photoshop", tagline: "Visual Graphics & Retouching" },
-      { id: "ga4", name: "Google Analytics 4", tagline: "Social Referral Telemetry" },
+      { id: "ga4", name: "Google Analytics", tagline: "Social Referral Telemetry" },
       { id: "hubspot", name: "HubSpot", tagline: "Social Pipeline Tracking" },
     ],
   },
@@ -885,7 +885,7 @@ const SUBCATEGORY_TOOLS_MAP: Record<string, { title: string; subtitle: string; l
       { id: "semrush", name: "SEMrush", tagline: "Topic Cluster Discovery" },
       { id: "ahrefs", name: "Ahrefs", tagline: "Content Gap Analysis" },
       { id: "search-console", name: "Search Console", tagline: "Impression & CTR Tracking" },
-      { id: "ga4", name: "Google Analytics 4", tagline: "Content Engagement Rates" },
+      { id: "ga4", name: "Google Analytics", tagline: "Content Engagement Rates" },
       { id: "hubspot", name: "HubSpot", tagline: "Lead Magnet Nurturing" },
     ],
   },
@@ -1107,7 +1107,7 @@ export default function ServiceUniverseSection({
           <div className="text-center max-w-4xl mx-auto mb-10 sm:mb-12">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>✳ DIVISION 0{matchedDivision.tierNumber} {"//"} PRODUCTION TECHNOLOGY ECOSYSTEM</span>
+              <span>✳ PRODUCTION TECHNOLOGY ECOSYSTEM</span>
             </div>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.05] text-white">
               {matchedDivision.id.includes("technology") ? (

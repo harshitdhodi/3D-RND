@@ -84,6 +84,19 @@ export interface UnifiedDetailItem {
         answer: string;
     }[];
     beforeAfter?: BeforeAfterData;
+    // ── Optional content overrides for per-item page customization ──
+    deliverablesCardLabel?: string;
+    deliverablesCardDescription?: string;
+    deliverablesCtaLabel?: string;
+    qualityCardLabel?: string;
+    quoteAuthor?: string;
+    contactCardLabel?: string;
+    contactCardHeading?: string;
+    contactCardDescription?: string;
+    contactCardHref?: string;
+    scopeSectionLabel?: string;
+    scopeSectionHeading?: string;
+    scopeSectionDescription?: string;
 }
 
 export interface RelatedItemSummary {
@@ -271,17 +284,17 @@ export default function UnifiedDetailsView({
 
                                 <div className="flex items-center space-x-2 text-xs font-mono uppercase tracking-widest text-[#FFD400] font-semibold">
                                     <ShieldCheck className="w-4 h-4 text-[#FFD400]" />
-                                    <span>Quality Assurance &amp; Execution Protocol</span>
+                                    <span>{item.qualityCardLabel || "Quality Assurance & Execution Protocol"}</span>
                                 </div>
 
                                 <p className="font-[family-name:var(--font-syne)] text-xl sm:text-2xl text-white font-light italic leading-snug">
                                     {item.quote
-                                        ? `“${item.quote.text}”`
-                                        : `“Every microservice, 3D viewport, and cloud infrastructure pipeline is benchmarked and verified before deployment.”`}
+                                        ? `"${item.quote.text}"`
+                                        : `"Every microservice, 3D viewport, and cloud infrastructure pipeline is benchmarked and verified before deployment."`}
                                 </p>
 
                                 <p className="text-xs text-neutral-400 font-mono">
-                                    {item.quote?.author ||
+                                    {item.quoteAuthor || item.quote?.author ||
                                         "RnD Senior Enterprise Engineering Division • ISO / SOC2 Compliance"}
                                 </p>
                             </div>
@@ -327,14 +340,13 @@ export default function UnifiedDetailsView({
                                 <div className="space-y-2 mb-8 relative z-10">
                                     <div className="inline-flex items-center space-x-2 text-[11px] font-mono uppercase tracking-[0.22em] text-[#FFD400] font-semibold">
                                         <FileText className="w-3.5 h-3.5" />
-                                        <span>Tangible Project Deliverables</span>
+                                        <span>{item.deliverablesCardLabel || "Tangible Project Deliverables"}</span>
                                     </div>
                                     <h3 className="font-[family-name:var(--font-syne)] text-2xl sm:text-3xl text-white font-bold uppercase">
                                         What You Receive
                                     </h3>
                                     <p className="text-md text-neutral-300 font-light leading-relaxed">
-                                        Comprehensive architectural documentation, production source
-                                        code repositories, and SLA guarantees delivered across every phase.
+                                        {item.deliverablesCardDescription || "Comprehensive architectural documentation, production source code repositories, and SLA guarantees delivered across every phase."}
                                     </p>
                                 </div>
 
@@ -365,7 +377,7 @@ export default function UnifiedDetailsView({
                                         href="#inquire-form"
                                         className="w-full py-4 rounded-full bg-[#FFD400] hover:bg-[#ffe34d] text-black text-xs uppercase tracking-[0.2em] font-bold transition-all shadow-[0_0_25px_rgba(255,212,0,0.3)] hover:shadow-[0_0_35px_rgba(255,212,0,0.5)] flex items-center justify-center space-x-2 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
                                     >
-                                        <span>Request Service Quote</span>
+                                        <span>{item.deliverablesCtaLabel || "Request Service Quote"}</span>
                                         <ArrowUpRight className="w-4 h-4" />
                                     </a>
 
@@ -377,19 +389,19 @@ export default function UnifiedDetailsView({
                             <div className="p-6 rounded-2xl bg-[#0c0e14] border border-white/10 shadow-lg flex items-center justify-between hover:border-[#FFD400]/40 transition-colors">
                                 <div className="space-y-1">
                                     <span className="text-[14px] font-mono uppercase tracking-widest text-[#FFD400] font-semibold block">
-                                        Direct Technical Line
+                                        {item.contactCardLabel || "Direct Technical Line"}
                                     </span>
                                     <h4 className="font-[family-name:var(--font-syne)] text-base sm:text-lg text-white font-bold uppercase">
-                                        Speak With Our Lead Architect
+                                        {item.contactCardHeading || "Speak With Our Lead Architect"}
                                     </h4>
                                     <p className="text-md text-neutral-400 font-mono">
-                                        +91 22 2490 8800 (IST 10:00 – 19:30)
+                                        {item.contactCardDescription || "+91 22 2490 8800 (IST 10:00 – 19:30)"}
                                     </p>
                                 </div>
                                 <a
-                                    href="tel:+912224908800"
+                                    href={item.contactCardHref || "tel:+912224908800"}
                                     className="w-11 h-11 rounded-full bg-[#FFD400]/15 border border-[#FFD400]/30 flex items-center justify-center text-[#FFD400] hover:bg-[#FFD400] hover:text-black transition-all shrink-0 shadow-sm hover:scale-110"
-                                    aria-label="Call Lead Architect"
+                                    aria-label="Contact"
                                 >
                                     <PhoneCall className="w-4 h-4" />
                                 </a>
@@ -407,14 +419,13 @@ export default function UnifiedDetailsView({
                     <div className="max-w-7xl mx-auto">
                     <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
                         <span className="text-xs font-mono uppercase tracking-[0.22em] text-[#FFD400] font-semibold">
-                            Comprehensive Execution Matrix
+                            {item.scopeSectionLabel || "Comprehensive Execution Matrix"}
                         </span>
                         <h3 className="font-[family-name:var(--font-syne)] text-3xl sm:text-4xl text-white font-bold uppercase">
-                            Detailed Scope of Works
+                            {item.scopeSectionHeading || "Detailed Scope of Works"}
                         </h3>
                         <p className="text-sm text-neutral-400 font-light leading-relaxed">
-                            Every technical discipline is orchestrated under a single milestone
-                            agreement, from structural engineering to cloud DevOps.
+                            {item.scopeSectionDescription || "Every technical discipline is orchestrated under a single milestone agreement, from structural engineering to cloud DevOps."}
                         </p>
                     </div>
 

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import SpaceBackground from "@/components/SpaceBackground";
 import Navbar from "@/components/Navbar";
 import GSAPScrollAnimations from "@/components/GSAPScrollAnimations";
@@ -13,6 +14,54 @@ import CreativeShowreelSection from "@/components/CreativeShowreelSection";
 import InsightsSection from "@/components/InsightsSection";
 import MissionCTASection from "@/components/MissionCTASection";
 import RnDFooter from "@/components/RnDFooter";
+
+export const metadata: Metadata = {
+  title:
+    "RND Technosoft | Technology, Digital Marketing & Creative Solutions",
+  description:
+    "RND Technosoft is a full-service digital agency delivering custom web development, mobile apps, software, e-commerce, SEO, digital marketing, branding, design and media production to help businesses grow online.",
+  keywords: [
+    "RND Technosoft",
+    "digital agency",
+    "web development company",
+    "custom website development",
+    "mobile app development",
+    "SEO services",
+    "digital marketing agency",
+    "branding and design",
+    "media production",
+    "videography",
+    "photography",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title:
+      "RND Technosoft | Technology, Digital Marketing & Creative Solutions",
+    description:
+      "RND Technosoft builds powerful digital experiences with custom web development, mobile apps, digital marketing, SEO, branding, design and media production services.",
+    url: "https://rndtechnosoft.com",
+    siteName: "RND Technosoft",
+    type: "website",
+    images: [
+      {
+        url: "/images/nebula_cloud_os_3d.jpg",
+        width: 1200,
+        height: 630,
+        alt: "RND Technosoft — Digital Growth Partner",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "RND Technosoft | Technology, Digital Marketing & Creative Solutions",
+    description:
+      "Custom web development, mobile apps, digital marketing, SEO, branding, design and media production services by RND Technosoft.",
+    images: ["/images/nebula_cloud_os_3d.jpg"],
+  },
+};
 
 export default function Home() {
   return (

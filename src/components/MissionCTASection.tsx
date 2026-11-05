@@ -58,23 +58,23 @@ export default function MissionCTASection() {
 
               <div className="space-y-3 pt-6 border-t border-white/10">
                 <a
-                  href="mailto:contact@rndtechnosoft.com"
+                  href="mailto:bdm@rndtechnosoft.com"
                   className="flex items-start gap-3 text-sm hover:text-[#FFD400] transition-colors group"
                 >
                   <Mail className="w-4 h-4 text-[#FFD400] mt-0.5 shrink-0" />
                   <div>
-                    <span className="block text-white/50 text-xs font-mono uppercase tracking-wider mb-0.5">EMAIL:</span>
-                    <span className="text-white group-hover:text-[#FFD400]">contact@rndtechnosoft.com</span>
+                    <span className="block text-white/50 text-xs font-mono uppercase tracking-wider mb-0.5">WRITE US:</span>
+                    <span className="text-white group-hover:text-[#FFD400]">bdm@rndtechnosoft.com</span>
                   </div>
                 </a>
                 <a
-                  href="tel:+917304845823"
+                  href="tel:+917304945823"
                   className="flex items-start gap-3 text-sm hover:text-[#FFD400] transition-colors group"
                 >
                   <Phone className="w-4 h-4 text-[#FFD400] mt-0.5 shrink-0" />
                   <div>
                     <span className="block text-white/50 text-xs font-mono uppercase tracking-wider mb-0.5">PHONE:</span>
-                    <span className="text-white group-hover:text-[#FFD400]">+91 73048 45823</span>
+                    <span className="text-white group-hover:text-[#FFD400]">+91-730 494 5823</span>
                   </div>
                 </a>
               </div>

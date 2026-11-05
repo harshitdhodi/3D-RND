@@ -33,48 +33,48 @@ export default function TeamCultureSection({
 }) {
   const squadLeaders: TeamMember[] = [
     {
-      id: "cto",
-      name: "Rohan Sharma",
-      role: "Chief Technology Officer",
-      squad: "Engineering & Cloud Systems",
-      image: "/images/team/team_cto.jpg",
-      bio: "Former Lead Infrastructure Architect overseeing distributed systems, Next.js 15 App Router engines, and sub-millisecond cloud pipelines.",
-      expertise: ["Distributed Systems", "Next.js 15", "Kubernetes", "Rust Microservices"],
-      metric: { value: "<5ms", label: "Average Global API Latency" },
+      id: "cfo",
+      name: "Saloni Shah",
+      role: "Chief Financial Officer (CFO)",
+      squad: "Corporate Finance & Governance",
+      image: "/office/Confident CFO in a Warm Executive Office.png",
+      bio: "Financial strategist guiding capital allocation, corporate fiscal planning, risk management, and scalable monetization models for international ventures.",
+      expertise: ["Corporate Finance", "Financial Strategy", "Fiscal Governance", "Risk Assessment"],
+      metric: { value: "$25M+", label: "Capital Allocation Managed" },
+      icon: TrendingUp,
+    },
+    {
+      id: "gm",
+      name: "Bhavika Tailor",
+      role: "General Manager",
+      squad: "Operations & General Management",
+      image: "/office/Professional General Manager Office Portrait.png",
+      bio: "Executive operations leader steering cross-functional delivery, resource optimization, strategic client partnerships, and agency-wide operational excellence.",
+      expertise: ["Operational Strategy", "Resource Scaling", "Cross-Functional Leadership", "Executive Management"],
+      metric: { value: "99.8%", label: "On-Time Project Delivery" },
+      icon: Users,
+    },
+    {
+      id: "sr-fullstack",
+      name: "Ruksar Saiyed",
+      role: "Sr. Full Stack Developer",
+      squad: "Full Stack & Core Architecture",
+      image: "/office/Sr.Full Stack Developer.png",
+      bio: "Senior engineering architect specializing in resilient cloud platforms, distributed API backends, real-time data pipelines, and high-concurrency microservices.",
+      expertise: ["Full Stack Development", "System Design", "Node.js", "React", "Distributed Systems"],
+      metric: { value: "<10ms", label: "P99 System Latency" },
       icon: Cpu,
     },
     {
-      id: "design-lead",
-      name: "Ananya Sen",
-      role: "Head of Product & Spatial Design",
-      squad: "Spatial WebGL & Design Systems",
-      image: "/images/team/team_design_lead.jpg",
-      bio: "Award-winning creative director blending cinematic typography, spatial 3D interactions, and modular enterprise design token systems.",
-      expertise: ["Three.js WebGL", "Spatial UI/UX", "Motion Design", "Design Systems"],
-      metric: { value: "60 FPS", label: "Smooth WebGL Canvas Render" },
+      id: "sr-web-dev",
+      name: "Krutika Rohit",
+      role: "Sr. Web Developer",
+      squad: "Frontend & Interactive Web",
+      image: "/office/Sr. Web Developer.png",
+      bio: "Frontend specialist building high-performance modern web applications, interactive WebGL components, modular design token frameworks, and accessible UI.",
+      expertise: ["Web Development", "JavaScript", "React", "Next.js", "Interactive UI"],
+      metric: { value: "100/100", label: "Lighthouse Performance" },
       icon: Palette,
-    },
-    {
-      id: "ai-lead",
-      name: "Vikramaditya Patel",
-      role: "Head of AI Architecture",
-      squad: "Cognitive AI & Vector Graph",
-      image: "/images/team/team_ai_lead.jpg",
-      bio: "Deep learning specialist architecting enterprise multi-tenant RAG pipelines, fine-tuned LLM agents, and semantic vector graphs.",
-      expertise: ["Multi-Tenant RAG", "Vector Graphs", "LLM Quantization", "eBPF Telemetry"],
-      metric: { value: "1.5ms", label: "Real-Time Vector Inference" },
-      icon: Bot,
-    },
-    {
-      id: "growth-lead",
-      name: "Priya Nair",
-      role: "Head of Growth & Performance",
-      squad: "Search Dominance & CRO Funnels",
-      image: "/images/team/team_growth_lead.jpg",
-      bio: "Data-driven marketing strategist managing algorithmic search dominance, programmatic SEO engines, and compounding multi-million dollar ad spend.",
-      expertise: ["Programmatic SEO", "Paid Meta/Google", "Funnel Analytics", "Conversion Rate"],
-      metric: { value: "8.04x", label: "Audited Average ROAS Lift" },
-      icon: TrendingUp,
     },
   ];
 
@@ -254,9 +254,9 @@ export default function TeamCultureSection({
           </div>
 
           {/* Attractive Show More Button redirecting to /about-us/team-culture */}
-          <CyberButton href="/about-us/team-culture" size="md">
+          {/* <CyberButton href="/about-us/team-culture" size="md">
             SHOW MORE
-          </CyberButton>
+          </CyberButton> */}
         </div>
 
         {/* 4 Specialized Squad Leads Grid */}

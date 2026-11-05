@@ -133,7 +133,7 @@ export default function IndustriesServedSection() {
       const rect = container.getBoundingClientRect();
 
       // Pinned offset (top distance where sticky starts pinning below fixed navbar)
-      const stickyTopOffset = window.innerWidth >= 768 ? 96 : 80;
+      const stickyTopOffset = window.innerWidth >= 1024 ? 88 : window.innerWidth >= 768 ? 80 : 72;
 
       // Total vertical distance the sticky container remains pinned
       const totalScrollable = container.offsetHeight - window.innerHeight + stickyTopOffset;
@@ -240,10 +240,10 @@ export default function IndustriesServedSection() {
         className="relative w-full"
         style={{ height: "300vh" }}
       >
-        <div className="sticky top-[80px] md:top-[96px] w-full h-[calc(100dvh-80px)] md:h-[calc(100dvh-96px)] flex flex-col justify-between py-6 sm:py-8 md:py-10 overflow-hidden relative z-10">
+        <div className="sticky top-[72px] sm:top-[80px] lg:top-[88px] w-full h-[calc(100dvh-72px)] sm:h-[calc(100dvh-80px)] lg:h-[calc(100dvh-88px)] flex flex-col justify-between pt-2 pb-4 sm:pt-3 sm:pb-6 overflow-hidden relative z-10">
           
           {/* Subtle Top Status Bar */}
-          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 shrink-0 flex items-center justify-between">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 shrink-0 flex items-center justify-between mb-2 sm:mb-3">
             <div className="flex items-center gap-2.5 text-xs font-mono uppercase tracking-[0.2em] text-neutral-400">
               <span className="w-2 h-2 rounded-full bg-[#FFD400] shadow-[0_0_8px_#FFD400] animate-pulse" />
               <span className="text-white font-medium">INDUSTRY VERTICALS</span>
@@ -255,8 +255,8 @@ export default function IndustriesServedSection() {
             </div>
           </div>
 
-          {/* Cards Track (Vertically Centered with Generous Space) */}
-          <div className="w-full flex-1 flex items-center overflow-hidden my-auto">
+          {/* Cards Track (Vertically Centered with Clearance so top/bottom borders are never cropped) */}
+          <div className="w-full flex-1 flex items-center overflow-hidden my-auto py-4 sm:py-6">
             <div
               ref={trackRef}
               className="flex items-stretch gap-6 sm:gap-8 md:gap-10 will-change-transform"
@@ -269,18 +269,18 @@ export default function IndustriesServedSection() {
                 return (
                   <div
                     key={ind.id}
-                    className={`group shrink-0 w-[310px] sm:w-[370px] md:w-[410px] lg:w-[450px] rounded-3xl p-6 sm:p-7 md:p-8 flex flex-col justify-between transition-all duration-300 border ${
+                    className={`group shrink-0 w-[290px] sm:w-[330px] md:w-[370px] lg:w-[410px] rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-7 flex flex-col justify-between transition-all duration-300 ${
                       isCurrent
-                        ? "bg-white/[0.08] border-[#FFD400]/50 shadow-[0_20px_60px_rgba(255,212,0,0.18)]"
-                        : "bg-white/[0.04] border-white/[0.10] hover:border-white/25 hover:bg-white/[0.06]"
+                        ? "bg-white/[0.08] border-2 border-[#FFD400]/80 shadow-[0_15px_45px_rgba(255,212,0,0.20)]"
+                        : "bg-white/[0.04] border border-white/[0.12] hover:border-white/30 hover:bg-white/[0.06]"
                     } backdrop-blur-md hover:scale-[1.01]`}
                     style={{
-                      height: "clamp(360px, 54vh, 460px)",
+                      height: "clamp(340px, 52vh, 430px)",
                     }}
                   >
                     {/* Top: Title & Metric Badge */}
-                    <div className="shrink-0 mb-2">
-                      <div className="flex items-center justify-between mb-2">
+                    <div className="shrink-0 mb-1.5 sm:mb-2">
+                      <div className="flex items-center justify-between mb-1.5">
                         <span className="font-mono text-[11px] tracking-widest text-[#FFD400] font-semibold">
                           [{ind.number}]
                         </span>
@@ -288,24 +288,24 @@ export default function IndustriesServedSection() {
                           {ind.badge}
                         </span>
                       </div>
-                      <h3 className="font-[family-name:var(--font-syne)] text-xl sm:text-2xl md:text-[26px] font-bold text-white leading-tight">
+                      <h3 className="font-[family-name:var(--font-syne)] text-lg sm:text-xl md:text-2xl font-bold text-white leading-tight">
                         {ind.title}
                       </h3>
                     </div>
 
-                    {/* Center: Clean Icon with generous breathing room */}
-                    <div className="flex-1 min-h-[90px] flex items-center justify-center py-4 sm:py-6 my-2">
-                      <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl flex items-center justify-center   group-hover:bg-[#FFD400]/[0.04] transition-all duration-300">
+                    {/* Center: Clean Icon with balanced vertical spacing */}
+                    <div className="flex-1 flex items-center justify-center py-2 sm:py-3 my-auto">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-22 lg:h-22 rounded-2xl flex items-center justify-center group-hover:bg-[#FFD400]/[0.04] transition-all duration-300">
                         <IconComponent
-                          strokeWidth={1.00}
-                          className="w-14 h-14 sm:w-20 sm:h-20 text-white/70 group-hover:text-[#FFD400] group-hover:scale-110 transition-all duration-300"
+                          strokeWidth={1.1}
+                          className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 text-white/70 group-hover:text-[#FFD400] group-hover:scale-110 transition-all duration-300"
                         />
                       </div>
                     </div>
 
                     {/* Bottom: Description + Explore Link */}
-                    <div className="shrink-0 pt-2 sm:pt-3 space-y-3">
-                      <p className="text-xs font-light sm:text-sm text-neutral-300 leading-relaxed min-h-[48px] line-clamp-3">
+                    <div className="shrink-0 pt-2 space-y-2.5 sm:space-y-3">
+                      <p className="text-xs sm:text-[13px] font-light text-neutral-300 leading-relaxed line-clamp-2 sm:line-clamp-3">
                         {ind.description}
                       </p>
 
@@ -313,7 +313,7 @@ export default function IndustriesServedSection() {
                       <div className="flex items-center justify-between pt-1">
                         <Link
                           href={`/industries/${ind.slug}`}
-                          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-mono uppercase tracking-wider border border-[#FFD400] py-2 px-5 rounded-xl bg-[#FFD400] text-black hover:bg-[#FFD400]/90 hover:shadow-[0_0_20px_rgba(255,212,0,0.4)] transition-all font-bold group-hover:scale-105"
+                          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-mono uppercase tracking-wider border border-[#FFD400] py-1.5 px-4 sm:py-2 sm:px-5 rounded-xl bg-[#FFD400] text-black hover:bg-[#FFD400]/90 hover:shadow-[0_0_20px_rgba(255,212,0,0.4)] transition-all font-bold group-hover:scale-105"
                         >
                           <span>Explore</span>
                           <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />

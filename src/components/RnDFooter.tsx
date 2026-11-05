@@ -1,210 +1,284 @@
 "use client";
 
+import React, { useState } from "react";
 import Link from "next/link";
-
-import { ArrowUp, Mail, Phone, MapPin, Globe, Shield, Sparkles } from "lucide-react";
+import {
+  ArrowUp,
+  Mail,
+  Phone,
+  MapPin,
+  ArrowRight,
+  ArrowUpRight,
+  Code,
+  TrendingUp,
+  Palette,
+  Camera,
+} from "lucide-react";
 
 export default function RnDFooter() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  return (
-    <footer className="relative bg-black text-white pt-20 sm:pt-24 lg:pt-28 pb-12 border-t border-white/10 px-4 sm:px-8 lg:px-12 overflow-hidden">
-      {/* Ambient Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[250px] bg-[#FFD400]/5 blur-[160px] rounded-full pointer-events-none" />
+  // Quick Links taken directly from Navbar
+  const quickLinks = [
+    { name: "Our Universe", label: "About Us", href: "/about-us" },
+    { name: "The Ecosystem", label: "All Services", href: "/services" },
+    { name: "Our Creations", label: "Selected Works", href: "/portfolio" },
+    { name: "Sectors in Focus", label: "Industry Verticals", href: "/industries" },
+    { name: "Insights & Ideas", label: "Blog & Research", href: "/insights" },
+    { name: "Mission Control", label: "Contact Us", href: "/contact" },
+  ];
 
-      <div className="relative max-w-7xl mx-auto">
-        {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-16 border-b border-white/10">
-          {/* Brand Info & Mission */}
-          <div className="lg:col-span-4">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="px-3.5 py-1.5 rounded-xl flex items-center">
+  // Core Service Categories and their Child Subcategories (from ServicesMegaMenu)
+  const serviceCategories = [
+    {
+      name: "Technology Solutions",
+      href: "/technology-solution",
+      icon: Code,
+      badge: "Core Architecture",
+      children: [
+        { name: "Custom Website Development", href: "/technology-solution/web-development" },
+        { name: "Custom Software Solutions", href: "/technology-solution/enterprise-software-solutions" },
+        { name: "Mobile App Development", href: "/technology-solution/mobile-applications" },
+        { name: "E-Commerce Platforms", href: "/technology-solution/ecommerce-platform-engineering" },
+      ],
+    },
+    {
+      name: "Digital Marketing",
+      href: "/digital-marketing",
+      icon: TrendingUp,
+      badge: "Performance",
+      children: [
+        { name: "Technical SEO Dominance", href: "/digital-marketing/technical-seo-dominance" },
+        { name: "Social Media Marketing", href: "/digital-marketing/social-media-management" },
+        { name: "Performance PPC & Paid Ads", href: "/digital-marketing/performance-ppc-advertising" },
+        { name: "Content Strategy & Production", href: "/digital-marketing/content-strategy-production" },
+      ],
+    },
+    {
+      name: "Branding & Design",
+      href: "/branding-design",
+      icon: Palette,
+      badge: "Creative Identity",
+      children: [
+        { name: "Brand Strategy & Systems", href: "/branding-design/brand-identity-systems" },
+        { name: "UI/UX & Spatial Design", href: "/branding-design/ui-ux-spatial-design" },
+        { name: "Graphic Design Services", href: "/branding-design/graphic-design" },
+        { name: "Marketing Collateral Design", href: "/branding-design/marketing-collateral" },
+      ],
+    },
+    {
+      name: "Media Production",
+      href: "/media-production",
+      icon: Camera,
+      badge: "Cinematic Media",
+      children: [
+        { name: "Commercial Videography", href: "/media-production/commercial-video-production" },
+        { name: "Commercial Photography", href: "/media-production/commercial-photography" },
+        { name: "Video Editing & Post-Prod", href: "/media-production/video-editing" },
+        { name: "Creative Media Production", href: "/media-production/creative-production" },
+      ],
+    },
+  ];
+
+  return (
+    <footer className="relative bg-[#04060a] text-white pt-16 sm:pt-20 lg:pt-24 pb-10 border-t border-white/10 px-4 sm:px-6 md:px-8 lg:px-12 overflow-hidden selection:bg-[#FFD400] selection:text-black">
+      {/* Ambient Cosmic Background Glows */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[300px] bg-[#FFD400]/[0.04] blur-[180px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-20 left-10 w-[500px] h-[400px] bg-cyan-500/[0.03] blur-[180px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/3 right-10 w-[600px] h-[450px] bg-amber-500/[0.02] blur-[160px] rounded-full pointer-events-none" />
+
+      <div className="relative max-w-7xl mx-auto space-y-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12 border-b border-white/10">
+
+          {/* Column 1: Brand & Contact Info */}
+          <div className="lg:col-span-4 space-y-6">
+            {/* Logo */}
+            <Link href="/" className="inline-flex items-center gap-3 group">
+              <div className="pr-3 rounded-xl transition-all flex items-center">
                 <img
                   src="/logo.svg"
-                  alt="RND Technosoft Logo"
-                  className="h-7 sm:h-16 w-auto object-contain"
+                  alt="RnD Technosoft Logo"
+                  className="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-[1.03]"
                 />
               </div>
-            </div>
+            </Link>
 
-            <p className="text-sm text-white/65 leading-relaxed font-light mb-6 max-w-sm">
-              <strong className="text-white font-medium">RnD Technosoft</strong> is an integrated digital agency engineering high-performance software, spatial 3D web platforms, omnichannel marketing, and commercial visual production for high-growth global enterprises.
+            <p className="text-sm text-neutral-400 font-light leading-relaxed max-w-sm">
+              RnD Technosoft is an integrated digital agency engineering high-performance Next.js web applications, enterprise software architectures, omnichannel marketing funnels, and commercial 8K visual production.
             </p>
 
-            <div className="flex items-center gap-2 text-xs font-mono text-[#FFD400]">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>GLOBAL SYSTEM STATUS: 100% OPERATIONAL</span>
+            <div className="pt-2 space-y-3.5 border-t border-white/10 text-xs">
+              <div>
+                <span className="text-[11px] font-mono uppercase tracking-wider text-neutral-400 font-light block mb-1.5">
+                  Office Address
+                </span>
+                <a
+                  href="https://maps.app.goo.gl/7tX5zSdgBo65nbKL7"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-2.5 text-neutral-400 hover:text-white transition-colors leading-relaxed group"
+                >
+                  <MapPin className="w-3.5 h-3.5 text-neutral-500 group-hover:text-[#FFD400] shrink-0 mt-0.5 transition-colors" />
+                  <span className="underline-offset-2 hover:underline font-light">
+                    3rd Floor, Sapphire, Daman Rd, above Axis Bank, Daulat Nagar, Chala, Vapi, Gujarat 396191
+                  </span>
+                </a>
+              </div>
+
+              <div>
+                <span className="text-[11px] font-mono uppercase tracking-wider text-neutral-400 font-light block mb-1">
+                  Contact Number
+                </span>
+                <a
+                  href="tel:+917304945823"
+                  className="flex items-center gap-2.5 text-neutral-400 hover:text-white transition-colors font-mono text-xs font-light group"
+                >
+                  <Phone className="w-3.5 h-3.5 text-neutral-500 group-hover:text-[#FFD400] shrink-0 transition-colors" />
+                  <span className="font-light">+91-730 494 5823</span>
+                </a>
+              </div>
+
+              <div>
+                <span className="text-[11px] font-mono uppercase tracking-wider text-neutral-400 font-light block mb-1">
+                  Write Us
+                </span>
+                <div className="flex flex-col gap-1.5">
+                  <a
+                    href="mailto:bdm@rndtechnosoft.com"
+                    className="flex items-center gap-2.5 text-neutral-400 hover:text-white transition-colors font-mono text-xs font-light group"
+                  >
+                    <Mail className="w-3.5 h-3.5 text-neutral-500 group-hover:text-[#FFD400] shrink-0 transition-colors" />
+                    <span className="font-light hover:underline">bdm@rndtechnosoft.com</span>
+                  </a>
+                  <a
+                    href="mailto:rndtechnosoft@gmail.com"
+                    className="flex items-center gap-2.5 text-neutral-400 hover:text-white transition-colors font-mono text-xs font-light group"
+                  >
+                    <Mail className="w-3.5 h-3.5 text-neutral-500 group-hover:text-[#FFD400] shrink-0 transition-colors" />
+                    <span className="font-light hover:underline">rndtechnosoft@gmail.com</span>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Technology Links */}
-          <div className="lg:col-span-3">
-            <h4 className="text-xs font-mono text-[#FFD400] uppercase tracking-[0.2em] mb-4">
-              Technology & Cloud
+          {/* Column 2: Quick Links */}
+          <div className="lg:col-span-2 space-y-4">
+            <h4 className="text-xs font-mono text-[#FFD400] uppercase tracking-[0.25em] font-bold flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#FFD400]" />
+              <span>Quick Links</span>
             </h4>
-            <ul className="space-y-2.5 text-sm font-light text-white/70">
-              <li>
-                <a href="#services" className="hover:text-white transition-colors">
-                  Custom Next.js & React Web Apps
-                </a>
-              </li>
-              <li>
-                <a href="#services" className="hover:text-white transition-colors">
-                  Enterprise Cloud Software & SaaS
-                </a>
-              </li>
-              <li>
-                <a href="#services" className="hover:text-white transition-colors">
-                  Spatial 3D WebGL Experiences
-                </a>
-              </li>
-              <li>
-                <a href="#services" className="hover:text-white transition-colors">
-                  Headless CMS Architecture
-                </a>
-              </li>
-              <li>
-                <a href="#services" className="hover:text-white transition-colors">
-                  Generative AI & RAG Pipelines
-                </a>
-              </li>
-              <li>
-                <a href="#services" className="hover:text-white transition-colors">
-                  High-Availability Microservices
-                </a>
-              </li>
+            <ul className="space-y-2.5 text-sm font-light text-neutral-300">
+              {quickLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="group inline-flex items-center gap-1.5 hover:text-white transition-colors"
+                  >
+                    <span className="text-neutral-500 group-hover:text-[#FFD400] transition-colors font-mono text-xs">
+                      ›
+                    </span>
+                    <span className="group-hover:translate-x-0.5 transition-transform">
+                      {link.name}
+                    </span>
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Marketing & Media */}
-          <div className="lg:col-span-2">
-            <h4 className="text-xs font-mono text-[#FFD400] uppercase tracking-[0.2em] mb-4">
-              Marketing & Media
-            </h4>
-            <ul className="space-y-2.5 text-sm font-light text-white/70">
-              <li>
-                <a href="#services" className="hover:text-white transition-colors">
-                  Omnichannel SMM Growth
-                </a>
-              </li>
-              <li>
-                <a href="#services" className="hover:text-white transition-colors">
-                  High-ROI Paid Advertising
-                </a>
-              </li>
-              <li>
-                <a href="#services" className="hover:text-white transition-colors">
-                  Commercial 8K Film Production
-                </a>
-              </li>
-              <li>
-                <a href="#services" className="hover:text-white transition-colors">
-                  Studio Product Photography
-                </a>
-              </li>
-              <li>
-                <a href="#services" className="hover:text-white transition-colors">
-                  Brand Identity & Systems
-                </a>
-              </li>
-            </ul>
+          {/* Column 3: Tech & Marketing Services */}
+          <div className="lg:col-span-3 space-y-6">
+            {serviceCategories.slice(0, 2).map((cat) => {
+              const Icon = cat.icon;
+              return (
+                <div key={cat.name} className="space-y-3">
+                  <Link
+                    href={cat.href}
+                    className="group inline-flex items-center gap-2 text-xs font-mono text-[#FFD400] uppercase tracking-[0.2em] font-bold hover:text-white transition-colors"
+                  >
+                    <Icon className="w-3.5 h-3.5 text-[#FFD400] group-hover:scale-110 transition-transform" />
+                    <span>{cat.name}</span>
+                    <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                  <ul className="space-y-2 text-xs sm:text-[13px] font-light text-neutral-400 pl-2 border-l border-white/10">
+                    {cat.children.map((sub) => (
+                      <li key={sub.href}>
+                        <Link
+                          href={sub.href}
+                          className="hover:text-white hover:underline transition-colors block leading-snug"
+                        >
+                          {sub.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
           </div>
 
-          {/* Contact Details & Global Presence */}
-          <div className="lg:col-span-3">
-            <h4 className="text-xs font-mono text-[#FFD400] uppercase tracking-[0.2em] mb-4">
-              Mission Control
-            </h4>
-            <div className="space-y-3 text-sm font-light text-white/70">
-              <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-[#FFD400] shrink-0 mt-0.5" />
-                <span>Global Hubs: New York • London • Dubai • New Delhi</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-[#FFD400] shrink-0" />
-                <a href="mailto:contact@rndtechnosoft.com" className="hover:text-white transition-colors">
-                  contact@rndtechnosoft.com
-                </a>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-[#FFD400] shrink-0" />
-                <a href="tel:+919876543210" className="hover:text-white transition-colors">
-                  +91 (0) 98765 43210
-                </a>
-              </div>
-            </div>
+          {/* Column 4: Branding & Media Services */}
+          <div className="lg:col-span-3 space-y-6">
+            {serviceCategories.slice(2, 4).map((cat) => {
+              const Icon = cat.icon;
+              return (
+                <div key={cat.name} className="space-y-3">
+                  <Link
+                    href={cat.href}
+                    className="group inline-flex items-center gap-2 text-xs font-mono text-[#FFD400] uppercase tracking-[0.2em] font-bold hover:text-white transition-colors"
+                  >
+                    <Icon className="w-3.5 h-3.5 text-[#FFD400] group-hover:scale-110 transition-transform" />
+                    <span>{cat.name}</span>
+                    <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                  <ul className="space-y-2 text-xs sm:text-[13px] font-light text-neutral-400 pl-2 border-l border-white/10">
+                    {cat.children.map((sub) => (
+                      <li key={sub.href}>
+                        <Link
+                          href={sub.href}
+                          className="hover:text-white hover:underline transition-colors block leading-snug"
+                        >
+                          {sub.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
 
-            <div className="mt-6 flex items-center gap-2.5">
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="w-9 h-9 rounded-lg bg-white/[0.04] hover:bg-[#FFD400] text-white/70 hover:text-black border border-white/10 hover:border-[#FFD400] flex items-center justify-center transition-all hover:scale-105 shadow-sm"
-              >
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
-                </svg>
-              </a>
 
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="X (Twitter)"
-                className="w-9 h-9 rounded-lg bg-white/[0.04] hover:bg-[#FFD400] text-white/70 hover:text-black border border-white/10 hover:border-[#FFD400] flex items-center justify-center transition-all hover:scale-105 shadow-sm"
-              >
-                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
-              </a>
-
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-                className="w-9 h-9 rounded-lg bg-white/[0.04] hover:bg-[#FFD400] text-white/70 hover:text-black border border-white/10 hover:border-[#FFD400] flex items-center justify-center transition-all hover:scale-105 shadow-sm"
-              >
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-                </svg>
-              </a>
-
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="w-9 h-9 rounded-lg bg-white/[0.04] hover:bg-[#FFD400] text-white/70 hover:text-black border border-white/10 hover:border-[#FFD400] flex items-center justify-center transition-all hover:scale-105 shadow-sm"
-              >
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                </svg>
-              </a>
-            </div>
           </div>
         </div>
 
-        {/* Bottom Bar: Policies & Back to Top */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-white/40">
-          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+        {/* Policies, Copyright & Back to Top */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-neutral-400 pt-2">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 sm:gap-6">
             <span>© 2026 RnD Technosoft Pvt. Ltd. All rights reserved.</span>
-            <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link>
-            <Link href="/cookies-policy" className="hover:text-white transition-colors">Cookies Policy</Link>
+            <Link href="/privacy-policy" className="hover:text-white hover:underline transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/terms-of-service" className="hover:text-white hover:underline transition-colors">
+              Terms of Service
+            </Link>
+            <Link href="/cookies-policy" className="hover:text-white hover:underline transition-colors">
+              Cookies Policy
+            </Link>
           </div>
 
           <button
             onClick={scrollToTop}
-            className="group relative inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-white/[0.04] hover:bg-[#FFD400] text-white/80 hover:text-black border border-white/10 hover:border-[#FFD400] transition-all duration-300 font-mono text-xs shadow-md -translate-y-[20%] sm:-translate-y-4 hover:-translate-y-5 cursor-pointer shrink-0"
+            className="group inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.04] hover:bg-[#FFD400] text-neutral-300 hover:text-black border border-white/10 hover:border-[#FFD400] transition-all duration-300 font-mono text-xs shadow-md cursor-pointer shrink-0"
+            title="Back to Top"
           >
             <span>Back to Orbit</span>
             <ArrowUp className="w-3.5 h-3.5 text-[#FFD400] group-hover:text-black group-hover:-translate-y-0.5 transition-transform" />
           </button>
         </div>
+
       </div>
     </footer>
   );

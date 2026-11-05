@@ -51,7 +51,7 @@ export interface CategoryPageData {
 export const categoryPagesData: Record<string, CategoryPageData> = {
   "technology-solution": {
     slug: "technology-solution",
-    metaTitle: "Technology Solutions & Software Development Company | RND Technosoft",
+    metaTitle: "Technology Solutions | Web, App & Software Development",
     metaDescription:
       "Looking for technology solutions for your business? RND Technosoft offers website development, web applications, custom software and e-commerce development.",
     bannerTitle: "TECHNOLOGY",
@@ -172,7 +172,7 @@ export const categoryPagesData: Record<string, CategoryPageData> = {
 
   "digital-marketing": {
     slug: "digital-marketing",
-    metaTitle: "Digital Marketing Agency in Vapi | SEO, Social Media & PPC – RND Technosoft",
+    metaTitle: "Digital Marketing Services | RND Technosoft",
     metaDescription:
       "Looking for digital marketing services in Vapi? RND Technosoft offers SEO, social media marketing, Google Ads, PPC and content marketing to help businesses grow online.",
     bannerTitle: "DIGITAL",
@@ -273,7 +273,7 @@ export const categoryPagesData: Record<string, CategoryPageData> = {
 
   "branding-design": {
     slug: "branding-design",
-    metaTitle: "Branding & Design Services | Brand Identity & Graphic Design – RND Technosoft",
+    metaTitle: "Branding & Design Services | RND Technosoft",
     metaDescription:
       "Build a memorable brand with RND Technosoft. Explore brand identity design, logo design, graphic design, brand strategy and marketing collateral services.",
     bannerTitle: "BRANDING",
@@ -372,7 +372,7 @@ export const categoryPagesData: Record<string, CategoryPageData> = {
 
   "media-production": {
     slug: "media-production",
-    metaTitle: "Media Production Services | Videography, Photography & Video Editing – RND Technosoft",
+    metaTitle: "Media Production Services | RND Technosoft",
     metaDescription:
       "Professional media production services by RND Technosoft. Explore videography, photography, video editing, post-production and creative media production.",
     bannerTitle: "MEDIA",

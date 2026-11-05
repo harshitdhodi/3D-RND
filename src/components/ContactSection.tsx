@@ -17,6 +17,7 @@ import {
     MapPin,
     Clock,
     ArrowRight,
+    ArrowUpRight,
     ShieldCheck,
     CheckCircle2,
     Sparkles,
@@ -28,7 +29,7 @@ export default function ContactSection() {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
-        phoneCode: "+1",
+        phoneCode: "+91",
         phone: "",
         message: "",
         agreed: true,
@@ -243,7 +244,7 @@ export default function ContactSection() {
             setFormData({
                 name: "",
                 email: "",
-                phoneCode: "+1",
+                phoneCode: "+91",
                 phone: "",
                 message: "",
                 agreed: true,
@@ -535,10 +536,10 @@ export default function ContactSection() {
             2. DIRECT CHANNELS & WORKING NODES (3 Sleek Grid Cards)
             ========================================================================= */}
                 <div className="channels-grid grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
-                    {/* Card 1: Email Inquiries */}
+                    {/* Card 1: Email Inquiries / Write Us */}
                     <div
                         onMouseMove={handleMouseMove}
-                        className="channel-card-rect p-6 sm:p-7 rounded-2xl bg-[#0c0e14]/90 border border-white/10 hover:border-[#FFD400]/50 transition-all duration-300 hover:-translate-y-1.5 shadow-xl relative overflow-hidden group"
+                        className="channel-card-rect p-6 sm:p-7 rounded-2xl bg-[#0c0e14]/90 border border-white/10 hover:border-[#FFD400]/50 transition-all duration-300 hover:-translate-y-1.5 shadow-xl relative overflow-hidden group flex flex-col justify-between"
                     >
                         <div
                             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"
@@ -547,29 +548,50 @@ export default function ContactSection() {
                             }}
                         />
                         <div className="relative z-10">
-                            <div className="w-11 h-11 rounded-xl bg-[#141721] border border-white/10 flex items-center justify-center text-[#FFD400] group-hover:scale-105 group-hover:bg-[#FFD400] group-hover:text-black transition-all mb-5 shadow-md">
+                            <div className="w-11 h-11 rounded-xl bg-[#141721] border border-white/10 flex items-center justify-center text-[#FFD400] group-hover:scale-105 group-hover:bg-[#FFD400] group-hover:text-black transition-all mb-4 shadow-md">
                                 <Mail className="w-5 h-5" />
                             </div>
                             <h3 className="text-base font-bold text-white font-[family-name:var(--font-syne)] uppercase tracking-wide group-hover:text-[#FFD400] transition-colors">
-                                Direct Inquiries
+                                Write Us
                             </h3>
                             <p className="text-xs text-neutral-400 font-light mt-1 mb-4">
-                                Speak directly with our engineering triage leads.
+                                Direct business and partnership inquiries.
                             </p>
-                            <div className="flex items-center justify-between text-xs font-mono text-neutral-300 bg-white/[0.02] p-2.5 rounded-lg border border-white/5">
-                                <span>hello@rndtechnosoft.com</span>
-                                <button
-                                    type="button"
-                                    onClick={() => copyToClipboard("hello@rndtechnosoft.com", "c_email")}
-                                    className="text-neutral-400 hover:text-[#FFD400] transition-colors p-1"
-                                    title="Copy Email"
-                                >
-                                    {copiedKey === "c_email" ? (
-                                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                                    ) : (
-                                        <Copy className="w-3.5 h-3.5" />
-                                    )}
-                                </button>
+                            <div className="space-y-2">
+                                <div className="flex items-center justify-between text-xs font-mono text-neutral-300 bg-white/[0.02] p-2.5 rounded-lg border border-white/5">
+                                    <a href="mailto:bdm@rndtechnosoft.com" className="hover:text-[#FFD400] transition-colors">
+                                        bdm@rndtechnosoft.com
+                                    </a>
+                                    <button
+                                        type="button"
+                                        onClick={() => copyToClipboard("bdm@rndtechnosoft.com", "c_email1")}
+                                        className="text-neutral-400 hover:text-[#FFD400] transition-colors p-1"
+                                        title="Copy Email"
+                                    >
+                                        {copiedKey === "c_email1" ? (
+                                            <Check className="w-3.5 h-3.5 text-emerald-400" />
+                                        ) : (
+                                            <Copy className="w-3.5 h-3.5" />
+                                        )}
+                                    </button>
+                                </div>
+                                <div className="flex items-center justify-between text-xs font-mono text-neutral-300 bg-white/[0.02] p-2.5 rounded-lg border border-white/5">
+                                    <a href="mailto:rndtechnosoft@gmail.com" className="hover:text-[#FFD400] transition-colors">
+                                        rndtechnosoft@gmail.com
+                                    </a>
+                                    <button
+                                        type="button"
+                                        onClick={() => copyToClipboard("rndtechnosoft@gmail.com", "c_email2")}
+                                        className="text-neutral-400 hover:text-[#FFD400] transition-colors p-1"
+                                        title="Copy Email"
+                                    >
+                                        {copiedKey === "c_email2" ? (
+                                            <Check className="w-3.5 h-3.5 text-emerald-400" />
+                                        ) : (
+                                            <Copy className="w-3.5 h-3.5" />
+                                        )}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -577,7 +599,7 @@ export default function ContactSection() {
                     {/* Card 2: Voice & WhatsApp */}
                     <div
                         onMouseMove={handleMouseMove}
-                        className="channel-card-rect p-6 sm:p-7 rounded-2xl bg-[#0c0e14]/90 border border-white/10 hover:border-[#FFD400]/50 transition-all duration-300 hover:-translate-y-1.5 shadow-xl relative overflow-hidden group"
+                        className="channel-card-rect p-6 sm:p-7 rounded-2xl bg-[#0c0e14]/90 border border-white/10 hover:border-[#FFD400]/50 transition-all duration-300 hover:-translate-y-1.5 shadow-xl relative overflow-hidden group flex flex-col justify-between"
                     >
                         <div
                             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"
@@ -585,21 +607,25 @@ export default function ContactSection() {
                                 background: `radial-gradient(350px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,212,0,0.07), transparent 60%)`,
                             }}
                         />
-                        <div className="relative z-10">
-                            <div className="w-11 h-11 rounded-xl bg-[#141721] border border-white/10 flex items-center justify-center text-[#FFD400] group-hover:scale-105 group-hover:bg-[#FFD400] group-hover:text-black transition-all mb-5 shadow-md">
-                                <Phone className="w-5 h-5" />
+                        <div className="relative z-10 flex flex-col justify-between h-full">
+                            <div>
+                                <div className="w-11 h-11 rounded-xl bg-[#141721] border border-white/10 flex items-center justify-center text-[#FFD400] group-hover:scale-105 group-hover:bg-[#FFD400] group-hover:text-black transition-all mb-4 shadow-md">
+                                    <Phone className="w-5 h-5" />
+                                </div>
+                                <h3 className="text-base font-bold text-white font-[family-name:var(--font-syne)] uppercase tracking-wide group-hover:text-[#FFD400] transition-colors">
+                                    Direct Voice &amp; WhatsApp
+                                </h3>
+                                <p className="text-xs text-neutral-400 font-light mt-1 mb-4">
+                                    Immediate voice support &amp; priority scheduling.
+                                </p>
                             </div>
-                            <h3 className="text-base font-bold text-white font-[family-name:var(--font-syne)] uppercase tracking-wide group-hover:text-[#FFD400] transition-colors">
-                                Direct Voice &amp; WhatsApp
-                            </h3>
-                            <p className="text-xs text-neutral-400 font-light mt-1 mb-4">
-                                Immediate voice support &amp; priority scheduling.
-                            </p>
                             <div className="flex items-center justify-between text-xs font-mono text-neutral-300 bg-white/[0.02] p-2.5 rounded-lg border border-white/5">
-                                <span>+1 (555) 392-8820</span>
+                                <a href="tel:+917304945823" className="hover:text-[#FFD400] transition-colors">
+                                    +91-730 494 5823
+                                </a>
                                 <button
                                     type="button"
-                                    onClick={() => copyToClipboard("+1 (555) 392-8820", "c_phone")}
+                                    onClick={() => copyToClipboard("+91-730 494 5823", "c_phone")}
                                     className="text-neutral-400 hover:text-[#FFD400] transition-colors p-1"
                                     title="Copy Phone"
                                 >
@@ -613,10 +639,10 @@ export default function ContactSection() {
                         </div>
                     </div>
 
-                    {/* Card 3: Physical Headquarters */}
+                    {/* Card 3: Office Address */}
                     <div
                         onMouseMove={handleMouseMove}
-                        className="channel-card-rect p-6 sm:p-7 rounded-2xl bg-[#0c0e14]/90 border border-white/10 hover:border-[#FFD400]/50 transition-all duration-300 hover:-translate-y-1.5 shadow-xl relative overflow-hidden group"
+                        className="channel-card-rect p-6 sm:p-7 rounded-2xl bg-[#0c0e14]/90 border border-white/10 hover:border-[#FFD400]/50 transition-all duration-300 hover:-translate-y-1.5 shadow-xl relative overflow-hidden group flex flex-col justify-between"
                     >
                         <div
                             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"
@@ -624,20 +650,27 @@ export default function ContactSection() {
                                 background: `radial-gradient(350px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,212,0,0.07), transparent 60%)`,
                             }}
                         />
-                        <div className="relative z-10">
-                            <div className="w-11 h-11 rounded-xl bg-[#141721] border border-white/10 flex items-center justify-center text-[#FFD400] group-hover:scale-105 group-hover:bg-[#FFD400] group-hover:text-black transition-all mb-5 shadow-md">
-                                <MapPin className="w-5 h-5" />
+                        <div className="relative z-10 flex flex-col justify-between h-full">
+                            <div>
+                                <div className="w-11 h-11 rounded-xl bg-[#141721] border border-white/10 flex items-center justify-center text-[#FFD400] group-hover:scale-105 group-hover:bg-[#FFD400] group-hover:text-black transition-all mb-4 shadow-md">
+                                    <MapPin className="w-5 h-5" />
+                                </div>
+                                <h3 className="text-base font-bold text-white font-[family-name:var(--font-syne)] uppercase tracking-wide group-hover:text-[#FFD400] transition-colors">
+                                    Office Address
+                                </h3>
+                                <p className="text-xs text-neutral-300 font-light mt-1 mb-4 leading-relaxed">
+                                    3rd Floor, Sapphire, Daman Rd, above Axis Bank, Daulat Nagar, Chala, Vapi, Gujarat 396191
+                                </p>
                             </div>
-                            <h3 className="text-base font-bold text-white font-[family-name:var(--font-syne)] uppercase tracking-wide group-hover:text-[#FFD400] transition-colors">
-                                Global Locations
-                            </h3>
-                            <p className="text-xs text-neutral-400 font-light mt-1 mb-4">
-                                Hubs across San Francisco, London &amp; Tokyo.
-                            </p>
-                            <div className="text-xs font-mono text-neutral-300 bg-white/[0.02] p-2.5 rounded-lg border border-white/5 flex items-center justify-between">
-                                <span>HQ: 500 Howard St, SF, CA</span>
-                                <span className="text-[10px] text-[#FFD400]">UTC-8</span>
-                            </div>
+                            <a
+                                href="https://maps.app.goo.gl/7tX5zSdgBo65nbKL7"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center gap-2 text-xs font-mono text-[#FFD400] hover:text-white bg-white/[0.04] hover:bg-[#FFD400]/20 p-2.5 rounded-lg border border-[#FFD400]/30 hover:border-[#FFD400] transition-all"
+                            >
+                                <span>Open Google Maps</span>
+                                <ArrowUpRight className="w-3.5 h-3.5" />
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -712,7 +745,7 @@ export default function ContactSection() {
                         </p>
                     </div>
                     <Link
-                        href="tel:+15553928820"
+                        href="tel:+917304945823"
                         className="relative z-10 shrink-0 bg-white hover:bg-[#FFD400] text-black font-bold font-mono tracking-wider px-6 py-3.5 rounded-xl flex items-center gap-2 text-xs uppercase transition-all shadow-lg hover:shadow-[0_0_25px_rgba(255,212,0,0.4)] active:scale-95"
                     >
                         <span>Call Directly</span>

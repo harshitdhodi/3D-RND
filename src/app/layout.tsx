@@ -65,9 +65,82 @@ const archia = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "NovaTech — Ideas to Impact | Premium Digital Growth Partner",
+  metadataBase: new URL("https://rndtechnosoft.com"),
+  title: {
+    default:
+      "RND Technosoft | Digital Agency — Web Development, Marketing, Branding & Media",
+    template: "%s",
+  },
   description:
-    "We Build Digital Experiences That Drive Real Business Growth. We turn your ideas into powerful digital products with modern technology, creative design and reliable support.",
+    "RND Technosoft is a full-service digital agency offering custom web development, mobile app development, custom software, e-commerce, SEO, digital marketing, branding, design and media production services to help businesses grow online.",
+  keywords: [
+    "RND Technosoft",
+    "digital agency",
+    "web development company",
+    "custom website development",
+    "mobile app development",
+    "custom software development",
+    "e-commerce website development",
+    "SEO services",
+    "digital marketing agency",
+    "social media marketing",
+    "PPC advertising",
+    "branding and design",
+    "logo design",
+    "graphic design",
+    "videography",
+    "photography",
+    "video editing",
+    "media production",
+  ],
+  authors: [{ name: "RND Technosoft" }],
+  creator: "RND Technosoft",
+  publisher: "RND Technosoft",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title:
+      "RND Technosoft | Digital Agency — Web Development, Marketing, Branding & Media",
+    description:
+      "RND Technosoft builds powerful digital experiences with custom web development, mobile apps, digital marketing, SEO, branding, design and media production services.",
+    url: "https://rndtechnosoft.com",
+    siteName: "RND Technosoft",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "/images/nebula_cloud_os_3d.jpg",
+        width: 1200,
+        height: 630,
+        alt: "RND Technosoft — Digital Growth Partner",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "RND Technosoft | Digital Agency — Web, Marketing, Branding & Media",
+    description:
+      "Custom web development, mobile apps, digital marketing, SEO, branding, design and media production services by RND Technosoft.",
+    images: ["/images/nebula_cloud_os_3d.jpg"],
+  },
 };
 
 export const viewport: Viewport = {

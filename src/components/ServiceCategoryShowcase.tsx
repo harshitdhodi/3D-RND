@@ -43,7 +43,7 @@ const CATEGORIES: ServiceCategoryItem[] = [
   {
     id: "technology-solutions",
     index: "01",
-    badge: "// TECHNOLOGY SOLUTIONS",
+    badge: "TECHNOLOGY SOLUTIONS",
     activeDivisionLabel: "ACTIVE DIVISION // TECHNOLOGY SOLUTIONS",
     title: "TECHNOLOGY THAT MOVES BUSINESS FORWARD.",
     supportingLine: "WEB DEVELOPMENT • APPLICATIONS • SOFTWARE • E-COMMERCE",
@@ -68,7 +68,7 @@ const CATEGORIES: ServiceCategoryItem[] = [
         title: "CUSTOM WEBSITE DEVELOPMENT",
         subhead: "Your digital presence. Engineered for performance.",
         desc: "We create responsive, SEO-friendly websites that combine engaging design, intuitive navigation and powerful functionality. From corporate websites and business portals to custom web platforms, we build digital experiences designed around your audience and business objectives.",
-        sla: "01 // WEB",
+        sla: "WEB",
         tags: [
           "#WebsiteDevelopment",
           "#WebDesign",
@@ -82,7 +82,7 @@ const CATEGORIES: ServiceCategoryItem[] = [
         title: "WEB & MOBILE APP DEVELOPMENT",
         subhead: "Applications built around the way you work.",
         desc: "We develop intuitive web and mobile applications that connect people, processes and technology. From customer-facing applications to complex business platforms, our solutions focus on usability, performance and seamless functionality across devices.",
-        sla: "02 // APPLICATIONS",
+        sla: "APPLICATIONS",
         tags: [
           "#WebAppDevelopment",
           "#MobileAppDevelopment",
@@ -96,7 +96,7 @@ const CATEGORIES: ServiceCategoryItem[] = [
         title: "CUSTOM SOFTWARE DEVELOPMENT",
         subhead: "Your business deserves more than off-the-shelf solutions.",
         desc: "We build tailored software solutions that address unique business requirements, streamline workflows and improve operational efficiency. From enterprise applications and business management systems to CRM, ERP and SaaS platforms, we turn complex processes into smarter systems.",
-        sla: "03 // SOFTWARE",
+        sla: "SOFTWARE",
         tags: [
           "#CustomSoftware",
           "#EnterpriseSoftware",
@@ -111,7 +111,7 @@ const CATEGORIES: ServiceCategoryItem[] = [
         title: "E-COMMERCE DEVELOPMENT",
         subhead: "Turn digital storefronts into growth engines.",
         desc: "We create feature-rich e-commerce websites and online stores that make buying simple and selling smarter. From intuitive storefront design and secure payment integration to product management and checkout optimisation, we build shopping experiences designed to support your business growth.",
-        sla: "04 // E-COMMERCE",
+        sla: "E-COMMERCE",
         tags: [
           "#EcommerceDevelopment",
           "#OnlineStore",
@@ -125,7 +125,7 @@ const CATEGORIES: ServiceCategoryItem[] = [
   {
     id: "digital-marketing",
     index: "02",
-    badge: "// DIGITAL MARKETING",
+    badge: "DIGITAL MARKETING",
     activeDivisionLabel: "ACTIVE DIVISION // DIGITAL MARKETING",
     title: "DIGITAL GROWTH. BUILT ON STRATEGY. DRIVEN BY RESULTS.",
     supportingLine: "SEO • SOCIAL MEDIA • PAID ADVERTISING • CONTENT MARKETING",
@@ -150,7 +150,7 @@ const CATEGORIES: ServiceCategoryItem[] = [
         title: "SEARCH ENGINE OPTIMISATION (SEO)",
         subhead: "Get discovered. Earn visibility. Grow organically.",
         desc: "We improve your website's search visibility through keyword research, on-page and off-page SEO, technical optimisation, content strategy and quality link building. Our focus is on attracting relevant organic traffic and building sustainable search presence.",
-        sla: "01 // ORGANIC GROWTH",
+        sla: "ORGANIC GROWTH",
         tags: [
           "#SEO Services",
           "#TechnicalSEO",
@@ -165,7 +165,7 @@ const CATEGORIES: ServiceCategoryItem[] = [
         title: "SOCIAL MEDIA MARKETING",
         subhead: "Build communities. Start conversations. Create impact.",
         desc: "We develop social media strategies that strengthen brand identity, increase audience engagement and build meaningful connections. From content planning and creative posts to reels, platform management and community engagement, we help brands stay relevant and recognisable.",
-        sla: "02 // BRAND ENGAGEMENT",
+        sla: "BRAND ENGAGEMENT",
         tags: [
           "#SocialMediaMarketing",
           "#InstagramMarketing",
@@ -179,7 +179,7 @@ const CATEGORIES: ServiceCategoryItem[] = [
         title: "PAID ADVERTISING & PERFORMANCE MARKETING",
         subhead: "Reach the right audience. Make every campaign count.",
         desc: "We plan and manage targeted advertising campaigns across Google, Meta and other relevant platforms. Through audience targeting, creative testing, campaign optimisation and performance tracking, we help businesses generate relevant traffic, enquiries and sales opportunities.",
-        sla: "03 // PAID GROWTH",
+        sla: "PAID GROWTH",
         tags: [
           "#GoogleAds",
           "#MetaAds",
@@ -194,7 +194,7 @@ const CATEGORIES: ServiceCategoryItem[] = [
         title: "CONTENT MARKETING & STRATEGY",
         subhead: "Create stories that make your brand memorable.",
         desc: "We develop purposeful content that communicates your brand's value and connects with your audience. From website copy and blogs to social media creatives, campaign messaging and marketing content, we turn ideas into engaging brand experiences.",
-        sla: "04 // CREATIVE STRATEGY",
+        sla: "CREATIVE STRATEGY",
         tags: [
           "#ContentMarketing",
           "#ContentStrategy",
@@ -209,7 +209,7 @@ const CATEGORIES: ServiceCategoryItem[] = [
   {
     id: "branding-design",
     index: "03",
-    badge: "2.5 BRANDING & DESIGN",
+    badge: "BRANDING & DESIGN",
     title: "Branding Systems & Spatial UI/UX",
     categoryHref: "/branding-design",
     tagline: "Category-Defining Visual Identities & Fluid Human-Centric Interfaces",
@@ -240,7 +240,7 @@ const CATEGORIES: ServiceCategoryItem[] = [
   {
     id: "media-production",
     index: "04",
-    badge: "2.6 MEDIA PRODUCTION",
+    badge: "MEDIA PRODUCTION",
     title: "Commercial Media & Motion Production",
     categoryHref: "/media-production",
     tagline: "Cinematic Commercial Films, 3D CGI Motion & High-Impact Brand Assets",
@@ -286,9 +286,8 @@ export default function ServiceCategoryShowcase() {
             >
               {/* Ambient Background Glow */}
               <div
-                className={`absolute top-1/3 ${
-                  isReversed ? "right-10" : "left-10"
-                } w-[650px] h-[450px] bg-[radial-gradient(circle,_rgba(255,212,0,0.03)_0%,_transparent_70%)] pointer-events-none -z-10 transform-gpu`}
+                className={`absolute top-1/3 ${isReversed ? "right-10" : "left-10"
+                  } w-[650px] h-[450px] bg-[radial-gradient(circle,_rgba(255,212,0,0.03)_0%,_transparent_70%)] pointer-events-none -z-10 transform-gpu`}
               />
 
               {/* Division Card Container */}
@@ -298,15 +297,13 @@ export default function ServiceCategoryShowcase() {
 
                 {/* Main Grid: Visual Column & Editorial Overview */}
                 <div
-                  className={`grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center mb-12 lg:mb-16 ${
-                    isReversed ? "lg:grid-flow-dense" : ""
-                  }`}
+                  className={`grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center mb-12 lg:mb-16 ${isReversed ? "lg:grid-flow-dense" : ""
+                    }`}
                 >
                   {/* Visual Media Column */}
                   <div
-                    className={`lg:col-span-5 relative ${
-                      isReversed ? "lg:col-start-8" : ""
-                    }`}
+                    className={`lg:col-span-5 relative ${isReversed ? "lg:col-start-8" : ""
+                      }`}
                   >
                     <Link
                       href={category.categoryHref || `#${category.id}`}
@@ -333,13 +330,13 @@ export default function ServiceCategoryShowcase() {
                               {category.activeDivisionLabel || "ACTIVE DIVISION SQUAD"}
                             </span>
                             <span className="text-xs font-mono text-white">
-                              {category.services.length} Specialized Offerings
+                              Specialized Offerings
                             </span>
                           </div>
                         </div>
-                        <span className="text-xs font-mono font-bold text-neutral-400">
+                        {/* <span className="text-xs font-mono font-bold text-neutral-400">
                           {"//"} {category.index}
-                        </span>
+                        </span> */}
                       </div>
                     </Link>
 
@@ -350,9 +347,8 @@ export default function ServiceCategoryShowcase() {
 
                   {/* Editorial Information Column */}
                   <div
-                    className={`lg:col-span-7 space-y-6 ${
-                      isReversed ? "lg:col-start-1" : ""
-                    }`}
+                    className={`lg:col-span-7 space-y-6 ${isReversed ? "lg:col-start-1" : ""
+                      }`}
                   >
                     <div className="space-y-3">
                       <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-semibold tracking-[0.25em] uppercase">

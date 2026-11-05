@@ -42,7 +42,7 @@ const getServiceUrl = (serviceId: string): string => {
     "commercial-media": "/media-production/commercial-video-production",
     "dedicated-squads": "/media-production/dedicated-squads",
   };
-  
+
   return serviceUrlMap[serviceId] || `/technology-solution/${serviceId}`;
 };
 
@@ -122,18 +122,18 @@ export default function ServicesPage() {
       />
 
       <main className="relative z-20 w-full mt-[50px]   shadow-[0_-25px_60px_rgba(0,0,0,0.85)] overflow-hidden">
-       {/* Section 2.1: Capabilities Overview Header & Live Metrics */}
+        {/* Section 2.1: Capabilities Overview Header & Live Metrics */}
         <section className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-14 pb-8">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-10 border-b border-white/10">
             <div className="max-w-4xl">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/60 border border-[#FFD400]/40 text-[#FFD400] backdrop-blur-md">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>2.1 SERVICES HERO // INTEGRATED CAPABILITIES MATRIX</span>
+                <span>SERVICES HERO // INTEGRATED CAPABILITIES MATRIX</span>
               </div>
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.02] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
                 HIGH-PERFORMANCE  &amp;{" "}
                 <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.45)]">
-                 ENGINEERING
+                  ENGINEERING
                 </span>
               </h1>
               <p className="text-sm sm:text-base font-normal max-w-2xl mt-4 leading-relaxed text-neutral-300">
@@ -159,9 +159,9 @@ export default function ServicesPage() {
             </div>
           </div>
 
-       
+
         </section>
-       {/* =========================================================================
+        {/* =========================================================================
             SECTIONS 2.3 - 2.6: THE FOUR MAIN SERVICE DIVISIONS SHOWCASE
             2.3 Technology Solutions
             2.4 Digital Marketing
@@ -170,14 +170,14 @@ export default function ServicesPage() {
             ========================================================================= */}
         <ServiceCategoryShowcase />
 
-       
+
 
         {/* =========================================================================
             2.2 SERVICE CATEGORY NAVIGATION: Sticky / Fast Jump Navigation Bar
             ========================================================================= */}
         <ServiceUniverseSection />
 
-       
+
 
         {/* =========================================================================
             SECTION 2.7: ENGAGEMENT MODELS
@@ -194,7 +194,7 @@ export default function ServicesPage() {
         {/* =========================================================================
             INTERACTIVE SERVICE SEARCH & FULL BENTO DIRECTORY GRID
             ========================================================================= */}
-       
+
 
         {/* =========================================================================
             SECTION 2.9: FREQUENTLY ASKED QUESTIONS (FAQS)

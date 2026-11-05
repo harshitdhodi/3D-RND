@@ -78,7 +78,7 @@ export default function ServiceFaqSection() {
         <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
             <HelpCircle className="w-3.5 h-3.5" />
-            <span>2.9 SERVICE FAQS // CLARITY &amp; STANDARDS</span>
+            <span>SERVICE FAQS // CLARITY &amp; STANDARDS</span>
           </div>
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.02] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
             FREQUENTLY ASKED <span className="text-[#FFD400]">SERVICE QUESTIONS</span>

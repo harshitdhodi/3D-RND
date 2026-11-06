@@ -20,6 +20,7 @@ import {
     ArrowUpRight,
     ShieldCheck,
     CheckCircle2,
+    AlertTriangle,
     Sparkles,
 } from "lucide-react";
 
@@ -550,6 +551,13 @@ export default function ContactSection() {
                                     <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl flex items-center gap-3 text-xs font-mono text-emerald-400 animate-fadeIn">
                                         <CheckCircle2 className="w-5 h-5 shrink-0" />
                                         <span>Thank you! Your message has been received. Our team will contact you within 2 hours.</span>
+                                    </div>
+                                )}
+
+                                {errorMessage && (
+                                    <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center gap-3 text-xs font-mono text-red-400 animate-fadeIn">
+                                        <AlertTriangle className="w-5 h-5 shrink-0" />
+                                        <span>{errorMessage}</span>
                                     </div>
                                 )}
                             </form>

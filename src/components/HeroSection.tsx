@@ -159,26 +159,6 @@ const SERVICES: ServiceStoryItem[] = [
 export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  // Responsive device detection (mobile < 768px vs desktop)
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  // Ensure mobile video autoplays reliably
-  useEffect(() => {
-    if (isMobile && videoRef.current) {
-      videoRef.current.play().catch(() => {});
-    }
-  }, [isMobile]);
 
   // Mouse spotlight & reticle cursor tracking
   const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
@@ -229,40 +209,20 @@ export default function HeroSection() {
     <div
       id="home"
       ref={containerRef}
-      className="relative w-full h-[100dvh] md:h-[600vh] bg-transparent z-10"
+      className="relative w-full h-[600vh] bg-transparent z-10"
     >
-      {/* Pinned Sticky Stage on desktop; natural 100dvh section on mobile */}
-      <div className="relative md:sticky md:top-0 h-[100dvh] w-full max-w-full overflow-hidden flex flex-col justify-between">
-        {/* Mobile View: Normal Video Background (Only for mobile devices < md) */}
-        <div className="block md:hidden absolute inset-0 z-0 overflow-hidden w-full h-full pointer-events-none">
-          <video
-            ref={videoRef}
-            src="/hero.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            className="w-full h-full object-cover"
+      {/* Pinned Sticky Stage during the entire scroll journey */}
+      <div className="sticky top-0 h-[100dvh] w-full max-w-full overflow-hidden flex flex-col justify-between">
+        {/* Full-width Video Canvas with 5% dark overlay and +10% height */}
+        <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-auto w-full h-full">
+          <HeroScrollFrames
+            scrollProgress={scrollProgress}
+            className="w-full h-full opacity-100"
+            damping={0.12}
+            showVignette={false}
+            overlayOpacity={0.05}
+            heightScale={1.10}
           />
-          <div
-            className="absolute inset-0 pointer-events-none z-10"
-            style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}
-          />
-        </div>
-
-        {/* Desktop View: Interactive Canvas Scrubbing (Only for desktop >= md) */}
-        <div className="hidden md:flex absolute inset-0 items-center justify-center z-0 pointer-events-auto w-full h-full">
-          {!isMobile && (
-            <HeroScrollFrames
-              scrollProgress={scrollProgress}
-              className="w-full h-full opacity-100"
-              damping={0.12}
-              showVignette={false}
-              overlayOpacity={0.05}
-              heightScale={1.10}
-            />
-          )}
         </div>
 
         {/* ----------------- INTERACTIVE STAGE: INTRO CONTENT ----------------- */}
@@ -303,10 +263,10 @@ export default function HeroSection() {
             </div>
           )}
 
-          {/* INITIAL INTRO TEXT (Fades out on desktop scroll; always visible on mobile) */}
+          {/* INITIAL INTRO TEXT (Fades out completely on scroll - No text during scroll) */}
           <div
             className={`absolute inset-0 flex flex-col justify-between select-none z-10 px-3 sm:px-6 md:px-8 lg:px-10 xl:px-12 py-16 sm:py-20 w-full max-w-[1920px] mx-auto transition-all duration-500 ease-out ${
-              isMobile || scrollProgress <= 0.01
+              scrollProgress <= 0.01
                 ? "opacity-100 scale-100 pointer-events-auto"
                 : "opacity-0 scale-95 pointer-events-none"
             }`}
@@ -353,16 +313,16 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* SCROLL HINT (Only visible at initial state on desktop; always visible on mobile) */}
+          {/* SCROLL HINT (Only visible at initial top state, fades immediately on scroll) */}
           <div
             className={`absolute bottom-3 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center pointer-events-none transition-all duration-500 ${
-              isMobile || scrollProgress <= 0.01
+              scrollProgress <= 0.01
                 ? "opacity-90 translate-y-0"
                 : "opacity-0 translate-y-4 pointer-events-none"
             }`}
           >
             <span className="text-[10px] font-mono text-white/50 uppercase tracking-widest mb-0.5">
-              {isMobile ? "Scroll Down" : "Scroll To Scrub Mission"}
+              Scroll To Scrub Mission
             </span>
             <ChevronDown className="w-3.5 h-3.5 text-[#FFD400] animate-bounce" />
           </div>

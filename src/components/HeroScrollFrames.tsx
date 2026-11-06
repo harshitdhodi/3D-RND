@@ -98,10 +98,10 @@ export default function HeroScrollFrames({
       offsetX = 0;
       offsetY = Math.round((ch - renderHeight) / 2);
     } else {
-      // For mobile or extreme portrait ratios, cover full viewport with 10% increased height
+      // For mobile or extreme portrait ratios, cover full viewport edge-to-edge
       const ratio = Math.max(cw / iw, ch / ih);
       renderWidth = Math.round(iw * ratio);
-      renderHeight = Math.round(ih * ratio * heightScale);
+      renderHeight = Math.round(ih * ratio * (isDesktop ? heightScale : 1.0));
       offsetX = Math.round((cw - renderWidth) / 2);
       offsetY = Math.round((ch - renderHeight) / 2);
     }
@@ -116,11 +116,17 @@ export default function HeroScrollFrames({
   const resizeCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
+    const container = containerRef.current;
+    const width =
+      (container && container.clientWidth > 0 ? container.clientWidth : 0) ||
+      (typeof window !== "undefined" ? window.innerWidth : 375);
+    const height =
+      (container && container.clientHeight > 0 ? container.clientHeight : 0) ||
+      (typeof window !== "undefined" ? window.innerHeight : 667);
     const dpr = Math.min(typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1, 2);
 
-    const targetWidth = Math.floor(rect.width * dpr);
-    const targetHeight = Math.floor(rect.height * dpr);
+    const targetWidth = Math.floor(width * dpr);
+    const targetHeight = Math.floor(height * dpr);
 
     if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
       canvas.width = targetWidth;
@@ -192,11 +198,26 @@ export default function HeroScrollFrames({
     }
   }, [scrollProgress, totalFrames]);
 
-  // Window resize observer
+  // Window and container resize observer for perfect responsive layout
   useEffect(() => {
     window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("orientationchange", resizeCanvas);
     resizeCanvas();
-    return () => window.removeEventListener("resize", resizeCanvas);
+
+    const container = containerRef.current;
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined" && container) {
+      ro = new ResizeObserver(() => {
+        resizeCanvas();
+      });
+      ro.observe(container);
+    }
+
+    return () => {
+      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("orientationchange", resizeCanvas);
+      if (ro) ro.disconnect();
+    };
   }, [resizeCanvas]);
 
   // 60/120 FPS Physics Animation Loop: Smooth inertia LERP
@@ -236,7 +257,7 @@ export default function HeroScrollFrames({
       {/* HTML5 Render Canvas */}
       <canvas
         ref={canvasRef}
-        className="w-full h-full block object-contain will-change-transform"
+        className="w-full h-full block object-cover will-change-transform"
       />
 
       {/* 5% Dark Overlay as requested */}

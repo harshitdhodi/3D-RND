@@ -157,9 +157,9 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${plusJakarta.variable} ${geistMono.variable} ${bebasNeue.variable} ${syne.variable} ${archia.variable} scroll-smooth dark`}
+      className={`${plusJakarta.variable} ${geistMono.variable} ${bebasNeue.variable} ${syne.variable} ${archia.variable} scroll-smooth dark overflow-x-hidden max-w-full`}
     >
-      <body suppressHydrationWarning className="min-h-screen bg-[#050608] text-white antialiased font-[family-name:var(--font-jakarta)] selection:bg-[#FFD400] selection:text-black">
+      <body suppressHydrationWarning className="min-h-screen bg-[#050608] text-white antialiased font-[family-name:var(--font-jakarta)] selection:bg-[#FFD400] selection:text-black overflow-x-hidden max-w-full">
         <GlobalCursor />
         {children}
       </body>

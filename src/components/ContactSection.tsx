@@ -37,6 +37,7 @@ export default function ContactSection() {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [copiedKey, setCopiedKey] = useState<string | null>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -233,13 +234,32 @@ export default function ContactSection() {
         setFormData((prev) => ({ ...prev, agreed: e.target.checked }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!formData.name || !formData.email || !formData.message) return;
 
         setIsSubmitting(true);
-        setTimeout(() => {
-            setIsSubmitting(false);
+        setErrorMessage(null);
+
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name: formData.name,
+                    email: formData.email,
+                    phoneCode: formData.phoneCode,
+                    phone: formData.phone,
+                    message: formData.message,
+                    source: "Contact Us Page",
+                }),
+            });
+
+            const data = await res.json();
+            if (!res.ok || !data.success) {
+                throw new Error(data.error || "Failed to send message. Please try again.");
+            }
+
             setIsSubmitted(true);
             setFormData({
                 name: "",
@@ -250,7 +270,12 @@ export default function ContactSection() {
                 agreed: true,
             });
             setTimeout(() => setIsSubmitted(false), 6000);
-        }, 900);
+        } catch (err: any) {
+            console.error("ContactSection error:", err);
+            setErrorMessage(err.message || "Failed to send message. Please try again.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const copyToClipboard = (text: string, key: string) => {
@@ -756,4 +781,4 @@ export default function ContactSection() {
             </div>
         </div>
     );
-}
+}

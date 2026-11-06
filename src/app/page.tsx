@@ -65,7 +65,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="font-archia relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black">
+    <div className="font-archia relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black overflow-x-hidden max-w-full w-full">
       {/* Global GSAP ScrollTrigger Animations for Headings, Images & Grids */}
       <GSAPScrollAnimations />
 
@@ -75,7 +75,7 @@ export default function Home() {
       {/* 1.1 Header: Logo, navigation, service mega-menu, contact CTA */}
       <Navbar />
 
-      <main className="relative z-10">
+      <main className="relative z-10 w-full max-w-full overflow-x-hidden">
         {/* 1.2 Hero section: Headline, supporting copy, astronaut mascot, animated orbital visuals, primary and secondary CTAs */}
         <HeroSection />
 

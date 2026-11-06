@@ -133,19 +133,19 @@ export default function Navbar() {
   return (
     <header
       id="navbar"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out px-3 sm:px-6 md:px-8 lg:px-12 ${isSticky
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out px-3 sm:px-6 md:px-8 lg:px-12 w-full max-w-full ${isSticky
           ? "bg-[#06080e]/95 backdrop-blur-2xl border-b border-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.85)] py-2.5 sm:py-3"
           : "bg-transparent border-b border-transparent shadow-none py-3.5 sm:py-5"
         }`}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between relative">
+      <div className="w-full max-w-7xl mx-auto flex items-center justify-between relative">
         {/* Brand Logo in crisp white pill capsule */}
-        <Link href="/" className="flex items-center gap-3 group">
+        <Link href="/" className="flex items-center gap-3 group shrink-0">
           <div className="pr-2 sm:pr-3 rounded-xl transition-all flex items-center">
             <img
               src="/logo.svg"
               alt="RND Technosoft Logo"
-              className="h-9 sm:h-11 md:h-12 lg:h-14 xl:h-16 w-auto object-contain transition-transform group-hover:scale-[1.03]"
+              className="h-8 sm:h-11 md:h-12 lg:h-14 xl:h-16 w-auto object-contain transition-transform group-hover:scale-[1.03]"
             />
           </div>
         </Link>
@@ -303,10 +303,10 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Right Action: Contact CTA button + Mobile Hamburger */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* Contact CTA - Visible inside the navbar across all screen sizes */}
-          <div>
+        {/* Right Action: Contact CTA button (Desktop only) + Mobile Hamburger */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          {/* Contact CTA - Desktop only (hidden on small devices) */}
+          <div className="hidden lg:block">
             <CyberButton
               href="/contact-us"
               size="sm"
@@ -321,12 +321,12 @@ export default function Navbar() {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
-            className="lg:hidden p-1.5 sm:p-2 rounded-lg bg-black/40 backdrop-blur-md border border-white/20 text-white hover:text-[#FFD400] transition-colors shrink-0"
+            className="lg:hidden p-2 rounded-lg bg-black/60 backdrop-blur-md border border-white/20 text-white hover:text-[#FFD400] transition-colors shrink-0 z-50 cursor-pointer"
           >
             {mobileMenuOpen ? (
-              <X className="w-4 h-4 sm:w-5 sm:h-5" />
+              <X className="w-5 h-5" />
             ) : (
-              <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
+              <Menu className="w-5 h-5" />
             )}
           </button>
         </div>
@@ -428,11 +428,14 @@ export default function Navbar() {
               </div>
             );
           })}
-          <div className="mt-3 w-full">
+          {/* Mobile Contact CTA inside Hamburger Dropdown */}
+          <div className="mt-4 pt-4 border-t border-white/10 w-full">
             <CyberButton
               href="/contact-us"
+              variant="gold"
               fullWidth
               onClick={() => setMobileMenuOpen(false)}
+              className="justify-center !py-3 shadow-[0_0_20px_rgba(255,212,0,0.4)]"
             >
               LET&apos;S TALK
             </CyberButton>

@@ -212,9 +212,9 @@ export default function HeroSection() {
       className="relative w-full h-[600vh] bg-transparent z-10"
     >
       {/* Pinned Sticky Stage during the entire scroll journey */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between">
+      <div className="sticky top-0 h-[100dvh] w-full max-w-full overflow-hidden flex flex-col justify-between">
         {/* Full-width Video Canvas with 5% dark overlay and +10% height */}
-        <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-auto">
+        <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-auto w-full h-full">
           <HeroScrollFrames
             scrollProgress={scrollProgress}
             className="w-full h-full opacity-100"
@@ -280,7 +280,7 @@ export default function HeroSection() {
             </div> */}
 
             {/* Middle: Grand Split Title - Positioned on left side of astronaut & right side of laptop */}
-            <div className="flex items-end justify-between w-full my-auto pointer-events-none translate-y-[135%] sm:translate-y-[142%] md:translate-y-[148%] lg:translate-y-[155%] xl:translate-y-[170%] px-1 sm:px-2 md:px-3">
+            <div className="flex items-center justify-between w-full my-auto pointer-events-none translate-y-8 sm:translate-y-[142%] md:translate-y-[148%] lg:translate-y-[155%] xl:translate-y-[170%] px-2 sm:px-3 md:px-4">
               <div className="flex items-center justify-start z-10">
                 <h1
                   data-no-gsap
@@ -288,7 +288,7 @@ export default function HeroSection() {
                     textShadow:
                       "0 4px 15px rgba(0, 0, 0, 0.95), 0 12px 40px rgba(0, 0, 0, 0.9), 0 2px 4px rgba(0, 0, 0, 0.95)",
                   }}
-                  className="text-[#ffd400] text-[6.8vw] sm:text-[5.8vw] md:text-[4.8vw] lg:text-[62px] xl:text-[6rem] 2xl:text-[90px] font-[family-name:var(--font-syne)] font-bold tracking-tight leading-none uppercase select-none drop-shadow-[0_15px_40px_rgba(0,0,0,0.9)] whitespace-nowrap"
+                  className="text-[#ffd400] text-[1.4rem] sm:text-[5.8vw] md:text-[4.8vw] lg:text-[62px] xl:text-[6rem] 2xl:text-[90px] font-[family-name:var(--font-syne)] font-bold tracking-tight leading-none uppercase select-none drop-shadow-[0_15px_40px_rgba(0,0,0,0.9)] whitespace-nowrap"
                 >
                   DIGITAL
                 </h1>
@@ -300,7 +300,7 @@ export default function HeroSection() {
                     textShadow:
                       "0 4px 15px rgba(0, 0, 0, 0.95), 0 12px 40px rgba(0, 0, 0, 0.9), 0 2px 4px rgba(0, 0, 0, 0.95)",
                   }}
-                  className="text-[#ffd400] text-[6.8vw] sm:text-[5.8vw] md:text-[4.8vw] lg:text-[62px] xl:text-[6rem] 2xl:text-[90px] font-[family-name:var(--font-syne)] font-bold tracking-tight leading-none uppercase select-none drop-shadow-[0_15px_40px_rgba(0,0,0,0.9)] whitespace-nowrap text-right"
+                  className="text-[#ffd400] text-[1.4rem] sm:text-[5.8vw] md:text-[4.8vw] lg:text-[62px] xl:text-[6rem] 2xl:text-[90px] font-[family-name:var(--font-syne)] font-bold tracking-tight leading-none uppercase select-none drop-shadow-[0_15px_40px_rgba(0,0,0,0.9)] whitespace-nowrap text-right"
                 >
                   AGENCY
                 </h1>

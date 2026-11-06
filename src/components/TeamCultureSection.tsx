@@ -135,8 +135,8 @@ export default function TeamCultureSection({
             <div className="lg:col-span-5 relative">
               <div className="relative aspect-square max-w-[420px] mx-auto rounded-2xl overflow-hidden border-2 border-white/15 group-hover:border-[#FFD400]/60 transition-all duration-700 shadow-2xl">
                 <Image
-                  src="/images/team/owner.png"
-                  alt="Siddharth Rao — Founder & CEO"
+                  src="/images/team/founder_ravi_shah.png"
+                  alt="Ravi Shah — Founder & CEO"
                   fill
                   sizes="(max-width: 768px) 100vw, 420px"
                   className="object-cover object-top filter brightness-95 group-hover:scale-105 transition-transform duration-700 ease-out"

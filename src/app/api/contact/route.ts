@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+import nodemailer, { SendMailOptions } from "nodemailer";
 
 export async function POST(request: Request) {
   try {
@@ -80,6 +80,12 @@ export async function POST(request: Request) {
       clean(process.env.SMTP_ADMIN_EMAIL) ||
       clean(process.env.CONTACT_RECEIVER_EMAIL) ||
       "info@rndtechnosoft.com";
+
+    const ccEmail =
+      clean(process.env.EMAIL_CC) ||
+      clean(process.env.SMTP_CC) ||
+      clean(process.env.ZOHO_CC) ||
+      "ravi@rndtechnosoft.com";
 
     // If password is not configured yet in environment
     if (!smtpPass) {
@@ -242,14 +248,20 @@ ${message.trim()}
     `;
 
     // Send the email via Zoho SMTP
-    await transporter.sendMail({
+    const mailOptions: SendMailOptions = {
       from: `"${fromName}" <${fromEmail}>`,
       to: receiverEmail,
       replyTo: email.trim(),
       subject: `🚀 New Inquiry: ${name.trim()} [${source}]`,
       text: textContent,
       html: htmlContent,
-    });
+    };
+
+    if (ccEmail) {
+      mailOptions.cc = ccEmail;
+    }
+
+    await transporter.sendMail(mailOptions);
 
     return NextResponse.json({
       success: true,

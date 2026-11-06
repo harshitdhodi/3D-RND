@@ -37,6 +37,7 @@ async function main() {
   const pass = env.EMAIL_PASS || env.SMTP_PASS || '';
   const fromName = env.EMAIL_FROM_NAME || 'RND TECHNOSOFT';
   const to = env.EMAIL_ADMIN || user;
+  const cc = env.EMAIL_CC || env.SMTP_CC || 'ravi@rndtechnosoft.com';
 
   console.log('📋 SMTP Settings:');
   console.log('  Host:', host);
@@ -45,6 +46,7 @@ async function main() {
   console.log('  User:', user);
   console.log('  Password:', pass ? '******** (' + pass.length + ' chars)' : '(empty)');
   console.log('  To:', to);
+  console.log('  CC:', cc);
 
   const transporter = nodemailer.createTransport({
     host,
@@ -75,6 +77,7 @@ async function main() {
   const mailOptions = {
     from: `"${fromName}" <${user}>`,
     to,
+    cc,
     subject: `[Test Mail] RND Technosoft Zoho SMTP Verification — ${timestamp}`,
     text: `Hello!\n\nThis is a test email sent from the RND Technosoft platform to verify that Zoho Mail SMTP configuration is working.\n\nSent at: ${timestamp}\nHost: ${host}:${port}\nUser: ${user}\n\nAll systems operational.`,
     html: `

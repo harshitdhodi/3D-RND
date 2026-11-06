@@ -43,38 +43,43 @@ export async function POST(request: Request) {
       typeof val === "string" ? val.replace(/^["']|["']$/g, "").trim() : val ? String(val) : "";
 
     const smtpUser =
+      clean(process.env.EMAIL_USER) ||
       clean(process.env.SMTP_USER) ||
       clean(process.env.SMTP_FROM_EMAIL) ||
       clean(process.env.ZOHO_USER) ||
       clean(process.env.ZOHO_EMAIL) ||
-      "prachi@rndtechnosoft.com";
+      "info@rndtechnosoft.com";
 
     const smtpPass =
+      clean(process.env.EMAIL_PASS) ||
       clean(process.env.SMTP_PASS) ||
       clean(process.env.SMTP_PASSWORD) ||
       clean(process.env.ZOHO_PASSWORD) ||
       "";
 
     const smtpHost =
+      clean(process.env.EMAIL_HOST) ||
       clean(process.env.SMTP_HOST) ||
       clean(process.env.ZOHO_HOST) ||
       "smtppro.zoho.in";
 
     const smtpPort = Number(
-      clean(process.env.SMTP_PORT) || clean(process.env.ZOHO_PORT) || 465
+      clean(process.env.EMAIL_PORT) || clean(process.env.SMTP_PORT) || clean(process.env.ZOHO_PORT) || 465
     );
 
     const isSecure =
+      process.env.EMAIL_SECURE === "true" ||
       process.env.SMTP_SECURE === "true" ||
       process.env.SMTP_SECURE === "TRUE" ||
       smtpPort === 465;
 
-    const fromEmail = clean(process.env.SMTP_FROM_EMAIL) || smtpUser;
-    const fromName = clean(process.env.SMTP_FROM_NAME) || "RND TECHNOSOFT";
+    const fromEmail = clean(process.env.EMAIL_FROM) || clean(process.env.SMTP_FROM_EMAIL) || smtpUser;
+    const fromName = clean(process.env.EMAIL_FROM_NAME) || clean(process.env.SMTP_FROM_NAME) || "RND TECHNOSOFT";
     const receiverEmail =
+      clean(process.env.EMAIL_ADMIN) ||
       clean(process.env.SMTP_ADMIN_EMAIL) ||
       clean(process.env.CONTACT_RECEIVER_EMAIL) ||
-      "prachi@rndtechnosoft.com";
+      "info@rndtechnosoft.com";
 
     // If password is not configured yet in environment
     if (!smtpPass) {

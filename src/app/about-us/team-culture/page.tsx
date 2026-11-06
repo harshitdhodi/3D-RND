@@ -212,7 +212,7 @@ export default function TeamCulturePage() {
                     </div>
                     <div className="space-y-1">
                       <span className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-[#FFD400]">
-                        250+
+                        500+
                       </span>
                       <span className="text-[10px] sm:text-xs font-mono text-neutral-400 block uppercase leading-tight">
                         Shipped Systems

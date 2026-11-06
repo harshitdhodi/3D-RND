@@ -105,7 +105,7 @@ export default function AboutUsSection() {
 
   const stats = [
     {
-      numericValue: 250,
+      numericValue: 500,
       decimals: 0,
       suffix: "+",
       label: "PROJECTS",

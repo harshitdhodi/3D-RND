@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import GlobalCursor from "@/components/GlobalCursor";
+import ExtensionHydrationSuppressor from "@/components/ExtensionHydrationSuppressor";
 import "./globals.css";
 
 const plusJakarta = localFont({
@@ -160,6 +161,7 @@ export default function RootLayout({
       className={`${plusJakarta.variable} ${geistMono.variable} ${bebasNeue.variable} ${syne.variable} ${archia.variable} scroll-smooth dark`}
     >
       <body suppressHydrationWarning className="min-h-screen bg-[#050608] text-white antialiased font-[family-name:var(--font-jakarta)] selection:bg-[#FFD400] selection:text-black">
+        <ExtensionHydrationSuppressor />
         <GlobalCursor />
         {children}
       </body>

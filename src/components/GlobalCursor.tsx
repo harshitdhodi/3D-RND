@@ -1,10 +1,14 @@
 "use client";
 
-import RocketCursor from "./RocketCursor";
+import dynamic from "next/dynamic";
+
+const RocketCursor = dynamic(() => import("./RocketCursor"), {
+  ssr: false,
+});
 
 /**
  * GlobalCursor - Provides custom rocket cursor effects across the entire website
- * Only activates on desktop/devices with fine pointer (not on mobile/touch devices)
+ * Loaded client-side only (ssr: false) to avoid any SSR hydration overhead or DOM mismatches.
  */
 export default function GlobalCursor() {
   return <RocketCursor />;

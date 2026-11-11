@@ -1,18 +1,22 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getBlogById, blogsData } from "@/data/blogsData";
-import { fetchInsightBySlug, fetchInsightsArticles } from "@/lib/cms";
 import InsightDetailView from "@/components/InsightDetailView";
+import { fetchBlogs, fetchBlogBySlug } from "@/lib/blogApi";
 
-// Allow dynamic params with revalidation
-export const dynamic = 'auto';
-export const dynamicParams = true;
-export const revalidate = 60;
+// Allow dynamic params with no-store caching
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
-export function generateStaticParams() {
-  return blogsData.map((b) => ({
-    slug: b.id,
-  }));
+export async function generateStaticParams() {
+  try {
+    const blogs = await fetchBlogs();
+    return blogs.map((b) => ({
+      slug: b.id,
+    }));
+  } catch (error) {
+    console.error("Error generating static params:", error);
+    return [];
+  }
 }
 
 export async function generateMetadata({
@@ -21,21 +25,26 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const blog = (await fetchInsightBySlug(slug)) || getBlogById(slug);
+  const blog = await fetchBlogBySlug(slug);
+  
   if (!blog) {
     return {
       title: "Article Not Found | RND Technosoft",
       robots: "noindex, nofollow",
     };
   }
-  const title = `${blog.title} | RND Technosoft Insights`;
-  const description = blog.tagline;
-  const pageUrl = `https://rndtechnosoft.com/blogs/${slug}`;
+  
+  const title = blog.meta_title || `${blog.title} | RND Technosoft Insights`;
+  const description = blog.meta_description || blog.tagline;
+  const pageUrl = blog.canonical || `https://rndtechnosoft.com/insights/${slug}`;
+  const keywords = blog.meta_keywords
+    ? (typeof blog.meta_keywords === "string" ? blog.meta_keywords.split(",").map((k) => k.trim()) : blog.meta_keywords)
+    : [blog.title, blog.category, "RND Technosoft", "digital insights"];
 
   return {
     title,
     description,
-    keywords: [blog.title, blog.category, "RND Technosoft", "digital insights"],
+    keywords,
     alternates: {
       canonical: pageUrl,
     },
@@ -64,24 +73,34 @@ export default async function BlogDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const blog = (await fetchInsightBySlug(slug)) || getBlogById(slug);
+  const blog = await fetchBlogBySlug(slug);
 
   if (!blog) {
     notFound();
   }
 
-  const allArticles = (await fetchInsightsArticles()) || blogsData;
+  const allArticles = await fetchBlogs();
   const currentIndex = allArticles.findIndex((b) => b.id === blog.id);
   const prevBlog = currentIndex > 0 ? allArticles[currentIndex - 1] : null;
   const nextBlog =
     currentIndex < allArticles.length - 1 ? allArticles[currentIndex + 1] : null;
 
   return (
-    <InsightDetailView
-      article={blog}
-      allArticles={allArticles}
-      prevArticle={prevBlog}
-      nextArticle={nextBlog}
-    />
+    <>
+      {blog.schema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: typeof blog.schema === "string" ? blog.schema : JSON.stringify(blog.schema),
+          }}
+        />
+      )}
+      <InsightDetailView
+        article={blog}
+        allArticles={allArticles}
+        prevArticle={prevBlog}
+        nextArticle={nextBlog}
+      />
+    </>
   );
 }

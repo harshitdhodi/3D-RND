@@ -95,28 +95,50 @@ export default function InsightDetailView({
     scale: "",
   });
 
-  // Dynamic Table of Contents from article sections
+  // Dynamic Table of Contents from article sections or rich HTML content
   const sectionsList = useMemo(() => {
-    const list: { id: string; number: string; label: string }[] = [
-      { id: "intro", number: "01", label: "Executive Summary" },
-    ];
+    const list: { id: string; number: string; label: string }[] = [];
 
-    if (article.contentSections && article.contentSections.length > 0) {
-      article.contentSections.forEach((sec, idx) => {
-        list.push({
-          id: sec.id,
-          number: String(idx + 2).padStart(2, "0"),
-          label: sec.title.replace(/^\d+\.\s*/, ""),
+    if (article.content && typeof article.content === "string") {
+      list.push({ id: "intro", number: "01", label: "Executive Summary" });
+
+      // Match all <h2> tags with optional id and text
+      const h2Regex = /<h2(?:\s+[^>]*?id=["']([^"']*)["'][^>]*)?>([\s\S]*?)<\/h2>/gi;
+      let match;
+      let count = 2;
+      while ((match = h2Regex.exec(article.content)) !== null) {
+        const rawText = match[2].replace(/<[^>]*>/g, "").trim();
+        const existingId = match[1];
+        const targetId = existingId || `section-${count - 1}`;
+        if (rawText) {
+          list.push({
+            id: targetId,
+            number: String(count).padStart(2, "0"),
+            label: rawText.replace(/^\d+[\.\)]\s*/, ""),
+          });
+          count++;
+        }
+      }
+    } else {
+      list.push({ id: "intro", number: "01", label: "Executive Summary" });
+
+      if (article.contentSections && article.contentSections.length > 0) {
+        article.contentSections.forEach((sec, idx) => {
+          list.push({
+            id: sec.id,
+            number: String(idx + 2).padStart(2, "0"),
+            label: sec.title.replace(/^\d+\.\s*/, ""),
+          });
         });
-      });
-    }
+      }
 
-    if (article.faqs && article.faqs.length > 0) {
-      list.push({
-        id: "faq",
-        number: String(list.length + 1).padStart(2, "0"),
-        label: "Frequently Asked Questions",
-      });
+      if (article.faqs && article.faqs.length > 0) {
+        list.push({
+          id: "faq",
+          number: String(list.length + 1).padStart(2, "0"),
+          label: "Frequently Asked Questions",
+        });
+      }
     }
 
     list.push({
@@ -127,6 +149,20 @@ export default function InsightDetailView({
 
     return list;
   }, [article]);
+
+  // Ensure all headings in rendered editor HTML have IDs and scroll margins for TOC linking
+  useEffect(() => {
+    if (!article.content) return;
+    const contentEl = document.querySelector(".article-editor-content");
+    if (!contentEl) return;
+    const h2Elements = contentEl.querySelectorAll("h2");
+    h2Elements.forEach((h2, idx) => {
+      if (!h2.id) {
+        h2.id = `section-${idx + 1}`;
+      }
+      h2.classList.add("scroll-mt-36");
+    });
+  }, [article.content]);
 
   // Track window scroll progress and active section
   useEffect(() => {
@@ -167,7 +203,12 @@ export default function InsightDetailView({
   };
 
   // Drop cap letter from first overview paragraph
-  const firstParagraph = article.overview[0] || "";
+  const firstParagraph =
+    (Array.isArray(article.overview)
+      ? article.overview[0]
+      : typeof article.overview === "string"
+      ? article.overview
+      : "") || "";
   const firstLetter = firstParagraph.charAt(0);
   const remainingFirstParagraph = firstParagraph.slice(1);
 
@@ -403,20 +444,8 @@ export default function InsightDetailView({
                 </p>
               </div>
 
-              {/* SECTION 01: EDITORIAL THESIS / ABSTRACT */}
-              {/* SECTION 01: INTRO / EXECUTIVE SUMMARY */}
-              <div id="intro" className="space-y-6 scroll-mt-36">
-                <div className="flex items-center space-x-2 text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Executive Summary // {article.category}</span>
-                </div>
-
-                {article.quote && (
-                  <blockquote className="font-[family-name:var(--font-syne)] text-xl sm:text-2xl lg:text-3xl text-white font-light leading-relaxed italic border-l-2 border-[#FFD400] pl-6 sm:pl-8 py-3 bg-[#0c0e14] shadow-md">
-                    &ldquo;{article.quote.text}&rdquo;
-                  </blockquote>
-                )}
-
+              {/* TOP ARTICLE METADATA: AUTHOR HEADER + COVER IMAGE */}
+              <div className="space-y-6">
                 {/* Author Meta Header Card */}
                 <div className="flex items-center justify-between p-4 bg-[#0c0e14] border border-white/10 shadow-lg">
                   <div className="flex items-center space-x-3.5">
@@ -446,194 +475,218 @@ export default function InsightDetailView({
                 <div className="relative aspect-[78/50] w-full overflow-hidden bg-black/40 border border-white/10 shadow-2xl">
                   <Image
                     src={article.image}
-                    alt={article.title}
+                    alt={article.altname || article.title}
+                    title={article.imgtitle || article.title}
                     fill
                     priority
                     className="object-contain"
                   />
                 </div>
-
-                {/* Narrative Intro with Drop Cap */}
-                <div className="space-y-6 text-neutral-300 font-light leading-relaxed text-base sm:text-lg">
-                  {firstParagraph && (
-                    <p className="leading-relaxed">
-                      <span className="float-left text-5xl sm:text-6xl font-[family-name:var(--font-syne)] text-[#FFD400] leading-none pr-3 pt-1 font-bold">
-                        {firstLetter}
-                      </span>
-                      {remainingFirstParagraph}
-                    </p>
-                  )}
-
-                  {article.overview.slice(1).map((para, pIdx) => (
-                    <p key={pIdx} className="leading-relaxed text-sm sm:text-base">
-                      {para}
-                    </p>
-                  ))}
-                </div>
               </div>
 
-              {/* DYNAMIC ARTICLE CONTENT SECTIONS */}
-              {article.contentSections && article.contentSections.length > 0 && (
-                <div className="space-y-12 pt-4">
-                  {article.contentSections.map((sec) => (
-                    <section
-                      key={sec.id}
-                      id={sec.id}
-                      className="space-y-6 scroll-mt-36 border-t border-white/10 pt-8"
-                    >
-                      {sec.badge && (
-                        <div className="flex items-center space-x-2 text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
-                          <Sparkles className="w-3.5 h-3.5" />
-                          <span>{sec.badge}</span>
-                        </div>
-                      )}
-
-                      <h2 className="font-[family-name:var(--font-syne)] text-xl sm:text-2xl lg:text-3xl text-white font-bold leading-snug uppercase">
-                        {sec.title}
-                      </h2>
-
-                      {/* Paragraphs */}
-                      {sec.paragraphs && sec.paragraphs.length > 0 && (
-                        <div className="space-y-4 text-neutral-300 font-light leading-relaxed text-sm sm:text-base">
-                          {sec.paragraphs.map((p, pIdx) => (
-                            <p key={pIdx} className="leading-relaxed">
-                              {p}
-                            </p>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Bullets */}
-                      {sec.bullets && sec.bullets.length > 0 && (
-                        <ul className="space-y-3 py-2">
-                          {sec.bullets.map((bullet, bIdx) => (
-                            <li
-                              key={bIdx}
-                              className="flex items-start space-x-3 text-xs sm:text-sm text-neutral-300"
-                            >
-                              <CheckCircle2 className="w-4 h-4 text-[#FFD400] shrink-0 mt-0.5" />
-                              <span className="leading-relaxed">{bullet}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-
-                      {/* Subsections */}
-                      {sec.subsections && sec.subsections.length > 0 && (
-                        <div className="space-y-5 pt-2">
-                          {sec.subsections.map((sub, sIdx) => (
-                            <div
-                              key={sIdx}
-                              className="p-5 sm:p-6 bg-[#0c0e14] border border-white/10 space-y-3 shadow-md"
-                            >
-                              <h3 className="font-[family-name:var(--font-syne)] text-base sm:text-lg text-white font-bold uppercase flex items-center space-x-2">
-                                <span className="text-[#FFD400] text-xs font-mono">
-                                  {String(sIdx + 1).padStart(2, "0")}.
-                                </span>
-                                <span>{sub.title.replace(/^\d+[\.\)]\s*/, "")}</span>
-                              </h3>
-
-                              {sub.paragraphs && sub.paragraphs.length > 0 && (
-                                <div className="space-y-2.5">
-                                  {sub.paragraphs.map((sp, spIdx) => (
-                                    <p
-                                      key={spIdx}
-                                      className="text-neutral-300 font-light leading-relaxed text-xs sm:text-sm"
-                                    >
-                                      {sp}
-                                    </p>
-                                  ))}
-                                </div>
-                              )}
-
-                              {sub.bullets && sub.bullets.length > 0 && (
-                                <ul className="space-y-2 pt-1">
-                                  {sub.bullets.map((sb, sbIdx) => (
-                                    <li
-                                      key={sbIdx}
-                                      className="flex items-start space-x-2.5 text-xs text-neutral-300"
-                                    >
-                                      <span className="w-1.5 h-1.5 rounded-full bg-[#FFD400] mt-1.5 shrink-0" />
-                                      <span className="leading-relaxed">{sb}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Comparison Table */}
-                      {sec.table && (
-                        <div className="overflow-x-auto my-6 border border-white/10 bg-[#0c0e14]">
-                          <table className="w-full text-left border-collapse text-xs sm:text-sm">
-                            <thead>
-                              <tr className="border-b border-white/15 bg-white/[0.04]">
-                                {sec.table.headers.map((h, hIdx) => (
-                                  <th
-                                    key={hIdx}
-                                    className="p-3.5 sm:p-4 font-mono font-bold uppercase tracking-wider text-[#FFD400] text-xs"
-                                  >
-                                    {h}
-                                  </th>
-                                ))}
-                              </tr>
-                            </thead>
-                            <tbody className="divide-y divide-white/5 font-light text-neutral-300">
-                              {sec.table.rows.map((row, rIdx) => (
-                                <tr
-                                  key={rIdx}
-                                  className="hover:bg-white/[0.02] transition-colors"
-                                >
-                                  {row.map((cell, cIdx) => (
-                                    <td
-                                      key={cIdx}
-                                      className={`p-3.5 sm:p-4 leading-relaxed ${
-                                        cIdx === 0
-                                          ? "font-medium text-white"
-                                          : ""
-                                      }`}
-                                    >
-                                      {cell}
-                                    </td>
-                                  ))}
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      )}
-
-                      {/* Callout Box */}
-                      {sec.callout && (
-                        <div className="p-6 sm:p-8 bg-gradient-to-br from-[#0c0e14] via-[#12151d] to-[#0c0e14] border border-[#FFD400]/40 shadow-xl space-y-4 my-6">
-                          <div className="flex items-center space-x-2 text-xs font-mono uppercase tracking-widest text-[#FFD400] font-semibold">
-                            <Sparkles className="w-4 h-4 text-[#FFD400]" />
-                            <span>Recommended Action</span>
-                          </div>
-                          {sec.callout.title && (
-                            <h3 className="font-[family-name:var(--font-syne)] text-lg sm:text-xl text-white font-bold uppercase">
-                              {sec.callout.title}
-                            </h3>
-                          )}
-                          <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
-                            {sec.callout.text}
-                          </p>
-                          <div className="pt-2">
-                            <Link
-                              href={sec.callout.ctaLink || "/#contact"}
-                              className="inline-flex items-center space-x-2 px-5 py-2.5 bg-[#FFD400] text-black font-mono text-xs uppercase tracking-wider font-bold hover:bg-[#ffe34d] transition-colors shadow-[0_0_15px_rgba(255,212,0,0.3)]"
-                            >
-                              <span>{sec.callout.ctaText || "Discuss Your Project"}</span>
-                              <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
-                            </Link>
-                          </div>
-                        </div>
-                      )}
-                    </section>
-                  ))}
+              {/* ARTICLE BODY DETAILS: SINGLE EDITOR CONTENT OR LEGACY FALLBACK */}
+              {article.content ? (
+                /* ═══ SINGLE UNIFIED EDITOR CONTENT (Dynamic from CMS) ═══ */
+                <div id="intro" className="article-editor-content scroll-mt-36 pt-4">
+                  <div dangerouslySetInnerHTML={{ __html: article.content }} />
                 </div>
+              ) : (
+                /* ═══ LEGACY MULTI-FIELD FALLBACK ═══ */
+                <>
+                  <div id="intro" className="space-y-6 scroll-mt-36">
+                    <div className="flex items-center space-x-2 text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>Executive Summary // {article.category}</span>
+                    </div>
+
+                    {article.quote && (
+                      <blockquote className="font-[family-name:var(--font-syne)] text-xl sm:text-2xl lg:text-3xl text-white font-light leading-relaxed italic border-l-2 border-[#FFD400] pl-6 sm:pl-8 py-3 bg-[#0c0e14] shadow-md">
+                        &ldquo;{article.quote.text}&rdquo;
+                      </blockquote>
+                    )}
+
+                    <div className="space-y-6 text-neutral-300 font-light leading-relaxed text-base sm:text-lg">
+                      {firstParagraph && (
+                        <p className="leading-relaxed">
+                          <span className="float-left text-5xl sm:text-6xl font-[family-name:var(--font-syne)] text-[#FFD400] leading-none pr-3 pt-1 font-bold">
+                            {firstLetter}
+                          </span>
+                          {remainingFirstParagraph}
+                        </p>
+                      )}
+
+                      {Array.isArray(article.overview) && article.overview.slice(1).map((para, pIdx) => (
+                        <p key={pIdx} className="leading-relaxed text-sm sm:text-base">
+                          {para}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* DYNAMIC ARTICLE CONTENT SECTIONS */}
+                  {article.contentSections && article.contentSections.length > 0 && (
+                    <div className="space-y-12 pt-4">
+                      {article.contentSections.map((sec) => (
+                        <section
+                          key={sec.id}
+                          id={sec.id}
+                          className="space-y-6 scroll-mt-36 border-t border-white/10 pt-8"
+                        >
+                          {sec.badge && (
+                            <div className="flex items-center space-x-2 text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
+                              <Sparkles className="w-3.5 h-3.5" />
+                              <span>{sec.badge}</span>
+                            </div>
+                          )}
+
+                          <h2 className="font-[family-name:var(--font-syne)] text-xl sm:text-2xl lg:text-3xl text-white font-bold leading-snug uppercase">
+                            {sec.title}
+                          </h2>
+
+                          {/* Paragraphs */}
+                          {sec.paragraphs && sec.paragraphs.length > 0 && (
+                            <div className="space-y-4 text-neutral-300 font-light leading-relaxed text-sm sm:text-base">
+                              {sec.paragraphs.map((p, pIdx) => (
+                                <p key={pIdx} className="leading-relaxed">
+                                  {p}
+                                </p>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* Bullets */}
+                          {sec.bullets && sec.bullets.length > 0 && (
+                            <ul className="space-y-3 py-2">
+                              {sec.bullets.map((bullet, bIdx) => (
+                                <li
+                                  key={bIdx}
+                                  className="flex items-start space-x-3 text-xs sm:text-sm text-neutral-300"
+                                >
+                                  <CheckCircle2 className="w-4 h-4 text-[#FFD400] shrink-0 mt-0.5" />
+                                  <span className="leading-relaxed">{bullet}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+
+                          {/* Subsections */}
+                          {sec.subsections && sec.subsections.length > 0 && (
+                            <div className="space-y-5 pt-2">
+                              {sec.subsections.map((sub, sIdx) => (
+                                <div
+                                  key={sIdx}
+                                  className="p-5 sm:p-6 bg-[#0c0e14] border border-white/10 space-y-3 shadow-md"
+                                >
+                                  <h3 className="font-[family-name:var(--font-syne)] text-base sm:text-lg text-white font-bold uppercase flex items-center space-x-2">
+                                    <span className="text-[#FFD400] text-xs font-mono">
+                                      {String(sIdx + 1).padStart(2, "0")}.
+                                    </span>
+                                    <span>{sub.title.replace(/^\d+[\.\)]\s*/, "")}</span>
+                                  </h3>
+
+                                  {sub.paragraphs && sub.paragraphs.length > 0 && (
+                                    <div className="space-y-2.5">
+                                      {sub.paragraphs.map((sp, spIdx) => (
+                                        <p
+                                          key={spIdx}
+                                          className="text-neutral-300 font-light leading-relaxed text-xs sm:text-sm"
+                                        >
+                                          {sp}
+                                        </p>
+                                      ))}
+                                    </div>
+                                  )}
+
+                                  {sub.bullets && sub.bullets.length > 0 && (
+                                    <ul className="space-y-2 pt-1">
+                                      {sub.bullets.map((sb, sbIdx) => (
+                                        <li
+                                          key={sbIdx}
+                                          className="flex items-start space-x-2.5 text-xs text-neutral-300"
+                                        >
+                                          <span className="w-1.5 h-1.5 rounded-full bg-[#FFD400] mt-1.5 shrink-0" />
+                                          <span className="leading-relaxed">{sb}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* Comparison Table */}
+                          {sec.table && (
+                            <div className="overflow-x-auto my-6 border border-white/10 bg-[#0c0e14]">
+                              <table className="w-full text-left border-collapse text-xs sm:text-sm">
+                                <thead>
+                                  <tr className="border-b border-white/15 bg-white/[0.04]">
+                                    {sec.table.headers.map((h, hIdx) => (
+                                      <th
+                                        key={hIdx}
+                                        className="p-3.5 sm:p-4 font-mono font-bold uppercase tracking-wider text-[#FFD400] text-xs"
+                                      >
+                                        {h}
+                                      </th>
+                                    ))}
+                                  </tr>
+                                </thead>
+                                <tbody className="divide-y divide-white/5 font-light text-neutral-300">
+                                  {sec.table.rows.map((row, rIdx) => (
+                                    <tr
+                                      key={rIdx}
+                                      className="hover:bg-white/[0.02] transition-colors"
+                                    >
+                                      {row.map((cell, cIdx) => (
+                                        <td
+                                          key={cIdx}
+                                          className={`p-3.5 sm:p-4 leading-relaxed ${
+                                            cIdx === 0
+                                              ? "font-medium text-white"
+                                              : ""
+                                          }`}
+                                        >
+                                          {cell}
+                                        </td>
+                                      ))}
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          )}
+
+                          {/* Callout Box */}
+                          {sec.callout && (
+                            <div className="p-6 sm:p-8 bg-gradient-to-br from-[#0c0e14] via-[#12151d] to-[#0c0e14] border border-[#FFD400]/40 shadow-xl space-y-4 my-6">
+                              <div className="flex items-center space-x-2 text-xs font-mono uppercase tracking-widest text-[#FFD400] font-semibold">
+                                <Sparkles className="w-4 h-4 text-[#FFD400]" />
+                                <span>Recommended Action</span>
+                              </div>
+                              {sec.callout.title && (
+                                <h3 className="font-[family-name:var(--font-syne)] text-lg sm:text-xl text-white font-bold uppercase">
+                                  {sec.callout.title}
+                                </h3>
+                              )}
+                              <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
+                                {sec.callout.text}
+                              </p>
+                              <div className="pt-2">
+                                <Link
+                                  href={sec.callout.ctaLink || "/#contact"}
+                                  className="inline-flex items-center space-x-2 px-5 py-2.5 bg-[#FFD400] text-black font-mono text-xs uppercase tracking-wider font-bold hover:bg-[#ffe34d] transition-colors shadow-[0_0_15px_rgba(255,212,0,0.3)]"
+                                >
+                                  <span>{sec.callout.ctaText || "Discuss Your Project"}</span>
+                                  <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
+                                </Link>
+                              </div>
+                            </div>
+                          )}
+                        </section>
+                      ))}
+                    </div>
+                  )}
+                </>
               )}
 
               {/* SECTION: PRINCIPAL PROFILE / AUTHOR CARD */}
@@ -714,9 +767,9 @@ export default function InsightDetailView({
         </section>
 
         {/* =========================================================================
-            3.5 FAQ SECTION
+            3.5 FAQ SECTION (Legacy fallback if content editor HTML not present)
             ========================================================================= */}
-        {article.faqs && article.faqs.length > 0 && (
+        {!article.content && article.faqs && article.faqs.length > 0 && (
           <section id="faq" className="max-w-[1560px] mx-auto px-5 md:px-8 lg:px-12 py-16 border-t border-white/10 scroll-mt-24">
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">

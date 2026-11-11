@@ -263,6 +263,28 @@ ${message.trim()}
 
     await transporter.sendMail(mailOptions);
 
+    // Also store lead in backend database
+    try {
+      const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3014";
+      await fetch(`${backendUrl}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          phone: fullPhone,
+          service,
+          budget,
+          timeline,
+          message,
+          url: source,
+        }),
+      });
+    } catch (backendError) {
+      console.warn("Failed to store lead in backend:", backendError);
+      // Don't fail the request if backend storage fails
+    }
+
     return NextResponse.json({
       success: true,
       message: `Inquiry successfully delivered to ${receiverEmail}`,

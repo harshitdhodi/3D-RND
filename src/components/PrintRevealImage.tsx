@@ -10,6 +10,7 @@ export type RevealDirection = "top" | "left" | "right" | "bottom" | "auto";
 export interface PrintRevealImageProps {
   src: string;
   alt: string;
+  title?: string;
   fill?: boolean;
   priority?: boolean;
   className?: string;
@@ -23,6 +24,7 @@ export interface PrintRevealImageProps {
 export default function PrintRevealImage({
   src,
   alt,
+  title,
   fill = true,
   priority = false,
   className = "border border-white/10",
@@ -124,6 +126,7 @@ export default function PrintRevealImage({
         <Image
           src={src}
           alt={alt}
+          title={title}
           fill={fill}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
           priority={priority}

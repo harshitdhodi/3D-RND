@@ -17,23 +17,22 @@ import CyberButton from "@/components/CyberButton";
 import PageBanner from "@/components/PageBanner";
 import PrintRevealImage from "@/components/PrintRevealImage";
 import WaveText from "@/components/WaveText";
-import { blogsData, BlogDetail } from "@/data/blogsData";
+import { BlogDetail } from "@/data/blogsData";
+import { fetchBlogs, fetchBlogCategories } from "@/lib/blogApi";
 import {
   fetchInsightsBanner,
   fetchInsightsBriefing,
-  fetchInsightsCategories,
-  fetchInsightsArticles,
   DEFAULT_BANNER,
   DEFAULT_BRIEFING,
-  DEFAULT_CATEGORIES,
   InsightsBannerData,
   InsightsBriefingData,
 } from "@/lib/cms";
 
 export default function InsightsPage() {
   const pageRef = useRef<HTMLDivElement>(null);
-  const [categories, setCategories] = useState<string[]>(DEFAULT_CATEGORIES);
-  const [articles, setArticles] = useState<BlogDetail[]>(blogsData);
+  const [categories, setCategories] = useState<string[]>(["All"]);
+  const [articles, setArticles] = useState<BlogDetail[]>([]);
+  const [loading, setLoading] = useState(true);
   const [banner, setBanner] = useState<InsightsBannerData>(DEFAULT_BANNER);
   const [briefing, setBriefing] = useState<InsightsBriefingData>(DEFAULT_BRIEFING);
   const [activeCategory, setActiveCategory] = useState("All");
@@ -47,8 +46,8 @@ export default function InsightsPage() {
         const [dynBanner, dynBriefing, dynCategories, dynArticles] = await Promise.all([
           fetchInsightsBanner(),
           fetchInsightsBriefing(),
-          fetchInsightsCategories(),
-          fetchInsightsArticles(),
+          fetchBlogCategories(),
+          fetchBlogs(),
         ]);
         if (isMounted) {
           if (dynBanner) setBanner(dynBanner);
@@ -58,6 +57,8 @@ export default function InsightsPage() {
         }
       } catch (err) {
         console.warn("Failed to load dynamic CMS data for insights:", err);
+      } finally {
+        if (isMounted) setLoading(false);
       }
     }
     loadDynamicContent();
@@ -218,6 +219,8 @@ export default function InsightsPage() {
         title={banner.title}
         breadcrumb={banner.breadcrumb}
         imageSrc={banner.image}
+        imgtitle={banner.imgtitle}
+        altname={banner.altname}
       />
 
       <main className="relative z-20 w-full mt-[50px]  bg-transparent  shadow-[0_-25px_60px_rgba(0,0,0,0.85)]">
@@ -266,7 +269,13 @@ export default function InsightsPage() {
         {/* =========================================================================
             3. FEATURED EDITORIAL SPOTLIGHT (With Right-to-Left Printer Reveal)
             ========================================================================= */}
-        {featuredArticle && (
+        {loading ? (
+          <section className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-12 pb-6">
+            <div className="p-8 md:p-12 bg-[#0c0e14] border border-white/10 animate-pulse">
+              <div className="h-96 bg-white/5 rounded" />
+            </div>
+          </section>
+        ) : featuredArticle && (
           <section className="featured-editorial-section max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-12 pb-6">
             <div className="featured-editorial-card p-8 md:p-12 bg-[#0c0e14] border border-white/10 hover:border-[#FFD400]/40 transition-colors shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center group">
               {/* Left Column (7 cols): Printer Print Reveal Right-to-Left */}
@@ -274,7 +283,8 @@ export default function InsightsPage() {
                 <Link href={`/insights/${featuredArticle.id}`} className="block w-full">
                   <PrintRevealImage
                     src={featuredArticle.image}
-                    alt={featuredArticle.title}
+                    alt={featuredArticle.altname || featuredArticle.title}
+                    title={featuredArticle.imgtitle || featuredArticle.title}
                     priority
                     aspectClass="aspect-[78/50] w-full"
                     direction="left"
@@ -338,7 +348,17 @@ export default function InsightsPage() {
             4. MAIN ARTICLES 3-COLUMN GRID (With Right-to-Left Printer Reveal)
             ========================================================================= */}
         <section className="insight-grid-section max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
-          {gridArticles.length === 0 ? (
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="bg-[#0c0e14] border border-white/10 p-5 sm:p-6 animate-pulse">
+                  <div className="aspect-[78/50] bg-white/5 rounded mb-5" />
+                  <div className="h-6 bg-white/5 rounded mb-3 w-3/4" />
+                  <div className="h-16 bg-white/5 rounded" />
+                </div>
+              ))}
+            </div>
+          ) : gridArticles.length === 0 ? (
             <div className="text-center py-20 bg-[#0c0e14] border border-white/10 p-8 space-y-4">
               <p className="text-sm font-mono text-neutral-400">
                 No additional articles found matching &quot;{searchQuery}&quot; in {activeCategory}.
@@ -381,7 +401,8 @@ export default function InsightsPage() {
                     >
                       <PrintRevealImage
                         src={art.image}
-                        alt={art.title}
+                        alt={art.altname || art.title}
+                        title={art.imgtitle || art.title}
                         aspectClass="aspect-[78/50] w-full"
                         index={idx}
                       />

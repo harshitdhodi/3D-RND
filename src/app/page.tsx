@@ -15,6 +15,8 @@ import InsightsSection from "@/components/InsightsSection";
 import MissionCTASection from "@/components/MissionCTASection";
 import RnDFooter from "@/components/RnDFooter";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title:
     "RND Technosoft | Technology, Digital Marketing & Creative Solutions",
@@ -63,7 +65,45 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
+import { getHeroData } from "@/lib/getHeroData";
+import { getAboutData } from "@/lib/getAboutData";
+import { getServicesData } from "@/lib/getServicesData";
+import { getPortfolioData } from "@/lib/getPortfolioData";
+import { getWhyChooseData } from "@/lib/getWhyChooseData";
+import { getIndustriesData } from "@/lib/getIndustriesData";
+import { getProcessData } from "@/lib/getProcessData";
+import { fetchRecentBlogs } from "@/lib/blogApi";
+import { getSectionHeading } from "@/lib/getSectionHeading";
+
+export default async function Home() {
+  const [
+    heroData,
+    aboutData,
+    servicesData,
+    portfolioData,  
+    whyChooseData,
+    industriesData,
+    processData,
+    recentBlogs,
+    portfolioHeading,
+    whyChooseHeading,
+    industriesHeading,
+    insightsHeading,
+  ] = await Promise.all([
+    getHeroData(),
+    getAboutData(),
+    getServicesData(),
+    getPortfolioData(),
+    getWhyChooseData(),
+    getIndustriesData(),
+    getProcessData(),
+    fetchRecentBlogs(3),
+    getSectionHeading("portfolio_projects"),
+    getSectionHeading("why_choose_section"),
+    getSectionHeading("industries"),
+    getSectionHeading("insights"),
+  ]);
+
   return (
     <div className="font-archia relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black w-full">
       {/* Global GSAP ScrollTrigger Animations for Headings, Images & Grids */}
@@ -77,25 +117,25 @@ export default function Home() {
 
       <main className="relative z-10 w-full">
         {/* 1.2 Hero section: Headline, supporting copy, astronaut mascot, animated orbital visuals, primary and secondary CTAs */}
-        <HeroSection />
+        <HeroSection initialData={heroData} />
 
         {/* 1.3 Brand introduction: Brief introduction to RnD Technosoft and its integrated service model */}
-        <AboutUsSection />
+        <AboutUsSection initialData={aboutData} />
 
         {/* 1.4 Service universe: Technology, Digital Marketing, Branding & Design, Media Production */}
-        <ServiceCardsSection />
+        {/* <ServiceCardsSection initialData={servicesData} /> */}
 
         {/* 1.5 Featured projects: Selected websites, applications, campaigns, branding and media projects */}
-        <FeaturedProjectsSection />
+        <FeaturedProjectsSection initialData={portfolioData} initialHeading={portfolioHeading} />
 
         {/* 1.6 Why choose RnD: Differentiators, process, client collaboration and delivery approach */}
-        <WhyChooseSection />
+        <WhyChooseSection initialData={whyChooseData} initialHeading={whyChooseHeading} />
 
         {/* 1.7 Industries served: Industry cards linked to dedicated industry pages */}
-        <IndustriesServedSection />
+        <IndustriesServedSection initialData={industriesData} initialHeading={industriesHeading} />
 
         {/* 1.8 Our process: Discover, strategize, create, develop, launch and optimize */}
-        <CosmicProcessSection />
+        <CosmicProcessSection initialData={processData} />
 
         {/* 1.9 Results and trust: Approved client logos, verified metrics, testimonials and experience */}
         {/* <ResultsTrustSection /> */}
@@ -104,7 +144,7 @@ export default function Home() {
         {/* <CreativeShowreelSection /> */}
 
         {/* 1.11 Insights: Latest blog posts and useful industry content */}
-        <InsightsSection />
+        <InsightsSection initialArticles={recentBlogs} initialHeading={insightsHeading} />
 
         {/* 1.12 CTA section: “Ready for Your Next Big Mission?” with enquiry button */}
         <MissionCTASection />

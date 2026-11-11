@@ -18,6 +18,8 @@ export interface PageBannerProps {
   imageClassName?: string;
   imageStyle?: React.CSSProperties;
   size?: "default" | "compact";
+  imgtitle?: string;
+  altname?: string;
 }
 
 export default function PageBanner({
@@ -31,6 +33,8 @@ export default function PageBanner({
   imageClassName = "",
   imageStyle,
   size = "default",
+  imgtitle,
+  altname,
 }: PageBannerProps) {
   const bannerRef = useRef<HTMLElement>(null);
   const imageWrapperRef = useRef<HTMLDivElement>(null);
@@ -215,7 +219,8 @@ export default function PageBanner({
         >
           <Image
             src={imageSrc}
-            alt={title ? `${title} Banner` : "RnD Technosoft Banner"}
+            alt={altname || (title ? `${title} Banner` : "RnD Technosoft Banner")}
+            title={imgtitle || (title ? `${title} Banner` : "RnD Technosoft Banner")}
             fill
             priority
             unoptimized

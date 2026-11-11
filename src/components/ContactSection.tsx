@@ -22,9 +22,15 @@ import {
     CheckCircle2,
     Sparkles,
 } from "lucide-react";
+import { getContactInfo, DEFAULT_CONTACT_INFO } from "@/lib/getContactInfo";
 
 export default function ContactSection() {
     const containerRef = useRef<HTMLDivElement>(null);
+    const [contactInfo, setContactInfo] = useState(DEFAULT_CONTACT_INFO);
+
+    useEffect(() => {
+        getContactInfo().then(setContactInfo);
+    }, []);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -287,18 +293,18 @@ export default function ContactSection() {
     const helperCards = [
         {
             icon: Wrench,
-            title: "Need Help with Setup?",
-            desc: "Our senior technical cohort is ready to guide your infrastructure and architecture roadmap.",
+            title: contactInfo.helper_card_1_title || "Need Help with Setup?",
+            desc: contactInfo.helper_card_1_desc || "Our senior technical cohort is ready to guide your infrastructure and architecture roadmap.",
         },
         {
             icon: Compass,
-            title: "Looking for a Custom Solution?",
-            desc: "Let's discuss how our bespoke 3D WebGL, Next.js, and cloud platforms fit your goals.",
+            title: contactInfo.helper_card_2_title || "Looking for a Custom Solution?",
+            desc: contactInfo.helper_card_2_desc || "Let's discuss how our bespoke 3D WebGL, Next.js, and cloud platforms fit your goals.",
         },
         {
             icon: MessageSquare,
-            title: "Want to Give Feedback or Partner?",
-            desc: "We'd love to hear your thoughts and explore strategic technical collaborations.",
+            title: contactInfo.helper_card_3_title || "Want to Give Feedback or Partner?",
+            desc: contactInfo.helper_card_3_desc || "We'd love to hear your thoughts and explore strategic technical collaborations.",
         },
     ];
 
@@ -346,13 +352,12 @@ export default function ContactSection() {
 
                             {/* Title */}
                             <h1 className="anim-title text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.08] font-[family-name:var(--font-syne)] mb-5">
-                                We&apos;re Here to <span className="text-[#FFD400]">Help!</span>
+                                {contactInfo.heading || "We're Here to Help!"}
                             </h1>
 
                             {/* Subtitle */}
                             <p className="anim-subtitle text-neutral-400 text-sm sm:text-base font-light leading-relaxed max-w-xl mb-8">
-                                Have questions or need assistance? Our team is ready to support you.
-                                Reach out and let&apos;s make RnD Technosoft work for your next milestone.
+                                {contactInfo.subheading || "Have questions or need assistance? Our team is ready to support you. Reach out and let's make RnD Technosoft work for your next milestone."}
                             </p>
                         </div>
 
@@ -394,11 +399,11 @@ export default function ContactSection() {
                         <div className="pt-2 flex flex-wrap items-center gap-3 text-xs font-mono text-neutral-400">
                             <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/10">
                                 <Clock className="w-3.5 h-3.5 text-[#FFD400]" />
-                                Avg Response: &lt; 2 Hours
+                                {contactInfo.response_badge || "Avg Response: < 2 Hours"}
                             </span>
                             <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/10">
                                 <ShieldCheck className="w-3.5 h-3.5 text-[#FFD400]" />
-                                Strict NDA Protected
+                                {contactInfo.nda_badge || "Strict NDA Protected"}
                             </span>
                         </div>
                     </div>
@@ -577,46 +582,34 @@ export default function ContactSection() {
                                 <Mail className="w-5 h-5" />
                             </div>
                             <h3 className="text-base font-bold text-white font-[family-name:var(--font-syne)] uppercase tracking-wide group-hover:text-[#FFD400] transition-colors">
-                                Write Us
+                                {contactInfo.email_card_title || "Write Us"}
                             </h3>
                             <p className="text-xs text-neutral-400 font-light mt-1 mb-4">
-                                Direct business and partnership inquiries.
+                                {contactInfo.email_card_subtitle || "Direct business and partnership inquiries."}
                             </p>
                             <div className="space-y-2">
-                                <div className="flex items-center justify-between text-xs font-mono text-neutral-300 bg-white/[0.02] p-2.5 rounded-lg border border-white/5">
-                                    <a href="mailto:bdm@rndtechnosoft.com" className="hover:text-[#FFD400] transition-colors">
-                                        bdm@rndtechnosoft.com
-                                    </a>
-                                    <button
-                                        type="button"
-                                        onClick={() => copyToClipboard("bdm@rndtechnosoft.com", "c_email1")}
-                                        className="text-neutral-400 hover:text-[#FFD400] transition-colors p-1"
-                                        title="Copy Email"
-                                    >
-                                        {copiedKey === "c_email1" ? (
-                                            <Check className="w-3.5 h-3.5 text-emerald-400" />
-                                        ) : (
-                                            <Copy className="w-3.5 h-3.5" />
-                                        )}
-                                    </button>
-                                </div>
-                                <div className="flex items-center justify-between text-xs font-mono text-neutral-300 bg-white/[0.02] p-2.5 rounded-lg border border-white/5">
-                                    <a href="mailto:rndtechnosoft@gmail.com" className="hover:text-[#FFD400] transition-colors">
-                                        rndtechnosoft@gmail.com
-                                    </a>
-                                    <button
-                                        type="button"
-                                        onClick={() => copyToClipboard("rndtechnosoft@gmail.com", "c_email2")}
-                                        className="text-neutral-400 hover:text-[#FFD400] transition-colors p-1"
-                                        title="Copy Email"
-                                    >
-                                        {copiedKey === "c_email2" ? (
-                                            <Check className="w-3.5 h-3.5 text-emerald-400" />
-                                        ) : (
-                                            <Copy className="w-3.5 h-3.5" />
-                                        )}
-                                    </button>
-                                </div>
+                                {(contactInfo.emails && contactInfo.emails.length > 0
+                                    ? contactInfo.emails
+                                    : [contactInfo.email, contactInfo.secondary_email].filter(Boolean) as string[]
+                                ).map((em, idx) => (
+                                    <div key={idx} className="flex items-center justify-between text-xs font-mono text-neutral-300 bg-white/[0.02] p-2.5 rounded-lg border border-white/5">
+                                        <a href={`mailto:${em}`} className="hover:text-[#FFD400] transition-colors truncate mr-2">
+                                            {em}
+                                        </a>
+                                        <button
+                                            type="button"
+                                            onClick={() => copyToClipboard(em, `c_email_${idx}`)}
+                                            className="text-neutral-400 hover:text-[#FFD400] transition-colors p-1 shrink-0"
+                                            title="Copy Email"
+                                        >
+                                            {copiedKey === `c_email_${idx}` ? (
+                                                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                                            ) : (
+                                                <Copy className="w-3.5 h-3.5" />
+                                            )}
+                                        </button>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -638,28 +631,35 @@ export default function ContactSection() {
                                     <Phone className="w-5 h-5" />
                                 </div>
                                 <h3 className="text-base font-bold text-white font-[family-name:var(--font-syne)] uppercase tracking-wide group-hover:text-[#FFD400] transition-colors">
-                                    Direct Voice &amp; WhatsApp
+                                    {contactInfo.phone_card_title || "Direct Voice & WhatsApp"}
                                 </h3>
                                 <p className="text-xs text-neutral-400 font-light mt-1 mb-4">
-                                    Immediate voice support &amp; priority scheduling.
+                                    {contactInfo.phone_card_subtitle || "Immediate voice support & priority scheduling."}
                                 </p>
                             </div>
-                            <div className="flex items-center justify-between text-xs font-mono text-neutral-300 bg-white/[0.02] p-2.5 rounded-lg border border-white/5">
-                                <a href="tel:+917304945823" className="hover:text-[#FFD400] transition-colors">
-                                    +91-730 494 5823
-                                </a>
-                                <button
-                                    type="button"
-                                    onClick={() => copyToClipboard("+91-730 494 5823", "c_phone")}
-                                    className="text-neutral-400 hover:text-[#FFD400] transition-colors p-1"
-                                    title="Copy Phone"
-                                >
-                                    {copiedKey === "c_phone" ? (
-                                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                                    ) : (
-                                        <Copy className="w-3.5 h-3.5" />
-                                    )}
-                                </button>
+                            <div className="space-y-2">
+                                {(contactInfo.phones && contactInfo.phones.length > 0
+                                    ? contactInfo.phones
+                                    : [contactInfo.phone, contactInfo.whatsapp].filter(Boolean) as string[]
+                                ).map((ph, idx) => (
+                                    <div key={idx} className="flex items-center justify-between text-xs font-mono text-neutral-300 bg-white/[0.02] p-2.5 rounded-lg border border-white/5">
+                                        <a href={`tel:${ph.replace(/\s/g, "")}`} className="hover:text-[#FFD400] transition-colors truncate mr-2">
+                                            {ph}
+                                        </a>
+                                        <button
+                                            type="button"
+                                            onClick={() => copyToClipboard(ph, `c_phone_${idx}`)}
+                                            className="text-neutral-400 hover:text-[#FFD400] transition-colors p-1 shrink-0"
+                                            title="Copy Phone"
+                                        >
+                                            {copiedKey === `c_phone_${idx}` ? (
+                                                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                                            ) : (
+                                                <Copy className="w-3.5 h-3.5" />
+                                            )}
+                                        </button>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -681,14 +681,14 @@ export default function ContactSection() {
                                     <MapPin className="w-5 h-5" />
                                 </div>
                                 <h3 className="text-base font-bold text-white font-[family-name:var(--font-syne)] uppercase tracking-wide group-hover:text-[#FFD400] transition-colors">
-                                    Office Address
+                                    {contactInfo.address_card_title || "Office Address"}
                                 </h3>
                                 <p className="text-xs text-neutral-300 font-light mt-1 mb-4 leading-relaxed">
-                                    3rd Floor, Sapphire, Daman Rd, above Axis Bank, Daulat Nagar, Chala, Vapi, Gujarat 396191
+                                    {contactInfo.address || "RND Technosoft Office, Tech Park, India"}
                                 </p>
                             </div>
                             <a
-                                href="https://maps.app.goo.gl/7tX5zSdgBo65nbKL7"
+                                href={contactInfo.mapurl || "https://maps.google.com"}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center justify-center gap-2 text-xs font-mono text-[#FFD400] hover:text-white bg-white/[0.04] hover:bg-[#FFD400]/20 p-2.5 rounded-lg border border-[#FFD400]/30 hover:border-[#FFD400] transition-all"

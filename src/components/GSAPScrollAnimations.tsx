@@ -48,6 +48,7 @@ export default function GSAPScrollAnimations() {
       );
 
       headings.forEach((heading) => {
+        if (!heading) return;
         // Skip hero headline or directory grid
         if (heading.closest("#hero") || heading.closest("#directory") || heading.closest("[data-no-gsap]")) return;
 
@@ -111,6 +112,7 @@ export default function GSAPScrollAnimations() {
       );
 
       badges.forEach((badge) => {
+        if (!badge) return;
         if (badge.closest("#hero") || badge.closest("#directory") || badge.closest("[data-no-gsap]")) return;
 
         gsap.fromTo(
@@ -141,6 +143,7 @@ export default function GSAPScrollAnimations() {
       );
 
       sectionParagraphs.forEach((para) => {
+        if (!para) return;
         if (para.closest("#hero") || para.closest("#directory") || para.closest("[data-no-gsap]")) return;
 
         gsap.fromTo(
@@ -169,6 +172,7 @@ export default function GSAPScrollAnimations() {
       );
 
       images.forEach((img) => {
+        if (!img) return;
         // Skip hero astronaut, directory grid, or horizontal work track items
         if (img.closest("#hero") || img.closest("#directory") || img.closest("[data-no-gsap]") || img.closest(".capability-horizontal-card")) return;
 
@@ -200,6 +204,7 @@ export default function GSAPScrollAnimations() {
       );
 
       gridContainers.forEach((grid) => {
+        if (!grid) return;
         const cards = Array.from(grid.children) as HTMLElement[];
         if (cards.length === 0) return;
 
@@ -230,6 +235,7 @@ export default function GSAPScrollAnimations() {
       );
 
       ambientGlows.forEach((glow) => {
+        if (!glow) return;
         const parentSec = glow.closest("section");
         if (!parentSec) return;
 

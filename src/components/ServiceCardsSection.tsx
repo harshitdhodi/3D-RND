@@ -5,102 +5,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Globe2 } from "lucide-react";
 import CyberButton from "@/components/CyberButton";
+import { ServiceItem, DEFAULT_SERVICES_DATA } from "@/lib/getServicesData";
+import { SectionHeading, DEFAULT_SECTION_HEADINGS } from "@/lib/getSectionHeading";
 
-interface ServiceItem {
-  id: string;
-  number: string;
-  title: string;
-  tagline: string;
-  description: string;
-  heroImage: string;
-  slug: string;
-  badge: string;
-  scope: string[];
+export interface ServiceCardsSectionProps {
+  initialData?: ServiceItem[];
+  initialHeading?: SectionHeading;
 }
 
-export default function ServiceCardsSection() {
+export default function ServiceCardsSection({
+  initialData = DEFAULT_SERVICES_DATA,
+  initialHeading = DEFAULT_SECTION_HEADINGS.services,
+}: ServiceCardsSectionProps) {
+  const services = initialData && initialData.length > 0 ? initialData : DEFAULT_SERVICES_DATA;
+  const heading = initialHeading || DEFAULT_SECTION_HEADINGS.services;
   const [activeTab, setActiveTab] = useState(0);
 
-  const services: ServiceItem[] = [
-    {
-      id: "technology",
-      number: "01",
-      title: "Technology Solutions",
-      tagline: "Websites • Applications • Software • E-commerce",
-      description:
-        "We engineer powerful digital experiences and intelligent software built around the way your business works. From responsive website development and custom web applications to mobile apps, enterprise software and eCommerce platforms, we turn complex requirements into seamless digital solutions.",
-      heroImage: "/images/service_cloud_color.jpg",
-      slug: "technology-solutions",
-      badge: "Build smarter. Scale without limits.",
-      scope: [
-        "Website Development Services",
-        "Web App Development Services",
-        "Mobile App Development",
-        "Custom Software Development",
-        "Ecommerce Website Development",
-        "Cloud Infrastructure & DevOps",
-      ],
-    },
-    {
-      id: "marketing",
-      number: "02",
-      title: "Digital Marketing",
-      tagline: "SEO • Social Media • Paid Advertising • Content",
-      description:
-        "We turn digital visibility into meaningful business opportunities. Through strategic SEO, social media marketing, performance-driven paid advertising and compelling content, we help brands reach the right audience, strengthen engagement and generate measurable growth.",
-      heroImage: "/images/service_marketing.jpg",
-      slug: "digital-marketing",
-      badge: "Get noticed. Get chosen. Grow faster.",
-      scope: [
-        "Digital Marketing Services",
-        "SEO Services",
-        "Social Media Marketing Services",
-        "Performance Marketing Services",
-        "Google Ads Services",
-        "Content Marketing & Strategy",
-      ],
-    },
-    {
-      id: "branding",
-      number: "03",
-      title: "Branding & Design",
-      tagline: "Brand Identity • Graphic Design • Marketing Collateral",
-      description:
-        "We transform business identities into memorable brand experiences. From distinctive brand identity design and creative graphic design to impactful marketing collateral, we create visual systems that communicate your value, build recognition and leave a lasting impression.",
-      heroImage: "/images/service_branding.jpg",
-      slug: "branding-design",
-      badge: "Make your brand impossible to overlook.",
-      scope: [
-        "Branding Services",
-        "Brand Identity Design",
-        "Graphic Design Services",
-        "Logo Design Services",
-        "Marketing Collateral Design",
-        "Visual Systems & Guidelines",
-      ],
-    },
-    {
-      id: "media",
-      number: "04",
-      title: "Media Production",
-      tagline: "Videography • Photography • Editing • Creative Production",
-      description:
-        "We bring ideas to life through compelling visual storytelling. From professional photography and cinematic videography to video editing and creative media production, we create engaging visual content that connects brands with audiences and makes every story count.",
-      heroImage: "/images/service_media.jpg",
-      slug: "media-production",
-      badge: "Capture attention. Create experiences. Tell stories.",
-      scope: [
-        "Video Production Services",
-        "Photography Services",
-        "Media Production",
-        "Product Photography Services",
-        "Video Editing & Post-Production",
-        "Creative Content Production",
-      ],
-    },
-  ];
-
-  const activeService = services[activeTab];
+  const activeService = services[activeTab] || services[0];
 
   return (
     <section
@@ -114,25 +35,29 @@ export default function ServiceCardsSection() {
         {/* Section Header */}
         <div className="mb-12 sm:mb-16">
           <div className="border-b border-white/10 pb-8 sm:pb-10">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4">
-              <Globe2 className="w-3.5 h-3.5" />
-              <span>THE RND ECOSYSTEM // OUR EXPERTISE</span>
-            </div>
+            {heading.badge && (
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4">
+                <Globe2 className="w-3.5 h-3.5" />
+                <span>{heading.badge}</span>
+              </div>
+            )}
 
             <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-[58px] xl:text-[64px] font-[family-name:var(--font-syne)] text-white font-bold tracking-tight leading-[1.08] uppercase select-none">
-              IDEAS INTO IMPACT.{" "}
-              <br className="hidden sm:block" />
-              STRATEGY INTO{" "}
-              <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.35)]">
-                SOLUTIONS.
-              </span>{" "}
-             
+              {heading.title}
             </h2>
 
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pt-6 sm:pt-8">
-              <p className="text-sm sm:text-base text-neutral-400 leading-relaxed font-light font-[family-name:var(--font-jakarta)] max-w-2xl">
-                From building powerful digital platforms to creating brands that stand out, RND Technosoft brings technology, marketing, design and media together to help businesses move forward.
+            {heading.subtitle && (
+              <p className="text-sm sm:text-base text-[#FFD400] font-mono tracking-wider uppercase mt-2">
+                {heading.subtitle}
               </p>
+            )}
+
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pt-6 sm:pt-8">
+              {heading.tagline && (
+                <p className="text-sm sm:text-base text-neutral-400 leading-relaxed font-light font-[family-name:var(--font-jakarta)] max-w-2xl">
+                  {heading.tagline}
+                </p>
+              )}
 
               <CyberButton href="/services" size="md">
                 EXPLORE ALL RND ECOSYSTEM →

@@ -6,6 +6,11 @@ import { ArrowRight, ArrowUpRight, Sparkles } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CyberButton from "@/components/CyberButton";
+import { AboutData, DEFAULT_ABOUT_DATA } from "@/lib/getAboutData";
+
+export interface AboutUsSectionProps {
+  initialData?: AboutData;
+}
 
 /**
  * WaveText component renders text character-by-character with staggered delays
@@ -99,33 +104,34 @@ function ScrollCounter({
   );
 }
 
-export default function AboutUsSection() {
+export default function AboutUsSection({ initialData = DEFAULT_ABOUT_DATA }: AboutUsSectionProps) {
+  const about = initialData || DEFAULT_ABOUT_DATA;
   const sectionRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
 
   const stats = [
     {
-      numericValue: 500,
+      numericValue: about.stat_1_value,
       decimals: 0,
-      suffix: "+",
-      label: "PROJECTS",
-      subLabel: "DELIVERED",
+      suffix: about.stat_1_suffix || "+",
+      label: about.stat_1_label,
+      subLabel: about.stat_1_sublabel,
       highlight: "Cloud & Web",
     },
     {
-      numericValue: 8,
+      numericValue: about.stat_2_value,
       decimals: 0,
-      suffix: "+",
-      label: "Years of",
-      subLabel: "Driving Growth",
+      suffix: about.stat_2_suffix || "+",
+      label: about.stat_2_label,
+      subLabel: about.stat_2_sublabel,
       highlight: "SLA Guaranteed",
     }, 
     {
-      numericValue: 60,
+      numericValue: about.stat_3_value,
       decimals: 0,
-      suffix: "+",
-      label: "IT",
-      subLabel: "SPECIALISTS",
+      suffix: about.stat_3_suffix || "+",
+      label: about.stat_3_label,
+      subLabel: about.stat_3_sublabel,
       highlight: "In-House Squads",
     },
   ];
@@ -210,7 +216,7 @@ export default function AboutUsSection() {
           {/* Category Indicator Tag */}
           <div className="inline-flex items-center gap-3 text-xs font-mono font-medium tracking-[0.25em] text-neutral-400 uppercase mb-3 sm:mb-4">
             <span className="w-6 h-[1px] bg-[#FFD400]" />
-            <span className="text-[#FFD400] tracking-[0.3em]">Who We Are</span>
+            <span className="text-[#FFD400] tracking-[0.3em]">{about.badge_text}</span>
           </div>
 
           {/* Primary Headline (Clean 2-line layout at top) */}
@@ -220,11 +226,11 @@ export default function AboutUsSection() {
             className="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] xl:text-[52px] font-light text-white tracking-tight leading-[1.15] font-[family-name:var(--font-archia)]"
           >  
             <span className="block mb-1 sm:mb-2">
-              <WaveText text="THINK BIGGER." delayOffset={0} />
+              <WaveText text={about.headline_line_1} delayOffset={0} />
             </span>
             <span className="block">
-              <WaveText text="BUILD SMARTER." className="mr-3 sm:mr-4" delayOffset={12} />
-              <WaveText text="GO FURTHER." delayOffset={27} />
+              <WaveText text={about.headline_line_2} className="mr-3 sm:mr-4" delayOffset={12} />
+              <WaveText text={about.headline_line_3} delayOffset={27} />
             </span>
           </h2>
         </div>
@@ -238,11 +244,11 @@ export default function AboutUsSection() {
             {/* Body Paragraphs */}
             <div className="space-y-3 sm:space-y-4">
               <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed">
-                <strong className="text-white font-medium">RND Technosoft</strong> is where technology meets creativity and innovation turns into measurable business progress. We bring together web and app development, custom software solutions, digital marketing, branding and media production to help businesses build, evolve and compete in a rapidly changing digital world.
+                {about.paragraph_1}
               </p>
               
               <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed">
-                From developing intelligent digital solutions to creating powerful brand experiences, we combine strategic thinking, technical expertise and creative execution to turn ambitious ideas into meaningful outcomes.
+                {about.paragraph_2}
               </p>
             </div>
 
@@ -277,8 +283,8 @@ export default function AboutUsSection() {
 
             {/* "EXPLORE OUR STORY" Action Button */}
             <div className="pt-1 sm:pt-2">
-              <CyberButton href="/about-us" size="md">
-                EXPLORE OUR STORY
+              <CyberButton href={about.cta_link || "/about-us"} size="md">
+                {about.cta_text || "EXPLORE OUR STORY"}
               </CyberButton>
             </div>
 
@@ -288,8 +294,9 @@ export default function AboutUsSection() {
           <div className="lg:col-span-6 xl:col-span-7 flex items-center justify-center lg:justify-end relative">
             <div className="relative w-full max-w-[580px] sm:max-w-[640px] lg:max-w-[720px] xl:max-w-[800px] aspect-[512/408] transition-transform duration-500 hover:scale-[1.03] lg:scale-105 xl:scale-110 origin-center lg:origin-right">
               <Image
-                src="/office/about.png"
-                alt="RnD Technosoft Astronaut Workstation"
+                src={about.image || "/office/about.png"}
+                alt={about.altname || "RnD Technosoft Astronaut Workstation"}
+                title={about.imgtitle || undefined}
                 fill
                 priority
                 className="object-contain object-center lg:object-right filter drop-shadow-[0_25px_60px_rgba(0,0,0,0.9)]"

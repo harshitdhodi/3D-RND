@@ -393,14 +393,14 @@ export default function AboutRocketScrollBanner({
             </div>
 
             {/* Action Buttons */}
-            <div className="pt-2 flex flex-wrap sm:flex-nowrap items-center gap-3.5">
-              <div className="relative group w-full sm:w-auto">
+            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-3.5">
+              <div className="relative group w-full">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-[#FFD400]/50 to-[#ffe34d]/10 rounded-full blur-md opacity-60 group-hover:opacity-100 transition duration-500" />
-                <CyberButton href="/services" variant="gold" size="lg" className="relative w-full sm:w-auto justify-center">
+                <CyberButton href="/services" variant="gold" size="md" className="relative w-full justify-center">
                   EXPLORE OUR ECOSYSTEM
                 </CyberButton>
               </div>
-              <CyberButton href="/#contact" variant="dark" size="lg" className="w-full sm:w-auto justify-center">
+              <CyberButton href="/#contact" variant="dark" size="md" className="w-full justify-center">
                 LET&apos;S COLLABORATE
               </CyberButton>
             </div>

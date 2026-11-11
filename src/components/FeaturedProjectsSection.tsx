@@ -4,86 +4,31 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Sparkles, ArrowUpRight, Compass } from "lucide-react";
+import {
+  FeaturedProjectItem,
+  DEFAULT_PROJECTS_DATA,
+} from "@/lib/getPortfolioData";
+import {
+  SectionHeading,
+  DEFAULT_SECTION_HEADINGS,
+} from "@/lib/getSectionHeading";
 
-interface ProjectItem {
-  id: string;
-  category: string;
-  tag: string;
-  verticalTitle: string;
-  title: string;
-  location: string;
-  desc: string;
-  image: string;
-  specs: string;
-  link: string;
+export interface FeaturedProjectsSectionProps {
+  initialData?: FeaturedProjectItem[];
+  initialHeading?: SectionHeading;
 }
 
-export default function FeaturedProjectsSection() {
-  // Center card (index 2: Shanti Patra Cloud ERP) is open by default
-  const [activeIndex, setActiveIndex] = useState(2);
+export default function FeaturedProjectsSection({
+  initialData = DEFAULT_PROJECTS_DATA,
+  initialHeading = DEFAULT_SECTION_HEADINGS.portfolio_projects,
+}: FeaturedProjectsSectionProps) {
+  const projects =
+    initialData && initialData.length > 0 ? initialData : DEFAULT_PROJECTS_DATA;
+  const heading = initialHeading || DEFAULT_SECTION_HEADINGS.portfolio_projects;
 
-  const projects: ProjectItem[] = [
-    {
-      id: "meritrack-mobile-suite",
-      category: "MOBILE APP",
-      tag: "MOBILE APP PROJECTS // HEALTHCARE LOGISTICS",
-      verticalTitle: "MERITRACK MOBILE SUITE",
-      title: "MeriTRACK Surgical Logistics Suite",
-      location: "VAPI // MUMBAI",
-      desc: "High-reliability cross-platform mobile suite engineered for surgical implant tracking, hospital case scheduling, distributor allocation, and real-time medical sales representative telemetry.",
-      image: "/protfolio image/MeriTRACK Space App Showcase.png",
-      specs: "Native iOS & Android // Live Surgery Telemetry // 2026",
-      link: "/portfolio/mobile-app-projects",
-    },
-    {
-      id: "ostech-automation",
-      category: "WEB PLATFORM",
-      tag: "WEBSITE & WEB APPLICATIONS // INDUSTRIAL AUTOMATION",
-      verticalTitle: "OSTECH AUTOMATION PLATFORM",
-      title: "OSTech Industrial Automation Flagship",
-      location: "GUJARAT // GLOBAL",
-      desc: "High-performance digital engineering platform for industrial packaging automation, featuring dynamic machinery catalogs, conveyor capability matrices, and interactive B2B inquiry funnels.",
-      image: "/protfolio image/OSTech Laptop in Orbital Showcase.png",
-      specs: "Next.js 15 // Sub-1s LCP // Industrial Automation // 2026",
-      link: "/portfolio/website-and-web-application-projects",
-    },
-    {
-      id: "shanti-patra-erp",
-      category: "ENTERPRISE ERP",
-      tag: "CUSTOM SOFTWARE // CLOUD ERP & CRM",
-      verticalTitle: "SHANTI PATRA CLOUD ERP",
-      title: "Shanti Patra Operations & MIS Suite",
-      location: "VAPI // NATIONAL",
-      desc: "Comprehensive cloud ERP platform managing manufacturing workflows: machine telemetry, printing lines, automated QC checks, live inventory tracking, and multi-tier sales order reconciliation.",
-      image: "/protfolio image/Shanti Patra Dashboard in Space.png",
-      specs: "Real-Time Shopfloor Telemetry // 98% QC Standard // 2026",
-      link: "/portfolio/website-and-web-application-projects",
-    },
-    {
-      id: "vbott-identity",
-      category: "BRAND IDENTITY",
-      tag: "BRANDING & GRAPHIC DESIGN // CORPORATE MERCHANDISE",
-      verticalTitle: "VBOTT CORPORATE IDENTITY",
-      title: "VBŌTT Luxury Identity & Packaging System",
-      location: "MUMBAI // NATIONAL",
-      desc: "Comprehensive corporate brand architecture, premium typography, minimalist stationery, executive gift packaging, and tactile stainless steel merchandise system for consumer hydration products.",
-      image: "/protfolio image/VBOTT Corporate Stationery in Space.png",
-      specs: "Complete Brand Guidelines // Premium Packaging Suite // 2026",
-      link: "/portfolio/branding-and-graphic-design",
-    },
-    {
-      id: "tps-industrial-film",
-      category: "CINEMA & FILM",
-      tag: "VIDEOGRAPHY & PHOTOGRAPHY // INDUSTRIAL COMMERCIAL",
-      verticalTitle: "TPS FACILITY BRAND FILM",
-      title: "Total Packaging Services Cinema Commercial",
-      location: "VAPI // DAMAN",
-      desc: "Cinematic industrial commercial documenting advanced packaging infrastructure with 4K camera rigs, drone flythroughs, post-production color mastering, and precision manufacturing storytelling.",
-      image: "/protfolio image/TPS videography.png",
-      specs: "4K Cinema Commercial // Aerial Drone Telemetry // 2026",
-      link: "/portfolio/videography-and-photography",
-    },
-  ];
+  // Center card (middle or index 2) is open by default
+  const defaultIndex = Math.floor(projects.length / 2);
+  const [activeIndex, setActiveIndex] = useState(defaultIndex);
 
   // Staggered vertical displacement matching the reference design layout
   const verticalOffsets = [
@@ -105,18 +50,28 @@ export default function FeaturedProjectsSection() {
       <div className="max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-xs font-mono font-medium tracking-[0.25em] uppercase text-[#FFD400] mb-4 backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>FEATURED CASE STUDIES // LIVE PORTFOLIO</span>
-          </div>
+          {heading.badge && (
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-xs font-mono font-medium tracking-[0.25em] uppercase text-[#FFD400] mb-4 backdrop-blur-md">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>{heading.badge}</span>
+            </div>
+          )}
 
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.05] text-white">
-            ENGINEERED FOR <span className="text-[#FFD400]">PERFORMANCE.</span>
+            {heading.title}
           </h2>
 
-          <p className="text-sm sm:text-base text-neutral-400 font-light mt-4 leading-relaxed">
-            Click through our selected enterprise case studies to inspect architectural blueprints, verified metrics, and interactive production deployments.
-          </p>
+          {heading.subtitle && (
+            <p className="text-sm sm:text-base text-[#FFD400] font-mono tracking-wider uppercase mt-2">
+              {heading.subtitle}
+            </p>
+          )}
+
+          {heading.tagline && (
+            <p className="text-sm sm:text-base text-neutral-400 font-light mt-4 leading-relaxed">
+              {heading.tagline}
+            </p>
+          )}
         </div>
 
         {/* 5-Card Horizontal Interactive Accordion Grid - Height decreased by 10% for large/xl screens (640px -> 576px) */}
@@ -138,7 +93,8 @@ export default function FeaturedProjectsSection() {
                 {/* Background Image: content-friendly size covering all parts without cropping when active */}
                 <Image
                   src={project.image}
-                  alt={project.title}
+                  alt={project.altname || project.title}
+                  title={project.imgtitle || project.title}
                   fill
                   unoptimized
                   sizes="(max-width: 1024px) 100vw, (max-width: 1536px) 65vw, 55vw"

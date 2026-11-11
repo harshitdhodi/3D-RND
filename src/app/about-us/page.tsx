@@ -210,7 +210,7 @@ export default function AboutUsPage() {
           ========================================================================= */}
       <div className="relative z-30 mt-0 lg:-mt-[100vh] min-h-screen bg-[#050608] text-white pt-[50px] pb-[50px] shadow-[0_-50px_140px_rgba(0,0,0,0.99)] border-t border-white/[0.08] rounded-t-[36px] sm:rounded-t-[48px]" suppressHydrationWarning>
         {/* Subtle Ambient Top Border Glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-[#FFD400]/6 blur-[160px] rounded-full pointer-events-none" />
+        {/* <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-[#FFD400]/6 blur-[160px] rounded-full pointer-events-none" /> */}
 
         <main className="relative z-10 w-full">
           {/* =========================================================================

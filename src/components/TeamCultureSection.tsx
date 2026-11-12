@@ -15,29 +15,76 @@ import {
   DEFAULT_LEADER_DATA,
   DEFAULT_TEAM_MEMBERS,
 } from "@/lib/getTeamData";
+import { SectionHeading, DEFAULT_SECTION_HEADINGS } from "@/lib/getSectionHeading";
 
 export interface TeamCultureSectionProps {
   className?: string;
   initialLeaders?: LeaderData[];
   initialMembers?: TeamMemberData[];
+  leadershipHeading?: SectionHeading;
+  teamHeading?: SectionHeading;
 }
 
 export default function TeamCultureSection({
   className = "",
   initialLeaders = [DEFAULT_LEADER_DATA],
   initialMembers = DEFAULT_TEAM_MEMBERS,
+  leadershipHeading,
+  teamHeading,
 }: TeamCultureSectionProps) {
   const [leaders, setLeaders] = useState<LeaderData[]>(initialLeaders);
   const [squadLeaders, setSquadLeaders] = useState<TeamMemberData[]>(initialMembers);
+  const [leadershipHeadingData, setLeadershipHeadingData] = useState<SectionHeading>(
+    leadershipHeading || DEFAULT_SECTION_HEADINGS.about_page_leader || {
+      section_name: 'about_page_leader',
+      badge: 'LEADERSHIP & VISION // THE MINDS BEHIND RND',
+      title: 'THE VISION BEHIND THE INNOVATION.',
+      subtitle: 'Behind every ambitious idea is a vision to make it happen.',
+      tagline: 'Meet the executive leadership driving RND Technosoft forward'
+    }
+  );
+  const [teamHeadingData, setTeamHeadingData] = useState<SectionHeading>(
+    teamHeading || DEFAULT_SECTION_HEADINGS.team_members
+  );
+
+  // Sync state whenever props update from parent
+  useEffect(() => {
+    if (initialLeaders && initialLeaders.length > 0) {
+      setLeaders(initialLeaders);
+    }
+  }, [initialLeaders]);
+
+  useEffect(() => {
+    if (initialMembers && initialMembers.length > 0) {
+      setSquadLeaders(initialMembers);
+    }
+  }, [initialMembers]);
+
+  useEffect(() => {
+    if (leadershipHeading) {
+      setLeadershipHeadingData(leadershipHeading);
+    }
+  }, [leadershipHeading]);
+
+  useEffect(() => {
+    if (teamHeading) {
+      setTeamHeadingData(teamHeading);
+    }
+  }, [teamHeading]);
 
   // Client-side real-time sync with CMS data
   useEffect(() => {
     let isMounted = true;
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3014";
+    const backendUrl =
+      process.env.NEXT_PUBLIC_API_URL ||
+      process.env.NEXT_PUBLIC_BACKEND_URL ||
+      "http://localhost:3014";
 
     async function loadLiveData() {
       try {
-        const leaderRes = await fetch(`${backendUrl}/api/data/about_page_leader`);
+        const leaderRes = await fetch(`${backendUrl}/api/data/about_page_leader`, {
+          cache: "no-store",
+        });
         if (leaderRes.ok) {
           const json = await leaderRes.json();
           if (Array.isArray(json.data) && json.data.length > 0 && isMounted) {
@@ -53,7 +100,9 @@ export default function TeamCultureSection({
       }
 
       try {
-        const membersRes = await fetch(`${backendUrl}/api/data/team_members`);
+        const membersRes = await fetch(`${backendUrl}/api/data/team_members`, {
+          cache: "no-store",
+        });
         if (membersRes.ok) {
           const json = await membersRes.json();
           if (Array.isArray(json.data) && json.data.length > 0 && isMounted) {
@@ -65,6 +114,40 @@ export default function TeamCultureSection({
         }
       } catch {
         // Keep default fallback
+      }
+
+      try {
+        const headLeaderRes = await fetch(`${backendUrl}/api/heading?section=about_page_leader`, {
+          cache: "no-store",
+        });
+        if (headLeaderRes.ok) {
+          const json = await headLeaderRes.json();
+          if (json.success && json.data && isMounted) {
+            setLeadershipHeadingData((prev) => ({
+              ...prev,
+              ...json.data,
+            }));
+          }
+        }
+      } catch {
+        // Keep fallback
+      }
+
+      try {
+        const headTeamRes = await fetch(`${backendUrl}/api/heading?section=team_members`, {
+          cache: "no-store",
+        });
+        if (headTeamRes.ok) {
+          const json = await headTeamRes.json();
+          if (json.success && json.data && isMounted) {
+            setTeamHeadingData((prev) => ({
+              ...prev,
+              ...json.data,
+            }));
+          }
+        }
+      } catch {
+        // Keep fallback
       }
     }
 
@@ -89,21 +172,18 @@ export default function TeamCultureSection({
         <div className="mb-14 sm:mb-18 border-b border-white/10 pb-8 sm:pb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-[10px] sm:text-xs font-mono font-medium tracking-[0.15em] sm:tracking-[0.25em] uppercase mb-4">
             <Users className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" />
-            <span className="whitespace-normal leading-tight">LEADERSHIP &amp; VISION // THE MINDS BEHIND RND</span>
+            <span className="whitespace-normal leading-tight">{leadershipHeadingData.badge}</span>
           </div>
 
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div className="max-w-3xl">
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-[family-name:var(--font-archia-local)] font-bold text-white tracking-tight leading-[1.08] uppercase break-words">
-                THE VISION BEHIND{" "}
-                <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.35)]">
-                  THE INNOVATION.
-                </span>
+                {leadershipHeadingData.title}
               </h2>
             </div>
 
             <p className="text-xs sm:text-sm md:text-base text-neutral-300 font-light leading-relaxed max-w-md break-words">
-              Behind every ambitious idea is a vision to make it happen. Since 2018, RND Technosoft has been building its journey around technology, creativity and innovation — bringing together diverse capabilities to help businesses navigate and embrace the digital future.
+              {leadershipHeadingData.subtitle}
             </p>
           </div>
         </div>
@@ -182,7 +262,7 @@ export default function TeamCultureSection({
                   <div className="grid grid-cols-3 sm:gap-4 gap-2 pt-2 border-t border-white/10">
                     <div className="space-y-1">
                       <span className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-archia-local)] font-bold text-white break-words">
-                        {leader.stat_1_val}
+                        {leader.stat_1_val}{leader.stat_1_symbol}
                       </span>
                       <span className="text-[9px] sm:text-[10px] md:text-xs font-mono text-neutral-400 block uppercase leading-tight break-words">
                         {leader.stat_1_lbl}
@@ -190,7 +270,7 @@ export default function TeamCultureSection({
                     </div>
                     <div className="space-y-1">
                       <span className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-archia-local)] font-bold text-[#FFD400] break-words">
-                        {leader.stat_2_val}
+                        {leader.stat_2_val}{leader.stat_2_symbol}
                       </span>
                       <span className="text-[9px] sm:text-[10px] md:text-xs font-mono text-neutral-400 block uppercase leading-tight break-words">
                         {leader.stat_2_lbl}
@@ -198,7 +278,7 @@ export default function TeamCultureSection({
                     </div>
                     <div className="space-y-1">
                       <span className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-archia-local)] font-bold text-white break-words">
-                        {leader.stat_3_val}
+                        {leader.stat_3_val}{leader.stat_3_symbol}
                       </span>
                       <span className="text-[9px] sm:text-[10px] md:text-xs font-mono text-neutral-400 block uppercase leading-tight break-words">
                         {leader.stat_3_lbl}
@@ -225,11 +305,14 @@ export default function TeamCultureSection({
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div className="w-full">
               <span className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.15em] sm:tracking-[0.25em] text-[#FFD400] font-semibold break-words">
-                SPECIALIZED DISCIPLINE LEADERSHIP
+                {teamHeadingData.badge}
               </span>
               <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-[family-name:var(--font-archia-local)] font-bold text-white uppercase mt-1 break-words">
-                Autonomous Squad Leads
+                {teamHeadingData.title}
               </h3>
+              <p className="text-xs sm:text-sm text-neutral-300 font-light mt-2 max-w-2xl break-words">
+                {teamHeadingData.subtitle}
+              </p>
             </div>
           </div>
 

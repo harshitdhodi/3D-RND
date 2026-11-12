@@ -13,10 +13,13 @@ export interface LeaderData {
   altname?: string;
   stat_1_val: string;
   stat_1_lbl: string;
+  stat_1_symbol?: string;
   stat_2_val: string;
   stat_2_lbl: string;
+  stat_2_symbol?: string;
   stat_3_val: string;
   stat_3_lbl: string;
+  stat_3_symbol?: string;
   cta_text: string;
   cta_link: string;
 }
@@ -41,7 +44,7 @@ export const DEFAULT_LEADER_DATA: LeaderData = {
   role_subtitle: "FOUNDER • BUSINESS LEADER • VISIONARY",
   badge_label: "FOUNDER & CHIEF EXECUTIVE OFFICER",
   bio_paragraph_1:
-    "As the driving force behind RND Technosoft, Mr. Ravi Shah leads the company’s vision of bringing technology and creativity together. With a focus on innovation, business growth and meaningful client partnerships, he continues to guide RND towards creating solutions that empower businesses and unlock new possibilities.",
+    "As the driving force behind RND Technosoft, Mr. Ravi Shah leads the company's vision of bringing technology and creativity together. With a focus on innovation, business growth and meaningful client partnerships, he continues to guide RND towards creating solutions that empower businesses and unlock new possibilities.",
   bio_paragraph_2:
     "His vision is to build an organisation where technology, strategy and creativity work together to turn ambitious ideas into lasting impact.",
   quote:
@@ -50,11 +53,14 @@ export const DEFAULT_LEADER_DATA: LeaderData = {
   image: "/images/team/founder_ravi_shah.png",
   imgtitle: "Mr. Ravi Shah - Founder, Business Leader & Visionary",
   altname: "Mr. Ravi Shah Founder and CEO of RND Technosoft",
-  stat_1_val: "14+",
+  stat_1_val: "14",
+  stat_1_symbol: "+",
   stat_1_lbl: "Years Tech Leadership",
-  stat_2_val: "500+",
+  stat_2_val: "500",
+  stat_2_symbol: "+",
   stat_2_lbl: "Delivered Projects",
-  stat_3_val: "100%",
+  stat_3_val: "100",
+  stat_3_symbol: "%",
   stat_3_lbl: "In-House Squads",
   cta_text: "REQUEST EXECUTIVE CONSULTATION",
   cta_link: "/contact-us",
@@ -112,31 +118,36 @@ export const DEFAULT_TEAM_MEMBERS: TeamMemberData[] = [
 ];
 
 export async function getTeamData(): Promise<{ leaders: LeaderData[]; members: TeamMemberData[] }> {
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3014";
+  const backendUrl =
+    process.env.NEXT_PUBLIC_API_URL ||
+    process.env.NEXT_PUBLIC_BACKEND_URL ||
+    "http://localhost:3014";
 
   let leaders: LeaderData[] = [DEFAULT_LEADER_DATA];
   let members = DEFAULT_TEAM_MEMBERS;
 
   try {
     const leaderRes = await fetch(`${backendUrl}/api/data/about_page_leader`, {
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
     if (leaderRes.ok) {
       const json = await leaderRes.json();
       if (Array.isArray(json.data) && json.data.length > 0) {
-        leaders = json.data.map((rec: any) => ({
-          ...DEFAULT_LEADER_DATA,
-          ...rec,
-        }));
+        leaders = json.data
+          .map((rec: any) => ({
+            ...DEFAULT_LEADER_DATA,
+            ...rec,
+          }))
+          .sort((a: any, b: any) => (a.order || 0) - (b.order || 0));
       }
     }
-  } catch {
-    // Graceful fallback to default
+  } catch (err) {
+    console.warn("Failed to fetch leaders from API, using default:", err);
   }
 
   try {
     const membersRes = await fetch(`${backendUrl}/api/data/team_members`, {
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
     if (membersRes.ok) {
       const json = await membersRes.json();
@@ -144,8 +155,8 @@ export async function getTeamData(): Promise<{ leaders: LeaderData[]; members: T
         members = json.data.sort((a: TeamMemberData, b: TeamMemberData) => (a.order || 0) - (b.order || 0));
       }
     }
-  } catch {
-    // Graceful fallback to default
+  } catch (err) {
+    console.warn("Failed to fetch team members from API, using default:", err);
   }
 
   return { leaders, members };

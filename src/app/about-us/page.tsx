@@ -77,6 +77,8 @@ export default function AboutUsPage() {
   const [pillarsHeading, setPillarsHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.about_pillars);
   const [leaders, setLeaders] = useState<LeaderData[]>([]);
   const [teamMembers, setTeamMembers] = useState<TeamMemberData[]>([]);
+  const [leadershipHeading, setLeadershipHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.about_page_leader);
+  const [teamHeading, setTeamHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.team_members);
 
   useEffect(() => {
     getAboutHeroData().then(setAboutHero);
@@ -88,6 +90,8 @@ export default function AboutUsPage() {
       setLeaders(leaders);
       setTeamMembers(members);
     });
+    getSectionHeading("about_page_leader").then(setLeadershipHeading);
+    getSectionHeading("team_members").then(setTeamHeading);
   }, []);
 
   useEffect(() => {
@@ -439,7 +443,12 @@ export default function AboutUsPage() {
         <CosmicProcessSection className="py-[50px]" />
 
         {/* 5. Team & Culture Section */}
-        <TeamCultureSection initialLeaders={leaders} initialMembers={teamMembers} className="py-[50px]" />
+        <TeamCultureSection 
+          initialLeaders={leaders} 
+          initialMembers={teamMembers} 
+          leadershipHeading={leadershipHeading}
+          teamHeading={teamHeading}
+          className="py-[50px]" />
 
         {/* 6. Why Choose RnD Section */}
         <WhyChooseSection className="py-[50px]" />

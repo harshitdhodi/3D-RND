@@ -74,6 +74,14 @@ export const DEFAULT_SECTION_HEADINGS: Record<string, SectionHeading> = {
       "RND Technosoft brings technology, digital marketing, branding and media production together under one roof. We combine technical expertise, strategic thinking and creative execution to help businesses build stronger brands, smarter digital experiences and meaningful connections with their audiences.",
     tagline: "EXPLORE OUR CAPABILITIES",
   },
+  about_page_leader: {
+    section_name: "about_page_leader",
+    badge: "LEADERSHIP & VISION // THE MINDS BEHIND RND",
+    title: "THE VISION BEHIND THE INNOVATION.",
+    subtitle:
+      "Behind every ambitious idea is a vision to make it happen. Since 2018, RND Technosoft has been building its journey around technology, creativity and innovation — bringing together diverse capabilities to help businesses navigate and embrace the digital future.",
+    tagline: "Meet the executive leadership driving RND Technosoft forward",
+  },
 };
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3014";

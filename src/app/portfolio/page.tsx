@@ -28,19 +28,22 @@ export default function PortfolioPage() {
   const [categories, setCategories] = useState<PortfolioCategory[]>([]);
   const [projects, setProjects] = useState<PortfolioProject[]>([]);
   const [heading, setHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.portfolio_categories);
+  const [inquiryHeading, setInquiryHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.portfolio_inquiries);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
       try {
-        const [catsData, projectsData, headingData] = await Promise.all([
+        const [catsData, projectsData, headingData, inquiryHeadingData] = await Promise.all([
           getPortfolioCategories(),
           getPortfolioProjects(),
           getSectionHeading("portfolio_categories"),
+          getSectionHeading("portfolio_inquiries"),
         ]);
         setCategories(catsData);
         setProjects(projectsData);
         setHeading(headingData);
+        setInquiryHeading(inquiryHeadingData);
       } catch (error) {
         console.error("Failed to load portfolio data:", error);
       } finally {
@@ -448,9 +451,12 @@ export default function PortfolioPage() {
           <div className="max-w-7xl mx-auto">
             <ServiceConversionCTA
               id="portfolio-cta"
-              title="Have an Ambitious Project Vision?"
-              subtitle="Whether you need a custom web platform, native mobile app, high-converting digital marketing engine, or commercial media production, our engineering directors are ready to scope your build."
-              badge="COMMISSION AN ENTERPRISE SYSTEM"
+              title={inquiryHeading?.title || "Have an Ambitious Project Vision?"}
+              subtitle={
+                inquiryHeading?.subtitle ||
+                "Whether you need a custom web platform, native mobile app, high-converting digital marketing engine, or commercial media production, our engineering directors are ready to scope your build."
+              }
+              badge={inquiryHeading?.badge || "✦ COMMISSION AN ENTERPRISE SYSTEM"}
             />
           </div>
         </div>

@@ -93,6 +93,14 @@ export const DEFAULT_SECTION_HEADINGS: Record<string, SectionHeading> = {
       "Behind every ambitious idea is a vision to make it happen. Since 2018, RND Technosoft has been building its journey around technology, creativity and innovation — bringing together diverse capabilities to help businesses navigate and embrace the digital future.",
     tagline: "Meet the executive leadership driving RND Technosoft forward",
   },
+  portfolio_inquiries: {
+    section_name: "portfolio_inquiries",
+    badge: "✦ COMMISSION AN ENTERPRISE SYSTEM",
+    title: "Have an Ambitious Project Vision?",
+    subtitle:
+      "Whether you need a custom web platform, native mobile app, high-converting digital marketing engine, or commercial media production, our engineering directors are ready to scope your build.",
+    tagline: "Contact form submissions from portfolio inquiry forms",
+  },
 };
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3014";

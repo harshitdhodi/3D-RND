@@ -615,6 +615,8 @@ export default function PortfolioDetailView({
             badge="COMMISSION A SIMILAR ARCHITECTURE"
             title={`Ready to Commission a Project Similar to ${project.title}?`}
             subtitle={`Whether you need the same performance architecture, headless storefront, or digital acquisition engine, our engineering leadership is ready to review your brief.`}
+            projectSlug={project.id}
+            sourcePage={`/portfolios/${project.id}`}
           />
         </div>
         </div>

@@ -6,13 +6,17 @@ export async function POST(request: Request) {
     const {
       name,
       email,
-      phoneCode = "+1",
+      phoneCode = "+91",
       phone = "",
       message,
       service = "",
+      project_type = "",
       budget = "",
       timeline = "",
-      source = "Contact Us Page",
+      source = "Portfolio Inquiries",
+      source_page = "",
+      project_slug = "",
+      collection = "portfolio_inquiries",
     } = body;
 
     // Validate required fields
@@ -38,20 +42,29 @@ export async function POST(request: Request) {
     }
 
     const fullPhone = phone ? `${phoneCode} ${phone.trim()}` : "Not provided";
+    const selectedService = service || project_type || "Technology Solutions";
+    const resolvedSource = source_page || source || "/portfolio";
 
-    // Forward to backend API which has SMTP credentials configured
+    // Forward to backend API which has SMTP credentials and MongoDB configured
     const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3014";
     const res = await fetch(`${backendUrl}/api/contact`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name,
-        email,
+        name: name.trim(),
+        email: email.trim(),
         phone: fullPhone,
-        service_id: service,
+        service_id: selectedService,
+        service: selectedService,
+        project_type: selectedService,
         product_id: "",
-        message,
-        url: source,
+        budget,
+        timeline,
+        message: message.trim(),
+        url: resolvedSource,
+        source_page: resolvedSource,
+        project_slug,
+        collection,
       }),
     });
 

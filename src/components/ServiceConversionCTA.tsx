@@ -24,6 +24,8 @@ export interface ServiceConversionCTAProps {
   title?: string;
   subtitle?: string;
   badge?: string;
+  sourcePage?: string;
+  projectSlug?: string;
 }
 
 const SERVICE_OPTIONS = [
@@ -69,6 +71,8 @@ export default function ServiceConversionCTA({
   title,
   subtitle,
   badge = "✳ DIVISION 01 // START YOUR PROJECT",
+  sourcePage,
+  projectSlug,
 }: ServiceConversionCTAProps) {
   const [formData, setFormData] = useState({
     name: "",
@@ -90,6 +94,8 @@ export default function ServiceConversionCTA({
     setIsSubmitting(true);
     setErrorMessage(null);
 
+    const currentSource = sourcePage || (typeof window !== "undefined" ? window.location.pathname : "/portfolio");
+
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -100,9 +106,14 @@ export default function ServiceConversionCTA({
           phoneCode: formData.phoneCode,
           phone: formData.phone,
           service: formData.service,
+          project_type: formData.service,
           budget: formData.budget,
+          timeline: "",
           message: formData.message,
-          source: "Service Conversion CTA",
+          source: currentSource,
+          source_page: currentSource,
+          project_slug: projectSlug || "",
+          collection: "portfolio_inquiries",
         }),
       });
 

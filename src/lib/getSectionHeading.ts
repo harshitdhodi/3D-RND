@@ -72,7 +72,7 @@ export const DEFAULT_SECTION_HEADINGS: Record<string, SectionHeading> = {
     title: "WHERE TECHNOLOGY MEETS CREATIVITY. WHERE IDEAS BECOME IMPACT.",
     subtitle:
       "RND Technosoft brings technology, digital marketing, branding and media production together under one roof. We combine technical expertise, strategic thinking and creative execution to help businesses build stronger brands, smarter digital experiences and meaningful connections with their audiences.",
-    tagline: "EXPLORE OUR CAPABILITIES →",
+    tagline: "EXPLORE OUR CAPABILITIES",
   },
 };
 

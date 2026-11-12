@@ -350,7 +350,7 @@ export default function AboutUsPage() {
                 </p>
 
                 <div className="pt-2 relative z-10">
-                  <CyberButton href={aboutOverviewCta.difference_cta_link || "/contact-us"} variant="gold" size="md" fullWidth>
+                  <CyberButton href={aboutOverviewCta.difference_cta_link || "/services"} variant="gold" size="md" fullWidth>
                     {pillarsHeading?.tagline || aboutOverviewCta.difference_cta_text || "EXPLORE OUR CAPABILITIES"}
                   </CyberButton>
                 </div>

@@ -244,7 +244,7 @@ export const DEFAULT_OVERVIEW_CTA: AboutOverviewCtaData = {
   difference_desc:
     "Our multifaceted structure empowers us to provide cohesive, all-inclusive digital strategies — eliminating the friction of managing fragmented multi-vendor agency rosters.",
   difference_cta_text: "COMMENCE PARTNERSHIP",
-  difference_cta_link: "/contact-us",
+  difference_cta_link: "/services",
   cta_badge: "READY FOR WHAT'S NEXT?",
   cta_title: "GREAT IDEAS DESERVE GREAT PARTNERS.",
   cta_desc:

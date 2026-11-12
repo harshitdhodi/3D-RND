@@ -21,6 +21,7 @@ import {
   SectionHeading,
   DEFAULT_SECTION_HEADINGS,
 } from "@/lib/getSectionHeading";
+import { resolveIcon } from "@/components/DynamicIcon";
 
 const ICON_MAP: Record<
   string,
@@ -91,7 +92,7 @@ export default function IndustriesServedSection({
 
   const industries = rawList.map((ind) => ({
     ...ind,
-    icon: ICON_MAP[ind.iconName] || Factory,
+    icon: resolveIcon(ind.iconName, ICON_MAP[ind.iconName] || Factory),
   }));
 
   useEffect(() => {

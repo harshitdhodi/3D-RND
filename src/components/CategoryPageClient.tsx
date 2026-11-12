@@ -23,6 +23,7 @@ import WhyChooseSection from "@/components/WhyChooseSection";
 import ServiceRelatedProjectsSection from "@/components/ServiceRelatedProjectsSection";
 import ServiceUniverseSection from "@/components/ServiceUniverseSection";
 import { CategoryPageData, CategorySubItem } from "@/data/categoryPagesData";
+import { resolveIcon } from "@/components/DynamicIcon";
 
 const ICON_MAP = {
   Code,
@@ -153,7 +154,7 @@ function SubCategoryCard({
 export default function CategoryPageClient({ data }: { data: CategoryPageData }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  const Icon = ICON_MAP[data.iconName] || Code;
+  const Icon = resolveIcon(data.iconName, (ICON_MAP as any)[data.iconName] || Code);
 
   const subCount = data.subcategories.length;
 

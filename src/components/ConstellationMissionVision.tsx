@@ -17,6 +17,7 @@ import {
   LucideIcon,
 } from "lucide-react";
 import type { AboutMissionVisionData } from "@/lib/getAboutPageData";
+import { resolveIcon } from "@/components/DynamicIcon";
 
 const ICON_MAP: Record<string, LucideIcon> = {
   ShieldCheck,
@@ -115,28 +116,28 @@ export default function ConstellationMissionVision({
       number: "01",
       name: data?.value_1_title || "RADICAL TRANSPARENCY",
       description: data?.value_1_desc || "Honest communication. Clear commitments. No hidden agendas.",
-      icon: ICON_MAP[data?.value_1_icon || ""] || ShieldCheck,
+      icon: resolveIcon(data?.value_1_icon, ShieldCheck),
     },
     {
       id: "node-2",
       number: "02",
       name: data?.value_2_title || "RELENTLESS CRAFTSMANSHIP",
       description: data?.value_2_desc || "We believe every detail matters and every outcome deserves excellence.",
-      icon: ICON_MAP[data?.value_2_icon || ""] || Cpu,
+      icon: resolveIcon(data?.value_2_icon, Cpu),
     },
     {
       id: "node-3",
       number: "03",
       name: data?.value_3_title || "FEARLESS INNOVATION",
       description: data?.value_3_desc || "Challenge conventions. Explore possibilities. Create what's next.",
-      icon: ICON_MAP[data?.value_3_icon || ""] || Sparkles,
+      icon: resolveIcon(data?.value_3_icon, Sparkles),
     },
     {
       id: "node-4",
       number: "04",
       name: data?.value_4_title || "COLLECTIVE SYNERGY",
       description: data?.value_4_desc || "Better ideas happen when diverse minds work as one.",
-      icon: ICON_MAP[data?.value_4_icon || ""] || Users,
+      icon: resolveIcon(data?.value_4_icon, Users),
     },
   ];
 

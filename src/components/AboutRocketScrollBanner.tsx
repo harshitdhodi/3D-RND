@@ -3,17 +3,20 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import gsap from "gsap";
 import CyberButton from "@/components/CyberButton";
+import type { AboutHeroData } from "@/lib/getAboutPageData";
 
 interface AboutRocketScrollBannerProps {
   totalFrames?: number;
   framePathPrefix?: string;
   damping?: number;
+  data?: AboutHeroData;
 }
 
 export default function AboutRocketScrollBanner({
   totalFrames = 240,
   framePathPrefix = "/about-frames/frame_",
   damping = 0.12,
+  data,
 }: AboutRocketScrollBannerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -28,10 +31,20 @@ export default function AboutRocketScrollBanner({
   const targetFrameRef = useRef(1);
   const currentFrameRef = useRef(1);
 
+  // Dynamic Content with safe fallbacks
+  const fullTextLine1 = data?.headline_line_1 || "ROOTED IN INNOVATION.";
+  const fullTextLine2 = data?.headline_line_2 || "DRIVEN BY POSSIBILITIES.";
+  const originBadge = data?.origin_badge || "THE ORIGIN // ABOUT RND";
+  const paragraph1 = data?.paragraph_1 || "RND Technosoft is a multidisciplinary technology and creative solutions company bringing ambitious ideas to life. We combine technology solutions, digital marketing, branding and design, and media production to help businesses establish a stronger digital presence, unlock new opportunities and achieve meaningful growth.";
+  const paragraph2 = data?.paragraph_2 || "From building intelligent digital platforms to creating memorable brand experiences, we connect strategy, creativity and technology to deliver solutions that make a difference.";
+  const quoteText = data?.quote || "We don't just adapt to the digital future. We help businesses create their place in it.";
+  const cta1Text = data?.cta_1_text || "EXPLORE OUR ECOSYSTEM";
+  const cta1Link = data?.cta_1_link || "/services";
+  const cta2Text = data?.cta_2_text || "LET'S COLLABORATE";
+  const cta2Link = data?.cta_2_link || "/#contact";
+
   // Typewriter state for heading (Desktop)
   const [typedCount, setTypedCount] = useState(0);
-  const fullTextLine1 = "ROOTED IN INNOVATION.";
-  const fullTextLine2 = "DRIVEN BY POSSIBILITIES.";
 
   // GSAP Number Counter Refs
   const count1Ref = useRef<HTMLSpanElement>(null);
@@ -367,41 +380,45 @@ export default function AboutRocketScrollBanner({
             <div className="flex flex-wrap items-center gap-3 text-xs font-mono font-medium tracking-[0.25em] text-neutral-400 uppercase">
               <span className="text-white font-bold text-sm">01</span>
               <span className="w-8 h-[1px] bg-[#FFD400]" />
-              <span className="text-[#FFD400] tracking-[0.3em]">THE ORIGIN {"//"} ABOUT RND</span>
+              <span className="text-[#FFD400] tracking-[0.3em]">{originBadge}</span>
             </div>
 
             {/* Primary Headline */}
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-[-0.01em] leading-[1.24] font-[family-name:var(--font-archia-local)]">
-              ROOTED IN INNOVATION.<br />
-              <span className="text-[#FFD400]">DRIVEN BY POSSIBILITIES.</span>
+              {fullTextLine1}<br />
+              <span className="text-[#FFD400]">{fullTextLine2}</span>
             </h2>
 
             {/* Core Lead Description */}
             <p className="text-xs sm:text-[14px] text-neutral-300 font-light leading-relaxed">
-              <strong className="text-white font-medium">RND Technosoft</strong> is a multidisciplinary technology and creative solutions company bringing ambitious ideas to life. We combine technology solutions, digital marketing, branding and design, and media production to help businesses establish a stronger digital presence, unlock new opportunities and achieve meaningful growth.
+              {paragraph1}
             </p>
 
-            <p className="text-xs sm:text-[14px] text-neutral-300 font-light leading-relaxed">
-              From building intelligent digital platforms to creating memorable brand experiences, we connect strategy, creativity and technology to deliver solutions that make a difference.
-            </p>
+            {paragraph2 && (
+              <p className="text-xs sm:text-[14px] text-neutral-300 font-light leading-relaxed">
+                {paragraph2}
+              </p>
+            )}
 
             {/* Philosophy Quote */}
-            <div className="border-l-2 border-[#FFD400] pl-3.5 py-1.5 bg-white/[0.02] rounded-r-lg my-1">
-              <p className="text-xs sm:text-sm text-neutral-300 italic font-light leading-relaxed">
-                &ldquo;We don&apos;t just adapt to the digital future. We help businesses create their place in it.&rdquo;
-              </p>
-            </div>
+            {quoteText && (
+              <div className="border-l-2 border-[#FFD400] pl-3.5 py-1.5 bg-white/[0.02] rounded-r-lg my-1">
+                <p className="text-xs sm:text-sm text-neutral-300 italic font-light leading-relaxed">
+                  &ldquo;{quoteText}&rdquo;
+                </p>
+              </div>
+            )}
 
             {/* Action Buttons */}
             <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-3.5">
               <div className="relative group w-full">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-[#FFD400]/50 to-[#ffe34d]/10 rounded-full blur-md opacity-60 group-hover:opacity-100 transition duration-500" />
-                <CyberButton href="/services" variant="gold" size="md" className="relative w-full justify-center">
-                  EXPLORE OUR ECOSYSTEM
+                <CyberButton href={cta1Link} variant="gold" size="md" className="relative w-full justify-center">
+                  {cta1Text}
                 </CyberButton>
               </div>
-              <CyberButton href="/#contact" variant="dark" size="md" className="w-full justify-center">
-                LET&apos;S COLLABORATE
+              <CyberButton href={cta2Link} variant="dark" size="md" className="w-full justify-center">
+                {cta2Text}
               </CyberButton>
             </div>
           </div>
@@ -446,7 +463,7 @@ export default function AboutRocketScrollBanner({
                   <div className="flex flex-wrap items-center gap-3 text-xs font-mono font-medium tracking-[0.25em] text-neutral-400 uppercase mb-2 sm:mb-2.5">
                     <span className="text-white font-bold text-sm">01</span>
                     <span className="w-8 h-[1px] bg-[#FFD400]" />
-                    <span className="text-[#FFD400] tracking-[0.3em]">THE ORIGIN {"//"} ABOUT RND</span>
+                    <span className="text-[#FFD400] tracking-[0.3em]">{originBadge}</span>
                   </div>
 
                   {/* 2. Primary Headline with Dynamic Futuristic Typewriter Effect */}
@@ -466,30 +483,34 @@ export default function AboutRocketScrollBanner({
 
                 {/* 3. Core Lead Description */}
                 <p className="text-xs sm:text-[14px] text-neutral-300 font-light leading-relaxed">
-                  <strong className="text-white font-medium">RND Technosoft</strong> is a multidisciplinary technology and creative solutions company bringing ambitious ideas to life. We combine technology solutions, digital marketing, branding and design, and media production to help businesses establish a stronger digital presence, unlock new opportunities and achieve meaningful growth.
+                  {paragraph1}
                 </p>
 
-                <p className="text-xs sm:text-[14px] text-neutral-300 font-light leading-relaxed">
-                  From building intelligent digital platforms to creating memorable brand experiences, we connect strategy, creativity and technology to deliver solutions that make a difference.
-                </p>
+                {paragraph2 && (
+                  <p className="text-xs sm:text-[14px] text-neutral-300 font-light leading-relaxed">
+                    {paragraph2}
+                  </p>
+                )}
 
                 {/* 4. Philosophy Quote */}
-                <div className="border-l-2 border-[#FFD400] pl-3.5 py-1 bg-white/[0.02] rounded-r-lg">
-                  <p className="text-xs sm:text-sm text-neutral-300 italic font-light leading-relaxed">
-                    &ldquo;We don&apos;t just adapt to the digital future. We help businesses create their place in it.&rdquo;
-                  </p>
-                </div>
+                {quoteText && (
+                  <div className="border-l-2 border-[#FFD400] pl-3.5 py-1 bg-white/[0.02] rounded-r-lg">
+                    <p className="text-xs sm:text-sm text-neutral-300 italic font-light leading-relaxed">
+                      &ldquo;{quoteText}&rdquo;
+                    </p>
+                  </div>
+                )}
 
                 {/* 6. Action Buttons with Micro-Animations & Glow Effects */}
                 <div className="pt-2 flex flex-nowrap items-center gap-3.5">
                   <div className="relative group">
                     <div className="absolute -inset-0.5 bg-gradient-to-r from-[#FFD400]/50 to-[#ffe34d]/10 rounded-full blur-md opacity-60 group-hover:opacity-100 transition duration-500" />
-                    <CyberButton href="/services" variant="gold" size="lg" className="relative">
-                      EXPLORE OUR ECOSYSTEM
+                    <CyberButton href={cta1Link} variant="gold" size="lg" className="relative">
+                      {cta1Text}
                     </CyberButton>
                   </div>
-                  <CyberButton href="/#contact" variant="dark" size="lg">
-                    LET&apos;S COLLABORATE
+                  <CyberButton href={cta2Link} variant="dark" size="lg">
+                    {cta2Text}
                   </CyberButton>
                 </div>
 

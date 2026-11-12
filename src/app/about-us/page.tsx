@@ -25,14 +25,55 @@ import {
   Camera,
   CheckCircle2,
   Zap,
+  Code2,
+  BarChart3,
+  Film,
+  LucideIcon,
 } from "lucide-react";
 import WhyChooseSection from "@/components/WhyChooseSection";
 import CosmicProcessSection from "@/components/CosmicProcessSection";
 import TeamCultureSection from "@/components/TeamCultureSection";
+import {
+  getAboutHeroData,
+  getAboutMissionVisionData,
+  getAboutPillarsData,
+  getAboutOverviewCtaData,
+  DEFAULT_ABOUT_HERO,
+  DEFAULT_MISSION_VISION,
+  DEFAULT_PILLARS,
+  DEFAULT_OVERVIEW_CTA,
+  AboutHeroData,
+  AboutMissionVisionData,
+  AboutPillarItem,
+  AboutOverviewCtaData,
+} from "@/lib/getAboutPageData";
+
+const PILLAR_ICON_MAP: Record<string, LucideIcon> = {
+  Code2,
+  Cpu,
+  BarChart3,
+  TrendingUp,
+  Palette,
+  Film,
+  Camera,
+};
 
 export default function AboutUsPage() {
   const [isPlayingShowreel, setIsPlayingShowreel] = useState(false);
   const pageRef = useRef<HTMLDivElement>(null);
+
+  // Dynamic Backend State with Instant Default Fallbacks
+  const [aboutHero, setAboutHero] = useState<AboutHeroData>(DEFAULT_ABOUT_HERO);
+  const [aboutMissionVision, setAboutMissionVision] = useState<AboutMissionVisionData>(DEFAULT_MISSION_VISION);
+  const [aboutPillars, setAboutPillars] = useState<AboutPillarItem[]>(DEFAULT_PILLARS);
+  const [aboutOverviewCta, setAboutOverviewCta] = useState<AboutOverviewCtaData>(DEFAULT_OVERVIEW_CTA);
+
+  useEffect(() => {
+    getAboutHeroData().then(setAboutHero);
+    getAboutMissionVisionData().then(setAboutMissionVision);
+    getAboutPillarsData().then(setAboutPillars);
+    getAboutOverviewCtaData().then(setAboutOverviewCta);
+  }, []);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -195,13 +236,13 @@ export default function AboutUsPage() {
 
       {/* Standard Page Banner matching Career & Service page size & animation */}
       <PageBanner
-        title="ABOUT RND"
-        breadcrumb="ABOUT US"
-        imageSrc="/NewBanner/about.png"
+        title={aboutHero.banner_title || "ABOUT RND"}
+        breadcrumb={aboutHero.banner_breadcrumb || "ABOUT US"}
+        imageSrc={aboutHero.banner_image || "/NewBanner/about.png"}
       />
 
       {/* Dynamic Rocket Scroll Experience (Below Banner) */}
-      <AboutRocketScrollBanner />
+      <AboutRocketScrollBanner data={aboutHero} />
 
       {/* =========================================================================
           POST-BANNER OVERLAPPING CONTENT SECTION
@@ -220,7 +261,7 @@ export default function AboutUsPage() {
               - Mission as the Trajectory (dynamic connecting bridge line)
               - Core Values as Orbiting Nodes (interactive planetary pills & glassmorphism cards)
               ========================================================================= */}
-          <ConstellationMissionVision className="py-[50px]" />
+          <ConstellationMissionVision data={aboutMissionVision} className="py-[50px]" />
 
           <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
 
@@ -277,26 +318,26 @@ export default function AboutUsPage() {
 
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-bold tracking-widest text-[#FFD400] uppercase mb-4 bg-[#FFD400]/10 border border-[#FFD400]/30 shadow-[0_0_20px_rgba(255,212,0,0.15)] group-hover:border-[#FFD400]/60 transition-colors relative z-10">
                   <Layers className="w-3.5 h-3.5 animate-pulse" />
-                  <span>◈ THE RND DIFFERENCE</span>
+                  <span>{aboutOverviewCta.difference_badge || "◈ THE RND DIFFERENCE"}</span>
                 </div>
 
                 <h2 className="text-2xl sm:text-3xl font-[family-name:var(--font-archia-local)] font-bold uppercase tracking-tight text-white mb-4 leading-tight relative z-10">
-                  WHERE TECHNOLOGY
+                  {aboutOverviewCta.difference_title_1 || "WHERE TECHNOLOGY"}
                   <br />
                   <span className="bg-gradient-to-r from-white via-[#ffe34d] to-[#FFD400] bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(255,212,0,0.25)]">
-                    MEETS CREATIVITY.
+                    {aboutOverviewCta.difference_title_highlight || "MEETS CREATIVITY."}
                   </span>
                   <br />
-                  WHERE IDEAS BECOME IMPACT.
+                  {aboutOverviewCta.difference_title_2 || "WHERE IDEAS BECOME IMPACT."}
                 </h2>
 
                 <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light mb-6 relative z-10">
-                  RND Technosoft brings technology, digital marketing, branding and media production together under one roof. We combine technical expertise, strategic thinking and creative execution to help businesses build stronger brands, smarter digital experiences and meaningful connections with their audiences.
+                  {aboutOverviewCta.difference_desc}
                 </p>
 
                 <div className="pt-2 relative z-10">
-                  <CyberButton href="/#contact" variant="gold" size="md" fullWidth>
-                    EXPLORE OUR CAPABILITIES →
+                  <CyberButton href={aboutOverviewCta.difference_cta_link || "/contact-us"} variant="gold" size="md" fullWidth>
+                    {aboutOverviewCta.difference_cta_text || "EXPLORE OUR CAPABILITIES →"}
                   </CyberButton>
                 </div>
               </div>
@@ -304,11 +345,11 @@ export default function AboutUsPage() {
 
             {/* Right Column: Expanded Single Column Multi-Row Cards (8 cols) */}
             <div className="lg:col-span-8 flex flex-col space-y-6">
-              {agencyPillars.map((pillar, idx) => {
-                const Icon = pillar.icon;
+              {aboutPillars.map((pillar, idx) => {
+                const Icon = PILLAR_ICON_MAP[pillar.icon_name] || Cpu;
                 return (
                   <div
-                    key={idx}
+                    key={pillar.id || idx}
                     className="about-pillar-card rounded-[28px] border border-white/10 hover:border-[#FFD400]/70 bg-[#0d0e13]/90 backdrop-blur-xl overflow-hidden transition-all duration-500 hover:-translate-y-1 group shadow-xl hover:shadow-[0_0_45px_rgba(255,212,0,0.22)] flex flex-col md:flex-row items-stretch relative"
                   >
                     {/* Hover Light Sweep Beam */}
@@ -363,8 +404,11 @@ export default function AboutUsPage() {
                       {/* Image with zoom and color transition on hover */}
                       <Image
                         src={pillar.image}
-                        alt={pillar.title}
+                        alt={pillar.altname || pillar.title}
+                        title={pillar.imgtitle || pillar.title}
                         fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        loading="lazy"
                         className="object-cover object-center grayscale contrast-125 group-hover:grayscale-0 group-hover:contrast-100 opacity-65 group-hover:opacity-100 group-hover:scale-110 group-hover:rotate-0.5 transition-all duration-700 ease-out"
                       />
 
@@ -397,19 +441,19 @@ export default function AboutUsPage() {
             <div className="about-cta-card rounded-[28px] border border-[#FFD400]/30 bg-gradient-to-r from-[#12141c] via-[#090a0f] to-[#12141c] p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-[0_0_50px_rgba(255,212,0,0.1)]">
               <div>
                 <span className="text-[10px] font-mono font-bold tracking-widest text-[#FFD400] uppercase block mb-1">
-                  READY FOR WHAT&apos;S NEXT?
+                  {aboutOverviewCta.cta_badge || "READY FOR WHAT'S NEXT?"}
                 </span>
                 <h3 className="text-xl sm:text-2xl font-[family-name:var(--font-archia-local)] font-bold uppercase text-white tracking-tight">
-                  GREAT IDEAS DESERVE <span className="text-[#FFD400]">GREAT PARTNERS.</span>
+                  {aboutOverviewCta.cta_title || "GREAT IDEAS DESERVE GREAT PARTNERS."}
                 </h3>
                 <p className="text-xs sm:text-sm text-neutral-300 font-light mt-2 max-w-xl leading-relaxed">
-                  Let&apos;s bring the right expertise, creativity and technology together to move your business forward.
+                  {aboutOverviewCta.cta_desc}
                 </p>
               </div>
 
               <div className="flex items-center gap-3 shrink-0">
-                <CyberButton href="/contact-us" variant="gold" size="md">
-                  INITIATE PARTNERSHIP
+                <CyberButton href={aboutOverviewCta.cta_button_link || "/contact-us"} variant="gold" size="md">
+                  {aboutOverviewCta.cta_button_text || "INITIATE PARTNERSHIP"}
                 </CyberButton>
               </div>
             </div>

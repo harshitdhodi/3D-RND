@@ -270,7 +270,7 @@ export default function IndustriesServedSection({
           </div>
 
           {/* Cards Track (Vertically Centered with Clearance so top/bottom borders are never cropped) */}
-          <div className="w-full max-w-full flex-1 min-w-0 flex items-center overflow-hidden my-auto py-2 sm:py-4 md:py-6">
+          <div className="w-full max-w-full flex-1 min-w-0 flex items-center overflow-hidden my-auto py-4 sm:py-6 md:py-8">
             <div
               ref={trackRef}
               className="flex items-stretch gap-4 sm:gap-6 md:gap-8 lg:gap-10 will-change-transform min-w-max"
@@ -283,18 +283,19 @@ export default function IndustriesServedSection({
                 return (
                   <div
                     key={ind.id}
-                    className={`group shrink-0 w-[290px] xs:w-[320px] sm:w-[360px] md:w-[400px] lg:w-[440px] rounded-2xl sm:rounded-3xl p-5 sm:p-7 lg:p-8 flex flex-col justify-between transition-all duration-300 ${
+                    className={`group shrink-0 w-[290px] xs:w-[320px] sm:w-[360px] md:w-[400px] lg:w-[440px] rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-9 flex flex-col justify-between transition-all duration-300 ${
                       isCurrent
                         ? "bg-white/[0.08] border-2 border-[#FFD400]/80 shadow-[0_15px_45px_rgba(255,212,0,0.20)]"
                         : "bg-white/[0.04] border border-white/[0.12] hover:border-white/30 hover:bg-white/[0.06]"
                     } backdrop-blur-md hover:scale-[1.01]`}
                     style={{
-                      height: "clamp(380px, 55vh, 490px)",
+                      minHeight: "clamp(460px, 60vh, 530px)",
+                      height: "clamp(460px, 60vh, 530px)",
                     }}
                   >
                     {/* Top: Title & Metric Badge */}
-                    <div className="shrink-0 mb-2 sm:mb-3">
-                      <div className="flex items-center justify-between gap-2 mb-2">
+                    <div className="shrink-0 mb-3 sm:mb-4">
+                      <div className="flex items-center justify-between gap-2 mb-2.5">
                         <span className="font-mono text-[10px] sm:text-[11px] tracking-widest text-[#FFD400] font-semibold shrink-0">
                           [{ind.number}]
                         </span>
@@ -308,7 +309,7 @@ export default function IndustriesServedSection({
                     </div>
 
                     {/* Center: Animated GIF-Style Icon with Infinite Animated Fill Border */}
-                    <div className="flex-1 flex items-center justify-center py-2 sm:py-3 my-auto">
+                    <div className="flex-1 flex items-center justify-center py-3 sm:py-4 my-auto">
                       <div className="relative w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-2xl flex items-center justify-center select-none bg-[#0d0f17]/95 backdrop-blur-md">
                         
                         {/* 1. Infinite Traveling Laser Stroke Dash (SVG Tracer) */}
@@ -383,7 +384,7 @@ export default function IndustriesServedSection({
                       </p>
 
                       {/* Explore CTA & Right Metric */}
-                      <div className="flex items-center justify-between gap-3 pt-1.5 pb-0.5">
+                      <div className="flex items-center justify-between gap-3 pt-2 pb-1">
                         <Link
                           href={`/industries/${ind.slug}`}
                           className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-mono uppercase tracking-wider border border-[#FFD400] py-2 px-4 sm:py-2.5 sm:px-5 rounded-xl bg-[#FFD400] text-black hover:bg-[#FFD400]/90 hover:shadow-[0_0_20px_rgba(255,212,0,0.4)] transition-all font-bold group-hover:scale-105 shrink-0"

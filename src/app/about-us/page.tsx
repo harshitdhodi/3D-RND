@@ -36,17 +36,19 @@ import TeamCultureSection from "@/components/TeamCultureSection";
 import { getSectionHeading, SectionHeading, DEFAULT_SECTION_HEADINGS } from "@/lib/getSectionHeading";
 import { resolveIcon } from "@/components/DynamicIcon";
 import {
+  getPortfolioCategories,
+  PortfolioCategory,
+  DEFAULT_CATEGORIES,
+} from "@/lib/getPortfolioData";
+import {
   getAboutHeroData,
   getAboutMissionVisionData,
-  getAboutPillarsData,
   getAboutPartnershipCtaData,
   DEFAULT_ABOUT_HERO,
   DEFAULT_MISSION_VISION,
-  DEFAULT_PILLARS,
   DEFAULT_PARTNERSHIP_CTA,
   AboutHeroData,
   AboutMissionVisionData,
-  AboutPillarItem,
   AboutPartnershipCtaData,
 } from "@/lib/getAboutPageData";
 import {
@@ -72,9 +74,9 @@ export default function AboutUsPage() {
   // Dynamic Backend State with Instant Default Fallbacks
   const [aboutHero, setAboutHero] = useState<AboutHeroData>(DEFAULT_ABOUT_HERO);
   const [aboutMissionVision, setAboutMissionVision] = useState<AboutMissionVisionData>(DEFAULT_MISSION_VISION);
-  const [aboutPillars, setAboutPillars] = useState<AboutPillarItem[]>(DEFAULT_PILLARS);
+  const [portfolioCategories, setPortfolioCategories] = useState<PortfolioCategory[]>(DEFAULT_CATEGORIES);
   const [partnershipCta, setPartnershipCta] = useState<AboutPartnershipCtaData>(DEFAULT_PARTNERSHIP_CTA);
-  const [pillarsHeading, setPillarsHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.about_pillars);
+  const [pillarsHeading, setPillarsHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.portfolio_categories);
   const [leaders, setLeaders] = useState<LeaderData[]>([]);
   const [teamMembers, setTeamMembers] = useState<TeamMemberData[]>([]);
   const [leadershipHeading, setLeadershipHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.about_page_leader);
@@ -83,9 +85,9 @@ export default function AboutUsPage() {
   useEffect(() => {
     getAboutHeroData().then(setAboutHero);
     getAboutMissionVisionData().then(setAboutMissionVision);
-    getAboutPillarsData().then(setAboutPillars);
+    getPortfolioCategories().then(setPortfolioCategories);
     getAboutPartnershipCtaData().then(setPartnershipCta);
-    getSectionHeading("about_pillars").then(setPillarsHeading);
+    getSectionHeading("portfolio_categories").then(setPillarsHeading);
     getTeamData().then(({ leaders, members }) => {
       setLeaders(leaders);
       setTeamMembers(members);
@@ -349,7 +351,7 @@ export default function AboutUsPage() {
                 </p>
 
                 <div className="pt-2 relative z-10">
-                  <CyberButton href="/services" variant="gold" size="md" fullWidth>
+                  <CyberButton href={pillarsHeading?.button_link || "/services"} variant="gold" size="md" fullWidth>
                     {pillarsHeading?.tagline || "EXPLORE OUR CAPABILITIES"}
                   </CyberButton>
                 </div>
@@ -358,12 +360,18 @@ export default function AboutUsPage() {
 
             {/* Right Column: Expanded Single Column Multi-Row Cards (8 cols) */}
             <div className="lg:col-span-8 flex flex-col space-y-6">
-              {aboutPillars.map((pillar, idx) => {
-                const Icon = resolveIcon(pillar.icon_name, PILLAR_ICON_MAP[pillar.icon_name] || Cpu);
+              {portfolioCategories.map((category, idx) => {
+                const Icon = resolveIcon(category.icon, PILLAR_ICON_MAP[category.icon] || Cpu);
+                const featureList = category.features 
+                  ? (Array.isArray(category.features) ? category.features : category.features.split(','))
+                  : [];
+                const cardHref = category.href || `/portfolio/${category.slug}`;
+
                 return (
-                  <div
-                    key={pillar.id || idx}
-                    className="about-pillar-card rounded-[28px] border border-white/10 hover:border-[#FFD400]/70 bg-[#0d0e13]/90 backdrop-blur-xl overflow-hidden transition-all duration-500 hover:-translate-y-1 group shadow-xl hover:shadow-[0_0_45px_rgba(255,212,0,0.22)] flex flex-col md:flex-row items-stretch relative"
+                  <Link
+                    key={category.slug || idx}
+                    href={cardHref}
+                    className="about-pillar-card rounded-[28px] border border-white/10 hover:border-[#FFD400]/70 bg-[#0d0e13]/90 backdrop-blur-xl overflow-hidden transition-all duration-500 hover:-translate-y-1 group shadow-xl hover:shadow-[0_0_45px_rgba(255,212,0,0.22)] flex flex-col md:flex-row items-stretch relative block cursor-pointer"
                   >
                     {/* Hover Light Sweep Beam */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#FFD400]/8 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none z-20" />
@@ -376,26 +384,26 @@ export default function AboutUsPage() {
                             <Icon className="w-5 h-5" />
                           </div>
                           <span className="text-[10px] font-mono tracking-widest text-[#FFD400] font-bold uppercase px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 group-hover:border-[#FFD400]/40 transition-colors">
-                            {pillar.number} {"//"} {pillar.tag}
+                            {category.number} {"//"} {category.tag}
                           </span>
                         </div>
 
                         <h3 className="text-xl sm:text-2xl font-[family-name:var(--font-archia-local)] font-bold uppercase text-white mb-2 group-hover:text-[#FFD400] transition-colors leading-snug">
-                          {pillar.title}
+                          {category.title}
                         </h3>
 
                         <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light mb-4">
-                          {pillar.desc}
+                          {category.description}
                         </p>
 
                         {/* Feature Tags */}
                         <div className="flex flex-wrap gap-1.5 pt-1">
-                          {pillar.features.map((feat, fIdx) => (
+                          {featureList.map((feat, fIdx) => (
                             <span
                               key={fIdx}
                               className="text-[10px] font-mono px-2.5 py-0.5 rounded-md bg-white/[0.04] text-neutral-300 border border-white/5 group-hover:border-[#FFD400]/30 group-hover:text-white transition-colors"
                             >
-                              #{feat}
+                              #{feat.trim()}
                             </span>
                           ))}
                         </div>
@@ -416,9 +424,9 @@ export default function AboutUsPage() {
 
                       {/* Image with zoom and color transition on hover */}
                       <Image
-                        src={pillar.image}
-                        alt={pillar.altname || pillar.title}
-                        title={pillar.imgtitle || pillar.title}
+                        src={category.image}
+                        alt={category.title}
+                        title={category.title}
                         fill
                         sizes="(max-width: 768px) 100vw, 50vw"
                         loading="lazy"
@@ -430,7 +438,7 @@ export default function AboutUsPage() {
                         DISCIPLINE {"//"} PREVIEW
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
             </div>

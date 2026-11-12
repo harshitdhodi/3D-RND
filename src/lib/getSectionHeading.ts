@@ -4,6 +4,7 @@ export interface SectionHeading {
   title: string;
   subtitle?: string;
   tagline?: string;
+  button_link?: string;
 }
 
 export type SectionHeadingData = SectionHeading;
@@ -67,12 +68,22 @@ export const DEFAULT_SECTION_HEADINGS: Record<string, SectionHeading> = {
       "Meet the engineering architects, creative heads, and operational leaders driving forward-looking solutions at RND Technosoft.",
   },
   about_pillars: {
-    section_name: "about_pillars",
+    section_name: "portfolio_categories",
     badge: "◈ THE RND DIFFERENCE",
     title: "WHERE TECHNOLOGY MEETS CREATIVITY. WHERE IDEAS BECOME IMPACT.",
     subtitle:
       "RND Technosoft brings technology, digital marketing, branding and media production together under one roof. We combine technical expertise, strategic thinking and creative execution to help businesses build stronger brands, smarter digital experiences and meaningful connections with their audiences.",
     tagline: "EXPLORE OUR CAPABILITIES",
+    button_link: "/services",
+  },
+  portfolio_categories: {
+    section_name: "portfolio_categories",
+    badge: "◈ THE RND DIFFERENCE",
+    title: "WHERE TECHNOLOGY MEETS CREATIVITY. WHERE IDEAS BECOME IMPACT.",
+    subtitle:
+      "RND Technosoft brings technology, digital marketing, branding and media production together under one roof. We combine technical expertise, strategic thinking and creative execution to help businesses build stronger brands, smarter digital experiences and meaningful connections with their audiences.",
+    tagline: "EXPLORE OUR CAPABILITIES",
+    button_link: "/services",
   },
   about_page_leader: {
     section_name: "about_page_leader",
@@ -95,6 +106,7 @@ export async function getSectionHeading(
     badge: "RND TECHNOSOFT",
     subtitle: "",
     tagline: "",
+    button_link: "/services",
   };
 
   try {
@@ -113,6 +125,7 @@ export async function getSectionHeading(
           title: json.data.title || fallback.title,
           subtitle: json.data.subtitle || fallback.subtitle,
           tagline: json.data.tagline || fallback.tagline,
+          button_link: json.data.button_link || fallback.button_link || "/services",
         };
       }
     }

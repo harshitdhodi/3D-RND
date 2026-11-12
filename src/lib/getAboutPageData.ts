@@ -334,7 +334,7 @@ export async function getAboutMissionVisionData(): Promise<AboutMissionVisionDat
 
 export async function getAboutPillarsData(): Promise<AboutPillarItem[]> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/data/about_pillars`, {
+    const res = await fetch(`${API_BASE_URL}/api/data/portfolio_categories`, {
       cache: "no-store",
     });
     if (!res.ok) return DEFAULT_PILLARS;
@@ -350,15 +350,15 @@ export async function getAboutPillarsData(): Promise<AboutPillarItem[]> {
       number: doc.number || String(idx + 1).padStart(2, "0"),
       title: doc.title || "",
       tag: doc.tag || "",
-      desc: doc.desc || "",
-      features: Array.isArray(doc.features) && doc.features.length > 0 ? doc.features : [],
+      desc: doc.description || "",
+      features: doc.features ? (Array.isArray(doc.features) ? doc.features : doc.features.split(',')) : [],
       image: doc.image || DEFAULT_PILLARS[idx % DEFAULT_PILLARS.length].image,
       imgtitle: doc.imgtitle || doc.title,
       altname: doc.altname || doc.title,
-      icon_name: doc.icon_name || "Code2",
+      icon_name: doc.icon || "Code2",
     }));
   } catch (err) {
-    console.warn("Failed to fetch about_pillars from API, using default:", err);
+    console.warn("Failed to fetch portfolio_categories from API, using default:", err);
     return DEFAULT_PILLARS;
   }
 }

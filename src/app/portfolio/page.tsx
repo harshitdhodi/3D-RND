@@ -18,6 +18,7 @@ import Navbar from "@/components/Navbar";
 import RnDFooter from "@/components/RnDFooter";
 import SpaceBackground from "@/components/SpaceBackground";
 import { getPortfolioCategories, getPortfolioProjects, PortfolioCategory, PortfolioProject } from "@/lib/getPortfolioData";
+import { getSectionHeading, SectionHeading, DEFAULT_SECTION_HEADINGS } from "@/lib/getSectionHeading";
 import PageBanner from "@/components/PageBanner";
 import CyberButton from "@/components/CyberButton";
 import ServiceConversionCTA from "@/components/ServiceConversionCTA";
@@ -26,17 +27,20 @@ export default function PortfolioPage() {
   const sectionRef = useRef<HTMLElement>(null);
   const [categories, setCategories] = useState<PortfolioCategory[]>([]);
   const [projects, setProjects] = useState<PortfolioProject[]>([]);
+  const [heading, setHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.portfolio_categories);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
       try {
-        const [catsData, projectsData] = await Promise.all([
+        const [catsData, projectsData, headingData] = await Promise.all([
           getPortfolioCategories(),
           getPortfolioProjects(),
+          getSectionHeading("portfolio_categories"),
         ]);
         setCategories(catsData);
         setProjects(projectsData);
+        setHeading(headingData);
       } catch (error) {
         console.error("Failed to load portfolio data:", error);
       } finally {
@@ -330,35 +334,25 @@ export default function PortfolioPage() {
 
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-bold tracking-widest text-[#FFD400] uppercase mb-4 bg-[#FFD400]/10 border border-[#FFD400]/30 shadow-[0_0_20px_rgba(255,212,0,0.15)] group-hover:border-[#FFD400]/60 transition-colors relative z-10">
                     <Layers className="w-3.5 h-3.5 animate-pulse" />
-                    <span>◈ THE RND DIFFERENCE</span>
+                    <span>{heading?.badge || "◈ THE RND DIFFERENCE"}</span>
                   </div>
 
                   <h2 className="text-2xl sm:text-3xl font-[family-name:var(--font-archia-local)] font-bold uppercase tracking-tight text-white mb-4 leading-tight relative z-10">
-                    WHERE TECHNOLOGY
-                    <br />
-                    <span className="bg-gradient-to-r from-white via-[#ffe34d] to-[#FFD400] bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(255,212,0,0.25)]">
-                      MEETS CREATIVITY.
-                    </span>
-                    <br />
-                    WHERE IDEAS BECOME IMPACT.
+                    {heading?.title || "WHERE TECHNOLOGY MEETS CREATIVITY. WHERE IDEAS BECOME IMPACT."}
                   </h2>
 
                   <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light mb-6 relative z-10">
-                    RND Technosoft brings technology, digital marketing, branding
-                    and media production together under one roof. We combine
-                    technical expertise, strategic thinking and creative execution
-                    to help businesses build stronger brands, smarter digital
-                    experiences and meaningful connections with their audiences.
+                    {heading?.subtitle || "RND Technosoft brings technology, digital marketing, branding and media production together under one roof. We combine technical expertise, strategic thinking and creative execution to help businesses build stronger brands, smarter digital experiences and meaningful connections with their audiences."}
                   </p>
 
                   <div className="pt-2 relative z-10">
                     <CyberButton
-                      href="/#contact"
+                      href={heading?.button_link || "/services"}
                       variant="gold"
                       size="md"
                       fullWidth
                     >
-                      EXPLORE OUR CAPABILITIES →
+                      {heading?.tagline || "EXPLORE OUR CAPABILITIES"}
                     </CyberButton>
                   </div>
                 </div>

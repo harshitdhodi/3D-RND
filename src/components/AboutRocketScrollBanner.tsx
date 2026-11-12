@@ -13,13 +13,20 @@ interface AboutRocketScrollBannerProps {
 }
 
 export default function AboutRocketScrollBanner({
-  totalFrames = 240,
-  framePathPrefix = "/about-frames/frame_",
-  damping = 0.12,
+  totalFrames: initialTotalFrames = 240,
+  framePathPrefix: initialFramePathPrefix = "/about-frames/frame_",
+  damping: initialDamping = 0.12,
   data,
 }: AboutRocketScrollBannerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Dynamic Video & Sequence Telemetry
+  const totalFrames = data?.total_frames ?? initialTotalFrames;
+  const framePathPrefix = data?.frame_path_prefix || initialFramePathPrefix;
+  const damping = data?.damping ?? initialDamping;
+  const videoUrl = data?.video_url || "/about-us.mp4";
+  const scrollHeightVh = data?.scroll_height_vh || 420;
 
   // Images cache & tracking
   const imagesRef = useRef<HTMLImageElement[]>([]);
@@ -361,7 +368,7 @@ export default function AboutRocketScrollBanner({
         {/* Rocket Frames Shown As Video (Full Width, No Border, No Radius) */}
         <div className="relative w-full aspect-video overflow-hidden bg-black/90">
           <video
-            src="/about-us.mp4"
+            src={videoUrl}
             autoPlay
             loop
             muted

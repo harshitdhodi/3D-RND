@@ -26,6 +26,12 @@ export interface AboutHeroData {
   cta_1_link: string;
   cta_2_text: string;
   cta_2_link: string;
+  // Video and sequence frames telemetry
+  video_url?: string;
+  total_frames?: number;
+  frame_path_prefix?: string;
+  scroll_height_vh?: number;
+  damping?: number;
 }
 
 export const DEFAULT_ABOUT_HERO: AboutHeroData = {
@@ -56,6 +62,11 @@ export const DEFAULT_ABOUT_HERO: AboutHeroData = {
   cta_1_link: "#mission-vision",
   cta_2_text: "VIEW CAPABILITIES",
   cta_2_link: "#pillars",
+  video_url: "/about-us.mp4",
+  total_frames: 240,
+  frame_path_prefix: "/about-frames/frame_",
+  scroll_height_vh: 420,
+  damping: 0.12,
 };
 
 // 2. Constellation Mission & Vision Interface
@@ -279,6 +290,11 @@ export async function getAboutHeroData(): Promise<AboutHeroData> {
       cta_1_link: doc.cta_1_link || DEFAULT_ABOUT_HERO.cta_1_link,
       cta_2_text: doc.cta_2_text || DEFAULT_ABOUT_HERO.cta_2_text,
       cta_2_link: doc.cta_2_link || DEFAULT_ABOUT_HERO.cta_2_link,
+      video_url: doc.video_url || DEFAULT_ABOUT_HERO.video_url,
+      total_frames: doc.total_frames ?? DEFAULT_ABOUT_HERO.total_frames,
+      frame_path_prefix: doc.frame_path_prefix || DEFAULT_ABOUT_HERO.frame_path_prefix,
+      scroll_height_vh: doc.scroll_height_vh ?? DEFAULT_ABOUT_HERO.scroll_height_vh,
+      damping: doc.damping ?? DEFAULT_ABOUT_HERO.damping,
     };
   } catch (err) {
     console.warn("Failed to fetch about_hero from API, using default:", err);
@@ -388,3 +404,4 @@ export async function getAboutOverviewCtaData(): Promise<AboutOverviewCtaData> {
     return DEFAULT_OVERVIEW_CTA;
   }
 }
+

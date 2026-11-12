@@ -18,16 +18,16 @@ import {
 
 export interface TeamCultureSectionProps {
   className?: string;
-  initialLeader?: LeaderData;
+  initialLeaders?: LeaderData[];
   initialMembers?: TeamMemberData[];
 }
 
 export default function TeamCultureSection({
   className = "",
-  initialLeader = DEFAULT_LEADER_DATA,
+  initialLeaders = [DEFAULT_LEADER_DATA],
   initialMembers = DEFAULT_TEAM_MEMBERS,
 }: TeamCultureSectionProps) {
-  const [leader, setLeader] = useState<LeaderData>(initialLeader);
+  const [leaders, setLeaders] = useState<LeaderData[]>(initialLeaders);
   const [squadLeaders, setSquadLeaders] = useState<TeamMemberData[]>(initialMembers);
 
   // Client-side real-time sync with CMS data
@@ -40,12 +40,12 @@ export default function TeamCultureSection({
         const leaderRes = await fetch(`${backendUrl}/api/data/about_page_leader`);
         if (leaderRes.ok) {
           const json = await leaderRes.json();
-          const rec = Array.isArray(json.data) ? json.data[0] : json.data;
-          if (rec && rec.name && isMounted) {
-            setLeader({
+          if (Array.isArray(json.data) && json.data.length > 0 && isMounted) {
+            const loadedLeaders = json.data.map((rec: any) => ({
               ...DEFAULT_LEADER_DATA,
               ...rec,
-            });
+            }));
+            setLeaders(loadedLeaders);
           }
         }
       } catch {
@@ -109,217 +109,114 @@ export default function TeamCultureSection({
         </div>
 
         {/* =========================================================================
-            1. FOUNDER & OWNER SPOTLIGHT (DYNAMIC CMS EDITORIAL COMMAND CARD)
+            LEADERSHIP SPOTLIGHTS (DYNAMIC CMS EDITORIAL COMMAND CARDS)
             ========================================================================= */}
-        <div className="mb-14 sm:mb-16">
-          <div className="rounded-[32px] bg-black/30 backdrop-blur-md border border-[#FFD400]/30 hover:border-[#FFD400]/50 p-8 sm:p-12 lg:p-14 shadow-[0_20px_70px_rgba(0,0,0,0.5)] relative overflow-hidden group transition-all duration-500">
-            {/* Top Amber Radiant Accent */}
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD400] to-transparent shadow-[0_0_20px_#FFD400]" />
+        {leaders.map((leader, idx) => (
+          <div key={leader.id || idx} className="mb-14 sm:mb-16">
+            <div className="rounded-[32px] bg-black/30 backdrop-blur-md border border-[#FFD400]/30 hover:border-[#FFD400]/50 p-8 sm:p-12 lg:p-14 shadow-[0_20px_70px_rgba(0,0,0,0.5)] relative overflow-hidden group transition-all duration-500">
+              {/* Top Amber Radiant Accent */}
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD400] to-transparent shadow-[0_0_20px_#FFD400]" />
 
-            {/* Background Sci-Fi Grid lines */}
-            <div
-              className="absolute inset-0 pointer-events-none opacity-10"
-              style={{
-                backgroundImage:
-                  "linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px)",
-                backgroundSize: "28px 28px",
-              }}
-            />
+              {/* Background Sci-Fi Grid lines */}
+              <div
+                className="absolute inset-0 pointer-events-none opacity-10"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px)",
+                  backgroundSize: "28px 28px",
+                }}
+              />
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center relative z-10">
-              {/* Left: Founder Portrait with Cyber Frame */}
-              <div className="lg:col-span-5 relative">
-                <div className="relative aspect-square max-w-[420px] mx-auto rounded-2xl overflow-hidden border-2 border-white/15 group-hover:border-[#FFD400]/60 transition-all duration-700 shadow-2xl">
-                  <Image
-                    src={leader.image || "/images/team/founder_ravi_shah.png"}
-                    alt={leader.altname || leader.name}
-                    title={leader.imgtitle || leader.name}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 420px"
-                    className="object-cover object-top filter brightness-95 group-hover:scale-105 transition-transform duration-700 ease-out"
-                    priority
-                  />
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center relative z-10">
+                {/* Left: Leader Portrait with Cyber Frame */}
+                <div className="lg:col-span-5 relative">
+                  <div className="relative aspect-square max-w-[420px] mx-auto rounded-2xl overflow-hidden border-2 border-white/15 group-hover:border-[#FFD400]/60 transition-all duration-700 shadow-2xl">
+                    <Image
+                      src={leader.image || "/images/team/founder_ravi_shah.png"}
+                      alt={leader.altname || leader.name}
+                      title={leader.imgtitle || leader.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 420px"
+                      className="object-cover object-top filter brightness-95 group-hover:scale-105 transition-transform duration-700 ease-out"
+                      priority
+                    />
+                  </div>
+
+                  {/* Corner Cyber Accents */}
+                  <div className="absolute -top-2 -left-2 w-6 h-6 border-t-2 border-l-2 border-[#FFD400]" />
+                  <div className="absolute -bottom-2 -right-2 w-6 h-6 border-b-2 border-r-2 border-[#FFD400]" />
                 </div>
 
-                {/* Corner Cyber Accents */}
-                <div className="absolute -top-2 -left-2 w-6 h-6 border-t-2 border-l-2 border-[#FFD400]" />
-                <div className="absolute -bottom-2 -right-2 w-6 h-6 border-b-2 border-r-2 border-[#FFD400]" />
-              </div>
-
-              {/* Right: Founder Information & Executive Conviction */}
-              <div className="lg:col-span-7 space-y-6">
-                <div className="space-y-2">
-                  <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>{leader.badge_label}</span>
+                {/* Right: Leader Information */}
+                <div className="lg:col-span-7 space-y-6">
+                  <div className="space-y-2">
+                    <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>{leader.badge_label}</span>
+                    </div>
+                    <h3 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-archia-local)] font-bold text-white uppercase tracking-tight">
+                      {leader.name}
+                    </h3>
+                    <p className="text-xs font-mono text-neutral-400 uppercase tracking-widest">
+                      {leader.role_subtitle}
+                    </p>
                   </div>
-                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-archia-local)] font-bold text-white uppercase tracking-tight">
-                    {leader.name}
-                  </h3>
-                  <p className="text-xs font-mono text-neutral-400 uppercase tracking-widest">
-                    {leader.role_subtitle}
-                  </p>
-                </div>
 
-                {/* Founder's Philosophy Quote */}
-                <div className="relative pl-6 sm:pl-8 border-l-2 border-[#FFD400] py-2 space-y-3 bg-white/[0.02] p-5 rounded-r-xl">
-                  <Quote className="w-8 h-8 text-[#FFD400]/40 absolute -top-3 -left-3 fill-current" />
-                  <p className="text-sm sm:text-base text-neutral-200 font-light italic leading-relaxed">
-                    {leader.bio_paragraph_1}
-                    <br />
-                    {leader.bio_paragraph_2}
-                  </p>
-                  <span className="text-md italic font-mono text-[#FFD400] font-medium block">
-                    &ldquo;{leader.quote}&rdquo;
-                  </span>
-                  <span className="text-xs font-mono text-[#FFD400] font-medium block">
-                    {leader.quote_author}
-                  </span>
-                </div>
-
-                {/* 3 Executive Pillars / Stats */}
-                <div className="grid grid-cols-3 sm:gap-4 gap-2 pt-2 border-t border-white/10">
-                  <div className="space-y-1">
-                    <span className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-archia-local)] font-bold text-white break-words">
-                      {leader.stat_1_val}
+                  {/* Leader's Philosophy Quote */}
+                  <div className="relative pl-6 sm:pl-8 border-l-2 border-[#FFD400] py-2 space-y-3 bg-white/[0.02] p-5 rounded-r-xl">
+                    <Quote className="w-8 h-8 text-[#FFD400]/40 absolute -top-3 -left-3 fill-current" />
+                    <p className="text-sm sm:text-base text-neutral-200 font-light italic leading-relaxed">
+                      {leader.bio_paragraph_1}
+                      <br />
+                      {leader.bio_paragraph_2}
+                    </p>
+                    <span className="text-md italic font-mono text-[#FFD400] font-medium block">
+                      &ldquo;{leader.quote}&rdquo;
                     </span>
-                    <span className="text-[9px] sm:text-[10px] md:text-xs font-mono text-neutral-400 block uppercase leading-tight break-words">
-                      {leader.stat_1_lbl}
+                    <span className="text-xs font-mono text-[#FFD400] font-medium block">
+                      {leader.quote_author}
                     </span>
                   </div>
-                  <div className="space-y-1">
-                    <span className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-archia-local)] font-bold text-[#FFD400] break-words">
-                      {leader.stat_2_val}
-                    </span>
-                    <span className="text-[9px] sm:text-[10px] md:text-xs font-mono text-neutral-400 block uppercase leading-tight break-words">
-                      {leader.stat_2_lbl}
-                    </span>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-archia-local)] font-bold text-white break-words">
-                      {leader.stat_3_val}
-                    </span>
-                    <span className="text-[9px] sm:text-[10px] md:text-xs font-mono text-neutral-400 block uppercase leading-tight break-words">
-                      {leader.stat_3_lbl}
-                    </span>
-                  </div>
-                </div>
 
-                {/* Founder Connect Action */}
-                <div className="pt-2 flex flex-wrap items-center gap-4">
-                  <CyberButton href={leader.cta_link || "/contact-us"} size="md">
-                    {leader.cta_text || "REQUEST EXECUTIVE CONSULTATION"}
-                  </CyberButton>
+                  {/* 3 Executive Pillars / Stats */}
+                  <div className="grid grid-cols-3 sm:gap-4 gap-2 pt-2 border-t border-white/10">
+                    <div className="space-y-1">
+                      <span className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-archia-local)] font-bold text-white break-words">
+                        {leader.stat_1_val}
+                      </span>
+                      <span className="text-[9px] sm:text-[10px] md:text-xs font-mono text-neutral-400 block uppercase leading-tight break-words">
+                        {leader.stat_1_lbl}
+                      </span>
+                    </div>
+                    <div className="space-y-1">
+                      <span className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-archia-local)] font-bold text-[#FFD400] break-words">
+                        {leader.stat_2_val}
+                      </span>
+                      <span className="text-[9px] sm:text-[10px] md:text-xs font-mono text-neutral-400 block uppercase leading-tight break-words">
+                        {leader.stat_2_lbl}
+                      </span>
+                    </div>
+                    <div className="space-y-1">
+                      <span className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-archia-local)] font-bold text-white break-words">
+                        {leader.stat_3_val}
+                      </span>
+                      <span className="text-[9px] sm:text-[10px] md:text-xs font-mono text-neutral-400 block uppercase leading-tight break-words">
+                        {leader.stat_3_lbl}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Leader Connect Action */}
+                  <div className="pt-2 flex flex-wrap items-center gap-4">
+                    <CyberButton href={leader.cta_link || "/contact-us"} size="md">
+                      {leader.cta_text || "REQUEST EXECUTIVE CONSULTATION"}
+                    </CyberButton>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* =========================================================================
-            2. CFO SPOTLIGHT (EDITORIAL COMMAND CARD - SALONI SHAH)
-            ========================================================================= */}
-        <div className="mb-20">
-          <div className="rounded-[32px] bg-black/30 backdrop-blur-md border border-[#FFD400]/30 hover:border-[#FFD400]/50 p-8 sm:p-12 lg:p-14 shadow-[0_20px_70px_rgba(0,0,0,0.5)] relative overflow-hidden group transition-all duration-500">
-            {/* Top Amber Radiant Accent */}
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD400] to-transparent shadow-[0_0_20px_#FFD400]" />
-
-            {/* Background Sci-Fi Grid lines */}
-            <div
-              className="absolute inset-0 pointer-events-none opacity-10"
-              style={{
-                backgroundImage:
-                  "linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px)",
-                backgroundSize: "28px 28px",
-              }}
-            />
-
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center relative z-10">
-              {/* Left: CFO Portrait with Cyber Frame */}
-              <div className="lg:col-span-5 relative">
-                <div className="relative aspect-square max-w-[420px] mx-auto rounded-2xl overflow-hidden border-2 border-white/15 group-hover:border-[#FFD400]/60 transition-all duration-700 shadow-2xl">
-                  <Image
-                    src="/office/Confident CFO in a Warm Executive Office.png"
-                    alt="Saloni Shah — Chief Financial Officer"
-                    fill
-                    sizes="(max-width: 768px) 100vw, 420px"
-                    className="object-cover object-top filter brightness-95 group-hover:scale-105 transition-transform duration-700 ease-out"
-                  />
-                </div>
-
-                {/* Corner Cyber Accents */}
-                <div className="absolute -top-2 -left-2 w-6 h-6 border-t-2 border-l-2 border-[#FFD400]" />
-                <div className="absolute -bottom-2 -right-2 w-6 h-6 border-b-2 border-r-2 border-[#FFD400]" />
-              </div>
-
-              {/* Right: CFO Information & Financial Conviction */}
-              <div className="lg:col-span-7 space-y-6">
-                <div className="space-y-2">
-                  <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>CHIEF FINANCIAL OFFICER // FISCAL GOVERNANCE</span>
-                  </div>
-                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-archia-local)] font-bold text-white uppercase tracking-tight">
-                    MRS. SALONI SHAH
-                  </h3>
-                  <p className="text-xs font-mono text-neutral-400 uppercase tracking-widest">
-                    CHIEF FINANCIAL OFFICER • FISCAL STRATEGIST • EXECUTIVE LEADER
-                  </p>
-                </div>
-
-                {/* CFO Philosophy Quote */}
-                <div className="relative pl-6 sm:pl-8 border-l-2 border-[#FFD400] py-2 space-y-3 bg-white/[0.02] p-5 rounded-r-xl">
-                  <Quote className="w-8 h-8 text-[#FFD400]/40 absolute -top-3 -left-3 fill-current" />
-                  <p className="text-sm sm:text-base text-neutral-200 font-light italic leading-relaxed">
-                    As Chief Financial Officer at RND Technosoft, Mrs. Saloni Shah steers corporate fiscal governance, strategic capital allocation and sustainable monetization models. Working alongside executive leadership, she ensures ambitious engineering initiatives are supported by robust fiscal management, structured investment and disciplined governance across all global ventures.
-                  </p>
-                  <span className="text-md italic font-mono text-[#FFD400] font-medium block">
-                    &ldquo;Sustainable innovation is powered by disciplined fiscal strategy and sound governance. When financial stewardship aligns with creative ambition, enduring business transformation becomes reality.&rdquo;
-                  </span>
-                  <span className="text-xs font-mono text-[#FFD400] font-medium block">
-                    — Mrs. Saloni Shah, Chief Financial Officer (CFO)
-                  </span>
-                </div>
-
-                {/* 3 Executive Pillars / Stats */}
-                <div className="grid grid-cols-3 sm:gap-4 gap-2 pt-2 border-t border-white/10">
-                  <div className="space-y-1">
-                    <span className="inline-flex items-center text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-archia-local)] font-bold text-white">
-                      <IndianRupee className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white stroke-[2.5] -mr-0.5 flex-shrink-0" />
-                      <span className="break-words">100M+</span>
-                    </span>
-                    <span className="text-[9px] sm:text-[10px] md:text-xs font-mono text-neutral-400 block uppercase leading-tight break-words">
-                      Capital Managed
-                    </span>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-archia-local)] font-bold text-[#FFD400] break-words">
-                      500+
-                    </span>
-                    <span className="text-[9px] sm:text-[10px] md:text-xs font-mono text-neutral-400 block uppercase leading-tight break-words">
-                      Delivered Projects
-                    </span>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-archia-local)] font-bold text-white break-words">
-                      14+
-                    </span>
-                    <span className="text-[9px] sm:text-[10px] md:text-xs font-mono text-neutral-400 block uppercase leading-tight break-words">
-                      Years Financial Leadership
-                    </span>
-                  </div>
-                </div>
-
-                {/* CFO Connect Action */}
-                <div className="pt-2 flex flex-wrap items-center gap-4">
-                  <CyberButton href="/contact-us" size="md">
-                    REQUEST EXECUTIVE CONSULTATION
-                  </CyberButton>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        ))}
 
         {/* =========================================================================
             3. LEADERSHIP & AUTONOMOUS SQUADS (DYNAMIC CMS SQUAD LEADS)

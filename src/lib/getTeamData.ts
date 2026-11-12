@@ -1,4 +1,6 @@
 export interface LeaderData {
+  id?: string;
+  role_type?: string;
   name: string;
   role_subtitle: string;
   badge_label: string;
@@ -109,10 +111,10 @@ export const DEFAULT_TEAM_MEMBERS: TeamMemberData[] = [
   },
 ];
 
-export async function getTeamData(): Promise<{ leader: LeaderData; members: TeamMemberData[] }> {
+export async function getTeamData(): Promise<{ leaders: LeaderData[]; members: TeamMemberData[] }> {
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3014";
 
-  let leader = DEFAULT_LEADER_DATA;
+  let leaders: LeaderData[] = [DEFAULT_LEADER_DATA];
   let members = DEFAULT_TEAM_MEMBERS;
 
   try {
@@ -121,12 +123,11 @@ export async function getTeamData(): Promise<{ leader: LeaderData; members: Team
     });
     if (leaderRes.ok) {
       const json = await leaderRes.json();
-      const rec = Array.isArray(json.data) ? json.data[0] : json.data;
-      if (rec && rec.name) {
-        leader = {
+      if (Array.isArray(json.data) && json.data.length > 0) {
+        leaders = json.data.map((rec: any) => ({
           ...DEFAULT_LEADER_DATA,
           ...rec,
-        };
+        }));
       }
     }
   } catch {
@@ -147,6 +148,6 @@ export async function getTeamData(): Promise<{ leader: LeaderData; members: Team
     // Graceful fallback to default
   }
 
-  return { leader, members };
+  return { leaders, members };
 }
 

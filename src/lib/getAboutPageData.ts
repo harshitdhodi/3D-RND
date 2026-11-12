@@ -220,15 +220,8 @@ export const DEFAULT_PILLARS: AboutPillarItem[] = [
   },
 ];
 
-// 4. About Overview & CTA Interface
-export interface AboutOverviewCtaData {
-  difference_badge: string;
-  difference_title_1: string;
-  difference_title_highlight: string;
-  difference_title_2: string;
-  difference_desc: string;
-  difference_cta_text: string;
-  difference_cta_link: string;
+// 4. Partnership CTA Interface (Bottom Ready-For-What's-Next Banner)
+export interface AboutPartnershipCtaData {
   cta_badge: string;
   cta_title: string;
   cta_desc: string;
@@ -236,15 +229,7 @@ export interface AboutOverviewCtaData {
   cta_button_link: string;
 }
 
-export const DEFAULT_OVERVIEW_CTA: AboutOverviewCtaData = {
-  difference_badge: "◈ THE RND DIFFERENCE",
-  difference_title_1: "WHERE VISION",
-  difference_title_highlight: "CONVERGES WITH",
-  difference_title_2: "EXECUTION.",
-  difference_desc:
-    "Our multifaceted structure empowers us to provide cohesive, all-inclusive digital strategies — eliminating the friction of managing fragmented multi-vendor agency rosters.",
-  difference_cta_text: "COMMENCE PARTNERSHIP",
-  difference_cta_link: "/services",
+export const DEFAULT_PARTNERSHIP_CTA: AboutPartnershipCtaData = {
   cta_badge: "READY FOR WHAT'S NEXT?",
   cta_title: "GREAT IDEAS DESERVE GREAT PARTNERS.",
   cta_desc:
@@ -252,6 +237,10 @@ export const DEFAULT_OVERVIEW_CTA: AboutOverviewCtaData = {
   cta_button_text: "START A CONVERSATION",
   cta_button_link: "/contact-us",
 };
+
+// Backward-compatibility alias
+export type AboutOverviewCtaData = AboutPartnershipCtaData;
+export const DEFAULT_OVERVIEW_CTA = DEFAULT_PARTNERSHIP_CTA;
 
 // ── Fetch Helper Functions with Cache No-Store and Fallbacks ───────────────────
 
@@ -374,34 +363,28 @@ export async function getAboutPillarsData(): Promise<AboutPillarItem[]> {
   }
 }
 
-export async function getAboutOverviewCtaData(): Promise<AboutOverviewCtaData> {
+export async function getAboutPartnershipCtaData(): Promise<AboutPartnershipCtaData> {
   try {
     const res = await fetch(`${API_BASE_URL}/api/data/about_overview_cta?limit=1`, {
       cache: "no-store",
     });
-    if (!res.ok) return DEFAULT_OVERVIEW_CTA;
+    if (!res.ok) return DEFAULT_PARTNERSHIP_CTA;
     const json = await res.json();
     const doc = Array.isArray(json?.data) ? json.data[0] : json.data;
-    if (!doc) return DEFAULT_OVERVIEW_CTA;
+    if (!doc) return DEFAULT_PARTNERSHIP_CTA;
 
     return {
-      difference_badge: doc.difference_badge || DEFAULT_OVERVIEW_CTA.difference_badge,
-      difference_title_1: doc.difference_title_1 || DEFAULT_OVERVIEW_CTA.difference_title_1,
-      difference_title_highlight:
-        doc.difference_title_highlight || DEFAULT_OVERVIEW_CTA.difference_title_highlight,
-      difference_title_2: doc.difference_title_2 || DEFAULT_OVERVIEW_CTA.difference_title_2,
-      difference_desc: doc.difference_desc || DEFAULT_OVERVIEW_CTA.difference_desc,
-      difference_cta_text: doc.difference_cta_text || DEFAULT_OVERVIEW_CTA.difference_cta_text,
-      difference_cta_link: doc.difference_cta_link || DEFAULT_OVERVIEW_CTA.difference_cta_link,
-      cta_badge: doc.cta_badge || DEFAULT_OVERVIEW_CTA.cta_badge,
-      cta_title: doc.cta_title || DEFAULT_OVERVIEW_CTA.cta_title,
-      cta_desc: doc.cta_desc || DEFAULT_OVERVIEW_CTA.cta_desc,
-      cta_button_text: doc.cta_button_text || DEFAULT_OVERVIEW_CTA.cta_button_text,
-      cta_button_link: doc.cta_button_link || DEFAULT_OVERVIEW_CTA.cta_button_link,
+      cta_badge: doc.cta_badge || DEFAULT_PARTNERSHIP_CTA.cta_badge,
+      cta_title: doc.cta_title || DEFAULT_PARTNERSHIP_CTA.cta_title,
+      cta_desc: doc.cta_desc || DEFAULT_PARTNERSHIP_CTA.cta_desc,
+      cta_button_text: doc.cta_button_text || DEFAULT_PARTNERSHIP_CTA.cta_button_text,
+      cta_button_link: doc.cta_button_link || DEFAULT_PARTNERSHIP_CTA.cta_button_link,
     };
   } catch (err) {
-    console.warn("Failed to fetch about_overview_cta from API, using default:", err);
-    return DEFAULT_OVERVIEW_CTA;
+    console.warn("Failed to fetch partnership CTA from API, using default:", err);
+    return DEFAULT_PARTNERSHIP_CTA;
   }
 }
+
+export const getAboutOverviewCtaData = getAboutPartnershipCtaData;
 

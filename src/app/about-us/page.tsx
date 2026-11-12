@@ -39,16 +39,21 @@ import {
   getAboutHeroData,
   getAboutMissionVisionData,
   getAboutPillarsData,
-  getAboutOverviewCtaData,
+  getAboutPartnershipCtaData,
   DEFAULT_ABOUT_HERO,
   DEFAULT_MISSION_VISION,
   DEFAULT_PILLARS,
-  DEFAULT_OVERVIEW_CTA,
+  DEFAULT_PARTNERSHIP_CTA,
   AboutHeroData,
   AboutMissionVisionData,
   AboutPillarItem,
-  AboutOverviewCtaData,
+  AboutPartnershipCtaData,
 } from "@/lib/getAboutPageData";
+import {
+  getTeamData,
+  LeaderData,
+  TeamMemberData,
+} from "@/lib/getTeamData";
 
 const PILLAR_ICON_MAP: Record<string, LucideIcon> = {
   Code2,
@@ -68,15 +73,21 @@ export default function AboutUsPage() {
   const [aboutHero, setAboutHero] = useState<AboutHeroData>(DEFAULT_ABOUT_HERO);
   const [aboutMissionVision, setAboutMissionVision] = useState<AboutMissionVisionData>(DEFAULT_MISSION_VISION);
   const [aboutPillars, setAboutPillars] = useState<AboutPillarItem[]>(DEFAULT_PILLARS);
-  const [aboutOverviewCta, setAboutOverviewCta] = useState<AboutOverviewCtaData>(DEFAULT_OVERVIEW_CTA);
+  const [partnershipCta, setPartnershipCta] = useState<AboutPartnershipCtaData>(DEFAULT_PARTNERSHIP_CTA);
   const [pillarsHeading, setPillarsHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.about_pillars);
+  const [leaders, setLeaders] = useState<LeaderData[]>([]);
+  const [teamMembers, setTeamMembers] = useState<TeamMemberData[]>([]);
 
   useEffect(() => {
     getAboutHeroData().then(setAboutHero);
     getAboutMissionVisionData().then(setAboutMissionVision);
     getAboutPillarsData().then(setAboutPillars);
-    getAboutOverviewCtaData().then(setAboutOverviewCta);
+    getAboutPartnershipCtaData().then(setPartnershipCta);
     getSectionHeading("about_pillars").then(setPillarsHeading);
+    getTeamData().then(({ leaders, members }) => {
+      setLeaders(leaders);
+      setTeamMembers(members);
+    });
   }, []);
 
   useEffect(() => {
@@ -322,36 +333,20 @@ export default function AboutUsPage() {
 
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-bold tracking-widest text-[#FFD400] uppercase mb-4 bg-[#FFD400]/10 border border-[#FFD400]/30 shadow-[0_0_20px_rgba(255,212,0,0.15)] group-hover:border-[#FFD400]/60 transition-colors relative z-10">
                   <Layers className="w-3.5 h-3.5 animate-pulse" />
-                  <span>{pillarsHeading?.badge || aboutOverviewCta.difference_badge || "◈ THE RND DIFFERENCE"}</span>
+                  <span>{pillarsHeading?.badge || "◈ THE RND DIFFERENCE"}</span>
                 </div>
 
                 <h2 className="text-2xl sm:text-3xl font-[family-name:var(--font-archia-local)] font-bold uppercase tracking-tight text-white mb-4 leading-tight relative z-10">
-                  {aboutOverviewCta.difference_title_highlight ? (
-                    <>
-                      {aboutOverviewCta.difference_title_1 || "WHERE TECHNOLOGY"}
-                      <br />
-                      <span className="bg-gradient-to-r from-white via-[#ffe34d] to-[#FFD400] bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(255,212,0,0.25)]">
-                        {aboutOverviewCta.difference_title_highlight}
-                      </span>
-                      {aboutOverviewCta.difference_title_2 && (
-                        <>
-                          <br />
-                          {aboutOverviewCta.difference_title_2}
-                        </>
-                      )}
-                    </>
-                  ) : (
-                    pillarsHeading?.title || aboutOverviewCta.difference_title_1 || "WHERE TECHNOLOGY MEETS CREATIVITY. WHERE IDEAS BECOME IMPACT."
-                  )}
+                  {pillarsHeading?.title || "WHERE TECHNOLOGY MEETS CREATIVITY. WHERE IDEAS BECOME IMPACT."}
                 </h2>
 
                 <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light mb-6 relative z-10">
-                  {pillarsHeading?.subtitle || aboutOverviewCta.difference_desc}
+                  {pillarsHeading?.subtitle || "RND Technosoft brings technology, digital marketing, branding and media production together under one roof. We combine technical expertise, strategic thinking and creative execution to help businesses build stronger brands, smarter digital experiences and meaningful connections with their audiences."}
                 </p>
 
                 <div className="pt-2 relative z-10">
-                  <CyberButton href={aboutOverviewCta.difference_cta_link || "/services"} variant="gold" size="md" fullWidth>
-                    {pillarsHeading?.tagline || aboutOverviewCta.difference_cta_text || "EXPLORE OUR CAPABILITIES"}
+                  <CyberButton href="/services" variant="gold" size="md" fullWidth>
+                    {pillarsHeading?.tagline || "EXPLORE OUR CAPABILITIES"}
                   </CyberButton>
                 </div>
               </div>
@@ -444,7 +439,7 @@ export default function AboutUsPage() {
         <CosmicProcessSection className="py-[50px]" />
 
         {/* 5. Team & Culture Section */}
-        <TeamCultureSection className="py-[50px]" />
+        <TeamCultureSection initialLeaders={leaders} initialMembers={teamMembers} className="py-[50px]" />
 
         {/* 6. Why Choose RnD Section */}
         <WhyChooseSection className="py-[50px]" />
@@ -455,19 +450,19 @@ export default function AboutUsPage() {
             <div className="about-cta-card rounded-[28px] border border-[#FFD400]/30 bg-gradient-to-r from-[#12141c] via-[#090a0f] to-[#12141c] p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-[0_0_50px_rgba(255,212,0,0.1)]">
               <div>
                 <span className="text-[10px] font-mono font-bold tracking-widest text-[#FFD400] uppercase block mb-1">
-                  {aboutOverviewCta.cta_badge || "READY FOR WHAT'S NEXT?"}
+                  {partnershipCta.cta_badge || "READY FOR WHAT'S NEXT?"}
                 </span>
                 <h3 className="text-xl sm:text-2xl font-[family-name:var(--font-archia-local)] font-bold uppercase text-white tracking-tight">
-                  {aboutOverviewCta.cta_title || "GREAT IDEAS DESERVE GREAT PARTNERS."}
+                  {partnershipCta.cta_title || "GREAT IDEAS DESERVE GREAT PARTNERS."}
                 </h3>
                 <p className="text-xs sm:text-sm text-neutral-300 font-light mt-2 max-w-xl leading-relaxed">
-                  {aboutOverviewCta.cta_desc}
+                  {partnershipCta.cta_desc}
                 </p>
               </div>
 
               <div className="flex items-center gap-3 shrink-0">
-                <CyberButton href={aboutOverviewCta.cta_button_link || "/contact-us"} variant="gold" size="md">
-                  {aboutOverviewCta.cta_button_text || "INITIATE PARTNERSHIP"}
+                <CyberButton href={partnershipCta.cta_button_link || "/contact-us"} variant="gold" size="md">
+                  {partnershipCta.cta_button_text || "INITIATE PARTNERSHIP"}
                 </CyberButton>
               </div>
             </div>

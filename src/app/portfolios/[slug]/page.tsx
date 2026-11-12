@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -23,15 +23,25 @@ import RnDFooter from "@/components/RnDFooter";
 import SpaceBackground from "@/components/SpaceBackground";
 import PageBanner from "@/components/PageBanner";
 import {
-  portfolioData,
-  getPortfolioById,
-  getRelatedPortfolios,
-  PortfolioProjectDetail,
-} from "@/data/portfolioData";
+  getPortfolioProjectBySlug,
+  getPortfolioProjects,
+  PortfolioProject,
+} from "@/lib/getPortfolioData";
 
-function FAQSection({ project }: { project: PortfolioProjectDetail }) {
+function FAQSection({ project }: { project: PortfolioProject }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const faqs = project.faqs || [];
+  
+  // Default FAQs - can be made dynamic later
+  const faqs = [
+    {
+      question: "What was the main challenge?",
+      answer: project.challenge,
+    },
+    {
+      question: "How was it solved?",
+      answer: project.solution,
+    },
+  ];
 
   if (faqs.length === 0) return null;
 
@@ -102,8 +112,47 @@ function FAQSection({ project }: { project: PortfolioProjectDetail }) {
 export default function PortfolioProjectPage() {
   const params = useParams();
   const projectSlug = params?.slug as string;
+  const [project, setProject] = useState<PortfolioProject | null>(null);
+  const [relatedProjects, setRelatedProjects] = useState<PortfolioProject[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const project = getPortfolioById(projectSlug);
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const [projectData, allProjects] = await Promise.all([
+          getPortfolioProjectBySlug(projectSlug),
+          getPortfolioProjects(),
+        ]);
+        
+        if (!projectData) {
+          setProject(null);
+          setLoading(false);
+          return;
+        }
+
+        setProject(projectData);
+        
+        // Get related projects from same category (excluding current project)
+        const related = allProjects
+          .filter(p => p.category_slug === projectData.category_slug && p.slug !== projectData.slug && p.published)
+          .slice(0, 3);
+        setRelatedProjects(related);
+      } catch (error) {
+        console.error("Failed to load project data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, [projectSlug]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center">Loading...</div>
+      </div>
+    );
+  }
 
   if (!project) {
     return (
@@ -118,8 +167,6 @@ export default function PortfolioProjectPage() {
     );
   }
 
-  const relatedProjects = getRelatedPortfolios(project.id, 3);
-
   return (
     <div className="font-archia relative min-h-screen bg-[#050608] text-white">
       <SpaceBackground />
@@ -128,7 +175,7 @@ export default function PortfolioProjectPage() {
       {/* Banner */}
       <PageBanner
         title={project.title.toUpperCase()}
-        breadcrumb={`PORTFOLIO / ${project.category.toUpperCase()} / ${project.title.toUpperCase()}`}
+        breadcrumb={`PORTFOLIO / ${project.category_slug.toUpperCase()} / ${project.title.toUpperCase()}`}
         imageSrc={project.image}
       />
 
@@ -142,7 +189,7 @@ export default function PortfolioProjectPage() {
               <div>
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider mb-4 bg-white/5 border border-[#FFD400]/30 text-[#FFD400]">
                   <Layers className="w-3.5 h-3.5" />
-                  <span>{project.category}</span>
+                  <span>{project.category_slug}</span>
                 </div>
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3">
                   {project.title}
@@ -153,7 +200,7 @@ export default function PortfolioProjectPage() {
                 <div className="flex flex-wrap items-center gap-4 text-sm">
                   <div className="flex items-center gap-2 text-neutral-400">
                     <Calendar className="w-4 h-4" />
-                    <span>{project.projectDate}</span>
+                    <span>{project.project_date}</span>
                   </div>
                   <div className="flex items-center gap-2 text-neutral-400">
                     <Clock className="w-4 h-4" />
@@ -187,9 +234,9 @@ export default function PortfolioProjectPage() {
             </div>
 
             {/* Gallery Images Grid */}
-            {project.galleryImages && project.galleryImages.length > 0 && (
+            {project.gallery_images && project.gallery_images.length > 0 && (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6">
-                {project.galleryImages.map((img, idx) => (
+                {project.gallery_images.map((img: string, idx: number) => (
                   <div
                     key={idx}
                     className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 hover:border-[#FFD400]/60 transition-all group"
@@ -250,7 +297,7 @@ export default function PortfolioProjectPage() {
                       Deliverables
                     </h3>
                     <ul className="space-y-2">
-                      {project.deliverables.map((item, idx) => (
+                      {project.deliverables.map((item: string, idx: number) => (
                         <li
                           key={idx}
                           className="flex items-start gap-3 text-neutral-300"
@@ -267,35 +314,33 @@ export default function PortfolioProjectPage() {
               {/* Right Column - Stats & Info */}
               <div className="space-y-8">
                 {/* Results */}
-                {project.results && project.results.length > 0 && (
+                {project.results_metric && project.results_label && (
                   <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
                     <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
                       <TrendingUp className="w-5 h-5 text-[#FFD400]" />
                       Results
                     </h3>
                     <div className="space-y-4">
-                      {project.results.map((result, idx) => (
-                        <div key={idx} className="border-b border-white/10 last:border-0 pb-4 last:pb-0">
-                          <div className="text-3xl font-bold text-[#FFD400] mb-1">
-                            {result.metric}
-                          </div>
-                          <div className="text-sm text-neutral-400">
-                            {result.label}
-                          </div>
+                      <div className="border-b border-white/10 last:border-0 pb-4 last:pb-0">
+                        <div className="text-3xl font-bold text-[#FFD400] mb-1">
+                          {project.results_metric}
                         </div>
-                      ))}
+                        <div className="text-sm text-neutral-400">
+                          {project.results_label}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
 
                 {/* Technologies */}
-                {project.techStack && project.techStack.length > 0 && (
+                {project.tech_stack && project.tech_stack.length > 0 && (
                   <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
                     <h3 className="text-xl font-bold text-white mb-4">
                       Technologies Used
                     </h3>
                     <div className="flex flex-wrap gap-2">
-                      {project.techStack.map((tech, idx) => (
+                      {project.tech_stack.map((tech: string, idx: number) => (
                         <span
                           key={idx}
                           className="px-3 py-1.5 rounded-lg bg-black/60 border border-white/10 text-sm text-neutral-300 font-mono"
@@ -307,27 +352,6 @@ export default function PortfolioProjectPage() {
                   </div>
                 )}
 
-                {/* Services */}
-                {project.services && project.services.length > 0 && (
-                  <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
-                    <h3 className="text-xl font-bold text-white mb-4">
-                      Services Provided
-                    </h3>
-                    <ul className="space-y-2">
-                      {project.services.map((service, idx) => (
-                        <li key={idx}>
-                          <Link
-                            href={service.href}
-                            className="flex items-center gap-2 text-neutral-300 hover:text-[#FFD400] transition-colors group"
-                          >
-                            <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                            <span>{service.name}</span>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
 
                 {/* Project Info */}
                 <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
@@ -366,10 +390,10 @@ export default function PortfolioProjectPage() {
                 Related Projects
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                {relatedProjects.map((relProject) => (
+                {relatedProjects.map((relProject: PortfolioProject) => (
                   <Link
-                    key={relProject.id}
-                    href={`/portfolios/${relProject.id}`}
+                    key={relProject.slug}
+                    href={`/portfolios/${relProject.slug}`}
                     className="group relative rounded-3xl overflow-hidden bg-[#0c0e14] border border-white/10 hover:border-[#FFD400]/60 transition-all duration-500 shadow-2xl aspect-4/3"
                   >
                     <div className="relative w-full h-full overflow-hidden">

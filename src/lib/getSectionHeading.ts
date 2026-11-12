@@ -66,6 +66,14 @@ export const DEFAULT_SECTION_HEADINGS: Record<string, SectionHeading> = {
     tagline:
       "Meet the engineering architects, creative heads, and operational leaders driving forward-looking solutions at RND Technosoft.",
   },
+  about_pillars: {
+    section_name: "about_pillars",
+    badge: "◈ THE RND DIFFERENCE",
+    title: "WHERE TECHNOLOGY MEETS CREATIVITY. WHERE IDEAS BECOME IMPACT.",
+    subtitle:
+      "RND Technosoft brings technology, digital marketing, branding and media production together under one roof. We combine technical expertise, strategic thinking and creative execution to help businesses build stronger brands, smarter digital experiences and meaningful connections with their audiences.",
+    tagline: "EXPLORE OUR CAPABILITIES →",
+  },
 };
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3014";

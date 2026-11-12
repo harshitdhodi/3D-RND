@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -17,76 +17,67 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navbar from "@/components/Navbar";
 import RnDFooter from "@/components/RnDFooter";
 import SpaceBackground from "@/components/SpaceBackground";
-import {
-  portfolioData,
-  PORTFOLIO_CATEGORIES,
-  PortfolioCategory,
-} from "@/data/portfolioData";
+import { getPortfolioCategories, getPortfolioProjects, PortfolioCategory, PortfolioProject } from "@/lib/getPortfolioData";
 import PageBanner from "@/components/PageBanner";
 import CyberButton from "@/components/CyberButton";
 import ServiceConversionCTA from "@/components/ServiceConversionCTA";
 
 export default function PortfolioPage() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [categories, setCategories] = useState<PortfolioCategory[]>([]);
+  const [projects, setProjects] = useState<PortfolioProject[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const [catsData, projectsData] = await Promise.all([
+          getPortfolioCategories(),
+          getPortfolioProjects(),
+        ]);
+        setCategories(catsData);
+        setProjects(projectsData);
+      } catch (error) {
+        console.error("Failed to load portfolio data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
 
   // Calculate project counts per category
-  const categoryCounts = PORTFOLIO_CATEGORIES.reduce((acc, category) => {
-    acc[category] = portfolioData.filter(
-      (p) => p.category === category && p.published
+  const categoryCounts = categories.reduce((acc, category) => {
+    acc[category.slug] = projects.filter(
+      (p) => p.category_slug === category.slug && p.published
     ).length;
     return acc;
-  }, {} as Record<PortfolioCategory, number>);
+  }, {} as Record<string, number>);
 
-  const totalProjects = portfolioData.filter((p) => p.published).length;
+  const totalProjects = projects.filter((p) => p.published).length;
 
-  const agencyPillars = [
-    {
-      number: "01",
-      tag: "TECHNOLOGY",
-      title: "TECHNOLOGY SOLUTIONS",
-      icon: Cpu,
-      desc: "From responsive websites and mobile applications to custom software and eCommerce platforms, we build digital solutions designed to simplify operations and support business growth.",
-      features: ["WebDevelopment", "MobileApps", "CustomSoftware", "Ecommerce"],
-      image: "/images/service_cloud_color.jpg",
-      href: "/portfolio/website-and-web-application-projects",
-      count:
-        (categoryCounts["Website & Web Application Projects"] || 0) +
-        (categoryCounts["Mobile App Projects"] || 0),
-    },
-    {
-      number: "02",
-      tag: "PERFORMANCE",
-      title: "DIGITAL MARKETING",
-      icon: TrendingUp,
-      desc: "We help brands build visibility, reach the right audiences and generate opportunities through SEO, social media marketing, paid advertising and strategic content.",
-      features: ["SEO", "SocialMedia", "PaidAdvertising", "ContentMarketing"],
-      image: "/images/service_marketing.jpg",
-      href: "/portfolio/digital-marketing-projects",
-      count: categoryCounts["Digital Marketing Projects"] || 0,
-    },
-    {
-      number: "03",
-      tag: "CREATIVE",
-      title: "BRANDING & DESIGN",
-      icon: Palette,
-      desc: "We create distinctive brand identities and compelling visual experiences through graphic design, logo creation and marketing collateral that make brands memorable.",
-      features: ["BrandIdentity", "GraphicDesign", "LogoDesign", "CreativeDesign"],
-      image: "/images/service_branding.jpg",
-      href: "/portfolio/branding-and-graphic-design",
-      count: categoryCounts["Branding & Graphic Design"] || 0,
-    },
-    {
-      number: "04",
-      tag: "STORYTELLING",
-      title: "MEDIA PRODUCTION",
-      icon: Video,
-      desc: "We transform ideas into engaging visual stories through professional photography, videography, video editing and creative production.",
-      features: ["CommercialVideo", "Videography", "MotionGraphics", "BrandFilms"],
-      image: "/images/service_media.jpg",
-      href: "/portfolio/videography-and-photography",
-      count: categoryCounts["Videography & Photography"] || 0,
-    },
-  ];
+  const agencyPillars = categories.map((category) => {
+    const iconMap: Record<string, any> = {
+      Cpu,
+      TrendingUp,
+      Palette,
+      Video,
+      default: Layers,
+    };
+    const Icon = iconMap[category.icon] || iconMap.default;
+    
+    return {
+      number: category.number,
+      tag: category.tag,
+      title: category.title,
+      icon: Icon,
+      desc: category.description,
+      features: category.features.split(','),
+      image: category.image,
+      href: category.href,
+      count: categoryCounts[category.slug] || 0,
+    };
+  });
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);

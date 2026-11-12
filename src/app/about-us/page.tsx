@@ -33,6 +33,8 @@ import {
 import WhyChooseSection from "@/components/WhyChooseSection";
 import CosmicProcessSection from "@/components/CosmicProcessSection";
 import TeamCultureSection from "@/components/TeamCultureSection";
+import { getSectionHeading, SectionHeading, DEFAULT_SECTION_HEADINGS } from "@/lib/getSectionHeading";
+import { resolveIcon } from "@/components/DynamicIcon";
 import {
   getAboutHeroData,
   getAboutMissionVisionData,
@@ -67,12 +69,14 @@ export default function AboutUsPage() {
   const [aboutMissionVision, setAboutMissionVision] = useState<AboutMissionVisionData>(DEFAULT_MISSION_VISION);
   const [aboutPillars, setAboutPillars] = useState<AboutPillarItem[]>(DEFAULT_PILLARS);
   const [aboutOverviewCta, setAboutOverviewCta] = useState<AboutOverviewCtaData>(DEFAULT_OVERVIEW_CTA);
+  const [pillarsHeading, setPillarsHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.about_pillars);
 
   useEffect(() => {
     getAboutHeroData().then(setAboutHero);
     getAboutMissionVisionData().then(setAboutMissionVision);
     getAboutPillarsData().then(setAboutPillars);
     getAboutOverviewCtaData().then(setAboutOverviewCta);
+    getSectionHeading("about_pillars").then(setPillarsHeading);
   }, []);
 
   useEffect(() => {
@@ -318,26 +322,36 @@ export default function AboutUsPage() {
 
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-bold tracking-widest text-[#FFD400] uppercase mb-4 bg-[#FFD400]/10 border border-[#FFD400]/30 shadow-[0_0_20px_rgba(255,212,0,0.15)] group-hover:border-[#FFD400]/60 transition-colors relative z-10">
                   <Layers className="w-3.5 h-3.5 animate-pulse" />
-                  <span>{aboutOverviewCta.difference_badge || "◈ THE RND DIFFERENCE"}</span>
+                  <span>{pillarsHeading?.badge || aboutOverviewCta.difference_badge || "◈ THE RND DIFFERENCE"}</span>
                 </div>
 
                 <h2 className="text-2xl sm:text-3xl font-[family-name:var(--font-archia-local)] font-bold uppercase tracking-tight text-white mb-4 leading-tight relative z-10">
-                  {aboutOverviewCta.difference_title_1 || "WHERE TECHNOLOGY"}
-                  <br />
-                  <span className="bg-gradient-to-r from-white via-[#ffe34d] to-[#FFD400] bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(255,212,0,0.25)]">
-                    {aboutOverviewCta.difference_title_highlight || "MEETS CREATIVITY."}
-                  </span>
-                  <br />
-                  {aboutOverviewCta.difference_title_2 || "WHERE IDEAS BECOME IMPACT."}
+                  {aboutOverviewCta.difference_title_highlight ? (
+                    <>
+                      {aboutOverviewCta.difference_title_1 || "WHERE TECHNOLOGY"}
+                      <br />
+                      <span className="bg-gradient-to-r from-white via-[#ffe34d] to-[#FFD400] bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(255,212,0,0.25)]">
+                        {aboutOverviewCta.difference_title_highlight}
+                      </span>
+                      {aboutOverviewCta.difference_title_2 && (
+                        <>
+                          <br />
+                          {aboutOverviewCta.difference_title_2}
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    pillarsHeading?.title || aboutOverviewCta.difference_title_1 || "WHERE TECHNOLOGY MEETS CREATIVITY. WHERE IDEAS BECOME IMPACT."
+                  )}
                 </h2>
 
                 <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light mb-6 relative z-10">
-                  {aboutOverviewCta.difference_desc}
+                  {pillarsHeading?.subtitle || aboutOverviewCta.difference_desc}
                 </p>
 
                 <div className="pt-2 relative z-10">
                   <CyberButton href={aboutOverviewCta.difference_cta_link || "/contact-us"} variant="gold" size="md" fullWidth>
-                    {aboutOverviewCta.difference_cta_text || "EXPLORE OUR CAPABILITIES →"}
+                    {pillarsHeading?.tagline || aboutOverviewCta.difference_cta_text || "EXPLORE OUR CAPABILITIES →"}
                   </CyberButton>
                 </div>
               </div>
@@ -346,7 +360,7 @@ export default function AboutUsPage() {
             {/* Right Column: Expanded Single Column Multi-Row Cards (8 cols) */}
             <div className="lg:col-span-8 flex flex-col space-y-6">
               {aboutPillars.map((pillar, idx) => {
-                const Icon = PILLAR_ICON_MAP[pillar.icon_name] || Cpu;
+                const Icon = resolveIcon(pillar.icon_name, PILLAR_ICON_MAP[pillar.icon_name] || Cpu);
                 return (
                   <div
                     key={pillar.id || idx}

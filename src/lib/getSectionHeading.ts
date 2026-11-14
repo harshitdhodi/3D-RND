@@ -10,6 +10,14 @@ export interface SectionHeading {
 export type SectionHeadingData = SectionHeading;
 
 export const DEFAULT_SECTION_HEADINGS: Record<string, SectionHeading> = {
+  portfolio_project: {
+    section_name: "portfolio_project",
+    badge: "FEATURED CASE STUDIES // LIVE PORTFOLIO",
+    title: "ENGINEERED FOR PERFORMANCE.",
+    subtitle: "Selected Enterprise Case Studies & Engineering Flagships",
+    tagline:
+      "Click through our selected enterprise case studies to inspect architectural blueprints, verified metrics, and interactive production deployments.",
+  },
   portfolio_projects: {
     section_name: "portfolio_projects",
     badge: "FEATURED CASE STUDIES // LIVE PORTFOLIO",
@@ -101,6 +109,14 @@ export const DEFAULT_SECTION_HEADINGS: Record<string, SectionHeading> = {
       "Whether you need a custom web platform, native mobile app, high-converting digital marketing engine, or commercial media production, our engineering directors are ready to scope your build.",
     tagline: "Contact form submissions from portfolio inquiry forms",
   },
+  portfolio_faqs: {
+    section_name: "portfolio_faqs",
+    badge: "Frequently Asked Questions",
+    title: "Got Questions? We've Got Answers",
+    subtitle: "Everything you need to know about our services and engineering deliverables",
+    tagline: "Still have questions?",
+    button_link: "/contact-us",
+  },
 };
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3014";
@@ -118,7 +134,7 @@ export async function getSectionHeading(
   };
 
   try {
-    const res = await fetch(
+    let res = await fetch(
       `${API_BASE_URL}/api/heading?section=${encodeURIComponent(sectionName)}`,
       {
         cache: "no-store",
@@ -135,6 +151,34 @@ export async function getSectionHeading(
           tagline: json.data.tagline || fallback.tagline,
           button_link: json.data.button_link || fallback.button_link || "/services",
         };
+      }
+    }
+
+    // Fallback alias for portfolio_projects / portfolio_project
+    const altSection =
+      sectionName === "portfolio_projects"
+        ? "portfolio_project"
+        : sectionName === "portfolio_project"
+        ? "portfolio_projects"
+        : null;
+
+    if (altSection) {
+      const altRes = await fetch(
+        `${API_BASE_URL}/api/heading?section=${encodeURIComponent(altSection)}`,
+        { cache: "no-store" }
+      );
+      if (altRes.ok) {
+        const altJson = await altRes.json();
+        if (altJson.success && altJson.data && altJson.data.title) {
+          return {
+            section_name: sectionName,
+            badge: altJson.data.badge || fallback.badge,
+            title: altJson.data.title || fallback.title,
+            subtitle: altJson.data.subtitle || fallback.subtitle,
+            tagline: altJson.data.tagline || fallback.tagline,
+            button_link: altJson.data.button_link || fallback.button_link || "/services",
+          };
+        }
       }
     }
   } catch (err) {

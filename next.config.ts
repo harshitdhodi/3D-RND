@@ -35,6 +35,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/portfolios/:path*",
+        destination: "/portfolio/:path*",
+        permanent: true,
+      },
+      {
         source: "/services/ecommerce-platforms",
         destination: "/technology-solution/ecommerce-platform-engineering",
         permanent: true,

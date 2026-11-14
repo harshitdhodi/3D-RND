@@ -143,7 +143,7 @@ export default function ServiceRelatedProjectsSection({
               <div>
                 {/* Visual Cover Image */}
                 <Link
-                  href={`/portfolios/${project.id}`}
+                  href={`/portfolio/${project.id}`}
                   className="block relative aspect-[16/10] overflow-hidden bg-black/60 cursor-pointer"
                 >
                   <Image
@@ -182,7 +182,7 @@ export default function ServiceRelatedProjectsSection({
                   )}
 
                   {/* Project Title */}
-                  <Link href={`/portfolios/${project.id}`}>
+                  <Link href={`/portfolio/${project.id}`}>
                     <h3 className="text-xl font-[family-name:var(--font-syne)] font-bold text-white uppercase group-hover:text-[#FFD400] transition-colors leading-tight line-clamp-2">
                       {project.title}
                     </h3>
@@ -216,7 +216,7 @@ export default function ServiceRelatedProjectsSection({
                 </span>
 
                 <Link
-                  href={`/portfolios/${project.id}`}
+                  href={`/portfolio/${project.id}`}
                   className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#FFD400] group-hover:text-white transition-colors"
                 >
                   <span>CASE STUDY</span>

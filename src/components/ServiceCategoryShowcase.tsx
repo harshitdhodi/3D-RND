@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -10,8 +10,10 @@ import {
   Video,
   ArrowUpRight,
   CheckCircle2,
+  LucideIcon,
 } from "lucide-react";
 import CyberButton from "@/components/CyberButton";
+import { getServiceCategories, getServiceSubcategories, ServiceCategory, ServiceSubcategory } from "@/lib/getServiceData";
 
 export interface ServiceCategoryItem {
   id: string;
@@ -25,7 +27,7 @@ export interface ServiceCategoryItem {
   primaryCta?: { label: string; href: string };
   secondaryCta?: { label: string; href: string };
   activeDivisionLabel?: string;
-  icon: React.ElementType;
+  icon: LucideIcon;
   visual: string;
   accentColor: string;
   services: {
@@ -39,242 +41,84 @@ export interface ServiceCategoryItem {
   }[];
 }
 
-const CATEGORIES: ServiceCategoryItem[] = [
-  {
-    id: "technology-solutions",
-    index: "01",
-    badge: "TECHNOLOGY SOLUTIONS",
-    activeDivisionLabel: "ACTIVE DIVISION // TECHNOLOGY SOLUTIONS",
-    title: "TECHNOLOGY THAT MOVES BUSINESS FORWARD.",
-    supportingLine: "WEB DEVELOPMENT • APPLICATIONS • SOFTWARE • E-COMMERCE",
-    categoryHref: "/technology-solution",
-    tagline: "Digital Foundations. Intelligent Solutions.",
-    intro:
-      "We combine thoughtful engineering, modern technologies and business-focused strategy to build digital platforms that work seamlessly today and adapt to tomorrow. Whether you need a business website, a custom application, enterprise software or an online store, we turn your requirements into reliable digital experiences.",
-    primaryCta: {
-      label: "EXPLORE OUR SOLUTIONS →",
-      href: "/technology-solution",
-    },
-    secondaryCta: {
-      label: "DISCUSS YOUR PROJECT ↗",
-      href: "/contact-us?intent=technology",
-    },
-    icon: Code,
-    visual: "/images/service_cloud_color.jpg",
-    accentColor: "#FFD400",
-    services: [
-      {
-        id: "custom-website-development",
-        title: "CUSTOM WEBSITE DEVELOPMENT",
-        subhead: "Your digital presence. Engineered for performance.",
-        desc: "We create responsive, SEO-friendly websites that combine engaging design, intuitive navigation and powerful functionality. From corporate websites and business portals to custom web platforms, we build digital experiences designed around your audience and business objectives.",
-        sla: "WEB",
-        tags: [
-          "#WebsiteDevelopment",
-          "#WebDesign",
-          "#ResponsiveWebsites",
-          "#CustomWebsites",
-        ],
-        href: "/technology-solution/web-development",
-      },
-      {
-        id: "web-mobile-app-development",
-        title: "WEB & MOBILE APP DEVELOPMENT",
-        subhead: "Applications built around the way you work.",
-        desc: "We develop intuitive web and mobile applications that connect people, processes and technology. From customer-facing applications to complex business platforms, our solutions focus on usability, performance and seamless functionality across devices.",
-        sla: "APPLICATIONS",
-        tags: [
-          "#WebAppDevelopment",
-          "#MobileAppDevelopment",
-          "#AndroidApps",
-          "#iOSApps",
-        ],
-        href: "/technology-solution/mobile-applications",
-      },
-      {
-        id: "custom-software-development",
-        title: "CUSTOM SOFTWARE DEVELOPMENT",
-        subhead: "Your business deserves more than off-the-shelf solutions.",
-        desc: "We build tailored software solutions that address unique business requirements, streamline workflows and improve operational efficiency. From enterprise applications and business management systems to CRM, ERP and SaaS platforms, we turn complex processes into smarter systems.",
-        sla: "SOFTWARE",
-        tags: [
-          "#CustomSoftware",
-          "#EnterpriseSoftware",
-          "#CRMDevelopment",
-          "#ERPDevelopment",
-          "#SaaS",
-        ],
-        href: "/technology-solution/enterprise-software-solutions",
-      },
-      {
-        id: "ecommerce-development",
-        title: "E-COMMERCE DEVELOPMENT",
-        subhead: "Turn digital storefronts into growth engines.",
-        desc: "We create feature-rich e-commerce websites and online stores that make buying simple and selling smarter. From intuitive storefront design and secure payment integration to product management and checkout optimisation, we build shopping experiences designed to support your business growth.",
-        sla: "E-COMMERCE",
-        tags: [
-          "#EcommerceDevelopment",
-          "#OnlineStore",
-          "#EcommerceWebsite",
-          "#EcommerceSolutions",
-        ],
-        href: "/technology-solution/ecommerce-platform-engineering",
-      },
-    ],
-  },
-  {
-    id: "digital-marketing",
-    index: "02",
-    badge: "DIGITAL MARKETING",
-    activeDivisionLabel: "ACTIVE DIVISION // DIGITAL MARKETING",
-    title: "DIGITAL GROWTH. BUILT ON STRATEGY. DRIVEN BY RESULTS.",
-    supportingLine: "SEO • SOCIAL MEDIA • PAID ADVERTISING • CONTENT MARKETING",
-    categoryHref: "/digital-marketing",
-    tagline: "Visibility That Connects. Marketing That Converts.",
-    intro:
-      "We bring strategy, creativity and data together to build stronger digital brands. From improving search visibility and building engaged communities to running targeted advertising campaigns and creating impactful content, we help businesses reach the right people at the right time.",
-    primaryCta: {
-      label: "EXPLORE OUR SERVICES →",
-      href: "/digital-marketing",
-    },
-    secondaryCta: {
-      label: "PLAN YOUR GROWTH ↗",
-      href: "/contact-us?intent=marketing",
-    },
-    icon: TrendingUp,
-    visual: "/images/service_marketing.jpg",
-    accentColor: "#FFD400",
-    services: [
-      {
-        id: "search-engine-optimisation",
-        title: "SEARCH ENGINE OPTIMISATION (SEO)",
-        subhead: "Get discovered. Earn visibility. Grow organically.",
-        desc: "We improve your website's search visibility through keyword research, on-page and off-page SEO, technical optimisation, content strategy and quality link building. Our focus is on attracting relevant organic traffic and building sustainable search presence.",
-        sla: "ORGANIC GROWTH",
-        tags: [
-          "#SEO Services",
-          "#TechnicalSEO",
-          "#KeywordResearch",
-          "#LinkBuilding",
-          "#LocalSEO",
-        ],
-        href: "/digital-marketing/technical-seo-dominance",
-      },
-      {
-        id: "social-media-marketing",
-        title: "SOCIAL MEDIA MARKETING",
-        subhead: "Build communities. Start conversations. Create impact.",
-        desc: "We develop social media strategies that strengthen brand identity, increase audience engagement and build meaningful connections. From content planning and creative posts to reels, platform management and community engagement, we help brands stay relevant and recognisable.",
-        sla: "BRAND ENGAGEMENT",
-        tags: [
-          "#SocialMediaMarketing",
-          "#InstagramMarketing",
-          "#FacebookMarketing",
-          "#SocialMediaManagement",
-        ],
-        href: "/digital-marketing/social-media-management",
-      },
-      {
-        id: "paid-advertising-performance",
-        title: "PAID ADVERTISING & PERFORMANCE MARKETING",
-        subhead: "Reach the right audience. Make every campaign count.",
-        desc: "We plan and manage targeted advertising campaigns across Google, Meta and other relevant platforms. Through audience targeting, creative testing, campaign optimisation and performance tracking, we help businesses generate relevant traffic, enquiries and sales opportunities.",
-        sla: "PAID GROWTH",
-        tags: [
-          "#GoogleAds",
-          "#MetaAds",
-          "#PPCAdvertising",
-          "#PaidMedia",
-          "#PerformanceMarketing",
-        ],
-        href: "/digital-marketing/performance-ppc-advertising",
-      },
-      {
-        id: "content-marketing-strategy",
-        title: "CONTENT MARKETING & STRATEGY",
-        subhead: "Create stories that make your brand memorable.",
-        desc: "We develop purposeful content that communicates your brand's value and connects with your audience. From website copy and blogs to social media creatives, campaign messaging and marketing content, we turn ideas into engaging brand experiences.",
-        sla: "CREATIVE STRATEGY",
-        tags: [
-          "#ContentMarketing",
-          "#ContentStrategy",
-          "#WebsiteContent",
-          "#BlogWriting",
-          "#CreativeCopywriting",
-        ],
-        href: "/digital-marketing/content-strategy-production",
-      },
-    ],
-  },
-  {
-    id: "branding-design",
-    index: "03",
-    badge: "BRANDING & DESIGN",
-    title: "Branding Systems & Spatial UI/UX",
-    categoryHref: "/branding-design",
-    tagline: "Category-Defining Visual Identities & Fluid Human-Centric Interfaces",
-    intro:
-      "Great software requires an unforgettable aesthetic. We construct cohesive design languages, mathematically scaled design systems, and spatial 3D user interfaces that elevate market perception and command enterprise pricing power.",
-    icon: Palette,
-    visual: "/images/service_branding.jpg",
-    accentColor: "#FFD400",
-    services: [
-      {
-        id: "brand-identity-systems",
-        title: "Brand Identity & Design Systems",
-        desc: "Comprehensive brand identity guidelines, modern logos, typography scales, color palettes, and unified design token architectures.",
-        sla: "PRODUCTION-READY",
-        tags: ["Design Systems", "Vector Identity", "Figma", "Guidelines"],
-        href: "/branding-design/brand-identity-systems",
-      },
-      {
-        id: "ui-ux-spatial-design",
-        title: "UI/UX & Spatial Web Architecture",
-        desc: "Next-gen user journeys, micro-interactive prototypes, and 3D web interfaces mapped through rigorous usability heatmaps.",
-        sla: "60 FPS INTERACTION",
-        tags: ["Spatial 3D", "Wireframing", "Interaction Design", "Figma"],
-        href: "/branding-design/ui-ux-spatial-design",
-      },
-    ],
-  },
-  {
-    id: "media-production",
-    index: "04",
-    badge: "MEDIA PRODUCTION",
-    title: "Commercial Media & Motion Production",
-    categoryHref: "/media-production",
-    tagline: "Cinematic Commercial Films, 3D CGI Motion & High-Impact Brand Assets",
-    intro:
-      "Transforming complex product capabilities into breathtaking visual narratives. Combining in-house cinema equipment, 3D Unreal Engine environments, and post-production color mastering to tell your enterprise story with emotional impact.",
-    icon: Video,
-    visual: "/images/service_media.jpg",
-    accentColor: "#FFD400",
-    services: [
-      {
-        id: "commercial-video-production",
-        title: "Commercial Video & Brand Films",
-        desc: "End-to-end commercial productions: scriptwriting, 4K/8K cinematography, sound engineering, and multi-platform promotional edits.",
-        sla: "CINEMA-GRADE 4K/8K",
-        tags: ["Brand Films", "Product Launches", "Color Grading", "Voiceover"],
-        href: "/media-production/commercial-video-production",
-      },
-      {
-        id: "motion-graphics-3d-cgi",
-        title: "3D CGI & Motion Graphics",
-        desc: "Photorealistic 3D product animations, kinetic typography, dynamic HUD holograms, and spatial VFX for web and commercials.",
-        sla: "PHOTOREALISTIC",
-        tags: ["Three.js", "Cinema4D", "Blender 3D", "After Effects"],
-        href: "/media-production/motion-graphics-3d-cgi",
-      },
-    ],
-  },
-];
+const ICON_MAP: Record<string, LucideIcon> = {
+  Code,
+  TrendingUp,
+  Palette,
+  Video,
+};
+
+const DEFAULT_CATEGORIES: ServiceCategoryItem[] = [];
 
 export default function ServiceCategoryShowcase() {
+  const [categories, setCategories] = useState<ServiceCategoryItem[]>(DEFAULT_CATEGORIES);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [categoryData, subcategoryData] = await Promise.all([
+          getServiceCategories(),
+          getServiceSubcategories(),
+        ]);
+
+        const transformed: ServiceCategoryItem[] = categoryData.map((cat: ServiceCategory) => {
+          const Icon = ICON_MAP[cat.icon_name as keyof typeof ICON_MAP] || Code;
+          const subcategories = subcategoryData.filter((sub: ServiceSubcategory) => sub.category === cat._id);
+
+          return {
+            id: cat.slug,
+            index: cat.division_number,
+            badge: cat.breadcrumb,
+            title: cat.hero_title + (cat.hero_highlight ? ` ${cat.hero_highlight}` : ''),
+            categoryHref: `/${cat.slug}`,
+            tagline: cat.hero_desc.substring(0, 100) + '...',
+            intro: cat.hero_desc,
+            supportingLine: cat.supporting_line,
+            primaryCta: {
+              label: cat.primary_cta_label,
+              href: cat.primary_cta_href,
+            },
+            secondaryCta: cat.secondary_cta_label
+              ? {
+                  label: cat.secondary_cta_label,
+                  href: cat.secondary_cta_href || '',
+                }
+              : undefined,
+            icon: Icon,
+            visual: cat.banner_image,
+            accentColor: "#FFD400",
+            services: subcategories.map((sub: ServiceSubcategory) => ({
+              id: sub.slug,
+              title: sub.title,
+              subhead: sub.tagline,
+              desc: sub.desc,
+              sla: sub.sla,
+              tags: [],
+              href: `/${cat.slug}/${sub.slug}`,
+            })),
+          };
+        });
+
+        setCategories(transformed);
+      } catch (err) {
+        console.error("Failed to fetch service data:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return null;
+  }
+
   return (
     <div className="w-full px-4 sm:px-8 lg:px-12">
       <div className="max-w-7xl mx-auto space-y-24 sm:space-y-32">
-        {CATEGORIES.map((category, catIdx) => {
+        {categories.map((category, catIdx) => {
           const isReversed = catIdx % 2 !== 0;
           const Icon = category.icon;
 

@@ -516,7 +516,7 @@ export default function PortfolioDetailView({
               {relatedProjects.map((rel) => (
                 <Link
                   key={rel.id}
-                  href={`/portfolios/${rel.id}`}
+                  href={`/portfolio/${rel.id}`}
                   className="group rounded-2xl overflow-hidden bg-[#0c0e14] border border-white/10 hover:border-[#FFD400]/60 transition-all shadow-xl flex flex-col justify-between"
                 >
                   <div className="relative aspect-video overflow-hidden">
@@ -562,7 +562,7 @@ export default function PortfolioDetailView({
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-6 rounded-2xl bg-white/[0.02] border border-white/10">
             {prevProject ? (
               <Link
-                href={`/portfolios/${prevProject.id}`}
+                href={`/portfolio/${prevProject.id}`}
                 className="group flex items-center gap-3 text-left w-full sm:w-auto"
               >
                 <div className="w-9 h-9 rounded-full bg-white/10 group-hover:bg-[#FFD400] text-[#FFD400] group-hover:text-black flex items-center justify-center transition-colors shrink-0">
@@ -583,7 +583,7 @@ export default function PortfolioDetailView({
 
             {nextProject ? (
               <Link
-                href={`/portfolios/${nextProject.id}`}
+                href={`/portfolio/${nextProject.id}`}
                 className="group flex items-center justify-end gap-3 text-right w-full sm:w-auto ml-auto"
               >
                 <div>
@@ -616,7 +616,7 @@ export default function PortfolioDetailView({
             title={`Ready to Commission a Project Similar to ${project.title}?`}
             subtitle={`Whether you need the same performance architecture, headless storefront, or digital acquisition engine, our engineering leadership is ready to review your brief.`}
             projectSlug={project.id}
-            sourcePage={`/portfolios/${project.id}`}
+            sourcePage={`/portfolio/${project.id}`}
           />
         </div>
         </div>

@@ -22,8 +22,10 @@ export default function FeaturedProjectsSection({
   initialData = DEFAULT_PROJECTS_DATA,
   initialHeading = DEFAULT_SECTION_HEADINGS.portfolio_projects,
 }: FeaturedProjectsSectionProps) {
-  const projects =
-    initialData && initialData.length > 0 ? initialData : DEFAULT_PROJECTS_DATA;
+  // Strictly enforce top 5 projects on the home page portfolio section
+  const projects = (
+    initialData && initialData.length > 0 ? initialData : DEFAULT_PROJECTS_DATA
+  ).slice(0, 5);
   const heading = initialHeading || DEFAULT_SECTION_HEADINGS.portfolio_projects;
 
   // Center card (middle or index 2) is open by default

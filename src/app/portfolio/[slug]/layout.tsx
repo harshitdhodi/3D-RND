@@ -74,39 +74,61 @@ const CATEGORY_SEO: Record<
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ category: string }>;
+  params: Promise<{ slug?: string; category?: string }>;
 }): Promise<Metadata> {
-  const { category } = await params;
-  const seo = CATEGORY_SEO[category];
+  const resolved = await params;
+  const slug = resolved?.slug || resolved?.category || "";
+  const seo = CATEGORY_SEO[slug];
 
-  if (!seo) {
+  if (seo) {
+    const pageUrl = `https://rndtechnosoft.com/portfolio/${encodeURIComponent(slug)}`;
     return {
-      title: "Portfolio | RND Technosoft — Digital Projects & Case Studies",
-      description:
-        "Explore RND Technosoft's portfolio of digital projects across web, mobile, marketing, branding and media production.",
+      title: seo.title,
+      description: seo.description,
+      keywords: seo.keywords,
+      alternates: {
+        canonical: pageUrl,
+      },
+      openGraph: {
+        title: seo.title,
+        description: seo.description,
+        url: pageUrl,
+        siteName: "RND Technosoft",
+        type: "website",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: seo.title,
+        description: seo.description,
+      },
     };
   }
 
-  const pageUrl = `https://rndtechnosoft.com/portfolio/${encodeURIComponent(category)}`;
+  // Format clean title from slug
+  const formattedTitle = slug
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+
+  const pageUrl = `https://rndtechnosoft.com/portfolio/${encodeURIComponent(slug)}`;
 
   return {
-    title: seo.title,
-    description: seo.description,
-    keywords: seo.keywords,
+    title: `${formattedTitle} | RND Technosoft Portfolio`,
+    description: `Explore ${formattedTitle} delivered by RND Technosoft — engineered for performance, scale, and enterprise impact.`,
     alternates: {
       canonical: pageUrl,
     },
     openGraph: {
-      title: seo.title,
-      description: seo.description,
+      title: `${formattedTitle} | RND Technosoft Portfolio`,
+      description: `Explore ${formattedTitle} delivered by RND Technosoft.`,
       url: pageUrl,
       siteName: "RND Technosoft",
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      title: seo.title,
-      description: seo.description,
+      title: `${formattedTitle} | RND Technosoft Portfolio`,
+      description: `Explore ${formattedTitle} delivered by RND Technosoft.`,
     },
   };
 }

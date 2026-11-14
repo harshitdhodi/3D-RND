@@ -17,11 +17,20 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navbar from "@/components/Navbar";
 import RnDFooter from "@/components/RnDFooter";
 import SpaceBackground from "@/components/SpaceBackground";
-import { getPortfolioCategories, getPortfolioProjects, PortfolioCategory, PortfolioProject } from "@/lib/getPortfolioData";
+import {
+  getPortfolioCategories,
+  getPortfolioProjects,
+  getPortfolioHero,
+  PortfolioCategory,
+  PortfolioProject,
+  PortfolioHeroData,
+  DEFAULT_PORTFOLIO_HERO,
+} from "@/lib/getPortfolioData";
 import { getSectionHeading, SectionHeading, DEFAULT_SECTION_HEADINGS } from "@/lib/getSectionHeading";
 import PageBanner from "@/components/PageBanner";
 import CyberButton from "@/components/CyberButton";
 import ServiceConversionCTA from "@/components/ServiceConversionCTA";
+import ServiceCaseStudies from "@/components/ServiceCaseStudies";
 
 export default function PortfolioPage() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -29,21 +38,24 @@ export default function PortfolioPage() {
   const [projects, setProjects] = useState<PortfolioProject[]>([]);
   const [heading, setHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.portfolio_categories);
   const [inquiryHeading, setInquiryHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.portfolio_inquiries);
+  const [heroData, setHeroData] = useState<PortfolioHeroData>(DEFAULT_PORTFOLIO_HERO);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
       try {
-        const [catsData, projectsData, headingData, inquiryHeadingData] = await Promise.all([
+        const [catsData, projectsData, headingData, inquiryHeadingData, heroRes] = await Promise.all([
           getPortfolioCategories(),
           getPortfolioProjects(),
           getSectionHeading("portfolio_categories"),
           getSectionHeading("portfolio_inquiries"),
+          getPortfolioHero(),
         ]);
         setCategories(catsData);
         setProjects(projectsData);
         setHeading(headingData);
         setInquiryHeading(inquiryHeadingData);
+        setHeroData(heroRes);
       } catch (error) {
         console.error("Failed to load portfolio data:", error);
       } finally {
@@ -165,9 +177,11 @@ export default function PortfolioPage() {
 
       {/* Page Banner */}
       <PageBanner
-        title="PORTFOLIO ARCHIVE"
-        breadcrumb="PORTFOLIO"
-        imageSrc="/NewBanner/protfolio page banner.png"
+        title={heroData.banner_title || "PORTFOLIO ARCHIVE"}
+        breadcrumb={heroData.banner_breadcrumb || "PORTFOLIO"}
+        imageSrc={heroData.bannerImg || heroData.banner_image || "/NewBanner/protfolio page banner.png"}
+        imgtitle={heroData.imgtitle || heroData.banner_imgtitle}
+        altname={heroData.altname || heroData.banner_altname}
       />
 
       {/* Main Content Area */}
@@ -179,30 +193,17 @@ export default function PortfolioPage() {
               <div>
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/60 border border-[#FFD400]/40 text-[#FFD400] backdrop-blur-md">
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>PORTFOLIO CATEGORIES // EXPLORE BY EXPERTISE</span>
+                  <span>{heroData.badge || "PORTFOLIO CATEGORIES // EXPLORE BY EXPERTISE"}</span>
                 </div>
                 <h1 className="text-3xl sm:text-5xl lg:text-6xl font-[family-name:var(--font-archia-local)] font-bold tracking-tight uppercase leading-[1.02] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
-                  Explore Our{" "}
-                  <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.45)]">
-                    Expertise
-                  </span>
+                  {heroData.title || "Explore Our Expertise"}
                 </h1>
                 <p className="text-sm sm:text-base font-normal max-w-2xl mt-3 leading-relaxed text-neutral-300">
-                  Browse our portfolio by category to discover {totalProjects}+ successful projects across web development, mobile apps, marketing, branding, and media production.
+                  {heroData.description || `Browse our portfolio by category to discover ${totalProjects}+ successful projects across web development, mobile apps, marketing, branding, and media production.`}
                 </p>
               </div>
 
-              {/* Header Right: Total Projects Badge */}
-              <div className="flex items-center gap-3 shrink-0">
-                <div className="px-6 py-4 rounded-2xl bg-white/5 border border-white/10">
-                  <div className="text-3xl font-bold text-[#FFD400] mb-1 font-mono">
-                    {totalProjects}+
-                  </div>
-                  <div className="text-xs text-neutral-400 uppercase tracking-wide font-mono">
-                    Total Projects
-                  </div>
-                </div>
-              </div>
+            
             </div>
           </div>
         </section>
@@ -445,6 +446,12 @@ export default function PortfolioPage() {
             </div>
           </div>
         </section>
+
+        {/* =========================================================================
+            CASE STUDIES SECTION
+            Showcasing proven impact across service divisions
+            ========================================================================= */}
+        <ServiceCaseStudies />
 
         {/* Bottom Conversion CTA Form */}
         <div className="px-4 sm:px-8 lg:px-12 pb-16">

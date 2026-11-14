@@ -43,7 +43,7 @@ const CASE_STUDIES: CaseStudyItem[] = [
     outcome:
       "Engineered an edge-accelerated Next.js 15 storefront with real-time inventory sync, cutting load times by 85% and lifting sales velocity.",
     image: "/images/service_ecommerce.jpg",
-    href: "/portfolios/kailua",
+    href: "/portfolio/kailua",
     metrics: [
       { value: "+340%", label: "Conversion Surge" },
       { value: "0.7s", label: "Edge Page Load" },
@@ -63,7 +63,7 @@ const CASE_STUDIES: CaseStudyItem[] = [
     outcome:
       "Implemented programmatic creative testing with real-time attribution modeling, unlocking unprecedented return on ad spend.",
     image: "/images/project_lifestyle.jpg",
-    href: "/portfolios/apex-fintech",
+    href: "/portfolio/apex-fintech",
     metrics: [
       { value: "14M+", label: "Verified Impressions" },
       { value: "4.8x", label: "Blended ROAS" },
@@ -83,7 +83,7 @@ const CASE_STUDIES: CaseStudyItem[] = [
     outcome:
       "Engineered an authoritative corporate identity, complete stationery suite, customized brand book, and physical packaging prototypes.",
     image: "/Branding/B1.png",
-    href: "/portfolios/balaji-multipack",
+    href: "/portfolio/balaji-multipack",
     metrics: [
       { value: "100%", label: "Brand Consistency" },
       { value: "+320%", label: "Brand Recall Lift" },
@@ -103,7 +103,7 @@ const CASE_STUDIES: CaseStudyItem[] = [
     outcome:
       "Deployed RED 8K cinema rigs, FPV high-speed drones, and Dolby Atmos sound recording, generating global brand resonance and award recognition.",
     image: "/images/project_forest_film.jpg",
-    href: "/portfolios/mission-ops",
+    href: "/portfolio/mission-ops",
     metrics: [
       { value: "8K DCI", label: "Cinema Master" },
       { value: "2.4M+", label: "Organic Views" },

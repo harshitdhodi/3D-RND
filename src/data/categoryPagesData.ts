@@ -29,6 +29,7 @@ export interface CategoryPageData {
   bannerTitle: string;
   bannerSubtitle: string;
   bannerImage: string;
+  image?: string;
   breadcrumb: string;
   divisionLabel: string;
   divisionNumber: string;
@@ -36,6 +37,7 @@ export interface CategoryPageData {
   heroHighlight: string;
   heroDesc: string;
   supportingLine?: string;
+  tagline?: string;
   primaryCtaLabel: string;
   primaryCtaHref: string;
   secondaryCtaLabel?: string;
@@ -314,13 +316,13 @@ export const categoryPagesData: Record<string, CategoryPageData> = {
       },
       {
         index: "VISUAL IDENTITY",
-        title: "LOGO & BRAND IDENTITY DESIGN",
+        title: "UI/UX & SPATIAL WEB ARCHITECTURE",
         tagline: "Make your first impression unforgettable.",
-        desc: "We create distinctive logos and cohesive visual identity systems that represent your brand's personality. From colour palettes and typography to brand guidelines and visual elements, every detail works together to build recognition and consistency.",
-        tags: ["#LogoDesign", "#BrandIdentityDesign", "#VisualIdentity", "#CorporateBranding"],
+        desc: "We create distinctive UI/UX frameworks, tactile digital interfaces, and spatial design systems that represent your brand's personality and engage modern digital audiences.",
+        tags: ["#UIUXDesign", "#SpatialWeb", "#VisualIdentity", "#DesignSystems"],
         sla: "IDENTITY",
         badge: "VISUAL IDENTITY",
-        href: "/branding-design/brand-identity-systems",
+        href: "/branding-design/ui-ux-spatial-design",
         image: "/images/project_lumen_sal.jpg",
       },
       {
@@ -331,7 +333,7 @@ export const categoryPagesData: Record<string, CategoryPageData> = {
         tags: ["#GraphicDesign", "#CreativeDesign", "#DigitalDesign", "#MarketingDesign"],
         sla: "DESIGN",
         badge: "GRAPHIC DESIGN",
-        href: "/branding-design/ui-ux-spatial-design",
+        href: "/branding-design/graphic-design",
         image: "/images/service_spatial_color.jpg",
       },
       {
@@ -342,7 +344,7 @@ export const categoryPagesData: Record<string, CategoryPageData> = {
         tags: ["#MarketingCollateral", "#BrochureDesign", "#BusinessCardDesign", "#CompanyProfileDesign"],
         sla: "COLLATERAL",
         badge: "COLLATERAL",
-        href: "/branding-design/brand-identity-systems",
+        href: "/branding-design/marketing-collateral",
         image: "/images/service_branding.jpg",
       },
     ],
@@ -401,7 +403,7 @@ export const categoryPagesData: Record<string, CategoryPageData> = {
     subcategories: [
       {
         index: "MOTION & STORYTELLING",
-        title: "PROFESSIONAL VIDEOGRAPHY",
+        title: "COMMERCIAL VIDEO & BRAND FILMS",
         tagline: "Bring your brand story into motion.",
         desc: "We produce engaging video content that captures your brand, products, services and experiences. From promotional videos and corporate films to brand storytelling and social media videos, we create visuals that communicate with purpose and leave a lasting impression.",
         tags: ["#Videography", "#CorporateVideo", "#PromotionalVideos", "#BrandFilms"],
@@ -419,7 +421,7 @@ export const categoryPagesData: Record<string, CategoryPageData> = {
         tags: ["#ProfessionalPhotography", "#ProductPhotography", "#CommercialPhotography", "#CorporatePhotography"],
         sla: "PHOTO",
         badge: "COMMERCIAL PHOTO",
-        href: "/media-production/commercial-video-production",
+        href: "/media-production/commercial-photography",
         image: "/images/showreel_thumb.jpg",
       },
       {
@@ -430,7 +432,7 @@ export const categoryPagesData: Record<string, CategoryPageData> = {
         tags: ["#VideoEditing", "#PostProduction", "#ColorGrading", "#MotionGraphics"],
         sla: "POST",
         badge: "POST-PRODUCTION",
-        href: "/media-production/motion-graphics-3d-cgi",
+        href: "/media-production/video-editing",
         image: "/images/service_media.jpg",
       },
       {
@@ -441,8 +443,19 @@ export const categoryPagesData: Record<string, CategoryPageData> = {
         tags: ["#CreativeProduction", "#ContentProduction", "#BrandContent", "#VisualStorytelling"],
         sla: "CREATIVE",
         badge: "CREATIVE MEDIA",
-        href: "/media-production/dedicated-squads",
+        href: "/media-production/creative-production",
         image: "/images/agency_team_studio.jpg",
+      },
+      {
+        index: "SPATIAL & MOTION",
+        title: "3D CGI & MOTION GRAPHICS",
+        tagline: "Kinetic typography, 3D particles and spatial visual effects.",
+        desc: "Photorealistic 3D product animations, kinetic typography, dynamic HUD holograms and architectural CGI that elevate commercial productions.",
+        tags: ["#3DCGI", "#MotionGraphics", "#ThreeJS", "#AfterEffects"],
+        sla: "3D CGI",
+        badge: "MOTION GRAPHICS",
+        href: "/media-production/motion-graphics-3d-cgi",
+        image: "/images/nebula_cloud_os_3d.jpg",
       },
     ],
     faqs: [

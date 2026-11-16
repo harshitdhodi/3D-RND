@@ -4,12 +4,45 @@ export interface SectionHeading {
   title: string;
   subtitle?: string;
   tagline?: string;
+  button_text?: string;
   button_link?: string;
 }
 
 export type SectionHeadingData = SectionHeading;
 
 export const DEFAULT_SECTION_HEADINGS: Record<string, SectionHeading> = {
+  service_universe: {
+    section_name: "service_universe",
+    badge: "✨ SERVICE UNIVERSE // INTEGRATED TECHNOLOGY ARCHITECTURE",
+    title: "MULTIVERSE TECHNOLOGY ARCHITECTURE",
+    subtitle:
+      "Explore our verified enterprise tech stacks and specialized tool ecosystems across Technology, Digital Marketing, Branding & Design, and Media Production. Official brand logos in genuine colors.",
+    tagline:
+      "Explore our verified enterprise tech stacks and specialized tool ecosystems across Technology, Digital Marketing, Branding & Design, and Media Production. Official brand logos in genuine colors.",
+    button_text: "EXPLORE TECH STACKS",
+    button_link: "#service-universe",
+  },
+  service_cta: {
+    section_name: "service_cta",
+    badge: "✳ START YOUR PROJECT // DIGITAL ARCHITECTURE",
+    title: "LET'S ENGINEER YOUR NEXT BIG IDEA.",
+    subtitle:
+      "From custom website development and mobile applications to enterprise software and e-commerce platforms, let's turn your business requirements into powerful digital solutions.",
+    tagline:
+      "From custom website development and mobile applications to enterprise software and e-commerce platforms, let's turn your business requirements into powerful digital solutions.",
+    button_text: "SUBMIT INQUIRY",
+    button_link: "#conversion-cta",
+  },
+  service_categories: {
+    section_name: "service_categories",
+    badge: "SERVICES HERO // INTEGRATED CAPABILITIES MATRIX",
+    title: "HIGH-PERFORMANCE & ENGINEERING",
+    subtitle: "",
+    tagline:
+      "RnD combines full-stack cloud engineering, algorithmic digital marketing, spatial brand identities, and cinema-grade media production into a unified delivery engine.",
+    button_text: "BOOK ARCHITECT CALL",
+    button_link: "/contact-us?intent=consultation",
+  },
   portfolio_project: {
     section_name: "portfolio_project",
     badge: "FEATURED CASE STUDIES // LIVE PORTFOLIO",
@@ -149,6 +182,7 @@ export async function getSectionHeading(
           title: json.data.title || fallback.title,
           subtitle: json.data.subtitle || fallback.subtitle,
           tagline: json.data.tagline || fallback.tagline,
+          button_text: json.data.button_text || fallback.button_text || "BOOK ARCHITECT CALL",
           button_link: json.data.button_link || fallback.button_link || "/services",
         };
       }
@@ -176,6 +210,7 @@ export async function getSectionHeading(
             title: altJson.data.title || fallback.title,
             subtitle: altJson.data.subtitle || fallback.subtitle,
             tagline: altJson.data.tagline || fallback.tagline,
+            button_text: altJson.data.button_text || fallback.button_text || "BOOK ARCHITECT CALL",
             button_link: altJson.data.button_link || fallback.button_link || "/services",
           };
         }

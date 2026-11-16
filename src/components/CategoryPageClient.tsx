@@ -16,7 +16,6 @@ import Navbar from "@/components/Navbar";
 import RnDFooter from "@/components/RnDFooter";
 import SpaceBackground from "@/components/SpaceBackground";
 import PageBanner from "@/components/PageBanner";
-import CyberButton from "@/components/CyberButton";
 import ServiceConversionCTA from "@/components/ServiceConversionCTA";
 import CosmicProcessSection from "@/components/CosmicProcessSection";
 import WhyChooseSection from "@/components/WhyChooseSection";
@@ -31,125 +30,6 @@ const ICON_MAP = {
   Palette,
   Video,
 };
-
-function getCategoryGridClass(count: number): string {
-  if (count === 1) return "grid grid-cols-1 max-w-2xl mx-auto gap-6 lg:gap-8";
-  if (count === 2) return "grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8";
-  if (count === 3) return "grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8";
-  if (count === 4) return "grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8";
-  if (count === 5) return "grid grid-cols-1 md:grid-cols-6 gap-6 lg:gap-8";
-  return "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8";
-}
-
-function getCategoryItemClass(count: number, index: number): string {
-  if (count === 5) {
-    return index < 3 ? "md:col-span-2" : "md:col-span-3";
-  }
-  return "";
-}
-
-function SubCategoryCard({
-  sub,
-  featured,
-  itemClass = "",
-}: {
-  sub: CategorySubItem;
-  featured?: boolean;
-  itemClass?: string;
-}) {
-  return (
-    <div
-      className={`group relative rounded-3xl overflow-hidden bg-[#0c0e14] border transition-all duration-300 shadow-2xl flex flex-col ${
-        featured
-          ? "border-[#FFD400] shadow-[0_0_35px_rgba(255,212,0,0.18)]"
-          : "border-white/10 hover:border-[#FFD400]/60"
-      } ${itemClass}`}
-    >
-      {/* Image */}
-      <div className="relative w-full h-44 sm:h-48 overflow-hidden bg-[#08090d] shrink-0">
-        <Image
-          src={sub.image}
-          alt={sub.title}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          quality={80}
-          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0c0e14] via-[#0c0e14]/20 to-transparent pointer-events-none" />
-
-        {/* Badges */}
-        <div className="absolute top-3.5 left-3.5 right-3.5 z-20 flex items-center justify-between gap-2 pointer-events-none">
-          <span className="font-mono text-xs text-white/90 tracking-wider px-2.5 py-1 rounded-md bg-black/85 border border-white/15 shadow-md">
-            {"//"} {sub.index}
-          </span>
-          <div className="flex items-center gap-1.5">
-            {sub.badge && (
-              <span className="text-[10px] font-mono uppercase tracking-widest text-black font-bold px-2.5 py-0.5 rounded-md bg-[#FFD400] shadow-md truncate max-w-[130px]">
-                {sub.badge}
-              </span>
-            )}
-            <span className="text-[10px] font-mono uppercase tracking-widest text-[#FFD400] px-2.5 py-0.5 rounded-full bg-black/90 border border-[#FFD400]/40 shadow-md whitespace-nowrap">
-              {sub.sla}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
-        <div>
-          <span className="text-[11px] font-mono text-[#FFD400] tracking-wider uppercase block mb-1.5 font-medium line-clamp-1">
-            {sub.tagline}
-          </span>
-          <Link href={sub.href} prefetch={false} className="group/title block">
-            <h3 className="text-lg sm:text-xl font-bold font-[family-name:var(--font-syne)] text-white group-hover/title:text-[#FFD400] transition-colors uppercase line-clamp-2 mb-2">
-              {sub.title}
-            </h3>
-          </Link>
-          <p className="text-xs text-neutral-300 font-light leading-relaxed mb-4 line-clamp-2">
-            {sub.desc}
-          </p>
-        </div>
-
-        <div className="flex items-center justify-between gap-3 pt-3.5 border-t border-white/10 mt-auto">
-          <div className="flex flex-wrap items-center gap-1.5 max-w-[62%] overflow-hidden">
-            {sub.tags.slice(0, 3).map((tag) => (
-              <span
-                key={tag}
-                className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.05] border border-white/10 text-neutral-300 truncate"
-              >
-                {tag}
-              </span>
-            ))}
-            {sub.tags.length > 3 && (
-              <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-white/[0.03] text-neutral-400 border border-white/10">
-                +{sub.tags.length - 3}
-              </span>
-            )}
-          </div>
-          <Link href={sub.href} prefetch={false} className="inline-block shrink-0">
-            <div
-              className={`group/btn inline-flex items-center gap-2 rounded-full border shadow-md transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] cursor-pointer select-none px-3.5 py-1.5 text-xs ${
-                featured
-                  ? "bg-[#FFD400] text-black border-[#FFD400] font-bold hover:bg-[#ffe34d]"
-                  : "bg-[#141720] hover:bg-[#1a1e2a] border-white/15 hover:border-[#FFD400]/70 text-white"
-              }`}
-            >
-              <span className="font-mono tracking-[0.14em] uppercase text-[11px] whitespace-nowrap font-medium">
-                {featured ? "EXPLORE SPEC" : "VIEW SPEC"}
-              </span>
-              <ArrowUpRight
-                className={`w-3.5 h-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform ${
-                  featured ? "text-black" : "text-[#FFD400]"
-                }`}
-              />
-            </div>
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default function CategoryPageClient({ data }: { data: CategoryPageData }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -172,78 +52,187 @@ export default function CategoryPageClient({ data }: { data: CategoryPageData })
       />
 
       <main className="relative z-20 w-full max-w-full bg-transparent overflow-x-hidden">
-        {/* ── Category Hero & Overview Strip ── */}
-        <section className="w-full max-w-full px-4 sm:px-8 lg:px-12 pt-14 pb-8 border-b border-white/10 overflow-hidden">
-          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-8 pb-10">
-            <div className="flex-1 min-w-0 max-w-2xl xl:max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/60 border border-[#FFD400]/40 text-[#FFD400] backdrop-blur-md">
-                <Icon className="w-3.5 h-3.5" />
-                <span>{data.divisionLabel}</span>
-              </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] xl:text-[46px] 2xl:text-[50px] font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.1] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
-                <span className="block break-words">
-                  {data.heroTitle}
-                </span>
-                <span className="block text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.45)] break-words">
-                  {data.heroHighlight}
-                </span>
-              </h1>
-              {data.supportingLine && (
-                <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs sm:text-sm font-mono uppercase tracking-[0.2em] text-[#FFD400] font-semibold mt-4">
-                  {data.supportingLine.split("•").map((item, idx, arr) => (
-                    <React.Fragment key={idx}>
-                      <span className="whitespace-nowrap">{item.trim()}</span>
-                      {idx < arr.length - 1 && <span className="text-neutral-500">•</span>}
-                    </React.Fragment>
-                  ))}
-                </div>
-              )}
-              {data.heroDesc && (
-                <p className="text-sm sm:text-base font-normal max-w-2xl mt-4 leading-relaxed text-neutral-300">
-                  {data.heroDesc}
-                </p>
-              )}
-            </div>
+        {/* ── Category Hero & Overview Division Card (Matching Services Page Style with Centered Title & Tagline) ── */}
+        <section className="w-full max-w-full px-4 sm:px-8 lg:px-12 pt-14 pb-8 overflow-hidden">
+          <div className="max-w-7xl mx-auto">
+            <div className="rounded-[32px] sm:rounded-[40px] bg-[#0c0e14] border border-white/10 hover:border-[#FFD400]/40 transition-colors duration-300 p-6 sm:p-10 lg:p-14 shadow-2xl relative overflow-hidden group">
+              {/* Top Accent Gradient Line */}
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD400] to-transparent opacity-60 shadow-[0_0_15px_#FFD400]" />
 
-            <div className="flex flex-col sm:flex-row lg:flex-col 2xl:flex-row items-stretch sm:items-center lg:items-end 2xl:items-center gap-3.5 shrink-0 max-w-full">
-              <CyberButton href={data.primaryCtaHref} variant="gold" size="md" className="whitespace-nowrap justify-center">
-                {data.primaryCtaLabel}
-              </CyberButton>
-              {data.secondaryCtaHref && data.secondaryCtaLabel && (
-                <CyberButton href={data.secondaryCtaHref} variant="dark" size="md" className="whitespace-nowrap justify-center">
-                  {data.secondaryCtaLabel}
-                </CyberButton>
-              )}
+              {/* Main Grid: Visual Column & Editorial Overview */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+                {/* Visual Media Column */}
+                <div className="lg:col-span-5 relative">
+                  <div className="block relative aspect-[4/3] rounded-2xl sm:rounded-3xl overflow-hidden border border-white/15 shadow-2xl group/media">
+                    <Image
+                      src={data.image || data.bannerImage || "/images/service_webdev.jpg"}
+                      alt={data.heroTitle}
+                      fill
+                      priority
+                      quality={85}
+                      sizes="(max-width: 1024px) 100vw, 550px"
+                      className="object-cover group-hover/media:scale-105 transition-transform duration-700 ease-out transform-gpu"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+
+                    {/* Floating HUD Badge */}
+                    <div className="absolute bottom-4 left-4 right-4 p-3.5 rounded-xl bg-black/90 border border-white/15 flex items-center justify-between shadow-xl">
+                      <div className="flex items-center space-x-2.5">
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#FFD400] animate-ping" />
+                        <div>
+                          <span className="text-[10px] font-mono tracking-widest uppercase text-[#FFD400] font-bold block">
+                            {data.divisionLabel || "ACTIVE DIVISION SQUAD"}
+                          </span>
+                          <span className="text-xs font-mono text-white">
+                            Specialized Offerings
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Corner Sci-Fi Framing Accents */}
+                  <div className="absolute -top-2 -left-2 w-6 h-6 border-t-2 border-l-2 border-[#FFD400]/60 pointer-events-none" />
+                  <div className="absolute -bottom-2 -right-2 w-6 h-6 border-b-2 border-r-2 border-[#FFD400]/60 pointer-events-none" />
+                </div>
+
+                {/* Editorial Information Column - Left-Aligned, No Action Buttons */}
+                <div className="lg:col-span-7 space-y-6 text-left">
+                  <div className="space-y-3.5">
+                    <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-semibold tracking-[0.25em] uppercase">
+                      <Icon className="w-3.5 h-3.5" />
+                      <span>{data.divisionLabel}</span>
+                    </div>
+
+                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold text-white uppercase tracking-tight leading-[1.1]">
+                      <span className="block">{data.heroTitle}</span>
+                      {data.heroHighlight && (
+                        <span className="block text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.45)]">
+                          {data.heroHighlight}
+                        </span>
+                      )}
+                    </h1>
+
+                    {data.supportingLine && (
+                      <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs sm:text-sm font-mono uppercase tracking-[0.2em] text-[#FFD400] font-semibold">
+                        {data.supportingLine.split("•").map((item, idx, arr) => (
+                          <React.Fragment key={idx}>
+                            <span className="whitespace-nowrap">{item.trim()}</span>
+                            {idx < arr.length - 1 && <span className="text-neutral-500">•</span>}
+                          </React.Fragment>
+                        ))}
+                      </div>
+                    )}
+
+                    {data.tagline && (
+                      <p className="text-sm sm:text-base text-neutral-200 font-mono tracking-wide">
+                        {data.tagline}
+                      </p>
+                    )}
+                  </div>
+
+                  {data.heroDesc && (
+                    <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed max-w-2xl">
+                      {data.heroDesc}
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ── Sub-Categories Grid ── */}
+        {/* ── Sub-Categories Section (Introduce Subcategory) ── */}
         <section id="disciplines" className="w-full px-4 sm:px-8 lg:px-12 py-16 sm:py-20 scroll-mt-28">
           <div className="max-w-7xl mx-auto">
-            <div className="mb-12 pb-6 border-b border-white/10">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase text-white">
-                {data.disciplineHeading.split(" ").slice(0, -1).join(" ")}{" "}
-                <span className="text-[#FFD400]">
-                  {data.disciplineHeading.split(" ").slice(-1)[0]}
-                </span>
-              </h2>
-              {data.disciplineDesc && (
-                <p className="text-xs sm:text-sm text-neutral-300 font-light mt-2 max-w-2xl">
-                  {data.disciplineDesc}
-                </p>
-              )}
-            </div>
+            {data.disciplineHeading && (
+              <div className="mb-10 pb-6 border-b border-white/10">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase text-white">
+                  {data.disciplineHeading.split(" ").slice(0, -1).join(" ")}{" "}
+                  <span className="text-[#FFD400]">
+                    {data.disciplineHeading.split(" ").slice(-1)[0]}
+                  </span>
+                </h2>
+                {data.disciplineDesc && (
+                  <p className="text-xs sm:text-sm text-neutral-300 font-light mt-2 max-w-2xl">
+                    {data.disciplineDesc}
+                  </p>
+                )}
+              </div>
+            )}
 
-            <div className={getCategoryGridClass(subCount)}>
-              {data.subcategories.map((sub, idx) => (
-                <SubCategoryCard
-                  key={sub.href}
-                  sub={sub}
-                  featured={!!sub.featured}
-                  itemClass={getCategoryItemClass(subCount, idx)}
-                />
-              ))}
+            {/* Individual Services Cards Grid for this Category */}
+            <div>
+              <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/10">
+                <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#FFD400] font-bold">
+                  DIVISION CORE SERVICES LIST ({data.subcategories.length})
+                </span>
+                <span className="text-xs font-mono text-neutral-400">
+                  CLICK SERVICE TO EXPLORE FULL ARCHITECTURE
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+                {data.subcategories.map((service) => (
+                  <Link
+                    key={service.href}
+                    href={service.href}
+                    prefetch={false}
+                    className="group/card flex flex-col justify-between rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-[#FFD400]/60 p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_35px_rgba(255,212,0,0.12)] relative overflow-hidden"
+                  >
+                    {/* Top Row: Service SLA & Arrow */}
+                    <div>
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold tracking-wider uppercase bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400]">
+                          {service.sla || service.badge || "SPECIALIZED"}
+                        </span>
+
+                        <div className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/10 group-hover/card:bg-[#FFD400] group-hover/card:text-black text-white/80 flex items-center justify-center transition-all duration-300">
+                          <ArrowUpRight className="w-4 h-4 group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 transition-transform" />
+                        </div>
+                      </div>
+
+                      {/* Service Title */}
+                      <h3 className="text-xl sm:text-2xl font-[family-name:var(--font-syne)] font-bold text-white uppercase group-hover/card:text-[#FFD400] transition-colors mb-1.5">
+                        {service.title}
+                      </h3>
+
+                      {/* Service Subhead */}
+                      {service.tagline && (
+                        <p className="text-xs font-mono text-[#FFD400] tracking-wide mb-2.5 font-medium">
+                          {service.tagline}
+                        </p>
+                      )}
+
+                      {/* Service Description */}
+                      <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed mb-5">
+                        {service.desc}
+                      </p>
+                    </div>
+
+                    {/* Bottom Section: Tags & Action */}
+                    <div className="pt-3 border-t border-white/10 mt-auto">
+                      {service.tags && service.tags.length > 0 && (
+                        <div className="flex flex-wrap items-center gap-1.5 mb-3">
+                          {service.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/5 text-neutral-300"
+                            >
+                              {tag.startsWith("#") ? tag : `#${tag}`}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      <div className="flex items-center justify-end">
+                        <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-[#FFD400] inline-flex items-center gap-1 group-hover/card:translate-x-1 transition-transform">
+                          EXPLORE SERVICE <ArrowUpRight className="w-3.5 h-3.5" />
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </section>

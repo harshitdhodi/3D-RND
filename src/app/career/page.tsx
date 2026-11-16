@@ -38,7 +38,7 @@ import CyberButton from "@/components/CyberButton";
 import PageBanner from "@/components/PageBanner";
 import PrintRevealImage from "@/components/PrintRevealImage";
 import WaveText from "@/components/WaveText";
-import { careerRoles, JobRole } from "@/data/careerData";
+import { getJobDescriptions, JobDescription, submitCareerInquiry } from "@/lib/getCareerData";
 
 const serviceCategories = [
     "All Roles",
@@ -56,15 +56,17 @@ export default function CareerPage() {
 
     const [activeCategory, setActiveCategory] = useState("All Roles");
     const [searchQuery, setSearchQuery] = useState("");
-    const [selectedRole, setSelectedRole] = useState<JobRole | null>(careerRoles[0]);
+    const [careerRoles, setCareerRoles] = useState<JobDescription[]>([]);
+    const [selectedRole, setSelectedRole] = useState<JobDescription | null>(null);
     const [expandedRoleId, setExpandedRoleId] = useState<string | null>(null);
+    const [loading, setLoading] = useState(true);
 
     // Application Modal / Drawer state for quick application
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Application Form States
     const [formData, setFormData] = useState({
-        jobRoleId: careerRoles[0].id,
+        jobRoleId: "",
         fullName: "",
         email: "",
         phone: "",
@@ -79,43 +81,85 @@ export default function CareerPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
+    // Fetch career data from backend
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const data = await getJobDescriptions();
+                setCareerRoles(data);
+                if (data.length > 0) {
+                    setSelectedRole(data[0]);
+                    setFormData((prev) => ({ ...prev, jobRoleId: data[0]._id }));
+                }
+            } catch (error) {
+                console.error("Failed to fetch career data:", error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchData();
+    }, []);
+
     // Filtered job list
     const filteredRoles = useMemo(() => {
         return careerRoles.filter((role) => {
             const matchesCategory =
                 activeCategory === "All Roles" ||
-                role.serviceCategory.toLowerCase().includes(activeCategory.toLowerCase()) ||
-                activeCategory.toLowerCase().includes(role.serviceCategory.toLowerCase());
+                role.service_category.toLowerCase().includes(activeCategory.toLowerCase()) ||
+                activeCategory.toLowerCase().includes(role.service_category.toLowerCase());
 
             const matchesSearch =
                 role.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                role.serviceCategory.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                role.service_category.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 role.tagline.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                role.techStack.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
+                role.tech_stack.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
 
             return matchesCategory && matchesSearch;
         });
-    }, [activeCategory, searchQuery]);
+    }, [activeCategory, searchQuery, careerRoles]);
 
     // Handle clicking "Apply Now" on any card: updates form selection and scrolls to form (or opens drawer)
-    const handleApplyClick = (role: JobRole) => {
+    const handleApplyClick = (role: JobDescription) => {
         setSelectedRole(role);
         setFormData((prev) => ({
             ...prev,
-            jobRoleId: role.id,
+            jobRoleId: role._id,
         }));
         if (formSectionRef.current) {
             formSectionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
         }
     };
 
-    const handleFormSubmit = (e: React.FormEvent) => {
+    const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
-        setTimeout(() => {
+        
+        try {
+            const success = await submitCareerInquiry({
+                job_role_id: formData.jobRoleId,
+                job_title: selectedRole?.title || '',
+                full_name: formData.fullName,
+                email: formData.email,
+                phone: formData.phone,
+                portfolio_url: formData.portfolioUrl,
+                github_url: formData.githubUrl,
+                experience: formData.experience,
+                notice_period: formData.noticePeriod,
+                resume_link: formData.resumeLink,
+                note: formData.note,
+            });
+            
+            if (success) {
+                setIsSubmitted(true);
+            } else {
+                alert('Failed to submit application. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error submitting application:', error);
+            alert('An error occurred. Please try again.');
+        } finally {
             setIsSubmitting(false);
-            setIsSubmitted(true);
-        }, 900);
+        }
     };
 
     // GSAP Scroll Animations
@@ -307,11 +351,11 @@ export default function CareerPage() {
                     ) : (
                         <div className="space-y-8">
                             {filteredRoles.map((role, idx) => {
-                                const isExpanded = expandedRoleId === role.id;
+                                const isExpanded = expandedRoleId === role._id;
 
                                 return (
                                     <article
-                                        key={role.id}
+                                        key={role._id}
                                         className="career-job-card group bg-[#0c0e14] border border-white/10 hover:border-[#FFD400]/50 transition-all duration-500 shadow-xl overflow-hidden flex flex-col"
                                     >
                                         <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch min-h-[340px]">
@@ -321,7 +365,7 @@ export default function CareerPage() {
                                                 <PrintRevealImage
                                                     src={role.image}
                                                     alt={role.title}
-                                                    badge={role.serviceCategory}
+                                                    badge={role.service_category}
                                                     aspectClass="w-full h-full min-h-full"
                                                     className="w-full h-full border-0 lg:border-r border-white/10"
                                                     index={idx}
@@ -334,7 +378,7 @@ export default function CareerPage() {
                                                     {/* Meta Tags: Department • Level • Type • Location */}
                                                     <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-neutral-400">
                                                         <span className="px-2.5 py-0.5 bg-[#FFD400]/15 text-[#FFD400] border border-[#FFD400]/30 font-bold">
-                                                            {role.serviceCategory}
+                                                            {role.service_category}
                                                         </span>
                                                         <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10">
                                                             {role.department}
@@ -360,7 +404,7 @@ export default function CareerPage() {
 
                                                     {/* Tech Stack Pills */}
                                                     <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                                                        {role.techStack.map((tech) => (
+                                                        {role.tech_stack.map((tech) => (
                                                             <span
                                                                 key={tech}
                                                                 className="px-2 py-0.5 bg-white/[0.03] border border-white/10 text-[10px] font-mono text-neutral-300"
@@ -385,7 +429,7 @@ export default function CareerPage() {
                                                     <div className="flex items-center gap-3">
                                                         <button
                                                             type="button"
-                                                            onClick={() => setExpandedRoleId(isExpanded ? null : role.id)}
+                                                            onClick={() => setExpandedRoleId(isExpanded ? null : role._id)}
                                                             className="px-4 py-2 border border-white/20 hover:border-white text-xs font-mono uppercase tracking-wider text-neutral-300 hover:text-white transition-colors cursor-pointer"
                                                         >
                                                             {isExpanded ? "Hide Specs" : "View Specs"}
@@ -412,7 +456,7 @@ export default function CareerPage() {
                                                         Key Responsibilities
                                                     </span>
                                                     <ul className="space-y-2 text-neutral-300">
-                                                        {role.keyResponsibilities.map((resp, idx) => (
+                                                        {role.key_responsibilities.map((resp, idx) => (
                                                             <li key={idx} className="flex items-start gap-2">
                                                                 <span className="text-[#FFD400] shrink-0 mt-0.5">›</span>
                                                                 <span className="font-light leading-relaxed">{resp}</span>
@@ -484,7 +528,7 @@ export default function CareerPage() {
                                             {selectedRole.title}
                                         </h3>
                                         <p className="text-xs text-neutral-400 font-mono mt-0.5">
-                                            Service: {selectedRole.serviceCategory}
+                                            Service: {selectedRole.service_category}
                                         </p>
                                     </div>
                                     <div className="flex items-center gap-4 text-xs font-mono text-neutral-300 pt-1">
@@ -535,7 +579,7 @@ export default function CareerPage() {
                                         onClick={() => {
                                             setIsSubmitted(false);
                                             setFormData({
-                                                jobRoleId: careerRoles[0].id,
+                                                jobRoleId: careerRoles[0]?._id || "",
                                                 fullName: "",
                                                 email: "",
                                                 phone: "",
@@ -565,14 +609,14 @@ export default function CareerPage() {
                                             onChange={(e) => {
                                                 const newRoleId = e.target.value;
                                                 setFormData({ ...formData, jobRoleId: newRoleId });
-                                                const found = careerRoles.find((r) => r.id === newRoleId);
+                                                const found = careerRoles.find((r) => r._id === newRoleId);
                                                 if (found) setSelectedRole(found);
                                             }}
                                             className="w-full px-3 py-2.5 text-xs font-mono bg-[#0c0e14] border border-white/15 text-white focus:outline-none focus:border-[#FFD400] transition-colors"
                                         >
                                             {careerRoles.map((r) => (
-                                                <option key={r.id} value={r.id}>
-                                                    {r.title} ({r.serviceCategory})
+                                                <option key={r._id} value={r._id}>
+                                                    {r.title} ({r.service_category})
                                                 </option>
                                             ))}
                                         </select>

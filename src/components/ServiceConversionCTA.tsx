@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Sparkles,
@@ -16,6 +16,11 @@ import {
   ArrowUpRight,
   Check,
 } from "lucide-react";
+import {
+  getSectionHeading,
+  SectionHeading,
+  DEFAULT_SECTION_HEADINGS,
+} from "@/lib/getSectionHeading";
 
 export interface ServiceConversionCTAProps {
   id?: string;
@@ -70,10 +75,35 @@ export default function ServiceConversionCTA({
   defaultService,
   title,
   subtitle,
-  badge = "✳ DIVISION 01 // START YOUR PROJECT",
+  badge,
   sourcePage,
   projectSlug,
 }: ServiceConversionCTAProps) {
+  const [heading, setHeading] = useState<SectionHeading>(
+    DEFAULT_SECTION_HEADINGS.service_cta || {
+      badge: badge || "✳ START YOUR PROJECT // DIGITAL ARCHITECTURE",
+      title: title || "LET'S ENGINEER YOUR NEXT BIG IDEA.",
+      subtitle:
+        subtitle ||
+        "From custom website development and mobile applications to enterprise software and e-commerce platforms, let's turn your business requirements into powerful digital solutions.",
+      tagline:
+        "From custom website development and mobile applications to enterprise software and e-commerce platforms, let's turn your business requirements into powerful digital solutions.",
+    }
+  );
+
+  useEffect(() => {
+    getSectionHeading("service_cta").then((res) => {
+      if (res) {
+        setHeading((prev) => ({
+          ...prev,
+          badge: badge || res.badge || prev.badge,
+          title: title || res.title || prev.title,
+          subtitle: subtitle || res.subtitle || res.tagline || prev.subtitle,
+        }));
+      }
+    });
+  }, [badge, title, subtitle]);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -94,7 +124,9 @@ export default function ServiceConversionCTA({
     setIsSubmitting(true);
     setErrorMessage(null);
 
-    const currentSource = sourcePage || (typeof window !== "undefined" ? window.location.pathname : "/portfolio");
+    const currentSource =
+      sourcePage ||
+      (typeof window !== "undefined" ? window.location.pathname : "/services");
 
     try {
       const res = await fetch("/api/contact", {
@@ -112,8 +144,9 @@ export default function ServiceConversionCTA({
           message: formData.message,
           source: currentSource,
           source_page: currentSource,
+          category_slug: category || projectSlug || "",
           project_slug: projectSlug || "",
-          collection: "portfolio_inquiries",
+          collection: "service_cta",
         }),
       });
 
@@ -164,22 +197,45 @@ export default function ServiceConversionCTA({
             <div className="relative z-10 text-center max-w-3xl mx-auto mb-12 sm:mb-16">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>{badge}</span>
+                <span>{heading.badge || badge || "✳ START YOUR PROJECT // DIGITAL ARCHITECTURE"}</span>
               </div>
 
               <h2 className="text-3xl sm:text-5xl lg:text-6xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.04] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
-                {title ? (
-                  title
-                ) : (
-                  <>
-                    LET&apos;S ENGINEER YOUR{" "}
-                    <span className="text-[#FFD400]">NEXT BIG IDEA.</span>
-                  </>
-                )}
+                {(() => {
+                  const raw = heading.title || title || "LET'S ENGINEER YOUR NEXT BIG IDEA.";
+                  if (raw.includes("NEXT BIG IDEA")) {
+                    const parts = raw.split("NEXT BIG IDEA");
+                    return (
+                      <>
+                        {parts[0]}
+                        <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.45)]">
+                          NEXT BIG IDEA
+                        </span>
+                        {parts[1]}
+                      </>
+                    );
+                  }
+                  const words = raw.trim().split(" ");
+                  if (words.length > 2) {
+                    const main = words.slice(0, -2).join(" ");
+                    const hl = words.slice(-2).join(" ");
+                    return (
+                      <>
+                        {main}{" "}
+                        <span className="text-[#FFD400] drop-shadow-[0_0_35px_rgba(255,212,0,0.45)]">
+                          {hl}
+                        </span>
+                      </>
+                    );
+                  }
+                  return raw;
+                })()}
               </h2>
 
               <p className="text-sm sm:text-base font-normal mt-4 leading-relaxed text-neutral-300">
-                {subtitle ||
+                {heading.subtitle ||
+                  heading.tagline ||
+                  subtitle ||
                   "From custom website development and mobile applications to enterprise software and e-commerce platforms, let's turn your business requirements into powerful digital solutions."}
               </p>
             </div>
@@ -420,44 +476,7 @@ export default function ServiceConversionCTA({
               </div>
             </div>
 
-            {/* Bottom Trust Guarantees Bar */}
-            <div className="relative z-10 pt-8 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-              <div className="flex flex-col items-center">
-                <Clock className="w-5 h-5 text-[#FFD400] mb-1.5" />
-                <span className="text-sm font-bold text-white uppercase font-mono tracking-wider">
-                  &lt; 24 HRS
-                </span>
-                <span className="text-[11px] text-[#FFD400] uppercase font-mono font-semibold">AVERAGE RESPONSE TIME</span>
-                <span className="text-[11px] text-neutral-400 mt-0.5">Quick response to project enquiries</span>
-              </div>
-
-              <div className="flex flex-col items-center">
-                <ShieldCheck className="w-5 h-5 text-[#FFD400] mb-1.5" />
-                <span className="text-sm font-bold text-white uppercase font-mono tracking-wider">
-                  100%
-                </span>
-                <span className="text-[11px] text-[#FFD400] uppercase font-mono font-semibold">CONFIDENTIALITY FOCUS</span>
-                <span className="text-[11px] text-neutral-400 mt-0.5">Your project information handled responsibly</span>
-              </div>
-
-              <div className="flex flex-col items-center">
-                <Zap className="w-5 h-5 text-[#FFD400] mb-1.5" />
-                <span className="text-sm font-bold text-white uppercase font-mono tracking-wider">
-                  DIRECT
-                </span>
-                <span className="text-[11px] text-[#FFD400] uppercase font-mono font-semibold">EXPERT CONSULTATION</span>
-                <span className="text-[11px] text-neutral-400 mt-0.5">Connect with our technology team</span>
-              </div>
-
-              <div className="flex flex-col items-center">
-                <Sparkles className="w-5 h-5 text-[#FFD400] mb-1.5" />
-                <span className="text-sm font-bold text-white uppercase font-mono tracking-wider">
-                  ZERO
-                </span>
-                <span className="text-[11px] text-[#FFD400] uppercase font-mono font-semibold">CONSULTATION OBLIGATION</span>
-                <span className="text-[11px] text-neutral-400 mt-0.5">Explore your requirements without commitment</span>
-              </div>
-            </div>
+         
           </div>
         </div>
       </div>

@@ -13,10 +13,11 @@ export async function POST(request: Request) {
       project_type = "",
       budget = "",
       timeline = "",
-      source = "Portfolio Inquiries",
+      source = "Inquiry",
       source_page = "",
       project_slug = "",
-      collection = "portfolio_inquiries",
+      category_slug = "",
+      collection = body.collection || (body.source_page?.includes("/service") ? "service_cta" : "portfolio_inquiries"),
     } = body;
 
     // Validate required fields
@@ -64,6 +65,7 @@ export async function POST(request: Request) {
         url: resolvedSource,
         source_page: resolvedSource,
         project_slug,
+        category_slug: category_slug || project_slug,
         collection,
       }),
     });

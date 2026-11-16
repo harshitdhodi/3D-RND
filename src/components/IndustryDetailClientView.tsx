@@ -31,10 +31,11 @@ import PrintRevealImage from "@/components/PrintRevealImage";
 import WaveText from "@/components/WaveText";
 import AnimatedCounter from "@/components/AnimatedCounter";
 import { IndustryData } from "@/data/industriesData";
+import { Industry, IndustryDetail } from "@/lib/getIndustriesData";
 
 interface IndustryDetailClientViewProps {
-    industry: IndustryData;
-    nextIndustry: IndustryData;
+    industry: Industry | IndustryData;
+    nextIndustry: Industry | IndustryData;
 }
 
 export default function IndustryDetailClientView({
@@ -189,7 +190,7 @@ export default function IndustryDetailClientView({
                                         : "AUDITED BENCHMARKS"}
                                 </span>
                                 <div className="space-y-4">
-                                    {industry.heroMetrics.map((metric, mIdx) => (
+                                    {industry.heroMetrics?.map((metric, mIdx: number) => (
                                         <div key={mIdx} className="space-y-0.5">
                                             <span className="text-xs font-mono text-neutral-400">
                                                 {metric.label}
@@ -440,16 +441,16 @@ export default function IndustryDetailClientView({
                             </h2>
                         </div>
                         <p className="text-xs font-mono text-neutral-400">
-                            {industry.slug === "healthcare" 
-                                ? `${industry.works.length} Digital Solutions`
-                                : `Showing ${industry.works.length} Solution Concepts`
+                            {industry.slug === "healthcare"
+                                ? `${industry.works?.length || 0} Digital Solutions`
+                                : `Showing ${industry.works?.length || 0} Solution Concepts`
                             }
                         </p>
                     </div>
 
                     {/* Project Cards */}
                     <div className="space-y-10">
-                        {industry.works.map((work, wIdx) => (
+                        {industry.works?.map((work, wIdx: number) => (
                             <article
                                 key={work.id}
                                 className="group bg-[#0c0e14]/60 backdrop-blur-md border border-white/10 hover:border-[#FFD400]/50 transition-all duration-500 shadow-xl overflow-hidden flex flex-col"
@@ -472,15 +473,21 @@ export default function IndustryDetailClientView({
                                         <div className="space-y-4">
                                             {/* Meta Tags: Client • Category • Year */}
                                             <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-neutral-400">
-                                                <span className="px-2.5 py-0.5 bg-[#FFD400]/15 text-[#FFD400] border border-[#FFD400]/30 font-bold">
-                                                    {work.client}
-                                                </span>
-                                                <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10">
-                                                    {work.category}
-                                                </span>
-                                                <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10 text-white">
-                                                    DEPLOYED {work.year}
-                                                </span>
+                                                {work.client && (
+                                                    <span className="px-2.5 py-0.5 bg-[#FFD400]/15 text-[#FFD400] border border-[#FFD400]/30 font-bold">
+                                                        {work.client}
+                                                    </span>
+                                                )}
+                                                {work.category && (
+                                                    <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10">
+                                                        {work.category}
+                                                    </span>
+                                                )}
+                                                {work.year && (
+                                                    <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10 text-white">
+                                                        DEPLOYED {work.year}
+                                                    </span>
+                                                )}
                                             </div>
 
                                             {/* Project Title with Smooth Wave Animation */}
@@ -489,43 +496,51 @@ export default function IndustryDetailClientView({
                                             </h3>
 
                                             {/* Description */}
-                                            <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
-                                                {work.desc}
-                                            </p>
+                                            {work.desc && (
+                                                <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
+                                                    {work.desc}
+                                                </p>
+                                            )}
 
                                             {/* Key Deliverables Bullet Points */}
-                                            <div className="space-y-2 pt-1 border-t border-white/10">
-                                                <span className="text-[10px] font-mono uppercase tracking-widest text-[#FFD400] font-bold block">
-                                                    Architectural Deliverables:
-                                                </span>
-                                                <ul className="space-y-1.5 text-xs text-neutral-300 font-mono">
-                                                    {work.deliverables.map((del, dIdx) => (
-                                                        <li key={dIdx} className="flex items-start gap-2">
-                                                            <span className="text-[#FFD400] shrink-0 mt-0.5">›</span>
-                                                            <span className="font-light">{del}</span>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </div>
+                                            {work.deliverables && work.deliverables.length > 0 && (
+                                                <div className="space-y-2 pt-1 border-t border-white/10">
+                                                    <span className="text-[10px] font-mono uppercase tracking-widest text-[#FFD400] font-bold block">
+                                                        Architectural Deliverables:
+                                                    </span>
+                                                    <ul className="space-y-1.5 text-xs text-neutral-300 font-mono">
+                                                        {work.deliverables.map((del: string, dIdx: number) => (
+                                                            <li key={dIdx} className="flex items-start gap-2">
+                                                                <span className="text-[#FFD400] shrink-0 mt-0.5">›</span>
+                                                                <span className="font-light">{del}</span>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            )}
 
                                             {/* Tech Stack Pills */}
-                                            <div className="flex flex-wrap items-center gap-1.5 pt-2">
-                                                {work.techStack.map((tech) => (
-                                                    <span
-                                                        key={tech}
-                                                        className="px-2 py-0.5 bg-white/[0.03] border border-white/10 text-[10px] font-mono text-neutral-300"
-                                                    >
-                                                        {tech}
-                                                    </span>
-                                                ))}
-                                            </div>
+                                            {work.techStack && work.techStack.length > 0 && (
+                                                <div className="flex flex-wrap items-center gap-1.5 pt-2">
+                                                    {work.techStack.map((tech: string) => (
+                                                        <span
+                                                            key={tech}
+                                                            className="px-2 py-0.5 bg-white/[0.03] border border-white/10 text-[10px] font-mono text-neutral-300"
+                                                        >
+                                                            {tech}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            )}
                                         </div>
 
                                         {/* Bottom Action */}
                                         <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-                                            <span className="text-xs font-mono text-[#FFD400] font-bold">
-                                                {work.highlightMetric}
-                                            </span>
+                                            {work.highlightMetric && (
+                                                <span className="text-xs font-mono text-[#FFD400] font-bold">
+                                                    {work.highlightMetric}
+                                                </span>
+                                            )}
                                             <a
                                                 href="#consultation-section"
                                                 className="text-xs font-mono uppercase tracking-wider text-white hover:text-[#FFD400] flex items-center gap-1 group/btn transition-colors"

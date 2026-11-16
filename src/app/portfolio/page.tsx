@@ -30,7 +30,6 @@ import { getSectionHeading, SectionHeading, DEFAULT_SECTION_HEADINGS } from "@/l
 import PageBanner from "@/components/PageBanner";
 import CyberButton from "@/components/CyberButton";
 import ServiceConversionCTA from "@/components/ServiceConversionCTA";
-import ServiceCaseStudies from "@/components/ServiceCaseStudies";
 
 export default function PortfolioPage() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -446,12 +445,6 @@ export default function PortfolioPage() {
             </div>
           </div>
         </section>
-
-        {/* =========================================================================
-            CASE STUDIES SECTION
-            Showcasing proven impact across service divisions
-            ========================================================================= */}
-        <ServiceCaseStudies />
 
         {/* Bottom Conversion CTA Form */}
         <div className="px-4 sm:px-8 lg:px-12 pb-16">

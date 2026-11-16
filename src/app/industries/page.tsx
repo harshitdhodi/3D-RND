@@ -29,11 +29,12 @@ import PageBanner from "@/components/PageBanner";
 import PrintRevealImage from "@/components/PrintRevealImage";
 import WaveText from "@/components/WaveText";
 import AnimatedCounter from "@/components/AnimatedCounter";
-import { industriesList } from "@/data/industriesData";
+import { getIndustriesData, IndustryItemData } from "@/lib/getIndustriesData";
 
 export default function IndustriesIndexPage() {
     const [selectedCategory] = useState("All");
-    const [inquiryIndustry, setInquiryIndustry] = useState(industriesList[0].title);
+    const [industriesList, setIndustriesList] = useState<IndustryItemData[]>([]);
+    const [inquiryIndustry, setInquiryIndustry] = useState("");
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const mainRef = useRef<HTMLElement>(null);
@@ -47,12 +48,22 @@ export default function IndustriesIndexPage() {
         message: "",
     });
 
+    // Fetch industries data
+    useEffect(() => {
+        getIndustriesData().then((data) => {
+            setIndustriesList(data);
+            if (data.length > 0) {
+                setInquiryIndustry(data[0].title);
+            }
+        });
+    }, []);
+
     const filteredIndustries = useMemo(() => {
         if (selectedCategory === "All") return industriesList;
         return industriesList.filter((item) =>
             item.title.toLowerCase().includes(selectedCategory.toLowerCase())
         );
-    }, [selectedCategory]);
+    }, [selectedCategory, industriesList]);
 
     // GSAP ScrollTrigger Animations for Content
     useEffect(() => {

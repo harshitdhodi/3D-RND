@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { getServiceSubcategoryBySlug, getServiceItems, ServiceSubcategory, ServiceItem } from "@/lib/getServiceData";
 import ServiceDetailsView from "@/components/ServiceDetailsView";
 
-// Force static generation for all known routes
-export const dynamic = 'force-static';
+// Enable dynamic rendering so all subcategories from CMS are rendered live
+export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
@@ -97,42 +97,54 @@ async function resolveService(
   const serviceItems = await getServiceItems(subcategoryData._id);
   const serviceItem = serviceItems.length > 0 ? serviceItems[0] : null;
 
-  if (!serviceItem) {
-    // Fallback to subcategory data if no service item exists
-    return {
-      service: {
-        id: subcategoryData.slug,
-        index: subcategoryData.index,
-        title: subcategoryData.title,
-        highlightText: "",
-        tagline: subcategoryData.tagline,
-        category: catMeta.categoryName,
-        image: subcategoryData.image,
-        sla: subcategoryData.sla,
-        avatarIcon: "",
-        badge: subcategoryData.badge || "",
-        heroStats: [],
-        overview: [subcategoryData.desc],
-        specs: [],
-        architecturePillars: [],
-        techStack: [],
-        processSteps: [],
-        deliverables: [],
-        caseStudy: {},
-        faqs: [],
-        metaTitle: subcategoryData.title,
-        metaDescription: subcategoryData.tagline,
-      },
-      parentPath: catMeta.parentPath,
-      parentLabel: catMeta.parentLabel,
-    };
-  }
+  const base: any = serviceItem || {};
+  const sub: any = subcategoryData;
+
+  const resolvedService = {
+    ...sub,
+    ...base,
+    id: sub.slug,
+    subcategoryId: sub._id || sub.id,
+    index: sub.index || base.index || "[01]",
+    title: sub.title || base.title,
+    sub_category: sub.sub_category || sub.title,
+    highlightText: base.highlightText || base.highlight_text || "",
+    tagline: sub.tagline || base.tagline,
+    category: catMeta.categoryName,
+    categorySlug: category,
+    image: sub.image || base.image || "/images/service_webdev.jpg",
+    gallery: (sub.gallery && sub.gallery.length > 0) ? sub.gallery : (base.gallery || []),
+    sla: sub.sla || base.sla || "SPECIALIZED",
+    avatarIcon: base.avatarIcon || base.avatar_icon || "",
+    badge: sub.badge || base.badge || "SPECIALIZED DISCIPLINE",
+    heroStats: base.heroStats || base.hero_stats || [],
+    overview: sub.desc ? [sub.desc] : (Array.isArray(base.overview) ? base.overview : []),
+    specs: base.specs || [],
+    architecturePillars: base.architecturePillars || base.architecture_pillars || [],
+    sec2: (sub.sec2 && sub.sec2.length > 0) ? sub.sec2 : (base.sec2 || []),
+    sec2_tagline: sub.sec2_tagline || base.sec2_tagline,
+    sec2_heading: sub.sec2_heading || base.sec2_heading,
+    sec2_subheading: sub.sec2_subheading || base.sec2_subheading,
+    rightside_tagline: sub.rightside_tagline || base.rightside_tagline,
+    rightside_heading: sub.rightside_heading || base.rightside_heading,
+    rightside_description: sub.rightside_description || base.rightside_description,
+    right_side_list: (sub.right_side_list && sub.right_side_list.length > 0) ? sub.right_side_list : (base.right_side_list || []),
+    sub_category_tagline2_heading: sub.sub_category_tagline2_heading || base.sub_category_tagline2_heading,
+    sub_category_tagline2: sub.sub_category_tagline2 || base.sub_category_tagline2,
+    process: (sub.process && sub.process.length > 0) ? sub.process : (base.process || []),
+    process_sec_tagline: sub.process_sec_tagline || base.process_sec_tagline,
+    process_sec_heading: sub.process_sec_heading || base.process_sec_heading,
+    process_sec_subheading: sub.process_sec_subheading || base.process_sec_subheading,
+    techStack: base.techStack || base.tech_stack || [],
+    deliverables: base.deliverables || [],
+    caseStudy: base.caseStudy || base.case_study || {},
+    faqs: base.faqs || [],
+    metaTitle: sub.title || base.metaTitle,
+    metaDescription: sub.tagline || sub.desc || base.metaDescription,
+  };
 
   return {
-    service: {
-      ...serviceItem,
-      category: catMeta.categoryName,
-    },
+    service: resolvedService,
     parentPath: catMeta.parentPath,
     parentLabel: catMeta.parentLabel,
   };

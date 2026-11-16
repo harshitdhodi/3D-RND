@@ -1,14 +1,15 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { industriesList } from "@/data/industriesData";
+import { getIndustries, getIndustryDetail } from "@/lib/getIndustriesData";
 import IndustryDetailClientView from "@/components/IndustryDetailClientView";
 
 // Force static generation for all known routes
 export const dynamic = 'force-static';
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return industriesList.map((item) => ({
+export async function generateStaticParams() {
+  const industries = await getIndustries();
+  return industries.map((item) => ({
     slug: item.slug,
   }));
 }
@@ -19,7 +20,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const industry = industriesList.find((item) => item.slug === slug);
+  const industries = await getIndustries();
+  const industry = industries.find((item) => item.slug === slug);
+  
   if (!industry) {
     return {
       title: "Industry Not Found | RND Technosoft",
@@ -63,7 +66,7 @@ export async function generateMetadata({
     ? "Explore hospitality digital solutions by RND Technosoft, including hotel website development, booking platforms, digital marketing, branding, photography and videography."
     : isEducation
     ? "Explore education and training digital solutions by RND Technosoft, including educational website development, LMS platforms, custom software, digital marketing, branding and media production."
-    : `${industry.shortInfo.slice(0, 155)}...`;
+    : `${industry.short_info.slice(0, 155)}...`;
 
   return {
     title: metaTitle,
@@ -94,7 +97,7 @@ export async function generateMetadata({
       type: "website",
       images: [
         {
-          url: industry.works[0]?.image || "/images/nebula_cloud_os_3d.jpg",
+          url: industry.image || "/images/nebula_cloud_os_3d.jpg",
           width: 1200,
           height: 630,
           alt: `${industry.title} Digital Solutions | RND Technosoft`,
@@ -105,7 +108,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: metaTitle,
       description: metaDescription,
-      images: [industry.works[0]?.image || "/images/nebula_cloud_os_3d.jpg"],
+      images: [industry.image || "/images/nebula_cloud_os_3d.jpg"],
     },
   };
 }
@@ -116,19 +119,50 @@ export default async function IndustryDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const industry = industriesList.find((item) => item.slug === slug);
+  const industries = await getIndustries();
+  const industry = industries.find((item) => item.slug === slug);
 
   if (!industry) {
     notFound();
   }
 
-  const currentIndex = industriesList.findIndex((item) => item.slug === slug);
-  const nextIndustry = industriesList[(currentIndex + 1) % industriesList.length];
+  const currentIndex = industries.findIndex((item) => item.slug === slug);
+  const nextIndustry = industries[(currentIndex + 1) % industries.length];
+
+  // Fetch industry detail content
+  const industryDetail = await getIndustryDetail(industry._id);
+
+  // Combine industry basic info with detail content
+  const combinedIndustry = {
+    ...industry,
+    shortInfo: industry.short_info,
+    heroMetrics: industry.hero_metrics,
+    challenges: industryDetail?.challenges || [],
+    serviceCombinations: industryDetail?.services || [],
+    process: industryDetail?.process_steps || [],
+    pillars: [],
+    works: [{ title: industry.featured_project, image: industry.image }],
+    caseStudy: null,
+    faqs: industryDetail?.faqs || [],
+  };
+
+  const combinedNextIndustry = {
+    ...nextIndustry,
+    shortInfo: nextIndustry.short_info,
+    heroMetrics: nextIndustry.hero_metrics,
+    challenges: [],
+    serviceCombinations: [],
+    process: [],
+    pillars: [],
+    works: [{ title: nextIndustry.featured_project, image: nextIndustry.image }],
+    caseStudy: null,
+    faqs: [],
+  };
 
   return (
     <IndustryDetailClientView
-      industry={industry}
-      nextIndustry={nextIndustry}
+      industry={combinedIndustry}
+      nextIndustry={combinedNextIndustry}
     />
   );
 }

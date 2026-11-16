@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Sparkles,
@@ -10,6 +10,7 @@ import {
   MessageSquare,
   ArrowUpRight,
 } from "lucide-react";
+import { getServiceFaqs, ServiceFaq } from "@/lib/getServiceData";
 
 interface FAQItem {
   id: string;
@@ -18,7 +19,7 @@ interface FAQItem {
   answer: string;
 }
 
-const FAQS: FAQItem[] = [
+const DEFAULT_FAQS: FAQItem[] = [
   {
     id: "faq-1",
     category: "TIMELINES & ESTIMATES",
@@ -64,7 +65,29 @@ const FAQS: FAQItem[] = [
 ];
 
 export default function ServiceFaqSection() {
+  const [faqs, setFaqs] = useState<FAQItem[]>(DEFAULT_FAQS);
   const [openId, setOpenId] = useState<string | null>("faq-1");
+
+  useEffect(() => {
+    async function loadFaqs() {
+      try {
+        const liveFaqs = await getServiceFaqs();
+        if (liveFaqs && liveFaqs.length > 0) {
+          setFaqs(
+            liveFaqs.map((f: ServiceFaq, idx: number) => ({
+              id: (f as any).id || (f as any)._id || `faq-${idx + 1}`,
+              category: f.category_slug ? f.category_slug.replace('-', ' ').toUpperCase() : "GENERAL",
+              question: f.question,
+              answer: f.answer,
+            }))
+          );
+        }
+      } catch (e) {
+        console.warn("Failed to load live service FAQs:", e);
+      }
+    }
+    loadFaqs();
+  }, []);
 
   const toggleFaq = (id: string) => {
     setOpenId((prev) => (prev === id ? null : id));
@@ -90,7 +113,7 @@ export default function ServiceFaqSection() {
 
         {/* Accordion List */}
         <div className="space-y-4">
-          {FAQS.map((faq, idx) => {
+          {faqs.map((faq, idx) => {
             const isOpen = openId === faq.id;
 
             return (

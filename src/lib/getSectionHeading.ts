@@ -77,11 +77,10 @@ export const DEFAULT_SECTION_HEADINGS: Record<string, SectionHeading> = {
   },
   industries: {
     section_name: "industries",
-    badge: "CROSS-DOMAIN DOMINANCE // SECTORS",
-    title: "INDUSTRIES WE ACCELERATE",
-    subtitle: "High-Impact Digital Architecture across Specialized Sectors",
-    tagline:
-      "Deploying high-reliability digital architectures and bespoke creative frameworks across mission-critical enterprise domains.",
+    badge: "INDUSTRIES WE SERVE",
+    title: "SOLUTIONS BUILT AROUND YOUR WORLD.",
+    subtitle: "",
+    tagline: "",
   },
   why_choose_section: {
     section_name: "why_choose_section",

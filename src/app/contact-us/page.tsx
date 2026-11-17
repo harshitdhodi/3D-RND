@@ -4,37 +4,12 @@ import PageBanner from "@/components/PageBanner";
 import ContactSection from "@/components/ContactSection";
 import RnDFooter from "@/components/RnDFooter";
 import SpaceBackground from "@/components/SpaceBackground";
+import { getPageMetadata, toNextJsMetadata } from "@/lib/getPageMetadata";
 
-export const metadata: Metadata = {
-  title: "Contact RND Technosoft | Discuss Your Project",
-  description:
-    "Get in touch with RND Technosoft to discuss your web development, mobile app, digital marketing, branding or media production project. We help businesses build, grow and connect online.",
-  keywords: [
-    "contact RND Technosoft",
-    "digital agency contact",
-    "web development enquiry",
-    "digital marketing enquiry",
-    "branding services enquiry",
-    "hire digital agency",
-  ],
-  alternates: {
-    canonical: "/contact-us",
-  },
-  openGraph: {
-    title: "Contact RND Technosoft | Discuss Your Project",
-    description:
-      "Get in touch with RND Technosoft to discuss your web development, digital marketing, branding or media production project.",
-    url: "https://rndtechnosoft.com/contact-us",
-    siteName: "RND Technosoft",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Contact RND Technosoft | Discuss Your Project",
-    description:
-      "Get in touch with RND Technosoft to discuss your web development, digital marketing, branding or media production project.",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const metadata = await getPageMetadata("contact");
+  return toNextJsMetadata(metadata);
+}
 
 export default function ContactUsPage() {
   return (

@@ -31,31 +31,25 @@ import PrintRevealImage from "@/components/PrintRevealImage";
 import WaveText from "@/components/WaveText";
 import AnimatedCounter from "@/components/AnimatedCounter";
 import { IndustryData } from "@/data/industriesData";
-import { Industry, IndustryDetail } from "@/lib/getIndustriesData";
+import { Industry, IndustryDetail, IndustryConsultationData } from "@/lib/getIndustriesData";
+import IndustryConsultationHeading from "@/components/IndustryConsultationHeading";
+import IndustryConsultationForm from "@/components/IndustryConsultationForm";
 
 interface IndustryDetailClientViewProps {
-    industry: Industry | IndustryData;
-    nextIndustry: Industry | IndustryData;
+    industry: Industry | IndustryData | any;
+    nextIndustry: Industry | IndustryData | any;
+    industriesList?: string[];
+    consultationData?: IndustryConsultationData;
 }
 
 export default function IndustryDetailClientView({
     industry,
     nextIndustry,
+    industriesList = [],
+    consultationData,
 }: IndustryDetailClientViewProps) {
     // Accordion state for FAQs
     const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
-
-    // Consultation Form State
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        company: "",
-        budget: "$25,000 - $50,000",
-        timeline: "Next 30 Days",
-        message: "",
-    });
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isSubmitted, setIsSubmitted] = useState(false);
 
 
     // Dynamic responsive grid helper based on item count
@@ -99,15 +93,6 @@ export default function IndustryDetailClientView({
             containerClass: "grid grid-cols-1 md:grid-cols-3 gap-6",
             getItemClass: (_idx: number) => "",
         };
-    };
-
-    const handleFormSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        setTimeout(() => {
-            setIsSubmitting(false);
-            setIsSubmitted(true);
-        }, 900);
     };
 
     const getPillarIcon = (iconName: string) => {
@@ -174,48 +159,21 @@ export default function IndustryDetailClientView({
                                 </p>
                             </div>
 
-                            {/* Right Column (4 cols): Hero Key Metrics */}
-                            <div className="lg:col-span-4 bg-black/40 border border-white/10 p-6 space-y-4">
-                                <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#FFD400] font-bold block border-b border-white/10 pb-2">
-                                    {industry.slug === "healthcare" 
-                                        ? "HEALTHCARE PRIORITIES" 
-                                        : industry.slug === "food-fmcg"
-                                        ? "BUSINESS GROWTH PRIORITIES"
-                                        : industry.slug === "retail-ecommerce"
-                                        ? "RETAIL GROWTH PRIORITIES"
-                                        : industry.slug === "hospitality"
-                                        ? "HOSPITALITY GROWTH PRIORITIES"
-                                        : industry.slug === "education"
-                                        ? "EDUCATION GROWTH PRIORITIES"
-                                        : "AUDITED BENCHMARKS"}
-                                </span>
-                                <div className="space-y-4">
-                                    {industry.heroMetrics?.map((metric, mIdx: number) => (
-                                        <div key={mIdx} className="space-y-0.5">
-                                            <span className="text-xs font-mono text-neutral-400">
-                                                {metric.label}
-                                            </span>
-                                            <p className="text-xl sm:text-2xl font-[family-name:var(--font-syne)] font-bold text-white">
-                                                <AnimatedCounter text={metric.value} duration={1.6} />
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
+                         
                         </div>
 
                         {/* 3 Core Engineering Pillars */}
                         <div className="mt-10 pt-8 border-t border-white/10">
                             <h3 className="text-sm font-mono uppercase tracking-[0.2em] text-[#FFD400] font-bold mb-6">
-                                {industry.slug === "healthcare" ? "BUILDING A HEALTHIER DIGITAL ECOSYSTEM." : "CORE CAPABILITIES"}
+                                {industry.pillars_heading || (industry.slug === "healthcare" ? "BUILDING A HEALTHIER DIGITAL ECOSYSTEM." : "CORE CAPABILITIES")}
                             </h3>
-                            {industry.slug === "healthcare" && (
+                            {(industry.pillars_description || industry.slug === "healthcare") && (
                                 <p className="text-xs sm:text-sm text-neutral-400 font-light leading-relaxed mb-6">
-                                    From patient-facing digital platforms to a stronger healthcare brand, we bring technology and creativity together to help healthcare businesses move forward.
+                                    {industry.pillars_description || "From patient-facing digital platforms to a stronger healthcare brand, we bring technology and creativity together to help healthcare businesses move forward."}
                                 </p>
                             )}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {industry.pillars.map((pillar, pIdx) => {
+                            {(industry.pillars || []).map((pillar, pIdx) => {
                                 const IconComponent = getPillarIcon(pillar.icon);
                                 return (
                                     <div
@@ -246,10 +204,10 @@ export default function IndustryDetailClientView({
                     <div className="mb-10 max-w-3xl">
                         <span className="text-xs font-mono uppercase tracking-[0.25em] text-red-400 font-semibold flex items-center gap-2">
                             <AlertTriangle className="w-4 h-4 text-red-400" />
-                            <span>INDUSTRY CHALLENGES // OPERATIONAL BOTTLENECKS</span>
+                            <span>{industry.challenges_tagline || "INDUSTRY CHALLENGES // OPERATIONAL BOTTLENECKS"}</span>
                         </span>
                         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-2">
-                            {industry.slug === "healthcare" 
+                            {industry.challenges_heading || (industry.slug === "healthcare" 
                                 ? "THE CHALLENGES BEHIND MODERN HEALTHCARE." 
                                 : industry.slug === "food-fmcg"
                                 ? "THE CHALLENGES BEHIND EVERY FAST-MOVING MARKET."
@@ -259,10 +217,10 @@ export default function IndustryDetailClientView({
                                 ? "THE CHALLENGES BEHIND EVERY GUEST EXPERIENCE."
                                 : industry.slug === "education"
                                 ? "THE CHALLENGES SHAPING MODERN EDUCATION."
-                                : "WHAT'S HOLDING YOUR INDUSTRY BACK?"}
+                                : "WHAT'S HOLDING YOUR INDUSTRY BACK?")}
                         </h2>
                         <p className="text-xs sm:text-sm text-neutral-400 font-mono mt-2">
-                            {industry.slug === "healthcare" 
+                            {industry.challenges_description || (industry.slug === "healthcare" 
                                 ? "Healthcare businesses face increasing pressure to deliver seamless experiences while managing daily operations and staying visible in a competitive digital landscape. The right digital approach can help address these challenges."
                                 : industry.slug === "food-fmcg"
                                 ? "Food and FMCG businesses operate in a competitive environment where customer expectations, product availability and brand visibility constantly evolve. Disconnected systems and inconsistent digital experiences can make it harder to keep pace."
@@ -273,7 +231,7 @@ export default function IndustryDetailClientView({
                                 : industry.slug === "education"
                                 ? "Educational institutions and training providers are navigating changing student expectations, increasing competition and the growing demand for digital learning. The right technology and communication strategy can help create more connected educational experiences."
                                 : "Manufacturing businesses face growing operational and digital challenges. We help identify these gaps and build practical solutions that move businesses forward."
-                            }
+                            )}
                         </p>
                     </div>
 
@@ -325,11 +283,11 @@ export default function IndustryDetailClientView({
                         <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold flex items-center gap-2">
                             <Zap className="w-4 h-4 text-[#FFD400]" />
                             <span>
-                                {industry.slug === "healthcare" ? "OUR SOLUTIONS" : "INTEGRATED SOLUTIONS // INDUSTRY-FOCUSED CAPABILITIES"}
+                                {industry.solutions_tagline || (industry.slug === "healthcare" ? "OUR SOLUTIONS" : "INTEGRATED SOLUTIONS // INDUSTRY-FOCUSED CAPABILITIES")}
                             </span>
                         </span>
                         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-2">
-                            {industry.slug === "healthcare" 
+                            {industry.solutions_heading || (industry.slug === "healthcare" 
                                 ? "TECHNOLOGY AND CREATIVITY, WORKING FOR BETTER HEALTHCARE."
                                 : industry.slug === "food-fmcg"
                                 ? "POWERING FOOD & FMCG BRANDS THROUGH DIGITAL INNOVATION."
@@ -340,10 +298,10 @@ export default function IndustryDetailClientView({
                                 : industry.slug === "education"
                                 ? "TECHNOLOGY THAT EMPOWERS LEARNING. CREATIVITY THAT INSPIRES GROWTH."
                                 : "THE RIGHT TECHNOLOGY. THE RIGHT STRATEGY. THE RIGHT IMPACT."
-                            }
+                            )}
                         </h2>
                         <p className="text-xs sm:text-sm text-neutral-400 font-mono mt-2">
-                            {industry.slug === "healthcare"
+                            {industry.solutions_description || (industry.slug === "healthcare"
                                 ? "We combine digital expertise across four key service areas to help healthcare organisations strengthen their operations, improve communication and build a more effective digital presence."
                                 : industry.slug === "food-fmcg"
                                 ? "From e-commerce platforms to product campaigns, we bring technology and creativity together to help food and FMCG businesses strengthen their digital presence and create meaningful consumer experiences."
@@ -354,7 +312,7 @@ export default function IndustryDetailClientView({
                                 : industry.slug === "education"
                                 ? "From educational websites and learning platforms to student-focused campaigns and institutional branding, we combine technology and creativity to help education businesses move forward."
                                 : "We bring multiple capabilities together to help manufacturing businesses strengthen their operations, improve digital visibility and build a competitive market presence."
-                            }
+                            )}
                         </p>
                     </div>
 
@@ -423,10 +381,10 @@ export default function IndustryDetailClientView({
                     <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                         <div>
                             <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
-                                {industry.slug === "healthcare" ? "SELECTED WORK" : "OUR WORK // INDUSTRY SOLUTIONS"}
+                                {industry.works_tagline || (industry.slug === "healthcare" ? "SELECTED WORK" : "OUR WORK // INDUSTRY SOLUTIONS")}
                             </span>
                             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-1">
-                                {industry.slug === "healthcare"
+                                {industry.works_heading || (industry.slug === "healthcare"
                                     ? "DIGITAL SOLUTIONS MAKING A DIFFERENCE."
                                     : industry.slug === "food-fmcg"
                                     ? "DIGITAL EXPERIENCES. REAL-WORLD BUSINESS POSSIBILITIES."
@@ -437,14 +395,14 @@ export default function IndustryDetailClientView({
                                     : industry.slug === "education"
                                     ? "CREATING DIGITAL EXPERIENCES THAT MAKE LEARNING MORE ACCESSIBLE."
                                     : "IDEAS ENGINEERED INTO REAL-WORLD SOLUTIONS."
-                                }
+                                )}
                             </h2>
                         </div>
                         <p className="text-xs font-mono text-neutral-400">
-                            {industry.slug === "healthcare"
+                            {industry.works_description || (industry.slug === "healthcare"
                                 ? `${industry.works?.length || 0} Digital Solutions`
                                 : `Showing ${industry.works?.length || 0} Solution Concepts`
-                            }
+                            )}
                         </p>
                     </div>
 
@@ -452,7 +410,7 @@ export default function IndustryDetailClientView({
                     <div className="space-y-10">
                         {industry.works?.map((work, wIdx: number) => (
                             <article
-                                key={work.id}
+                                key={work.id || `work-${wIdx}`}
                                 className="group bg-[#0c0e14]/60 backdrop-blur-md border border-white/10 hover:border-[#FFD400]/50 transition-all duration-500 shadow-xl overflow-hidden flex flex-col"
                             >
                                 <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch min-h-[360px]">
@@ -563,10 +521,10 @@ export default function IndustryDetailClientView({
                     <div className="mb-10 max-w-3xl">
                         <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold flex items-center gap-2">
                             <Clock className="w-4 h-4 text-[#FFD400]" />
-                            <span>{industry.slug === "healthcare" ? "PROJECT ROADMAP" : "OUR APPROACH // FROM VISION TO EXECUTION"}</span>
+                            <span>{industry.process_tagline || (industry.slug === "healthcare" ? "PROJECT ROADMAP" : "OUR APPROACH // FROM VISION TO EXECUTION")}</span>
                         </span>
                         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-2">
-                            {industry.slug === "healthcare"
+                            {industry.process_heading || (industry.slug === "healthcare"
                                 ? "FROM UNDERSTANDING YOUR NEEDS TO DELIVERING THE RIGHT SOLUTION."
                                 : industry.slug === "food-fmcg"
                                 ? "FROM PRODUCT VISION TO MARKET-READY DIGITAL EXPERIENCES."
@@ -577,10 +535,10 @@ export default function IndustryDetailClientView({
                                 : industry.slug === "education"
                                 ? "FROM LEARNING REQUIREMENTS TO DIGITAL IMPLEMENTATION."
                                 : "A CLEARER PATH FROM CHALLENGE TO SOLUTION."
-                            }
+                            )}
                         </h2>
                         <p className="text-xs sm:text-sm text-neutral-400 font-mono mt-2">
-                            {industry.slug === "healthcare"
+                            {industry.process_description || (industry.slug === "healthcare"
                                 ? "Every healthcare organisation has different goals. Our process begins with understanding your requirements and shaping a solution that aligns with your business, audience and long-term vision."
                                 : industry.slug === "food-fmcg"
                                 ? "Every food and FMCG business has a different market, audience and operating model. Our process aligns the right technology and creative services with your business objectives."
@@ -591,7 +549,7 @@ export default function IndustryDetailClientView({
                                 : industry.slug === "education"
                                 ? "Every educational organisation has different learners, teaching methods and operational requirements. Our process focuses on understanding your objectives and delivering a digital solution that supports your educational vision."
                                 : "Every manufacturing business has unique requirements. Our collaborative approach ensures that every project starts with understanding your business and ends with a solution aligned with your goals."
-                            }
+                            )}
                         </p>
                     </div>
 
@@ -641,6 +599,7 @@ export default function IndustryDetailClientView({
                 {/* =========================================================================
             6. ATTRACTIVE CASE STUDY DEEP DIVE SECTION
             ========================================================================= */}
+                {industry.caseStudy && (
                 <section className="max-w-7xl mx-auto px-6 md:px-12 py-14 border-t border-white/10">
                     <div className="p-8 sm:p-12 bg-[#090b10]/50 backdrop-blur-md border border-[#FFD400]/30 shadow-2xl relative overflow-hidden">
                         {/* Background Aesthetic Watermark */}
@@ -654,10 +613,10 @@ export default function IndustryDetailClientView({
                                 <div>
                                     <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold flex items-center gap-2">
                                         <Sparkles className="w-4 h-4" />
-                                        <span>{industry.slug === "healthcare" ? "SUCCESS STORY" : "INDUSTRY SPOTLIGHT // BUSINESS TRANSFORMATION"}</span>
+                                        <span>{industry.case_study_tagline || industry.caseStudy?.tagline || (industry.slug === "healthcare" ? "SUCCESS STORY" : "INDUSTRY SPOTLIGHT // BUSINESS TRANSFORMATION")}</span>
                                     </span>
                                     <h2 className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-1">
-                                        {industry.slug === "healthcare"
+                                        {industry.case_study_title || industry.caseStudy?.title || (industry.slug === "healthcare"
                                             ? "TRANSFORMING HEALTHCARE EXPERIENCES THROUGH DIGITAL INNOVATION."
                                             : industry.slug === "food-fmcg"
                                             ? "HELPING A FOOD BRAND GROW BEYOND ITS SHELVES."
@@ -668,12 +627,14 @@ export default function IndustryDetailClientView({
                                             : industry.slug === "education"
                                             ? "TRANSFORMING THE WAY EDUCATION CONNECTS WITH LEARNERS."
                                             : "TURNING COMPLEX OPERATIONS INTO CONNECTED POSSIBILITIES."
-                                        }
+                                        )}
                                     </h2>
                                 </div>
-                                <div className="text-xs font-mono px-3 py-1.5 bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] shrink-0 self-start sm:self-center">
-                                    {industry.caseStudy.period}
-                                </div>
+                                {industry.caseStudy.period && (
+                                    <div className="text-xs font-mono px-3 py-1.5 bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] shrink-0 self-start sm:self-center">
+                                        {industry.caseStudy.period}
+                                    </div>
+                                )}
                             </div>
 
                             {/* Problem vs Solution Split */}
@@ -698,212 +659,63 @@ export default function IndustryDetailClientView({
                             </div>
 
                             {/* 3 Metric Cards */}
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                                {industry.caseStudy.metrics.map((m, mIdx) => (
-                                    <div
-                                        key={mIdx}
-                                        className="p-5 bg-white/[0.02] border border-white/10 text-center space-y-1"
-                                    >
-                                        <span className="text-xs font-mono text-neutral-400 uppercase tracking-widest block">
-                                            {m.label}
-                                        </span>
-                                        <p className="text-3xl sm:text-4xl font-[family-name:var(--font-syne)] font-bold text-[#FFD400]">
-                                            {m.value}
-                                        </p>
-                                        <span className="text-xs font-mono text-emerald-400 font-medium block">
-                                            {m.change}
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
+                            {industry.caseStudy.metrics && industry.caseStudy.metrics.length > 0 && (
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                                    {industry.caseStudy.metrics.map((m, mIdx) => (
+                                        <div
+                                            key={mIdx}
+                                            className="p-5 bg-white/[0.02] border border-white/10 text-center space-y-1"
+                                        >
+                                            <span className="text-xs font-mono text-neutral-400 uppercase tracking-widest block">
+                                                {m.label}
+                                            </span>
+                                            <p className="text-3xl sm:text-4xl font-[family-name:var(--font-syne)] font-bold text-[#FFD400]">
+                                                {m.value}
+                                            </p>
+                                            <span className="text-xs font-mono text-emerald-400 font-medium block">
+                                                {m.change}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
 
                             {/* Executive Client Quote */}
-                            <div className="p-6 bg-white/[0.03] border-l-2 border-[#FFD400] space-y-3">
-                                <Quote className="w-6 h-6 text-[#FFD400] opacity-80" />
-                                <p className="text-sm sm:text-base text-neutral-200 italic font-light leading-relaxed">
-                                    &ldquo;{industry.caseStudy.quote.text}&rdquo;
-                                </p>
-                                <div className="text-xs font-mono text-neutral-400 pt-1">
-                                    <strong className="text-white">{industry.caseStudy.quote.author}</strong> • {industry.caseStudy.quote.role}
+                            {industry.caseStudy.quote && (
+                                <div className="p-6 bg-white/[0.03] border-l-2 border-[#FFD400] space-y-3">
+                                    <Quote className="w-6 h-6 text-[#FFD400] opacity-80" />
+                                    <p className="text-sm sm:text-base text-neutral-200 italic font-light leading-relaxed">
+                                        &ldquo;{industry.caseStudy.quote.text}&rdquo;
+                                    </p>
+                                    <div className="text-xs font-mono text-neutral-400 pt-1">
+                                        <strong className="text-white">{industry.caseStudy.quote.author}</strong> • {industry.caseStudy.quote.role}
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                         </div>
                     </div>
                 </section>
+                )}
 
                 {/* =========================================================================
             7. TECHNICAL CONSULTATION / INQUIRY FORM (PROJECT ENQUIRY CTA)
             ========================================================================= */}
                 <section
                     id="consultation-section"
-                    className="max-w-7xl mx-auto px-6 md:px-12 py-14 border-t border-white/10"
+                    className="industry-consult-section max-w-7xl mx-auto px-6 md:px-12 py-16 border-t border-white/10"
                 >
                     <div className="bg-[#0c0e14]/60 backdrop-blur-md border border-white/15 p-8 sm:p-12 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-                        {/* Left Instructions */}
-                        <div className="lg:col-span-5 space-y-5">
-                            <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold flex items-center gap-2">
-                                <Briefcase className="w-4 h-4" />
-                                <span>{industry.slug === "healthcare" ? "PROJECT ENQUIRY" : "MANUFACTURING & INDUSTRIAL // LET'S CONNECT"}</span>
-                            </span>
-                            <h2 className="font-[family-name:var(--font-syne)] text-2xl sm:text-3xl lg:text-4xl text-white font-bold uppercase leading-tight">
-                                {industry.slug === "healthcare"
-                                    ? "READY TO TAKE YOUR HEALTHCARE BUSINESS FORWARD?"
-                                    : industry.slug === "food-fmcg"
-                                    ? "READY TO TAKE YOUR FOOD BRAND TO THE NEXT LEVEL?"
-                                    : industry.slug === "retail-ecommerce"
-                                    ? "READY TO BUILD YOUR NEXT RETAIL EXPERIENCE?"
-                                    : industry.slug === "hospitality"
-                                    ? "READY TO MAKE YOUR HOSPITALITY BRAND UNFORGETTABLE?"
-                                    : industry.slug === "education"
-                                    ? "READY TO SHAPE THE FUTURE OF LEARNING?"
-                                    : "READY TO MOVE YOUR BUSINESS FORWARD?"
-                                }
-                            </h2>
-                            <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light">
-                                {industry.slug === "healthcare"
-                                    ? "Whether you're building a new healthcare website, strengthening your clinic's digital presence or exploring custom technology, let's create a solution that supports your next stage of growth."
-                                    : industry.slug === "food-fmcg"
-                                    ? "Whether you're launching a new product, building an online store or looking to strengthen your brand presence, RND Technosoft can help bring your next digital initiative to life."
-                                    : industry.slug === "retail-ecommerce"
-                                    ? "Whether you're building a new e-commerce platform, improving your online storefront or creating more engaging product experiences, let's bring your retail vision to life."
-                                    : industry.slug === "hospitality"
-                                    ? "Whether you're launching a new resort, upgrading your hotel's website or looking to attract more guests online, let's create digital experiences that make your property stand out."
-                                    : industry.slug === "education"
-                                    ? "Whether you're launching an online learning platform, upgrading your institution's website or looking to attract more students, let's create digital experiences that support your educational goals."
-                                    : "Whether you want to modernize your digital infrastructure, build custom business software, strengthen your industrial brand or reach new customers, RND Technosoft is ready to explore the possibilities with you."
-                                }
-                            </p>
-
-                            <div className="p-4 bg-white/[0.02] border border-white/10 space-y-2 text-xs font-mono text-neutral-300">
-                                <div className="flex items-center gap-2">
-                                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400]" />
-                                    <span>Let&apos;s Discuss Your Next Project</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400]" />
-                                    <span>Tell Us About Your Requirements</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400]" />
-                                    <span>Our Team Will Connect With You</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Right Form */}
-                        <div className="lg:col-span-7">
-                            {isSubmitted ? (
-                                <div className="p-8 bg-black/60 border border-[#FFD400]/40 text-center space-y-3">
-                                    <div className="w-12 h-12 rounded-full bg-[#FFD400]/20 border border-[#FFD400] text-[#FFD400] flex items-center justify-center mx-auto">
-                                        <CheckCircle2 className="w-6 h-6" />
-                                    </div>
-                                    <h3 className="font-[family-name:var(--font-syne)] text-xl font-bold text-white uppercase">
-                                        Thank You For Your Inquiry
-                                    </h3>
-                                    <p className="text-xs text-neutral-300 font-mono max-w-md mx-auto">
-                                        We&apos;ve received your project details. Our team will review your requirements and connect with you shortly to discuss the next steps.
-                                    </p>
-                                </div>
-                            ) : (
-                                <form onSubmit={handleFormSubmit} className="space-y-4">
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <div>
-                                            <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                                Your Name *
-                                            </label>
-                                            <input
-                                                type="text"
-                                                required
-                                                placeholder="Your Name"
-                                                value={formData.name}
-                                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                                className="w-full px-3.5 py-2.5 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                                Business Email *
-                                            </label>
-                                            <input
-                                                type="email"
-                                                required
-                                                placeholder="email@company.com"
-                                                value={formData.email}
-                                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                                className="w-full px-3.5 py-2.5 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <div>
-                                            <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                                Company Name *
-                                            </label>
-                                            <input
-                                                type="text"
-                                                required
-                                                placeholder="Company Name"
-                                                value={formData.company}
-                                                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                                                className="w-full px-3.5 py-2.5 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors"
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                                What Do You Need?
-                                            </label>
-                                            <select
-                                                value={formData.timeline}
-                                                onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}
-                                                className="w-full px-3 py-2.5 text-xs font-mono bg-[#0c0e14]/60 backdrop-blur-sm border border-white/15 text-white focus:outline-none focus:border-[#FFD400] transition-colors"
-                                            >
-                                                <option value="Website Development">Website Development</option>
-                                                <option value="Custom Software Development">Custom Software Development</option>
-                                                <option value="Mobile Application Development">Mobile Application Development</option>
-                                                <option value="E-Commerce Development">E-Commerce Development</option>
-                                                <option value="SEO & Digital Marketing">SEO &amp; Digital Marketing</option>
-                                                <option value="Branding & Design">Branding &amp; Design</option>
-                                                <option value="Photography & Videography">Photography &amp; Videography</option>
-                                                <option value="Multiple Services">Multiple Services</option>
-                                                <option value="Not Sure Yet">Not Sure Yet</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                            Tell Us About Your Requirements
-                                        </label>
-                                        <textarea
-                                            rows={4}
-                                            placeholder="Share your business details, requirements and objectives..."
-                                            value={formData.message}
-                                            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                            className="w-full p-3 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors resize-none"
-                                        />
-                                    </div>
-
-                                    <div className="pt-2">
-                                        <button
-                                            type="submit"
-                                            disabled={isSubmitting}
-                                            className="w-full sm:w-auto px-8 py-3.5 bg-[#FFD400] hover:bg-[#ffe34d] text-black text-xs font-mono uppercase tracking-[0.2em] font-bold transition-all shadow-[0_0_20px_rgba(255,212,0,0.3)] flex items-center justify-center space-x-2 group cursor-pointer disabled:opacity-60"
-                                        >
-                                            {isSubmitting ? (
-                                                <span>SENDING...</span>
-                                            ) : (
-                                                <>
-                                                    <span>START YOUR PROJECT</span>
-                                                    <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                                                </>
-                                            )}
-                                        </button>
-                                    </div>
-                                </form>
-                            )}
-                        </div>
+                        <IndustryConsultationHeading
+                            data={consultationData}
+                            className="lg:col-span-5"
+                        />
+                        <IndustryConsultationForm
+                            industries={industriesList && industriesList.length > 0 ? industriesList : [industry.title]}
+                            defaultIndustry={industry.title}
+                            formTitle={consultationData?.form_title}
+                            formDescription={consultationData?.form_description}
+                            className="lg:col-span-7"
+                        />
                     </div>
                 </section>
 
@@ -913,10 +725,10 @@ export default function IndustryDetailClientView({
                 <section className="max-w-7xl mx-auto px-6 md:px-12 py-14 border-t border-white/10">
                     <div className="mb-8">
                         <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
-                            {industry.slug === "healthcare" ? "EVERYTHING YOU NEED TO KNOW" : "MANUFACTURING & INDUSTRIAL // KNOW BEFORE YOU BEGIN"}
+                            {industry.faq_tagline || (industry.slug === "healthcare" ? "EVERYTHING YOU NEED TO KNOW" : "MANUFACTURING & INDUSTRIAL // KNOW BEFORE YOU BEGIN")}
                         </span>
                         <h2 className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-1">
-                            {industry.slug === "healthcare"
+                            {industry.faq_heading || (industry.slug === "healthcare"
                                 ? "EVERYTHING YOU NEED TO KNOW ABOUT OUR HEALTHCARE SOLUTIONS."
                                 : industry.slug === "food-fmcg"
                                 ? "YOUR QUESTIONS. OUR DIGITAL EXPERTISE."
@@ -927,12 +739,12 @@ export default function IndustryDetailClientView({
                                 : industry.slug === "education"
                                 ? "EVERYTHING YOU NEED TO KNOW ABOUT OUR EDUCATION SOLUTIONS."
                                 : "FREQUENTLY ASKED QUESTIONS"
-                            }
+                            )}
                         </h2>
                     </div>
 
                     <div className="space-y-3">
-                        {industry.faqs.map((faq, fIdx) => {
+                        {(industry.faqs || []).map((faq, fIdx) => {
                             const isOpen = openFaqIndex === fIdx;
 
                             return (

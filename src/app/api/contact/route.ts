@@ -17,7 +17,13 @@ export async function POST(request: Request) {
       source_page = "",
       project_slug = "",
       category_slug = "",
-      collection = body.collection || (body.source_page?.includes("/service") ? "service_cta" : "portfolio_inquiries"),
+      collection = body.collection || (
+        body.source_page?.includes("/industries")
+          ? "industry_inquiries"
+          : body.source_page?.includes("/service")
+          ? "service_cta"
+          : "portfolio_inquiries"
+      ),
     } = body;
 
     // Validate required fields

@@ -38,9 +38,9 @@ import CyberButton from "@/components/CyberButton";
 import PageBanner from "@/components/PageBanner";
 import PrintRevealImage from "@/components/PrintRevealImage";
 import WaveText from "@/components/WaveText";
-import { getJobDescriptions, JobDescription, submitCareerInquiry } from "@/lib/getCareerData";
+import { getJobDescriptions, JobDescription, submitCareerInquiry, getCareerHeroData, CareerHeroData } from "@/lib/getCareerData";
 
-const serviceCategories = [
+const defaultServiceCategories = [
     "All Roles",
     "Spatial 3D & E-Commerce",
     "Web & Cloud",
@@ -57,6 +57,7 @@ export default function CareerPage() {
     const [activeCategory, setActiveCategory] = useState("All Roles");
     const [searchQuery, setSearchQuery] = useState("");
     const [careerRoles, setCareerRoles] = useState<JobDescription[]>([]);
+    const [heroData, setHeroData] = useState<CareerHeroData | null>(null);
     const [selectedRole, setSelectedRole] = useState<JobDescription | null>(null);
     const [expandedRoleId, setExpandedRoleId] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
@@ -85,11 +86,17 @@ export default function CareerPage() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const data = await getJobDescriptions();
-                setCareerRoles(data);
-                if (data.length > 0) {
-                    setSelectedRole(data[0]);
-                    setFormData((prev) => ({ ...prev, jobRoleId: data[0]._id }));
+                const [jobs, hero] = await Promise.all([
+                    getJobDescriptions(),
+                    getCareerHeroData(),
+                ]);
+                setCareerRoles(jobs);
+                if (hero) {
+                    setHeroData(hero);
+                }
+                if (jobs.length > 0) {
+                    setSelectedRole(jobs[0]);
+                    setFormData((prev) => ({ ...prev, jobRoleId: jobs[0]._id || jobs[0].id || "" }));
                 }
             } catch (error) {
                 console.error("Failed to fetch career data:", error);
@@ -100,19 +107,41 @@ export default function CareerPage() {
         fetchData();
     }, []);
 
-    // Filtered job list
+    // Dynamically derive unique service categories from the backend jobs
+    const categories = useMemo(() => {
+        const unique = Array.from(
+            new Set(
+                careerRoles
+                    .map((r) => r.service_category?.trim())
+                    .filter(Boolean)
+            )
+        );
+        if (unique.length > 0) {
+            return ["All Roles", ...unique];
+        }
+        return defaultServiceCategories;
+    }, [careerRoles]);
+
+    // Filtered job list with robust null-checks
     const filteredRoles = useMemo(() => {
         return careerRoles.filter((role) => {
+            const cat = role.service_category || "";
             const matchesCategory =
                 activeCategory === "All Roles" ||
-                role.service_category.toLowerCase().includes(activeCategory.toLowerCase()) ||
-                activeCategory.toLowerCase().includes(role.service_category.toLowerCase());
+                cat.toLowerCase().trim() === activeCategory.toLowerCase().trim() ||
+                cat.toLowerCase().includes(activeCategory.toLowerCase()) ||
+                activeCategory.toLowerCase().includes(cat.toLowerCase());
 
+            const query = searchQuery.trim().toLowerCase();
             const matchesSearch =
-                role.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                role.service_category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                role.tagline.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                role.tech_stack.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
+                query === "" ||
+                (role.title && role.title.toLowerCase().includes(query)) ||
+                (role.service_category && role.service_category.toLowerCase().includes(query)) ||
+                (role.tagline && role.tagline.toLowerCase().includes(query)) ||
+                (role.department && role.department.toLowerCase().includes(query)) ||
+                (role.location && role.location.toLowerCase().includes(query)) ||
+                (role.description && role.description.toLowerCase().includes(query)) ||
+                (Array.isArray(role.tech_stack) && role.tech_stack.some((t) => t.toLowerCase().includes(query)));
 
             return matchesCategory && matchesSearch;
         });
@@ -120,10 +149,11 @@ export default function CareerPage() {
 
     // Handle clicking "Apply Now" on any card: updates form selection and scrolls to form (or opens drawer)
     const handleApplyClick = (role: JobDescription) => {
+        const roleId = role._id || role.id || "";
         setSelectedRole(role);
         setFormData((prev) => ({
             ...prev,
-            jobRoleId: role._id,
+            jobRoleId: roleId,
         }));
         if (formSectionRef.current) {
             formSectionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -255,34 +285,34 @@ export default function CareerPage() {
                         <div className="relative z-10 max-w-3xl space-y-4">
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase">
                                 <Sparkles className="w-3.5 h-3.5" />
-                                <span>R&amp;D ENGINEERING ATELIER</span>
+                                <span>{heroData?.tagline || "R&D ENGINEERING ATELIER"}</span>
                             </div>
                             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold text-white uppercase tracking-tight leading-tight">
-                                Build the Future of Digital &amp; Spatial Systems
+                                {heroData?.title || "Build the Future of Digital & Spatial Systems"}
                             </h1>
-                            <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed">
-                                We are an elite squad of spatial 3D architects, full-stack engineers, and creative technologists pushing the limits of the web. Explore high-autonomy opportunities mapped across our core engineering disciplines.
+                            <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed whitespace-pre-line">
+                                {(heroData?.description || "We are an elite squad of spatial 3D architects, full-stack engineers, and creative technologists pushing the limits of the web. Explore high-autonomy opportunities mapped across our core engineering disciplines.").trim()}
                             </p>
                         </div>
 
                         {/* Quick Stats Pill Grid */}
                         <div className="mt-8 pt-6 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-mono">
-                            <div className="p-3 bg-white/[0.02] border border-white/10">
-                                <p className="text-neutral-500 uppercase text-[10px] tracking-widest">Active Openings</p>
-                                <p className="text-lg font-bold text-[#FFD400] mt-1">{careerRoles.length} Positions</p>
-                            </div>
-                            <div className="p-3 bg-white/[0.02] border border-white/10">
-                                <p className="text-neutral-500 uppercase text-[10px] tracking-widest">Work Modality</p>
-                                <p className="text-lg font-bold text-white mt-1">Remote &amp; Hybrid</p>
-                            </div>
-                            <div className="p-3 bg-white/[0.02] border border-white/10">
-                                <p className="text-neutral-500 uppercase text-[10px] tracking-widest">Exploratory R&amp;D</p>
-                                <p className="text-lg font-bold text-white mt-1">20% Lab Time</p>
-                            </div>
-                            <div className="p-3 bg-white/[0.02] border border-white/10">
-                                <p className="text-neutral-500 uppercase text-[10px] tracking-widest">Application SLA</p>
-                                <p className="text-lg font-bold text-[#FFD400] mt-1">48-Hr Review</p>
-                            </div>
+                            {(heroData?.counter && heroData.counter.length > 0
+                                ? heroData.counter
+                                : [
+                                    { heading: "Active Openings", sub_heading: `${careerRoles.length || 5} Positions` },
+                                    { heading: "Work Modality", sub_heading: "Remote & Hybrid" },
+                                    { heading: "Exploratory R&D", sub_heading: "20% Lab Time" },
+                                    { heading: "Application SLA", sub_heading: "48-Hr Review" },
+                                ]
+                            ).map((item, idx) => (
+                                <div key={idx} className="p-3 bg-white/[0.02] border border-white/10">
+                                    <p className="text-neutral-500 uppercase text-[10px] tracking-widest">{item.heading}</p>
+                                    <p className={`text-lg font-bold mt-1 ${idx === 0 || idx === 3 ? "text-[#FFD400]" : "text-white"}`}>
+                                        {item.sub_heading || (idx === 0 ? `${careerRoles.length} Positions` : "")}
+                                    </p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </section>
@@ -295,7 +325,7 @@ export default function CareerPage() {
 
                         {/* Service Typology Filters */}
                         <div className="flex flex-wrap gap-2">
-                            {serviceCategories.map((cat) => {
+                            {categories.map((cat) => {
                                 const isSelected = activeCategory === cat;
                                 return (
                                     <button
@@ -332,7 +362,27 @@ export default function CareerPage() {
             3. JOB ROLES LISTING SECTION (With Right-to-Left Printer Reveal Images)
             ========================================================================= */}
                 <section className="career-jobs-grid max-w-7xl mx-auto px-6 md:px-12 py-12">
-                    {filteredRoles.length === 0 ? (
+                    {loading ? (
+                        <div className="space-y-6">
+                            {[1, 2, 3].map((i) => (
+                                <div key={i} className="min-h-[300px] bg-[#0c0e14] border border-white/10 p-8 flex flex-col justify-center space-y-4 animate-pulse">
+                                    <div className="flex gap-2">
+                                        <div className="h-5 w-24 bg-white/10" />
+                                        <div className="h-5 w-20 bg-white/10" />
+                                        <div className="h-5 w-16 bg-white/10" />
+                                    </div>
+                                    <div className="h-8 w-2/3 bg-white/10" />
+                                    <div className="h-4 w-full bg-white/5" />
+                                    <div className="h-4 w-4/5 bg-white/5" />
+                                    <div className="flex gap-2 pt-2">
+                                        <div className="h-6 w-16 bg-white/5" />
+                                        <div className="h-6 w-16 bg-white/5" />
+                                        <div className="h-6 w-16 bg-white/5" />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : filteredRoles.length === 0 ? (
                         <div className="text-center py-20 bg-[#0c0e14] border border-white/10 p-8 space-y-4">
                             <p className="text-sm font-mono text-neutral-400">
                                 No roles found matching &quot;{searchQuery}&quot; under {activeCategory}.
@@ -351,11 +401,12 @@ export default function CareerPage() {
                     ) : (
                         <div className="space-y-8">
                             {filteredRoles.map((role, idx) => {
-                                const isExpanded = expandedRoleId === role._id;
+                                const roleId = role._id || role.id || `role-${idx}`;
+                                const isExpanded = expandedRoleId === roleId;
 
                                 return (
                                     <article
-                                        key={role._id}
+                                        key={roleId}
                                         className="career-job-card group bg-[#0c0e14] border border-white/10 hover:border-[#FFD400]/50 transition-all duration-500 shadow-xl overflow-hidden flex flex-col"
                                     >
                                         <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch min-h-[340px]">
@@ -363,7 +414,7 @@ export default function CareerPage() {
                                             {/* Left: Role Image with Multi-Directional Smooth Glide & Settle Animation */}
                                             <div className="lg:col-span-5 xl:col-span-5 relative w-full h-[280px] sm:h-[340px] lg:h-auto min-h-full flex flex-col justify-stretch self-stretch overflow-hidden">
                                                 <PrintRevealImage
-                                                    src={role.image}
+                                                    src={role.image || "/banner/career.png"}
                                                     alt={role.title}
                                                     badge={role.service_category}
                                                     aspectClass="w-full h-full min-h-full"
@@ -375,21 +426,39 @@ export default function CareerPage() {
                                             {/* Right: Role Details & Actions */}
                                             <div className="lg:col-span-7 xl:col-span-7 p-6 sm:p-8 lg:p-9 space-y-5 flex flex-col justify-between">
                                                 <div className="space-y-4">
-                                                    {/* Meta Tags: Department • Level • Type • Location */}
+                                                    {/* Meta Tags: Category • Department • Level • Type • Experience • Location */}
                                                     <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-neutral-400">
-                                                        <span className="px-2.5 py-0.5 bg-[#FFD400]/15 text-[#FFD400] border border-[#FFD400]/30 font-bold">
-                                                            {role.service_category}
-                                                        </span>
-                                                        <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10">
-                                                            {role.department}
-                                                        </span>
-                                                        <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10 text-white font-medium">
-                                                            {role.level}
-                                                        </span>
-                                                        <span className="flex items-center gap-1 px-2.5 py-0.5 bg-white/[0.04] border border-white/10">
-                                                            <MapPin className="w-3 h-3 text-[#FFD400]" />
-                                                            <span>{role.location}</span>
-                                                        </span>
+                                                        {role.service_category && (
+                                                            <span className="px-2.5 py-0.5 bg-[#FFD400]/15 text-[#FFD400] border border-[#FFD400]/30 font-bold">
+                                                                {role.service_category}
+                                                            </span>
+                                                        )}
+                                                        {role.department && (
+                                                            <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10">
+                                                                {role.department}
+                                                            </span>
+                                                        )}
+                                                        {role.level && (
+                                                            <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10 text-white font-medium">
+                                                                {role.level}
+                                                            </span>
+                                                        )}
+                                                        {role.type && (
+                                                            <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10 text-neutral-300">
+                                                                {role.type}
+                                                            </span>
+                                                        )}
+                                                        {role.experience && (
+                                                            <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10 text-neutral-300">
+                                                                {role.experience}
+                                                            </span>
+                                                        )}
+                                                        {role.location && (
+                                                            <span className="flex items-center gap-1 px-2.5 py-0.5 bg-white/[0.04] border border-white/10">
+                                                                <MapPin className="w-3 h-3 text-[#FFD400]" />
+                                                                <span>{role.location}</span>
+                                                            </span>
+                                                        )}
                                                     </div>
 
                                                     {/* Role Title with Smooth Wave Animation */}
@@ -398,21 +467,25 @@ export default function CareerPage() {
                                                     </h2>
 
                                                     {/* Tagline */}
-                                                    <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
-                                                        {role.tagline}
-                                                    </p>
+                                                    {role.tagline && (
+                                                        <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
+                                                            {role.tagline}
+                                                        </p>
+                                                    )}
 
                                                     {/* Tech Stack Pills */}
-                                                    <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                                                        {role.tech_stack.map((tech) => (
-                                                            <span
-                                                                key={tech}
-                                                                className="px-2 py-0.5 bg-white/[0.03] border border-white/10 text-[10px] font-mono text-neutral-300"
-                                                            >
-                                                                {tech}
-                                                            </span>
-                                                        ))}
-                                                    </div>
+                                                    {Array.isArray(role.tech_stack) && role.tech_stack.length > 0 && (
+                                                        <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                                                            {role.tech_stack.map((tech) => (
+                                                                <span
+                                                                    key={tech}
+                                                                    className="px-2 py-0.5 bg-white/[0.03] border border-white/10 text-[10px] font-mono text-neutral-300"
+                                                                >
+                                                                    {tech}
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                    )}
                                                 </div>
 
                                                 {/* Compensation & Actions Row */}
@@ -422,18 +495,22 @@ export default function CareerPage() {
                                                             Compensation Package (Est.)
                                                         </span>
                                                         <p className="text-xs sm:text-sm font-mono text-[#FFD400] font-bold">
-                                                            {role.compensation}
+                                                            {role.compensation || "Competitive"}
                                                         </p>
                                                     </div>
 
                                                     <div className="flex items-center gap-3">
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => setExpandedRoleId(isExpanded ? null : role._id)}
-                                                            className="px-4 py-2 border border-white/20 hover:border-white text-xs font-mono uppercase tracking-wider text-neutral-300 hover:text-white transition-colors cursor-pointer"
-                                                        >
-                                                            {isExpanded ? "Hide Specs" : "View Specs"}
-                                                        </button>
+                                                        {((role.key_responsibilities && role.key_responsibilities.length > 0) ||
+                                                          (role.requirements && role.requirements.length > 0) ||
+                                                          role.description) && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => setExpandedRoleId(isExpanded ? null : roleId)}
+                                                                className="px-4 py-2 border border-white/20 hover:border-white text-xs font-mono uppercase tracking-wider text-neutral-300 hover:text-white transition-colors cursor-pointer"
+                                                            >
+                                                                {isExpanded ? "Hide Specs" : "View Specs"}
+                                                            </button>
+                                                        )}
 
                                                         <button
                                                             type="button"
@@ -451,33 +528,48 @@ export default function CareerPage() {
                                         {/* Inline Expandable Specs & Responsibilities */}
                                         {isExpanded && (
                                             <div className="p-6 sm:p-8 border-t border-white/10 bg-[#08090d]/80 grid grid-cols-1 md:grid-cols-2 gap-6 text-xs font-mono">
-                                                <div className="space-y-2.5">
-                                                    <span className="text-[#FFD400] font-bold uppercase tracking-wider block">
-                                                        Key Responsibilities
-                                                    </span>
-                                                    <ul className="space-y-2 text-neutral-300">
-                                                        {role.key_responsibilities.map((resp, idx) => (
-                                                            <li key={idx} className="flex items-start gap-2">
-                                                                <span className="text-[#FFD400] shrink-0 mt-0.5">›</span>
-                                                                <span className="font-light leading-relaxed">{resp}</span>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
+                                                {role.key_responsibilities && role.key_responsibilities.length > 0 && (
+                                                    <div className="space-y-2.5">
+                                                        <span className="text-[#FFD400] font-bold uppercase tracking-wider block">
+                                                            Key Responsibilities
+                                                        </span>
+                                                        <ul className="space-y-2 text-neutral-300">
+                                                            {role.key_responsibilities.map((resp, idx) => (
+                                                                <li key={idx} className="flex items-start gap-2">
+                                                                    <span className="text-[#FFD400] shrink-0 mt-0.5">›</span>
+                                                                    <span className="font-light leading-relaxed">{resp}</span>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                )}
 
-                                                <div className="space-y-2.5">
-                                                    <span className="text-white font-bold uppercase tracking-wider block">
-                                                        Core Prerequisites
-                                                    </span>
-                                                    <ul className="space-y-2 text-neutral-300">
-                                                        {role.requirements.map((req, idx) => (
-                                                            <li key={idx} className="flex items-start gap-2">
-                                                                <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400] shrink-0 mt-0.5" />
-                                                                <span className="font-light leading-relaxed">{req}</span>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
+                                                {role.requirements && role.requirements.length > 0 && (
+                                                    <div className="space-y-2.5">
+                                                        <span className="text-white font-bold uppercase tracking-wider block">
+                                                            Core Prerequisites
+                                                        </span>
+                                                        <ul className="space-y-2 text-neutral-300">
+                                                            {role.requirements.map((req, idx) => (
+                                                                <li key={idx} className="flex items-start gap-2">
+                                                                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400] shrink-0 mt-0.5" />
+                                                                    <span className="font-light leading-relaxed">{req}</span>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                )}
+
+                                                {role.description && (
+                                                    <div className="col-span-full pt-3 border-t border-white/5 space-y-1.5">
+                                                        <span className="text-[#FFD400] font-bold uppercase tracking-wider block text-[10px]">
+                                                            Role Overview
+                                                        </span>
+                                                        <p className="text-neutral-300 font-light leading-relaxed whitespace-pre-line text-xs font-mono">
+                                                            {role.description}
+                                                        </p>
+                                                    </div>
+                                                )}
                                             </div>
                                         )}
                                     </article>
@@ -579,7 +671,7 @@ export default function CareerPage() {
                                         onClick={() => {
                                             setIsSubmitted(false);
                                             setFormData({
-                                                jobRoleId: careerRoles[0]?._id || "",
+                                                jobRoleId: careerRoles[0]?._id || careerRoles[0]?.id || "",
                                                 fullName: "",
                                                 email: "",
                                                 phone: "",
@@ -609,16 +701,19 @@ export default function CareerPage() {
                                             onChange={(e) => {
                                                 const newRoleId = e.target.value;
                                                 setFormData({ ...formData, jobRoleId: newRoleId });
-                                                const found = careerRoles.find((r) => r._id === newRoleId);
+                                                const found = careerRoles.find((r) => (r._id || r.id) === newRoleId);
                                                 if (found) setSelectedRole(found);
                                             }}
                                             className="w-full px-3 py-2.5 text-xs font-mono bg-[#0c0e14] border border-white/15 text-white focus:outline-none focus:border-[#FFD400] transition-colors"
                                         >
-                                            {careerRoles.map((r) => (
-                                                <option key={r._id} value={r._id}>
-                                                    {r.title} ({r.service_category})
-                                                </option>
-                                            ))}
+                                            {careerRoles.map((r) => {
+                                                const rId = r._id || r.id || "";
+                                                return (
+                                                    <option key={rId} value={rId}>
+                                                        {r.title} ({r.service_category})
+                                                    </option>
+                                                );
+                                            })}
                                         </select>
                                     </div>
 

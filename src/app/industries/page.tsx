@@ -8,8 +8,6 @@ import {
     ArrowUpRight,
     Sparkles,
     Shield,
-    CheckCircle2,
-    Send,
     Building2,
     Briefcase,
     HeartPulse,
@@ -29,34 +27,141 @@ import PageBanner from "@/components/PageBanner";
 import PrintRevealImage from "@/components/PrintRevealImage";
 import WaveText from "@/components/WaveText";
 import AnimatedCounter from "@/components/AnimatedCounter";
-import { getIndustriesData, IndustryItemData } from "@/lib/getIndustriesData";
+import IndustryConsultationHeading from "@/components/IndustryConsultationHeading";
+import IndustryConsultationForm from "@/components/IndustryConsultationForm";
+import {
+    getIndustriesData,
+    IndustryItemData,
+    getIndustryHero,
+    IndustryHeroData,
+    DEFAULT_INDUSTRY_HERO,
+    getIndustryConsultation,
+    IndustryConsultationData,
+    DEFAULT_INDUSTRY_CONSULTATION,
+} from "@/lib/getIndustriesData";
+import {
+    getSectionHeading,
+    SectionHeading,
+    DEFAULT_SECTION_HEADINGS,
+} from "@/lib/getSectionHeading";
+import { industriesList as staticIndustriesList } from "@/data/industriesData";
+
+const INITIAL_INDUSTRIES: IndustryItemData[] = staticIndustriesList.map((item, idx) => ({
+    id: item.slug || String(idx),
+    slug: item.slug,
+    number: String(idx + 1).padStart(2, "0"),
+    title: item.title,
+    category: item.category,
+    badge: item.badge,
+    tagline: item.tagline,
+    shortInfo: item.shortInfo,
+    description: item.description,
+    image: item.image,
+    iconName: "Building2",
+    heroMetrics: item.heroMetrics || [],
+    works: item.works?.slice(0, 1) || [],
+    featured_project: item.works?.[0]?.title,
+}));
 
 export default function IndustriesIndexPage() {
     const [selectedCategory] = useState("All");
-    const [industriesList, setIndustriesList] = useState<IndustryItemData[]>([]);
-    const [inquiryIndustry, setInquiryIndustry] = useState("");
-    const [formSubmitted, setFormSubmitted] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [industriesList, setIndustriesList] = useState<IndustryItemData[]>(INITIAL_INDUSTRIES);
+    const [heroData, setHeroData] = useState<IndustryHeroData>(DEFAULT_INDUSTRY_HERO);
+    const [sectionHeading, setSectionHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.industries);
+    const [consultationData, setConsultationData] = useState<IndustryConsultationData>(DEFAULT_INDUSTRY_CONSULTATION);
     const mainRef = useRef<HTMLElement>(null);
 
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        service: "",
-        budget: "",
-        timeline: "",
-        message: "",
-    });
-
-    // Fetch industries data
+    // Fetch industries data, hero section data, parent heading, and consultation CTA
     useEffect(() => {
         getIndustriesData().then((data) => {
             setIndustriesList(data);
-            if (data.length > 0) {
-                setInquiryIndustry(data[0].title);
-            }
+        });
+
+        getIndustryHero().then((data) => {
+            if (data) setHeroData(data);
+        });
+
+        getSectionHeading("industries").then((heading) => {
+            if (heading) setSectionHeading(heading);
+        });
+
+        getIndustryConsultation().then((data) => {
+            if (data) setConsultationData(data);
         });
     }, []);
+
+    const renderSectionTitle = (titleText: string) => {
+        if (!titleText) return null;
+        const words = titleText.trim().split(" ");
+        if (words.length <= 2) {
+            return <span className="text-[#FFD400]">{titleText}</span>;
+        }
+        const lastTwo = words.slice(-2).join(" ");
+        const rest = words.slice(0, -2).join(" ");
+        return (
+            <>
+                {rest} <span className="text-[#FFD400]">{lastTwo}</span>
+            </>
+        );
+    };
+
+    const renderHighlightedHeading = (headingText: string) => {
+        if (!headingText) return null;
+        if (headingText.includes(".")) {
+            const dotIndex = headingText.indexOf(".");
+            const firstPart = headingText.slice(0, dotIndex + 1);
+            const secondPart = headingText.slice(dotIndex + 1).trim();
+            if (secondPart) {
+                return (
+                    <>
+                        {firstPart}{" "}
+                        <span className="text-[#FFD400]">{secondPart}</span>
+                    </>
+                );
+            }
+        }
+        const words = headingText.split(" ");
+        if (words.length > 2) {
+            const mid = Math.ceil(words.length / 2);
+            return (
+                <>
+                    {words.slice(0, mid).join(" ")}{" "}
+                    <span className="text-[#FFD400]">{words.slice(mid).join(" ")}</span>
+                </>
+            );
+        }
+        return headingText;
+    };
+
+    const heroMetrics = useMemo(() => {
+        const rawItems = heroData?.counter || DEFAULT_INDUSTRY_HERO.counter || [];
+        return rawItems.map((item: any) => {
+            if (typeof item === "string") {
+                const lines = item.split("\n").map((l: string) => l.trim()).filter(Boolean);
+                return {
+                    value: lines[0] || "",
+                    label: lines[1] || "",
+                    description: lines.slice(2).join(" ") || "",
+                };
+            }
+            if (item && typeof item === "object") {
+                if (item.counter_info) {
+                    const lines = String(item.counter_info).split("\n").map((l: string) => l.trim()).filter(Boolean);
+                    return {
+                        value: lines[0] || "",
+                        label: lines[1] || "",
+                        description: lines.slice(2).join(" ") || "",
+                    };
+                }
+                return {
+                    value: item.value || item.number || item.stat || item.count || "",
+                    label: item.label || item.title || item.name || "",
+                    description: item.description || item.desc || item.subtitle || item.info || "",
+                };
+            }
+            return { value: "", label: "", description: "" };
+        });
+    }, [heroData]);
 
     const filteredIndustries = useMemo(() => {
         if (selectedCategory === "All") return industriesList;
@@ -189,35 +294,6 @@ export default function IndustriesIndexPage() {
         };
     }, [filteredIndustries]);
 
-    const handleFormSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        try {
-            const res = await fetch("/api/contact", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    name: formData.name,
-                    email: formData.email,
-                    service: `${inquiryIndustry} — ${formData.service || "General"}`,
-                    budget: formData.budget,
-                    timeline: formData.timeline,
-                    message: formData.message || "Project brief submitted from Industries page.",
-                    source: "Industries Page",
-                }),
-            });
-            const data = await res.json();
-            if (!res.ok || !data.success) {
-                console.warn("Industry form submit warning:", data.error);
-            }
-            setFormSubmitted(true);
-        } catch (err) {
-            console.error("Industry form submit error:", err);
-            setFormSubmitted(true);
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
 
     const getIndustryIcon = (slug: string) => {
         switch (slug) {
@@ -280,39 +356,34 @@ export default function IndustriesIndexPage() {
                         <div className="relative z-10 max-w-3xl space-y-4">
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase">
                                 <Sparkles className="w-3.5 h-3.5" />
-                                <span>✧ INDUSTRIES WE EMPOWER // SOLUTIONS WITHOUT BOUNDARIES</span>
+                                <span>{heroData?.tagline || DEFAULT_INDUSTRY_HERO.tagline}</span>
                             </div>
                             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold text-white uppercase tracking-tight leading-tight">
-                                BUILT FOR EVERY INDUSTRY.{" "}
-                                <span className="text-[#FFD400]">ENGINEERED FOR WHAT&apos;S NEXT.</span>
+                                {renderHighlightedHeading(heroData?.heading || DEFAULT_INDUSTRY_HERO.heading)}
                             </h1>
-                            <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed">
-                                Every industry has a different challenge. Every business has a different ambition. At RND Technosoft, we bring technology, digital marketing, branding and creative production together to build solutions that help businesses adapt, compete and grow. From emerging startups to established enterprises, we turn industry-specific challenges into opportunities through innovation, strategic thinking and purposeful execution.
+                            <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed whitespace-pre-line">
+                                {heroData?.description || DEFAULT_INDUSTRY_HERO.description}
                             </p>
                         </div>
 
                         {/* Quick Metrics */}
                         <div className="mt-8 pt-6 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center sm:text-left">
-                            <div className="industry-metric-item">
-                                <span className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-[#FFD400]">2018</span>
-                                <p className="text-xs font-mono text-[#FFD400]/80 uppercase tracking-wider font-semibold mt-0.5">Established</p>
-                                <p className="text-[11px] font-mono text-neutral-400 mt-0.5">Building digital solutions since 2018</p>
-                            </div>
-                            <div className="industry-metric-item">
-                                <span className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-white">04</span>
-                                <p className="text-xs font-mono text-[#FFD400]/80 uppercase tracking-wider font-semibold mt-0.5">Core Divisions</p>
-                                <p className="text-[11px] font-mono text-neutral-400 mt-0.5">Technology, Marketing, Design &amp; Media</p>
-                            </div>
-                            <div className="industry-metric-item">
-                                <span className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-[#FFD400]">360°</span>
-                                <p className="text-xs font-mono text-[#FFD400]/80 uppercase tracking-wider font-semibold mt-0.5">Digital Capabilities</p>
-                                <p className="text-[11px] font-mono text-neutral-400 mt-0.5">Integrated services under one roof</p>
-                            </div>
-                            <div className="industry-metric-item">
-                                <span className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-white">B2B</span>
-                                <p className="text-xs font-mono text-[#FFD400]/80 uppercase tracking-wider font-semibold mt-0.5">Business Focus</p>
-                                <p className="text-[11px] font-mono text-neutral-400 mt-0.5">Solutions designed around business needs</p>
-                            </div>
+                            {heroMetrics.map((metric, mIdx) => {
+                                const isYellow = mIdx % 2 === 0;
+                                return (
+                                    <div key={mIdx} className="industry-metric-item">
+                                        <span className={`text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold ${isYellow ? "text-[#FFD400]" : "text-white"}`}>
+                                            {metric.value}
+                                        </span>
+                                        <p className="text-xs font-mono text-[#FFD400]/80 uppercase tracking-wider font-semibold mt-0.5">
+                                            {metric.label}
+                                        </p>
+                                        <p className="text-[11px] font-mono text-neutral-400 mt-0.5">
+                                            {metric.description}
+                                        </p>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                 </section>
@@ -324,11 +395,16 @@ export default function IndustriesIndexPage() {
                     <div className="industry-section-header mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
                         <div>
                             <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
-                                INDUSTRIES WE SERVE
+                                {sectionHeading?.badge || "INDUSTRIES WE SERVEs"}
                             </span>
                             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-1">
-                                SOLUTIONS BUILT AROUND <span className="text-[#FFD400]">YOUR WORLD.</span>
+                                {renderSectionTitle(sectionHeading?.title || "SOLUTIONS BUILT AROUND YOUR WORLD.")}
                             </h2>
+                            {sectionHeading?.subtitle && (
+                                <p className="text-xs sm:text-sm text-neutral-300 font-light mt-1">
+                                    {sectionHeading.subtitle}
+                                </p>
+                            )}
                         </div>
                         <p className="text-xs font-mono text-neutral-400">
                             Showing {filteredIndustries.length} Industry Hubs
@@ -339,12 +415,13 @@ export default function IndustriesIndexPage() {
                     <div className="space-y-10">
                         {filteredIndustries.map((ind, idx) => {
                             const Icon = getIndustryIcon(ind.slug);
-                            const previewWork = ind.works[0];
-                            const cardImage = INDUSTRY_CARD_IMAGES[ind.slug] || ind.image || previewWork?.image || "/Industries/manufacturing_mockup.png";
+                            const previewWork = ind.works?.[0] || { title: ind.featured_project || "Flagship Solution" };
+                            const cardImage = ind.image || INDUSTRY_CARD_IMAGES[ind.slug] || previewWork?.image || "/Industries/manufacturing_mockup.png";
+                            const showcaseTitle = ind.featured_project || previewWork?.title || "Flagship Architecture Solution";
 
                             return (
                                 <article
-                                    key={ind.slug}
+                                    key={ind.slug || ind.id || idx}
                                     className="industry-card-item group bg-[#0c0e14]/60 backdrop-blur-md border border-white/10 hover:border-[#FFD400]/50 transition-all duration-500 shadow-xl overflow-hidden flex flex-col"
                                 >
                                     <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch min-h-[360px]">
@@ -353,7 +430,7 @@ export default function IndustriesIndexPage() {
                                         <div className="lg:col-span-5 xl:col-span-5 relative w-full h-[280px] sm:h-[340px] lg:h-auto min-h-full flex flex-col justify-stretch self-stretch overflow-hidden">
                                             <PrintRevealImage
                                                 src={cardImage}
-                                                alt={previewWork?.title || ind.title}
+                                                alt={showcaseTitle || ind.title}
                                                 badge={ind.badge}
                                                 aspectClass="w-full h-full min-h-full"
                                                 className="w-full h-full border-0 lg:border-r border-white/10"
@@ -368,17 +445,17 @@ export default function IndustriesIndexPage() {
 
                                                 {/* Meta Tags: Number • Category • Standard */}
                                                 <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-neutral-400">
-                                                    <span className="px-2.5 py-0.5 bg-[#FFD400]/15 text-[#FFD400] border border-[#FFD400]/30 font-bold flex items-center gap-1.5">
+                                                    {/* <span className="px-2.5 py-0.5 bg-[#FFD400]/15 text-[#FFD400] border border-[#FFD400]/30 font-bold flex items-center gap-1.5">
                                                         <Icon className="w-3 h-3" />
                                                         <span>VERTICAL {ind.number}</span>
-                                                    </span>
-                                                    <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10">
+                                                    </span> */}
+                                                    {/* <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10">
                                                         {ind.category}
                                                     </span>
                                                     <span className="flex items-center gap-1 px-2.5 py-0.5 bg-white/[0.04] border border-white/10 text-white">
                                                         <Shield className="w-3 h-3 text-[#FFD400]" />
                                                         <span>{ind.badge}</span>
-                                                    </span>
+                                                    </span> */}
                                                 </div>
 
                                                 {/* Title with Smooth Wave Animation */}
@@ -401,19 +478,21 @@ export default function IndustriesIndexPage() {
                                                 )}
 
                                                 {/* Key Metrics Pills with Animated Counter */}
-                                                <div className="flex flex-wrap items-center gap-2 pt-1">
-                                                    {ind.heroMetrics.map((m, mIdx) => (
-                                                        <div
-                                                            key={mIdx}
-                                                            className="px-3 py-1 bg-white/[0.03] border border-white/10 text-xs font-mono"
-                                                        >
-                                                            <span className="text-neutral-400">{m.label}: </span>
-                                                            <strong className="text-[#FFD400]">
-                                                                <AnimatedCounter text={m.value} duration={1.6} />
-                                                            </strong>
-                                                        </div>
-                                                    ))}
-                                                </div>
+                                                {ind.heroMetrics && ind.heroMetrics.length > 0 && (
+                                                    <div className="flex flex-wrap items-center gap-2 pt-1">
+                                                        {ind.heroMetrics.map((m, mIdx) => (
+                                                            <div
+                                                                key={mIdx}
+                                                                className="px-3 py-1 bg-white/[0.03] border border-white/10 text-xs font-mono"
+                                                            >
+                                                                <span className="text-neutral-400">{m.label}: </span>
+                                                                <strong className="text-[#FFD400]">
+                                                                    <AnimatedCounter text={m.value} duration={1.6} />
+                                                                </strong>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )}
                                             </div>
 
                                             {/* Featured Project Snapshot & Action Button */}
@@ -423,7 +502,7 @@ export default function IndustriesIndexPage() {
                                                         Showcase Project
                                                     </span>
                                                     <p className="text-xs font-mono text-white font-medium line-clamp-1">
-                                                        {previewWork.title}
+                                                        {showcaseTitle}
                                                     </p>
                                                 </div>
 
@@ -448,194 +527,16 @@ export default function IndustriesIndexPage() {
             ========================================================================= */}
                 <section className="industry-consult-section max-w-7xl mx-auto px-6 md:px-12 py-16 border-t border-white/10">
                     <div className="bg-[#0c0e14]/60 backdrop-blur-md border border-white/15 p-8 sm:p-12 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-
-                        {/* Left Info */}
-                        <div className="industry-consult-left lg:col-span-5 space-y-5">
-                            <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold flex items-center gap-2">
-                                <Sparkles className="w-4 h-4" />
-                                <span>✧ LET&apos;S BUILD SOMETHING MEANINGFUL</span>
-                            </span>
-                            <h2 className="font-[family-name:var(--font-syne)] text-2xl sm:text-3xl lg:text-4xl text-white font-bold uppercase leading-tight">
-                                YOUR INDUSTRY.<br />
-                                OUR EXPERTISE.<br />
-                                <span className="text-[#FFD400]">ONE SHARED VISION.</span>
-                            </h2>
-                            <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light">
-                                Every business has a different challenge and a bigger ambition. Tell us where you want to go, and our team will help you identify the right digital, creative and technology solutions to get there.
-                            </p>
-
-                            <div className="p-4 bg-white/[0.02] border border-white/10 space-y-2.5 text-xs font-mono text-neutral-300">
-                                <p className="text-[10px] font-mono uppercase tracking-[0.22em] text-[#FFD400] font-semibold mb-2">WHY CONNECT WITH RND?</p>
-                                <div className="flex items-center gap-2">
-                                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400] shrink-0" />
-                                    <span>Solutions tailored to your business goals</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400] shrink-0" />
-                                    <span>Integrated technology and creative expertise</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400] shrink-0" />
-                                    <span>A collaborative approach from concept to execution</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Right Form */}
-                        <div className="industry-consult-right lg:col-span-7">
-                            {formSubmitted ? (
-                                <div className="p-8 bg-black/60 border border-[#FFD400]/40 text-center space-y-3">
-                                    <div className="w-12 h-12 rounded-full bg-[#FFD400]/20 border border-[#FFD400] text-[#FFD400] flex items-center justify-center mx-auto">
-                                        <CheckCircle2 className="w-6 h-6" />
-                                    </div>
-                                    <h3 className="font-[family-name:var(--font-syne)] text-xl font-bold text-white uppercase">
-                                        Enquiry Received
-                                    </h3>
-                                    <p className="text-xs text-neutral-300 font-mono max-w-md mx-auto">
-                                        Thank you. Our team will review your requirements and get in touch to discuss the next steps.
-                                    </p>
-                                </div>
-                            ) : (
-                                <form onSubmit={handleFormSubmit} className="space-y-4">
-                                    {/* Form header */}
-                                    <div className="pb-3 border-b border-white/10">
-                                        <h3 className="font-[family-name:var(--font-syne)] text-lg font-bold text-white uppercase tracking-tight">
-                                            Initiate Your Project Brief
-                                        </h3>
-                                        <p className="text-xs text-neutral-400 font-light mt-0.5">
-                                            Share a few details about your business and requirements. Our team will connect with you to discuss the next steps.
-                                        </p>
-                                    </div>
-
-                                    {/* Row 1: Name + Email */}
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <div>
-                                            <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                                Your Name <span className="text-red-400">*</span>
-                                            </label>
-                                            <input
-                                                type="text"
-                                                required
-                                                placeholder="Your full name"
-                                                value={formData.name}
-                                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                                className="w-full px-3.5 py-2.5 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                                Business Email Address <span className="text-red-400">*</span>
-                                            </label>
-                                            <input
-                                                type="email"
-                                                required
-                                                placeholder="your@business.com"
-                                                value={formData.email}
-                                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                                className="w-full px-3.5 py-2.5 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    {/* Row 2: Industry + Service */}
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <div>
-                                            <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                                Select Your Industry <span className="text-red-400">*</span>
-                                            </label>
-                                            <select
-                                                required
-                                                value={inquiryIndustry}
-                                                onChange={(e) => setInquiryIndustry(e.target.value)}
-                                                className="w-full px-3 py-2.5 text-xs font-mono bg-[#0c0e14] border border-white/15 text-white focus:outline-none focus:border-[#FFD400] transition-colors"
-                                            >
-                                                <option value="" disabled>Select your industry</option>
-                                                <option value="Manufacturing & Industrial">Manufacturing &amp; Industrial</option>
-                                                <option value="Healthcare & Dental">Healthcare &amp; Dental</option>
-                                                <option value="Food & FMCG">Food &amp; FMCG</option>
-                                                <option value="Retail & E-Commerce">Retail &amp; E-Commerce</option>
-                                                <option value="Hospitality & Resorts">Hospitality &amp; Resorts</option>
-                                                <option value="Education & Training">Education &amp; Training</option>
-                                                <option value="Real Estate & Construction">Real Estate &amp; Construction</option>
-                                                <option value="Startups & Professional Services">Startups &amp; Professional Services</option>
-                                                <option value="Travel & Tourism">Travel &amp; Tourism</option>
-                                                <option value="Finance & FinTech">Finance &amp; FinTech</option>
-                                                <option value="Other">Other</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                                Service You&apos;re Interested In
-                                            </label>
-                                            <select
-                                                value={formData.service}
-                                                onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                                                className="w-full px-3 py-2.5 text-xs font-mono bg-[#0c0e14] border border-white/15 text-white focus:outline-none focus:border-[#FFD400] transition-colors"
-                                            >
-                                                <option value="">Select a service</option>
-                                                <option value="Technology Solutions">Technology Solutions</option>
-                                                <option value="Digital Marketing">Digital Marketing</option>
-                                                <option value="Branding & Design">Branding &amp; Design</option>
-                                                <option value="Media Production">Media Production</option>
-                                                <option value="All / Integrated Solution">All / Integrated Solution</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    {/* Row 3: Budget */}
-                                    <div>
-                                        <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                            Expected Budget
-                                        </label>
-                                        <select
-                                            value={formData.budget}
-                                            onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                                            className="w-full px-3 py-2.5 text-xs font-mono bg-[#0c0e14] border border-white/15 text-white focus:outline-none focus:border-[#FFD400] transition-colors"
-                                        >
-                                            <option value="">Select budget range</option>
-                                            <option value="Below ₹25,000">Below ₹25,000</option>
-                                            <option value="₹25,000 – ₹50,000">₹25,000 – ₹50,000</option>
-                                            <option value="₹50,000 – ₹1,00,000">₹50,000 – ₹1,00,000</option>
-                                            <option value="₹1,00,000 – ₹3,00,000">₹1,00,000 – ₹3,00,000</option>
-                                            <option value="₹3,00,000 – ₹5,00,000">₹3,00,000 – ₹5,00,000</option>
-                                            <option value="₹5,00,000+">₹5,00,000+</option>
-                                            <option value="Flexible / Need Consultation">Flexible / Need Consultation</option>
-                                        </select>
-                                    </div>
-
-                                    {/* Row 4: Project Brief */}
-                                    <div>
-                                        <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                            Tell Us About Your Project
-                                        </label>
-                                        <textarea
-                                            rows={3}
-                                            placeholder="Describe your business, objectives, challenges and what you're looking to achieve..."
-                                            value={formData.message}
-                                            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                            className="w-full p-3 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors resize-none"
-                                        />
-                                    </div>
-
-                                    <div className="pt-2">
-                                        <button
-                                            type="submit"
-                                            disabled={isSubmitting}
-                                            className="w-full sm:w-auto px-8 py-3.5 bg-[#FFD400] hover:bg-[#ffe34d] text-black text-xs font-mono uppercase tracking-[0.2em] font-bold transition-all shadow-[0_0_20px_rgba(255,212,0,0.3)] flex items-center justify-center space-x-2 group cursor-pointer disabled:opacity-60"
-                                        >
-                                            {isSubmitting ? (
-                                                <span>Sending...</span>
-                                            ) : (
-                                                <>
-                                                    <span>Submit Project Brief</span>
-                                                    <Send className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                                                </>
-                                            )}
-                                        </button>
-                                    </div>
-                                </form>
-                            )}
-                        </div>
+                        <IndustryConsultationHeading
+                            data={consultationData}
+                            className="lg:col-span-5"
+                        />
+                        <IndustryConsultationForm
+                            industries={industriesList.map(ind => ind.title)}
+                            formTitle={consultationData.form_title}
+                            formDescription={consultationData.form_description}
+                            className="lg:col-span-7"
+                        />
                     </div>
                 </section>
             </main>

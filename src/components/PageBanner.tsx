@@ -29,7 +29,7 @@ export default function PageBanner({
   parentBreadcrumb,
   imageSrc = "/banner.png",
   className = "",
-  imagePosition = "object-[center_62%]",
+  imagePosition = "object-[center_60%]",
   imageClassName = "",
   imageStyle,
   size = "default",

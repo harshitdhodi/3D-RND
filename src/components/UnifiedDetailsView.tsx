@@ -106,6 +106,7 @@ export interface UnifiedDetailItem {
     processHeading?: string;
     processHighlightTitle?: string;
     processSubheading?: string;
+    ctaHeading?: any;
 }
 
 export interface RelatedItemSummary {
@@ -256,10 +257,12 @@ export default function UnifiedDetailsView({
             <Navbar />
 
             {/* Page Banner - Compact 2-line title matching Contact Us banner height */}
-            <PageBanner title={item.title}
+            <PageBanner
+                title="INTEGRATED CAPABILITIES"
                 breadcrumb={item.title}
                 parentBreadcrumb={{ label: parentLabel, href: parentPath }}
-             imageSrc={getCategoryBanner(parentPath, type)} />
+                imageSrc={getCategoryBanner(parentPath, type)}
+            />
 
             <main className="relative z-20 w-full bg-transparent overflow-hidden">
 
@@ -277,7 +280,7 @@ export default function UnifiedDetailsView({
                             <div className="space-y-3">
                                 <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono uppercase tracking-[0.2em] font-semibold">
                                     <Sparkles className="w-3.5 h-3.5" />
-                                    <span>{item.badge || "Engineering Discipline & Methodology"}</span>
+                                    <span>{item.badge && !item.badge.includes('#') && !item.badge.includes(',') ? item.badge : (item.title || "Engineering Discipline & Methodology")}</span>
                                 </div>
                                 <h2 className="font-[family-name:var(--font-syne)] text-3xl sm:text-4xl lg:text-5xl text-white font-bold leading-[1.15] uppercase">
                                     {/* The Architectural Craft Behind{" "} */}
@@ -645,9 +648,7 @@ export default function UnifiedDetailsView({
                     id="inquire-form"
                     defaultService={fullTitle}
                     category={item.category}
-                    badge="Turnkey Commission Dialogue"
-                    title={`Ready to Architect ${fullTitle}?`}
-                    subtitle="Share your technical goals, target timeline, and key milestones. Our principal software architects will review your brief and respond within 4 business hours."
+                    initialData={item.ctaHeading}
                 />
 
             </main>

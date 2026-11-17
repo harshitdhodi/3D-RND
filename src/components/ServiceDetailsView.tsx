@@ -108,6 +108,7 @@ export default function ServiceDetailsView({
     processBadge: (service as any).process_sec_tagline,
     processHeading: (service as any).process_sec_heading,
     processSubheading: (service as any).process_sec_subheading,
+    ctaHeading: (service as any).ctaHeading,
   };
 
   // Map all services for the related section

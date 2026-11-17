@@ -17,10 +17,10 @@ import {
   Check,
 } from "lucide-react";
 import {
-  getSectionHeading,
-  SectionHeading,
-  DEFAULT_SECTION_HEADINGS,
-} from "@/lib/getSectionHeading";
+  getServiceCTAData,
+  ServiceCTAData,
+  DEFAULT_SERVICE_CTA,
+} from "@/lib/getServiceCTAData";
 
 export interface ServiceConversionCTAProps {
   id?: string;
@@ -31,6 +31,7 @@ export interface ServiceConversionCTAProps {
   badge?: string;
   sourcePage?: string;
   projectSlug?: string;
+  initialData?: ServiceCTAData;
 }
 
 const SERVICE_OPTIONS = [
@@ -78,31 +79,17 @@ export default function ServiceConversionCTA({
   badge,
   sourcePage,
   projectSlug,
+  initialData,
 }: ServiceConversionCTAProps) {
-  const [heading, setHeading] = useState<SectionHeading>(
-    DEFAULT_SECTION_HEADINGS.service_cta || {
-      badge: badge || "✳ START YOUR PROJECT // DIGITAL ARCHITECTURE",
-      title: title || "LET'S ENGINEER YOUR NEXT BIG IDEA.",
-      subtitle:
-        subtitle ||
-        "From custom website development and mobile applications to enterprise software and e-commerce platforms, let's turn your business requirements into powerful digital solutions.",
-      tagline:
-        "From custom website development and mobile applications to enterprise software and e-commerce platforms, let's turn your business requirements into powerful digital solutions.",
-    }
-  );
+  const [ctaData, setCtaData] = useState<ServiceCTAData>(initialData || DEFAULT_SERVICE_CTA);
 
   useEffect(() => {
-    getSectionHeading("service_cta").then((res) => {
-      if (res) {
-        setHeading((prev) => ({
-          ...prev,
-          badge: badge || res.badge || prev.badge,
-          title: title || res.title || prev.title,
-          subtitle: subtitle || res.subtitle || res.tagline || prev.subtitle,
-        }));
+    getServiceCTAData().then((data) => {
+      if (data) {
+        setCtaData(data);
       }
     });
-  }, [badge, title, subtitle]);
+  }, []);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -197,12 +184,12 @@ export default function ServiceConversionCTA({
             <div className="relative z-10 text-center max-w-3xl mx-auto mb-12 sm:mb-16">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>{heading.badge || badge || "✳ START YOUR PROJECT // DIGITAL ARCHITECTURE"}</span>
+                <span>{badge || ctaData.badge || "✳ START YOUR PROJECT // DIGITAL ARCHITECTURE"}</span>
               </div>
 
-              <h2 className="text-3xl sm:text-5xl lg:text-6xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.04] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
+              <h2 className="text-3xl sm:text-5xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.04] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
                 {(() => {
-                  const raw = heading.title || title || "LET'S ENGINEER YOUR NEXT BIG IDEA.";
+                  const raw = title || ctaData.title || "LET'S ENGINEER YOUR NEXT BIG IDEA.";
                   if (raw.includes("NEXT BIG IDEA")) {
                     const parts = raw.split("NEXT BIG IDEA");
                     return (
@@ -233,10 +220,7 @@ export default function ServiceConversionCTA({
               </h2>
 
               <p className="text-sm sm:text-base font-normal mt-4 leading-relaxed text-neutral-300">
-                {heading.subtitle ||
-                  heading.tagline ||
-                  subtitle ||
-                  "From custom website development and mobile applications to enterprise software and e-commerce platforms, let's turn your business requirements into powerful digital solutions."}
+                {subtitle || ctaData.tagline || ctaData.subtitle || "From custom website development and mobile applications to enterprise software and e-commerce platforms, let's turn your business requirements into powerful digital solutions."}
               </p>
             </div>
 

@@ -357,6 +357,25 @@ export default function CosmicProcessSection({
                       )}
                     </div>
 
+                    {/* Bottom Deliverable Bar / Step Indicator */}
+                    {isActive ? (
+                      <div className="pt-2.5 border-t border-black/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mt-auto">
+                        <span className="text-[10px] xl:text-[11px] font-mono font-bold tracking-wider uppercase leading-tight text-black/90">
+                          OUTPUT: {step.deliverable}
+                        </span>
+                        <Link
+                          href="#contact"
+                          className="px-3.5 py-1.5 rounded-lg bg-black text-[#FFD400] text-xs font-mono font-bold tracking-wider uppercase inline-flex items-center space-x-1.5 hover:bg-neutral-900 transition-colors shadow-sm shrink-0"
+                        >
+                          <span>MORE DETAIL</span>
+                          <ArrowUpRight className="w-3.5 h-3.5" />
+                        </Link>
+                      </div>
+                    ) : (
+                      <div className="font-mono text-xs font-bold tracking-wider opacity-60 mt-auto">
+                        0{idx + 1}
+                      </div>
+                    )}
                   </div>
                 );
               })}

@@ -1061,6 +1061,73 @@ export default function ServiceUniverseSection({
     };
   }, []);
 
+  const formatTitleWithHighlight = (titleText: string) => {
+    if (!titleText) {
+      return (
+        <>THE TECHNOLOGY BEHIND <span className="text-[#FFD400]">EVERY DIGITAL SOLUTION</span></>
+      );
+    }
+    const upper = titleText.toUpperCase();
+    if (upper.includes("EVERY DIGITAL SOLUTION")) {
+      const idx = upper.indexOf("EVERY DIGITAL SOLUTION");
+      return (
+        <>
+          {titleText.substring(0, idx)}
+          <span className="text-[#FFD400]">{titleText.substring(idx)}</span>
+        </>
+      );
+    }
+    if (upper.includes("TECHNOLOGY ARCHITECTURE")) {
+      const idx = upper.indexOf("TECHNOLOGY ARCHITECTURE");
+      return (
+        <>
+          {titleText.substring(0, idx)}
+          <span className="text-[#FFD400]">{titleText.substring(idx)}</span>
+        </>
+      );
+    }
+    if (upper.includes("DIGITAL SOLUTION")) {
+      const idx = upper.indexOf("DIGITAL SOLUTION");
+      return (
+        <>
+          {titleText.substring(0, idx)}
+          <span className="text-[#FFD400]">{titleText.substring(idx)}</span>
+        </>
+      );
+    }
+    const words = titleText.trim().split(" ");
+    if (words.length >= 4) {
+      return (
+        <>
+          {words.slice(0, -3).join(" ")}{" "}
+          <span className="text-[#FFD400]">{words.slice(-3).join(" ")}</span>
+        </>
+      );
+    }
+    if (words.length >= 2) {
+      return (
+        <>
+          {words.slice(0, -1).join(" ")}{" "}
+          <span className="text-[#FFD400]">{words.slice(-1).join(" ")}</span>
+        </>
+      );
+    }
+    return <>{titleText}</>;
+  };
+
+  const parsedTaglineParagraphs = useMemo(() => {
+    const raw = heading?.tagline || heading?.subtitle;
+    if (!raw) return [];
+    const trimmed = raw.trim();
+    if (trimmed.includes("\n")) {
+      return trimmed.split(/\n+/).map((p) => p.trim()).filter(Boolean);
+    }
+    const normalized = trimmed
+      .replace(/\.([A-Z])/g, ".\n$1")
+      .replace(/\.\s+([A-Z])/g, ".\n$1");
+    return normalized.split(/\n+/).map((p) => p.trim()).filter(Boolean);
+  }, [heading?.tagline, heading?.subtitle]);
+
   const titleParts = useMemo(() => {
     const raw = heading?.title || "MULTIVERSE TECHNOLOGY ARCHITECTURE";
     if (raw.toUpperCase().includes("TECHNOLOGY ARCHITECTURE")) {
@@ -1213,21 +1280,29 @@ export default function ServiceUniverseSection({
           <div className="text-center max-w-4xl mx-auto mb-10 sm:mb-12">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>✳ PRODUCTION TECHNOLOGY ECOSYSTEM</span>
+              <span>
+                {(heading?.badge || "PRODUCTION TECHNOLOGY ECOSYSTEM")
+                  .replace(/^[\s#*✳✨]+/, "")
+                  .trim()}
+              </span>
             </div>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.05] text-white">
               {division.id.includes("technology") ? (
-                <>THE TECHNOLOGY BEHIND <span className="text-[#FFD400]">EVERY DIGITAL SOLUTION</span></>
+                formatTitleWithHighlight(
+                  heading?.title || "THE TECHNOLOGY BEHIND EVERY DIGITAL SOLUTION"
+                )
               ) : (
                 <>{division.serviceName} <span className="text-[#FFD400]">TECHNOLOGY ARCHITECTURE</span></>
               )}
             </h2>
             {division.id.includes("technology") ? (
-              <div className="text-xs sm:text-sm md:text-base font-normal mt-4 space-y-2 leading-relaxed text-neutral-300 font-[family-name:var(--font-jakarta)] max-w-3xl mx-auto text-left sm:text-center">
-                <p>At RND Technosoft, we believe the right technology makes the difference between a functional product and a powerful digital solution.</p>
-                <p>Our development ecosystem brings together modern frontend frameworks, backend technologies, robust database systems, cross-platform development tools and cloud-ready deployment technologies.</p>
-                <p>Whether you need custom website development, enterprise software, web application development or mobile app solutions, our technology capabilities help create secure, scalable and performance-driven digital experiences.</p>
-                <p className="font-semibold text-white pt-1">From concept to deployment, we engineer technology that moves your business forward.</p>
+              <div className="text-xs sm:text-sm md:text-base font-normal mt-4 leading-relaxed text-neutral-300 font-[family-name:var(--font-jakarta)] max-w-3xl mx-auto text-left sm:text-center">
+                <p className="font-light text-white">
+                  {parsedTaglineParagraphs.length > 0
+                    ? parsedTaglineParagraphs.join(" ")
+                    : heading?.tagline ||
+                      "RND Technosoft, we believe the right technology makes the difference between a functional product and a powerful digital solution."}
+                </p>
               </div>
             ) : (
               <p className="text-xs sm:text-sm md:text-base font-normal mt-3 leading-relaxed text-neutral-300 font-[family-name:var(--font-jakarta)]">
@@ -1338,7 +1413,11 @@ export default function ServiceUniverseSection({
           <div className="text-center max-w-4xl mx-auto mb-10 sm:mb-14">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>{heading.badge || "SERVICE UNIVERSE // INTEGRATED TECHNOLOGY ARCHITECTURE"}</span>
+              <span>
+                {(heading.badge || "SERVICE UNIVERSE // INTEGRATED TECHNOLOGY ARCHITECTURE")
+                  .replace(/^[\s#*✳✨]+/, "")
+                  .trim()}
+              </span>
             </div>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[0.98] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
               {titleParts.main}{" "}

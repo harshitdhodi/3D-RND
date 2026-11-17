@@ -44,11 +44,10 @@ export default function CategoryPageClient({ data }: { data: CategoryPageData })
       <Navbar />
 
       <PageBanner
-        title={data.bannerTitle}
-        subtitle={data.bannerSubtitle}
+        title="INTEGRATED CAPABILITIES"
         breadcrumb={data.breadcrumb}
+        imageSrc="/NewBanner/service.png"
         parentBreadcrumb={{ label: "Services", href: "/services" }}
-        imageSrc={data.bannerImage}
       />
 
       <main className="relative z-20 w-full max-w-full bg-transparent overflow-x-hidden">

@@ -6,6 +6,62 @@ import Image from "next/image";
 import { ArrowUpRight, Sparkles, TrendingUp, Layers, CheckCircle2 } from "lucide-react";
 import { portfolioData, PortfolioProjectDetail } from "@/data/portfolioData";
 
+export const PORTFOLIO_CATEGORY_SLUG_MAP: Record<string, string> = {
+  "Website & Web Application Projects": "website-and-web-application-projects",
+  "Mobile App Projects": "mobile-app-projects",
+  "Digital Marketing Projects": "digital-marketing-projects",
+  "Branding & Graphic Design": "branding-and-graphic-design",
+  "Videography & Photography": "videography-and-photography",
+};
+
+export function getPortfolioCategorySlug(categoryName?: string, serviceCat?: string): string {
+  if (categoryName && PORTFOLIO_CATEGORY_SLUG_MAP[categoryName]) {
+    return PORTFOLIO_CATEGORY_SLUG_MAP[categoryName];
+  }
+
+  const catLower = (categoryName || serviceCat || "").toLowerCase();
+
+  if (
+    catLower.includes("tech") ||
+    catLower.includes("web") ||
+    catLower.includes("cloud") ||
+    catLower.includes("software") ||
+    catLower.includes("dev")
+  ) {
+    return "website-and-web-application-projects";
+  }
+  if (catLower.includes("mobile") || catLower.includes("app")) {
+    return "mobile-app-projects";
+  }
+  if (
+    catLower.includes("market") ||
+    catLower.includes("seo") ||
+    catLower.includes("growth") ||
+    catLower.includes("ppc") ||
+    catLower.includes("social")
+  ) {
+    return "digital-marketing-projects";
+  }
+  if (
+    catLower.includes("brand") ||
+    catLower.includes("design") ||
+    catLower.includes("ux") ||
+    catLower.includes("ui")
+  ) {
+    return "branding-and-graphic-design";
+  }
+  if (
+    catLower.includes("media") ||
+    catLower.includes("video") ||
+    catLower.includes("film") ||
+    catLower.includes("photo")
+  ) {
+    return "videography-and-photography";
+  }
+
+  return "website-and-web-application-projects";
+}
+
 interface ServiceRelatedProjectsSectionProps {
   category?: string;
   currentServiceId?: string;
@@ -86,6 +142,14 @@ export default function ServiceRelatedProjectsSection({
     return matches.slice(0, 3);
   }, [catLower, currentServiceId]);
 
+  const sectionCategorySlug = React.useMemo(() => {
+    return getPortfolioCategorySlug(undefined, category);
+  }, [category]);
+
+  const viewAllHref = sectionCategorySlug
+    ? `/portfolio/${sectionCategorySlug}`
+    : "/portfolio";
+
   return (
     <section className="relative w-full px-4 sm:px-8 lg:px-12 py-20 sm:py-28 border-t border-white/10 selection:bg-[#FFD400] selection:text-black">
       {/* Ambient Radial Flare */}
@@ -121,7 +185,7 @@ export default function ServiceRelatedProjectsSection({
 
         <div className="shrink-0">
           <Link
-            href="/portfolio"
+            href={viewAllHref}
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.05] hover:bg-[#FFD400] border border-white/15 hover:border-[#FFD400] text-xs font-mono uppercase tracking-[0.16em] text-white hover:text-black transition-all duration-300 group"
           >
             <span>VIEW ALL 15 PORTFOLIOS</span>
@@ -134,6 +198,11 @@ export default function ServiceRelatedProjectsSection({
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 relative z-10">
         {filteredProjects.map((project) => {
           const mainMetric = project.results?.[0];
+          const targetCategorySlug = getPortfolioCategorySlug(
+            project.category,
+            category
+          );
+          const targetHref = `/portfolio/${targetCategorySlug}`;
 
           return (
             <div
@@ -143,7 +212,7 @@ export default function ServiceRelatedProjectsSection({
               <div>
                 {/* Visual Cover Image */}
                 <Link
-                  href={`/portfolio/${project.id}`}
+                  href={targetHref}
                   className="block relative aspect-[16/10] overflow-hidden bg-black/60 cursor-pointer"
                 >
                   <Image
@@ -182,7 +251,7 @@ export default function ServiceRelatedProjectsSection({
                   )}
 
                   {/* Project Title */}
-                  <Link href={`/portfolio/${project.id}`}>
+                  <Link href={targetHref}>
                     <h3 className="text-xl font-[family-name:var(--font-syne)] font-bold text-white uppercase group-hover:text-[#FFD400] transition-colors leading-tight line-clamp-2">
                       {project.title}
                     </h3>
@@ -216,10 +285,10 @@ export default function ServiceRelatedProjectsSection({
                 </span>
 
                 <Link
-                  href={`/portfolio/${project.id}`}
+                  href={targetHref}
                   className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#FFD400] group-hover:text-white transition-colors"
                 >
-                  <span>CASE STUDY</span>
+                  <span>VIEW CATEGORY</span>
                   <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </Link>
               </div>

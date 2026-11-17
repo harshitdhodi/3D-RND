@@ -13,12 +13,11 @@ export type SectionHeadingData = SectionHeading;
 export const DEFAULT_SECTION_HEADINGS: Record<string, SectionHeading> = {
   service_universe: {
     section_name: "service_universe",
-    badge: "✨ SERVICE UNIVERSE // INTEGRATED TECHNOLOGY ARCHITECTURE",
-    title: "MULTIVERSE TECHNOLOGY ARCHITECTURE",
-    subtitle:
-      "Explore our verified enterprise tech stacks and specialized tool ecosystems across Technology, Digital Marketing, Branding & Design, and Media Production. Official brand logos in genuine colors.",
+    badge: "PRODUCTION TECHNOLOGY ECOSYSTEM",
+    title: "THE TECHNOLOGY BEHIND EVERY DIGITAL SOLUTION",
+    subtitle: "",
     tagline:
-      "Explore our verified enterprise tech stacks and specialized tool ecosystems across Technology, Digital Marketing, Branding & Design, and Media Production. Official brand logos in genuine colors.",
+      "At RND Technosoft, we believe the right technology makes the difference between a functional product and a powerful digital solution.Our development ecosystem brings together modern frontend frameworks, backend technologies, robust database systems, cross-platform development tools and cloud-ready deployment technologies. Whether you need custom website development, enterprise software, web application development or mobile app solutions, our technology capabilities help create secure, scalable and performance-driven digital experiences. From concept to deployment, we engineer technology that moves your business forward.",
     button_text: "EXPLORE TECH STACKS",
     button_link: "#service-universe",
   },
@@ -179,8 +178,8 @@ export async function getSectionHeading(
           section_name: sectionName,
           badge: json.data.badge || fallback.badge,
           title: json.data.title || fallback.title,
-          subtitle: json.data.subtitle || fallback.subtitle,
-          tagline: json.data.tagline || fallback.tagline,
+          subtitle: json.data.subtitle || json.data.tagline || fallback.subtitle,
+          tagline: json.data.tagline || json.data.subtitle || fallback.tagline,
           button_text: json.data.button_text || fallback.button_text || "BOOK ARCHITECT CALL",
           button_link: json.data.button_link || fallback.button_link || "/services",
         };

@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getServiceSubcategoryBySlug, getServiceItems, ServiceSubcategory, ServiceItem } from "@/lib/getServiceData";
+import { getSectionHeading } from "@/lib/getSectionHeading";
 import ServiceDetailsView from "@/components/ServiceDetailsView";
 
 // Enable dynamic rendering so all subcategories from CMS are rendered live
@@ -91,7 +92,10 @@ async function resolveService(
   const catMeta = CATEGORY_META[category];
   if (!catMeta) return null;
 
-  const subcategoryData = await getServiceSubcategoryBySlug(subcategory);
+  const [subcategoryData, ctaHeading] = await Promise.all([
+    getServiceSubcategoryBySlug(subcategory),
+    getSectionHeading("service_cta"),
+  ]);
   if (!subcategoryData) return null;
 
   const serviceItems = await getServiceItems(subcategoryData._id);
@@ -99,6 +103,10 @@ async function resolveService(
 
   const base: any = serviceItem || {};
   const sub: any = subcategoryData;
+
+  const rawBadge = sub.badge || base.badge;
+  const isHashtags = typeof rawBadge === "string" && (rawBadge.includes("#") || rawBadge.includes(","));
+  const cleanBadge = !isHashtags && rawBadge ? rawBadge : (sub.sub_category || sub.title || base.badge || "SPECIALIZED DISCIPLINE");
 
   const resolvedService = {
     ...sub,
@@ -116,7 +124,7 @@ async function resolveService(
     gallery: (sub.gallery && sub.gallery.length > 0) ? sub.gallery : (base.gallery || []),
     sla: sub.sla || base.sla || "SPECIALIZED",
     avatarIcon: base.avatarIcon || base.avatar_icon || "",
-    badge: sub.badge || base.badge || "SPECIALIZED DISCIPLINE",
+    badge: cleanBadge,
     heroStats: base.heroStats || base.hero_stats || [],
     overview: sub.desc ? [sub.desc] : (Array.isArray(base.overview) ? base.overview : []),
     specs: base.specs || [],
@@ -141,6 +149,7 @@ async function resolveService(
     faqs: base.faqs || [],
     metaTitle: sub.title || base.metaTitle,
     metaDescription: sub.tagline || sub.desc || base.metaDescription,
+    ctaHeading,
   };
 
   return {

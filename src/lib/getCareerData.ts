@@ -1,5 +1,6 @@
 export interface JobDescription {
   _id: string;
+  id?: string;
   slug?: string;
   title: string;
   service_category: string;

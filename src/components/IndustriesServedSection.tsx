@@ -394,7 +394,7 @@ export default function IndustriesServedSection({
                           <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
                         </Link>
                         <span className="font-mono text-xs sm:text-[13px] text-neutral-300 font-medium shrink-0">
-                          {ind.metric}
+                          {(ind as any).metric || ind.heroMetrics?.[0]?.value || ""}
                         </span>
                       </div>
                     </div>

@@ -28,6 +28,7 @@ import {
     Link2,
     X,
     Layers,
+    Upload,
 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -78,6 +79,61 @@ export default function CareerPage() {
         resumeLink: "",
         note: "",
     });
+
+    const [resumeFileName, setResumeFileName] = useState("");
+    const [portfolioFileName, setPortfolioFileName] = useState("");
+    const [resumeUploading, setResumeUploading] = useState(false);
+    const [portfolioUploading, setPortfolioUploading] = useState(false);
+    const [portfolioMode, setPortfolioMode] = useState<"file" | "url">("file");
+
+    const handleFileUpload = async (file: File, type: "resume" | "portfolio") => {
+        const MAX_SIZE = 15 * 1024 * 1024; // 15MB
+        if (file.size > MAX_SIZE) {
+            alert(`File size exceeds 15MB limit (current: ${(file.size / (1024 * 1024)).toFixed(2)}MB)`);
+            return;
+        }
+
+        if (type === "resume") {
+            setResumeUploading(true);
+        } else {
+            setPortfolioUploading(true);
+        }
+
+        try {
+            const uploadData = new FormData();
+            uploadData.append("file", file);
+            uploadData.append("fieldType", "File");
+            uploadData.append("isPublic", "true");
+            uploadData.append("purpose", "career");
+
+            const res = await fetch("/api/upload", {
+                method: "POST",
+                body: uploadData,
+            });
+
+            const json = await res.json();
+            if (json.success && json.data?.url) {
+                if (type === "resume") {
+                    setFormData((prev) => ({ ...prev, resumeLink: json.data.url }));
+                    setResumeFileName(file.name);
+                } else {
+                    setFormData((prev) => ({ ...prev, portfolioUrl: json.data.url }));
+                    setPortfolioFileName(file.name);
+                }
+            } else {
+                alert(json.error || "Failed to upload file. Please try again.");
+            }
+        } catch (err) {
+            console.error("Upload error:", err);
+            alert("An error occurred during file upload. Please try again.");
+        } finally {
+            if (type === "resume") {
+                setResumeUploading(false);
+            } else {
+                setPortfolioUploading(false);
+            }
+        }
+    };
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -162,6 +218,18 @@ export default function CareerPage() {
 
     const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (portfolioUploading || resumeUploading) {
+            alert('Please wait for file uploads to complete.');
+            return;
+        }
+        if (!formData.portfolioUrl) {
+            alert('Please attach or upload your Portfolio / Work Deck to proceed.');
+            return;
+        }
+        if (!formData.resumeLink) {
+            alert('Please upload your Resume / CV (PDF, DOC, DOCX) to proceed.');
+            return;
+        }
         setIsSubmitting(true);
         
         try {
@@ -631,26 +699,7 @@ export default function CareerPage() {
                                 </div>
                             )}
 
-                            {/* Review Process SLA */}
-                            <div className="p-4 bg-white/[0.02] border border-white/10 space-y-2 text-xs font-mono">
-                                <span className="text-[11px] uppercase tracking-widest text-neutral-400 font-bold block">
-                                    Application Review Process:
-                                </span>
-                                <div className="space-y-1.5 text-neutral-300">
-                                    <p className="flex items-center justify-between">
-                                        <span>1. Code / Portfolio Audit:</span>
-                                        <strong className="text-[#FFD400]">Within 48 Hours</strong>
-                                    </p>
-                                    <p className="flex items-center justify-between">
-                                        <span>2. Technical Architecture Deep-Dive:</span>
-                                        <strong className="text-white">60 Min Live Session</strong>
-                                    </p>
-                                    <p className="flex items-center justify-between">
-                                        <span>3. Leadership Culture Alignment:</span>
-                                        <strong className="text-white">Final Chat</strong>
-                                    </p>
-                                </div>
-                            </div>
+                           
                         </div>
 
                         {/* Right Column (7 cols): The Application Form */}
@@ -682,6 +731,8 @@ export default function CareerPage() {
                                                 resumeLink: "",
                                                 note: "",
                                             });
+                                            setResumeFileName("");
+                                            setPortfolioFileName("");
                                         }}
                                         className="mt-4 px-6 py-2 rounded-full border border-white/20 text-xs font-mono uppercase tracking-wider text-neutral-300 hover:text-white hover:border-[#FFD400] transition-colors cursor-pointer"
                                     >
@@ -798,27 +849,99 @@ export default function CareerPage() {
                                         </div>
                                     </div>
 
-                                    {/* Portfolio & GitHub URLs */}
+                                    {/* Portfolio (File / Link) & GitHub/LinkedIn URLs */}
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        {/* Portfolio File / Deck */}
                                         <div>
-                                            <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                                Portfolio / Live Projects URL *
-                                            </label>
-                                            <div className="relative">
-                                                <Link2 className="w-4 h-4 text-[#FFD400] absolute left-3.5 top-1/2 -translate-y-1/2" />
-                                                <input
-                                                    type="url"
-                                                    required
-                                                    placeholder="https://arjun.dev"
-                                                    value={formData.portfolioUrl}
-                                                    onChange={(e) =>
-                                                        setFormData({ ...formData, portfolioUrl: e.target.value })
-                                                    }
-                                                    className="w-full pl-10 pr-3.5 py-2.5 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors"
-                                                />
+                                            <div className="flex items-center justify-between mb-1.5">
+                                                <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400">
+                                                    Portfolio File / Deck *
+                                                </label>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setPortfolioMode(portfolioMode === "file" ? "url" : "file")}
+                                                    className="text-[10px] font-mono text-[#FFD400]/80 hover:text-[#FFD400] underline uppercase cursor-pointer"
+                                                >
+                                                    {portfolioMode === "file" ? "Or URL Link" : "Or File Upload"}
+                                                </button>
                                             </div>
+
+                                            {portfolioMode === "file" ? (
+                                                formData.portfolioUrl && !portfolioUploading ? (
+                                                    <div className="flex items-center justify-between p-2.5 bg-white/[0.04] border border-[#FFD400]/40 text-xs font-mono">
+                                                        <div className="flex items-center gap-2 truncate">
+                                                            <CheckCircle2 className="w-4 h-4 text-[#FFD400] shrink-0" />
+                                                            <span className="truncate text-neutral-200">
+                                                                {portfolioFileName || formData.portfolioUrl.split("/").pop()}
+                                                            </span>
+                                                        </div>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => {
+                                                                setFormData((prev) => ({ ...prev, portfolioUrl: "" }));
+                                                                setPortfolioFileName("");
+                                                            }}
+                                                            className="text-neutral-400 hover:text-white ml-2 p-1 hover:bg-white/10 rounded transition-colors"
+                                                            title="Remove file"
+                                                        >
+                                                            <X className="w-3.5 h-3.5" />
+                                                        </button>
+                                                    </div>
+                                                ) : (
+                                                    <label
+                                                        onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                                                        onDrop={(e) => {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+                                                            const file = e.dataTransfer.files?.[0];
+                                                            if (file) handleFileUpload(file, "portfolio");
+                                                        }}
+                                                        className={`flex flex-col items-center justify-center p-2.5 border border-dashed rounded-none cursor-pointer transition-all ${
+                                                            portfolioUploading
+                                                                ? "border-[#FFD400] bg-[#FFD400]/5"
+                                                                : "border-white/20 bg-white/[0.02] hover:border-[#FFD400]/50 hover:bg-white/[0.04]"
+                                                        }`}
+                                                    >
+                                                        <input
+                                                            type="file"
+                                                            className="hidden"
+                                                            accept=".pdf,.zip,.rar,.doc,.docx,.png,.jpg,.jpeg,.webp"
+                                                            disabled={portfolioUploading}
+                                                            onChange={(e) => {
+                                                                const file = e.target.files?.[0];
+                                                                if (file) handleFileUpload(file, "portfolio");
+                                                            }}
+                                                        />
+                                                        {portfolioUploading ? (
+                                                            <div className="flex items-center gap-2 text-xs font-mono text-[#FFD400] py-0.5">
+                                                                <div className="w-3 h-3 border-2 border-[#FFD400] border-t-transparent rounded-full animate-spin" />
+                                                                <span>Uploading Portfolio...</span>
+                                                            </div>
+                                                        ) : (
+                                                            <div className="flex items-center gap-2 text-xs font-mono text-neutral-400 hover:text-white py-0.5">
+                                                                <Upload className="w-3.5 h-3.5 text-[#FFD400]" />
+                                                                <span>Upload Portfolio File (PDF/ZIP/IMG)</span>
+                                                            </div>
+                                                        )}
+                                                    </label>
+                                                )
+                                            ) : (
+                                                <div className="relative">
+                                                    <Link2 className="w-4 h-4 text-[#FFD400] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                                                    <input
+                                                        type="url"
+                                                        placeholder="https://arjun.dev / behance / figma"
+                                                        value={formData.portfolioUrl}
+                                                        onChange={(e) =>
+                                                            setFormData({ ...formData, portfolioUrl: e.target.value })
+                                                        }
+                                                        className="w-full pl-10 pr-3.5 py-2.5 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors"
+                                                    />
+                                                </div>
+                                            )}
                                         </div>
 
+                                        {/* GitHub / LinkedIn URL */}
                                         <div>
                                             <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
                                                 GitHub / LinkedIn URL
@@ -838,24 +961,79 @@ export default function CareerPage() {
                                         </div>
                                     </div>
 
-                                    {/* Resume PDF Drive / Cloud Link */}
+                                    {/* Resume PDF / File Upload */}
                                     <div>
-                                        <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                            Resume PDF Link (Google Drive / Dropbox / Notion) *
+                                        <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5 flex items-center justify-between">
+                                            <span>Resume / CV (PDF, DOC, DOCX) *</span>
+                                            <span className="text-[10px] text-neutral-500 font-mono lowercase">Max 15MB file</span>
                                         </label>
-                                        <div className="relative">
-                                            <FileText className="w-4 h-4 text-[#FFD400] absolute left-3.5 top-1/2 -translate-y-1/2" />
-                                            <input
-                                                type="url"
-                                                required
-                                                placeholder="https://drive.google.com/file/d/your-resume-pdf"
-                                                value={formData.resumeLink}
-                                                onChange={(e) =>
-                                                    setFormData({ ...formData, resumeLink: e.target.value })
-                                                }
-                                                className="w-full pl-10 pr-3.5 py-2.5 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors"
-                                            />
-                                        </div>
+                                        {formData.resumeLink && !resumeUploading ? (
+                                            <div className="flex items-center justify-between p-3 bg-white/[0.04] border border-[#FFD400]/40 text-xs font-mono">
+                                                <div className="flex items-center gap-2.5 truncate">
+                                                    <CheckCircle2 className="w-4 h-4 text-[#FFD400] shrink-0" />
+                                                    <div className="truncate">
+                                                        <span className="text-white block truncate">
+                                                            {resumeFileName || formData.resumeLink.split("/").pop()}
+                                                        </span>
+                                                        <span className="text-[10px] text-[#FFD400]">Attached &bull; Ready to transmit</span>
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setFormData((prev) => ({ ...prev, resumeLink: "" }));
+                                                        setResumeFileName("");
+                                                    }}
+                                                    className="text-neutral-400 hover:text-white p-1 hover:bg-white/10 rounded transition-colors"
+                                                    title="Remove resume"
+                                                >
+                                                    <X className="w-4 h-4" />
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <label
+                                                onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                                                onDrop={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    const file = e.dataTransfer.files?.[0];
+                                                    if (file) handleFileUpload(file, "resume");
+                                                }}
+                                                className={`flex flex-col items-center justify-center p-4 border border-dashed rounded-none cursor-pointer transition-all ${
+                                                    resumeUploading
+                                                        ? "border-[#FFD400] bg-[#FFD400]/5"
+                                                        : "border-white/20 bg-white/[0.02] hover:border-[#FFD400]/50 hover:bg-white/[0.04]"
+                                                }`}
+                                            >
+                                                <input
+                                                    type="file"
+                                                    className="hidden"
+                                                    accept=".pdf,.doc,.docx"
+                                                    disabled={resumeUploading}
+                                                    onChange={(e) => {
+                                                        const file = e.target.files?.[0];
+                                                        if (file) handleFileUpload(file, "resume");
+                                                    }}
+                                                />
+                                                {resumeUploading ? (
+                                                    <div className="flex items-center gap-2 text-xs font-mono text-[#FFD400] py-1">
+                                                        <div className="w-3.5 h-3.5 border-2 border-[#FFD400] border-t-transparent rounded-full animate-spin" />
+                                                        <span>Uploading Resume to Atelier...</span>
+                                                    </div>
+                                                ) : (
+                                                    <div className="flex flex-col items-center gap-1.5 text-center py-1">
+                                                        <div className="flex items-center gap-2 text-xs font-mono text-neutral-300">
+                                                            <Upload className="w-4 h-4 text-[#FFD400]" />
+                                                            <span className="font-medium text-white">Choose Resume File</span>
+                                                            <span className="text-neutral-500 font-light">or drag and drop</span>
+                                                        </div>
+                                                        <span className="text-[10px] font-mono text-neutral-500">
+                                                            PDF, DOC, DOCX up to 15MB
+                                                        </span>
+                                                    </div>
+                                                )}
+                                            </label>
+                                        )}
                                     </div>
 
                                     {/* Cover Note */}

@@ -68,7 +68,7 @@ export async function generateMetadata({
     ? "Explore hospitality digital solutions by RND Technosoft, including hotel website development, booking platforms, digital marketing, branding, photography and videography."
     : isEducation
     ? "Explore education and training digital solutions by RND Technosoft, including educational website development, LMS platforms, custom software, digital marketing, branding and media production."
-    : `${(industry.short_info || (industry as any).shortInfo || industry.description || "").slice(0, 155)}...`;
+    : `${((industry as any).short_info || (industry as any).shortInfo || (industry as any).description || "").slice(0, 155)}...`;
 
   return {
     title: metaTitle,

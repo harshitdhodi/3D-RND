@@ -25,6 +25,10 @@ const nextConfig: NextConfig = {
         source: "/uploads/:path*",
         destination: "http://localhost:3058/uploads/:path*",
       },
+      {
+        source: "/api/upload",
+        destination: "http://localhost:3058/api/upload",
+      },
     ];
   },
   async redirects() {

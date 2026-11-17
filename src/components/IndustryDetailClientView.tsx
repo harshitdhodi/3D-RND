@@ -173,7 +173,7 @@ export default function IndustryDetailClientView({
                                 </p>
                             )}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {(industry.pillars || []).map((pillar, pIdx) => {
+                            {(industry.pillars || []).map((pillar: any, pIdx: number) => {
                                 const IconComponent = getPillarIcon(pillar.icon);
                                 return (
                                     <div
@@ -241,7 +241,7 @@ export default function IndustryDetailClientView({
 
                         return (
                             <div className={gridConfig.containerClass}>
-                                {industry.challenges?.map((challenge, cIdx) => (
+                                {industry.challenges?.map((challenge: any, cIdx: number) => (
                                     <div
                                         key={cIdx}
                                         className={`group p-6 sm:p-7 bg-gradient-to-b from-white/[0.03] to-[#0c0e14] border border-white/10 hover:border-red-500/40 transition-all duration-300 relative flex flex-col justify-between ${gridConfig.getItemClass(cIdx)}`}
@@ -322,7 +322,7 @@ export default function IndustryDetailClientView({
 
                         return (
                             <div className={gridConfig.containerClass}>
-                                {industry.serviceCombinations?.map((combo, sIdx) => (
+                                {industry.serviceCombinations?.map((combo: any, sIdx: number) => (
                                     <div
                                         key={sIdx}
                                         className={`group p-6 sm:p-7 bg-[#0c0e14]/60 backdrop-blur-md border border-white/10 hover:border-[#FFD400]/50 transition-all duration-300 relative flex flex-col justify-between ${gridConfig.getItemClass(sIdx)}`}
@@ -408,7 +408,7 @@ export default function IndustryDetailClientView({
 
                     {/* Project Cards */}
                     <div className="space-y-10">
-                        {industry.works?.map((work, wIdx: number) => (
+                        {industry.works?.map((work: any, wIdx: number) => (
                             <article
                                 key={work.id || `work-${wIdx}`}
                                 className="group bg-[#0c0e14]/60 backdrop-blur-md border border-white/10 hover:border-[#FFD400]/50 transition-all duration-500 shadow-xl overflow-hidden flex flex-col"
@@ -554,7 +554,7 @@ export default function IndustryDetailClientView({
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {industry.process?.map((stepItem, pIdx) => (
+                        {industry.process?.map((stepItem: any, pIdx: number) => (
                             <div
                                 key={pIdx}
                                 className="p-6 bg-[#0c0e14]/60 backdrop-blur-md border border-white/10 hover:border-[#FFD400]/40 transition-all duration-300 flex flex-col justify-between relative overflow-hidden"
@@ -583,7 +583,7 @@ export default function IndustryDetailClientView({
                                         Key Outputs:
                                     </span>
                                     <ul className="space-y-1 text-[11px] font-mono text-neutral-400">
-                                        {stepItem.keyOutputs?.map((output, oIdx) => (
+                                        {stepItem.keyOutputs?.map((output: any, oIdx: number) => (
                                             <li key={oIdx} className="flex items-start gap-1.5">
                                                 <span className="text-[#FFD400] shrink-0">›</span>
                                                 <span className="leading-tight text-neutral-300">{output}</span>
@@ -661,7 +661,7 @@ export default function IndustryDetailClientView({
                             {/* 3 Metric Cards */}
                             {industry.caseStudy.metrics && industry.caseStudy.metrics.length > 0 && (
                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                                    {industry.caseStudy.metrics.map((m, mIdx) => (
+                                    {industry.caseStudy.metrics.map((m: any, mIdx: number) => (
                                         <div
                                             key={mIdx}
                                             className="p-5 bg-white/[0.02] border border-white/10 text-center space-y-1"
@@ -744,7 +744,7 @@ export default function IndustryDetailClientView({
                     </div>
 
                     <div className="space-y-3">
-                        {(industry.faqs || []).map((faq, fIdx) => {
+                        {(industry.faqs || []).map((faq: any, fIdx: number) => {
                             const isOpen = openFaqIndex === fIdx;
 
                             return (

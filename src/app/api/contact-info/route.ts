@@ -4,7 +4,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3058";
 
 export async function GET() {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/data/contactus`, {
+    const res = await fetch(`${API_BASE_URL}/api/data/contact_info`, {
       cache: "no-store",
     });
 

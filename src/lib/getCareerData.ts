@@ -55,7 +55,7 @@ export interface CareerHeroData {
   updated_at?: string;
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3014';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3058';
 
 export async function getCareerHeroData(): Promise<CareerHeroData | null> {
   try {
@@ -92,13 +92,13 @@ function normalizeArray(val: any): string[] {
   if (typeof val === 'string') {
     return val.includes('\n')
       ? val
-          .split('\n')
-          .map((s) => s.trim().replace(/^[-*•›\d\.]+\s*/, ''))
-          .filter(Boolean)
+        .split('\n')
+        .map((s) => s.trim().replace(/^[-*•›\d\.]+\s*/, ''))
+        .filter(Boolean)
       : val
-          .split(',')
-          .map((s) => s.trim())
-          .filter(Boolean);
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean);
   }
   return [];
 }

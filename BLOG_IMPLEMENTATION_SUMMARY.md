@@ -49,7 +49,7 @@ Your blog system has been successfully upgraded from static data to a fully dyna
 ## 🔍 Testing Results
 
 ### Backend API Status
-- ✅ Backend running on: `http://localhost:3014`
+- ✅ Backend running on: `http://localhost:3058`
 - ✅ API endpoint accessible
 - ✅ Currently serving: **8 blogs**
 - ✅ Collection ID: `6ae81e500e8e4d4d432535bb`
@@ -89,8 +89,8 @@ Your blog system has been successfully upgraded from static data to a fully dyna
 ### Backend Management
 | Resource | URL | Description |
 |----------|-----|-------------|
-| API Endpoint | `http://localhost:3014/api/data/6ae81e500e8e4d4d432535bb` | Get all blogs JSON |
-| CMS Interface | `http://localhost:3014/collections/6ae81e500e8e4d4d432535bb` | Manage blogs |
+| API Endpoint | `http://localhost:3058/api/data/6ae81e500e8e4d4d432535bb` | Get all blogs JSON |
+| CMS Interface | `http://localhost:3058/collections/6ae81e500e8e4d4d432535bb` | Manage blogs |
 
 ### Code Locations
 ```
@@ -134,7 +134,7 @@ src/
 
 ### Optional Enhancements (Later)
 1. **Add More Blogs**
-   - Go to CMS: `http://localhost:3014/collections/6ae81e500e8e4d4d432535bb`
+   - Go to CMS: `http://localhost:3058/collections/6ae81e500e8e4d4d432535bb`
    - Click "Add New Record"
    - Fill in blog details and save
 
@@ -227,7 +227,7 @@ Your backend currently has **8 blogs**:
 ### Environment Variables
 ```bash
 # .env.local
-NEXT_PUBLIC_API_URL=http://localhost:3014
+NEXT_PUBLIC_API_URL=http://localhost:3058
 NEXT_PUBLIC_BLOG_COLLECTION_ID=6ae81e500e8e4d4d432535bb
 ```
 
@@ -264,7 +264,7 @@ fetch(url, {
 
 1. **Check backend is running**
    ```bash
-   curl http://localhost:3014/api/data/6ae81e500e8e4d4d432535bb
+   curl http://localhost:3058/api/data/6ae81e500e8e4d4d432535bb
    ```
 
 2. **Restart frontend**

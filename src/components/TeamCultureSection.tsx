@@ -78,7 +78,7 @@ export default function TeamCultureSection({
     const backendUrl =
       process.env.NEXT_PUBLIC_API_URL ||
       process.env.NEXT_PUBLIC_BACKEND_URL ||
-      "http://localhost:3014";
+      "http://localhost:3058";
 
     async function loadLiveData() {
       try {

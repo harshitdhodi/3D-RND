@@ -7,7 +7,7 @@
 import { BlogDetail } from "@/data/blogsData";
 import { calculateReadTime } from "./readTime";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3014";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3058";
 const COLLECTION_ID = process.env.NEXT_PUBLIC_BLOG_COLLECTION_ID || "6ae81e500e8e4d4d432535a0";
 
 /**
@@ -66,7 +66,7 @@ function transformBlogData(backendBlog: any): BlogDetail {
 function parseHtmlToArray(html: string | string[] | undefined): string[] {
   if (!html) return [];
   if (Array.isArray(html)) return html;
-  
+
   // Remove HTML tags and split by paragraph tags
   const text = html.replace(/<\/?p>/g, "\n").replace(/<[^>]*>/g, "");
   return text
@@ -80,16 +80,16 @@ function parseHtmlToArray(html: string | string[] | undefined): string[] {
  */
 function parseScopeHtml(html: string): Array<{ number: string; title: string; desc: string; iconName?: string }> {
   if (!html) return [];
-  
+
   try {
     // Simple regex-based parsing for scope sections
     const sections: Array<{ number: string; title: string; desc: string }> = [];
     const divMatches = html.match(/<div>([\s\S]*?)<\/div>/g) || [];
-    
+
     divMatches.forEach((div, idx) => {
       const h4Match = div.match(/<h4>(.*?)<\/h4>/);
       const pMatch = div.match(/<p>(.*?)<\/p>/);
-      
+
       if (h4Match && pMatch) {
         const title = h4Match[1].replace(/<[^>]*>/g, "").trim();
         const desc = pMatch[1].replace(/<[^>]*>/g, "").trim();
@@ -100,7 +100,7 @@ function parseScopeHtml(html: string): Array<{ number: string; title: string; de
         });
       }
     });
-    
+
     return sections;
   } catch {
     return [];
@@ -121,7 +121,7 @@ export async function fetchBlogs(): Promise<BlogDetail[]> {
     }
 
     const data = await response.json();
-    
+
     if (data.success && Array.isArray(data.data)) {
       const list: BlogDetail[] = data.data.map(transformBlogData);
       list.sort((a: BlogDetail, b: BlogDetail) => (a.order ?? 999) - (b.order ?? 999));
@@ -142,7 +142,7 @@ export async function fetchBlogs(): Promise<BlogDetail[]> {
 export async function fetchBlogBySlug(slug: string): Promise<BlogDetail | null> {
   try {
     const blogs = await fetchBlogs();
-    
+
     // Try to find by slug or ID
     const blog = blogs.find(
       (b) =>
@@ -178,7 +178,7 @@ export async function fetchBlogCategories(): Promise<string[]> {
   try {
     const blogs = await fetchBlogs();
     const categories = new Set<string>();
-    
+
     blogs.forEach((blog) => {
       if (blog.category) {
         categories.add(blog.category);

@@ -53,7 +53,7 @@ export const DEFAULT_ABOUT_DATA: AboutData = {
 };
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3014";
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3058";
 
 export async function getAboutData(): Promise<AboutData> {
   try {

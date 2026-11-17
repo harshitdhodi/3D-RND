@@ -121,7 +121,7 @@ export async function getTeamData(): Promise<{ leaders: LeaderData[]; members: T
   const backendUrl =
     process.env.NEXT_PUBLIC_API_URL ||
     process.env.NEXT_PUBLIC_BACKEND_URL ||
-    "http://localhost:3014";
+    "http://localhost:3058";
 
   let leaders: LeaderData[] = [DEFAULT_LEADER_DATA];
   let members = DEFAULT_TEAM_MEMBERS;

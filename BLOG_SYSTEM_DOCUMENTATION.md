@@ -1,7 +1,7 @@
 # Dynamic Blog System Documentation
 
 ## Overview
-The blog system has been upgraded from static data to a dynamic backend-driven architecture. All blog content is now fetched from your MongoDB backend API (`http://localhost:3014`), making it easy to manage and update blog posts through your CMS.
+The blog system has been upgraded from static data to a dynamic backend-driven architecture. All blog content is now fetched from your MongoDB backend API (`http://localhost:3058`), making it easy to manage and update blog posts through your CMS.
 
 ---
 
@@ -39,7 +39,7 @@ The blog system has been upgraded from static data to a dynamic backend-driven a
 
 ### 1. Fetch All Blogs
 ```
-GET http://localhost:3014/api/data/6ae81e500e8e4d4d432535bb
+GET http://localhost:3058/api/data/6ae81e500e8e4d4d432535bb
 ```
 
 **Response:**
@@ -104,7 +104,7 @@ Add to `.env.local`:
 
 ```bash
 # Backend API URL
-NEXT_PUBLIC_API_URL=http://localhost:3014
+NEXT_PUBLIC_API_URL=http://localhost:3058
 
 # Blog Collection ID (MongoDB Collection)
 NEXT_PUBLIC_BLOG_COLLECTION_ID=6ae81e500e8e4d4d432535bb
@@ -225,7 +225,7 @@ Already implemented at `/blogs/[slug]`
 
 ### Via Backend CMS
 
-1. Navigate to your CMS: `http://localhost:3014/collections/6ae81e500e8e4d4d432535bb?collectionName=blogsdata`
+1. Navigate to your CMS: `http://localhost:3058/collections/6ae81e500e8e4d4d432535bb?collectionName=blogsdata`
 
 2. Click "Add New Record"
 
@@ -252,7 +252,7 @@ Already implemented at `/blogs/[slug]`
 ### Issue: Blogs not appearing
 
 **Check:**
-1. Backend API is running on `http://localhost:3014`
+1. Backend API is running on `http://localhost:3058`
 2. Environment variables are set correctly in `.env.local`
 3. Collection ID matches your MongoDB collection
 4. Browser console for error messages
@@ -263,7 +263,7 @@ Already implemented at `/blogs/[slug]`
 npm run dev
 
 # Check API directly
-curl http://localhost:3014/api/data/6ae81e500e8e4d4d432535bb
+curl http://localhost:3058/api/data/6ae81e500e8e4d4d432535bb
 ```
 
 ### Issue: Images not loading
@@ -382,13 +382,13 @@ module.exports = {
 
 ```bash
 # Test fetch all blogs
-curl http://localhost:3014/api/data/6ae81e500e8e4d4d432535bb
+curl http://localhost:3058/api/data/6ae81e500e8e4d4d432535bb
 
 # Test response structure
-curl http://localhost:3014/api/data/6ae81e500e8e4d4d432535bb | jq '.success'
+curl http://localhost:3058/api/data/6ae81e500e8e4d4d432535bb | jq '.success'
 
 # Count blogs
-curl http://localhost:3014/api/data/6ae81e500e8e4d4d432535bb | jq '.data | length'
+curl http://localhost:3058/api/data/6ae81e500e8e4d4d432535bb | jq '.data | length'
 ```
 
 ---

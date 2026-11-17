@@ -2,7 +2,7 @@ const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ||
   process.env.NEXT_PUBLIC_CMS_URL ||
   process.env.NEXT_PUBLIC_BACKEND_URL ||
-  "http://localhost:3014";
+  "http://localhost:3058";
 
 export interface ServiceCategory {
   _id: string;

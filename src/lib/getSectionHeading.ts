@@ -151,7 +151,7 @@ export const DEFAULT_SECTION_HEADINGS: Record<string, SectionHeading> = {
   },
 };
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3014";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3058";
 
 export async function getSectionHeading(
   sectionName: string
@@ -192,8 +192,8 @@ export async function getSectionHeading(
       sectionName === "portfolio_projects"
         ? "portfolio_project"
         : sectionName === "portfolio_project"
-        ? "portfolio_projects"
-        : null;
+          ? "portfolio_projects"
+          : null;
 
     if (altSection) {
       const altRes = await fetch(

@@ -54,7 +54,7 @@ export const DEFAULT_CONTACT_INFO: ContactInfoData = {
   helper_card_3_desc: "We'd love to hear your thoughts and explore strategic technical collaborations.",
 };
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3014";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3058";
 
 export async function getContactInfo(): Promise<ContactInfoData> {
   try {

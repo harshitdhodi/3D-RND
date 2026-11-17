@@ -21,8 +21,8 @@ export async function POST(request: Request) {
         body.source_page?.includes("/industries")
           ? "industry_inquiries"
           : body.source_page?.includes("/service")
-          ? "service_cta"
-          : "portfolio_inquiries"
+            ? "service_cta"
+            : "portfolio_inquiries"
       ),
     } = body;
 
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
     const resolvedSource = source_page || source || "/portfolio";
 
     // Forward to backend API which has SMTP credentials and MongoDB configured
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3014";
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3058";
     const res = await fetch(`${backendUrl}/api/contact`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

@@ -5,7 +5,7 @@
 ### 1. Environment Setup
 ```bash
 # Make sure these are in your .env.local
-NEXT_PUBLIC_API_URL=http://localhost:3014
+NEXT_PUBLIC_API_URL=http://localhost:3058
 NEXT_PUBLIC_BLOG_COLLECTION_ID=6ae81e500e8e4d4d432535bb
 ```
 
@@ -13,7 +13,7 @@ NEXT_PUBLIC_BLOG_COLLECTION_ID=6ae81e500e8e4d4d432535bb
 ```bash
 cd backend
 npm run dev
-# Should run on http://localhost:3014
+# Should run on http://localhost:3058
 ```
 
 ### 3. Start Frontend
@@ -32,7 +32,7 @@ npm run dev
 
 ## 📝 Adding a New Blog (CMS)
 
-1. Go to: `http://localhost:3014/collections/6ae81e500e8e4d4d432535bb`
+1. Go to: `http://localhost:3058/collections/6ae81e500e8e4d4d432535bb`
 2. Click **"Add New Record"**
 3. Fill in the form:
    ```
@@ -92,7 +92,7 @@ npm run dev
 **Fix:**
 ```bash
 # 1. Check if backend is running
-curl http://localhost:3014/api/data/6ae81e500e8e4d4d432535bb
+curl http://localhost:3058/api/data/6ae81e500e8e4d4d432535bb
 
 # 2. Restart frontend dev server
 npm run dev
@@ -116,10 +116,10 @@ npm run dev
 
 ```bash
 # Get all blogs
-GET http://localhost:3014/api/data/6ae81e500e8e4d4d432535bb
+GET http://localhost:3058/api/data/6ae81e500e8e4d4d432535bb
 
 # Get collections info
-GET http://localhost:3014/api/collections/6ae81e500e8e4d4d432535bb
+GET http://localhost:3058/api/collections/6ae81e500e8e4d4d432535bb
 
 # Response format
 {

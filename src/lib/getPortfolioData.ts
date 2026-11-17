@@ -77,7 +77,7 @@ export const DEFAULT_PROJECTS_DATA: FeaturedProjectItem[] = [
 ];
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3014";
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3058";
 
 export async function getPortfolioData(): Promise<FeaturedProjectItem[]> {
   try {
@@ -334,12 +334,12 @@ export async function getPortfolioProjects(categorySlug?: string): Promise<Portf
 
     const filtered = categorySlug
       ? list.filter(
-          (doc: any) =>
-            doc.category_populated?.slug === categorySlug ||
-            doc.category === categorySlug ||
-            doc.category_slug === categorySlug ||
-            doc.category_populated?.id === categorySlug
-        )
+        (doc: any) =>
+          doc.category_populated?.slug === categorySlug ||
+          doc.category === categorySlug ||
+          doc.category_slug === categorySlug ||
+          doc.category_populated?.id === categorySlug
+      )
       : list;
 
     return filtered.map((doc: any, idx: number) => {
@@ -556,22 +556,22 @@ export async function getPortfolioHero(): Promise<PortfolioHeroData> {
     const cardsEntry = Array.isArray(doc.cards_entry)
       ? doc.cards_entry
       : Array.isArray(doc["Cards Entry"])
-      ? doc["Cards Entry"]
-      : doc.cards_entry
-      ? [String(doc.cards_entry)]
-      : DEFAULT_PORTFOLIO_HERO.cards_entry;
+        ? doc["Cards Entry"]
+        : doc.cards_entry
+          ? [String(doc.cards_entry)]
+          : DEFAULT_PORTFOLIO_HERO.cards_entry;
 
     const counterTitle = Array.isArray(doc.counter_title)
       ? doc.counter_title
       : doc.counter_title
-      ? [String(doc.counter_title)]
-      : DEFAULT_PORTFOLIO_HERO.counter_title;
+        ? [String(doc.counter_title)]
+        : DEFAULT_PORTFOLIO_HERO.counter_title;
 
     const counterDesc = Array.isArray(doc.counter_description)
       ? doc.counter_description
       : doc.counter_description
-      ? [String(doc.counter_description)]
-      : DEFAULT_PORTFOLIO_HERO.counter_description;
+        ? [String(doc.counter_description)]
+        : DEFAULT_PORTFOLIO_HERO.counter_description;
 
     return {
       banner_title: doc.banner_title || doc.Title || DEFAULT_PORTFOLIO_HERO.banner_title,
@@ -628,22 +628,22 @@ export async function getPortfolioHeroByCategory(
     const cardsEntry = Array.isArray(found.cards_entry)
       ? found.cards_entry
       : Array.isArray(found["Cards Entry"])
-      ? found["Cards Entry"]
-      : found.cards_entry
-      ? [String(found.cards_entry)]
-      : [];
+        ? found["Cards Entry"]
+        : found.cards_entry
+          ? [String(found.cards_entry)]
+          : [];
 
     const counterTitle = Array.isArray(found.counter_title)
       ? found.counter_title
       : found.counter_title
-      ? [String(found.counter_title)]
-      : [];
+        ? [String(found.counter_title)]
+        : [];
 
     const counterDesc = Array.isArray(found.counter_description)
       ? found.counter_description
       : found.counter_description
-      ? [String(found.counter_description)]
-      : [];
+        ? [String(found.counter_description)]
+        : [];
 
     return {
       category: found.category || "",
@@ -687,8 +687,8 @@ export async function getPortfolioFaqs(
   try {
     const url = categorySlug
       ? `${API_BASE_URL}/api/data/portfolio_faqs?category_slug=${encodeURIComponent(
-          categorySlug
-        )}`
+        categorySlug
+      )}`
       : `${API_BASE_URL}/api/data/portfolio_faqs`;
 
     const res = await fetch(url, { cache: "no-store" });

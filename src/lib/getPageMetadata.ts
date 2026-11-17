@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3014";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3058";
 
 export interface PageMetadata {
   id?: string;
@@ -240,7 +240,7 @@ export async function getPageMetadata(pageKey: string): Promise<PageMetadata> {
 function getDefaultMetadata(pageKey: string): PageMetadata {
   const siteName = "RND Technosoft";
   const baseUrl = "https://new.rndtechnosoft.com";
-  
+
   return {
     page_key: pageKey,
     page_name: pageKey.charAt(0).toUpperCase() + pageKey.slice(1),
@@ -275,13 +275,13 @@ export function toNextJsMetadata(metadata: PageMetadata) {
       type: "website",
       images: metadata.og_image
         ? [
-            {
-              url: metadata.og_image,
-              width: 1200,
-              height: 630,
-              alt: metadata.og_title || metadata.meta_title,
-            },
-          ]
+          {
+            url: metadata.og_image,
+            width: 1200,
+            height: 630,
+            alt: metadata.og_title || metadata.meta_title,
+          },
+        ]
         : [],
     },
     twitter: {

@@ -1,6 +1,6 @@
 import { POLICIES_DATA, PolicyData } from "@/data/policiesData";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3014";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3058";
 
 export async function getPolicyData(slug: string): Promise<PolicyData> {
   const fallback = POLICIES_DATA[slug] || POLICIES_DATA["privacy-policy"];

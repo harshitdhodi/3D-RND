@@ -67,7 +67,7 @@ export const DEFAULT_PROCESS_DATA: ProcessStepItem[] = [
 ];
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3014";
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3058";
 
 export async function getProcessData(): Promise<ProcessStepItem[]> {
   try {

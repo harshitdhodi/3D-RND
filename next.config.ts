@@ -23,7 +23,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/uploads/:path*",
-        destination: "http://localhost:3014/uploads/:path*",
+        destination: "http://localhost:3058/uploads/:path*",
       },
     ];
   },

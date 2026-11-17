@@ -42,7 +42,7 @@ export const DEFAULT_CATEGORIES = [
   "Technical SEO & Growth",
 ];
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3014";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3058";
 
 // Return dynamic banner data with static fallback
 export async function fetchInsightsBanner(): Promise<InsightsBannerData> {

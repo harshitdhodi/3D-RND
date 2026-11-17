@@ -112,7 +112,7 @@ export interface IndustryHeroData {
   tagline: string;
   heading: string;
   description: string;
-  counter?: Array<{ counter_info?: string; [key: string]: any }>;
+  counter?: Array<{ counter_info?: string;[key: string]: any }>;
 }
 
 export const DEFAULT_INDUSTRY_HERO: IndustryHeroData = {
@@ -357,7 +357,7 @@ export const DEFAULT_INDUSTRIES_DATA: IndustryItemData[] = [
 ];
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3014";
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3058";
 
 export async function getIndustries(): Promise<Industry[]> {
   try {
@@ -371,7 +371,7 @@ export async function getIndustries(): Promise<Industry[]> {
 
     const json = await res.json();
     const list = Array.isArray(json?.data) ? json.data : [];
-    
+
     return list
       .filter((item: Industry) => item.status === true)
       .sort((a: Industry, b: Industry) => a.order - b.order);
@@ -580,8 +580,8 @@ export async function getIndustryWorks(
         customMeta.deliverables && customMeta.deliverables.length > 0
           ? customMeta.deliverables
           : pDataMatch?.deliverables && pDataMatch.deliverables.length > 0
-          ? pDataMatch.deliverables
-          : [
+            ? pDataMatch.deliverables
+            : [
               "Production and order management",
               "Inventory and material tracking",
               "Procurement workflows",
@@ -592,8 +592,8 @@ export async function getIndustryWorks(
         customMeta.techStack && customMeta.techStack.length > 0
           ? customMeta.techStack
           : pDataMatch?.techStack && pDataMatch.techStack.length > 0
-          ? pDataMatch.techStack
-          : ["Web Applications", "Database Integration", "Business Analytics"];
+            ? pDataMatch.techStack
+            : ["Web Applications", "Database Integration", "Business Analytics"];
 
       return {
         id: cleanSlug,

@@ -37,7 +37,7 @@ export const DEFAULT_HERO_DATA: HeroData = {
 };
 
 export async function getHeroData(): Promise<HeroData> {
-  const cmsBase = process.env.NEXT_PUBLIC_CMS_URL || "http://localhost:3014";
+  const cmsBase = process.env.NEXT_PUBLIC_CMS_URL || "http://localhost:3058";
   try {
     const res = await fetch(`${cmsBase}/api/data/hero_section`, {
       next: { revalidate: 60 },

@@ -92,7 +92,7 @@ export const DEFAULT_SERVICES_DATA: ServiceItem[] = [
 ];
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3014";
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3058";
 
 export async function getServicesData(): Promise<ServiceItem[]> {
   try {
@@ -126,8 +126,8 @@ export async function getServicesData(): Promise<ServiceItem[]> {
       scope: Array.isArray(doc.scope_items)
         ? doc.scope_items
         : Array.isArray(doc.scope)
-        ? doc.scope
-        : [],
+          ? doc.scope
+          : [],
     }));
   } catch (err) {
     console.warn("Falling back to default Services data:", err);

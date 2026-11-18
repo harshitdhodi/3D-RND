@@ -141,7 +141,7 @@ export default async function Home() {
         {/* <ResultsTrustSection /> */}
 
         {/* 1.10 Creative showreel: Videography, photography, brand films and selected campaigns */}
-        {/* <CreativeShowreelSection /> */}
+        <CreativeShowreelSection />
 
         {/* 1.11 Insights: Latest blog posts and useful industry content */}
         <InsightsSection initialArticles={recentBlogs} initialHeading={insightsHeading} />

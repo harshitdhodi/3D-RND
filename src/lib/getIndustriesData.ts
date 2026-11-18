@@ -95,6 +95,9 @@ export interface Industry {
   status: boolean;
   created_at: string;
   updated_at: string;
+  icon_name?: string;
+  icon?: string;
+  iconName?: string;
   // Additional fields for compatibility with IndustryData
   shortInfo?: string;
   heroMetrics?: Array<{ label: string; value: string }>;
@@ -228,9 +231,26 @@ export interface IndustryItemData {
   description: string;
   image: string;
   iconName: string;
+  icon_name?: string;
+  icon?: string;
   heroMetrics: Array<{ label: string; value: string }>;
   works: Array<{ title: string; image?: string }>;
   featured_project?: string;
+}
+
+export function getDefaultIndustryIcon(title?: string, slug?: string): string {
+  const key = `${title || ""} ${slug || ""}`.toLowerCase();
+  if (key.includes("manufactur") || key.includes("industrial") || key.includes("factory")) return "Factory";
+  if (key.includes("health") || key.includes("dental") || key.includes("medtech") || key.includes("clinic") || key.includes("doctor")) return "HeartPulse";
+  if (key.includes("food") || key.includes("fmcg") || key.includes("beverage") || key.includes("restaurant") || key.includes("dining")) return "Utensils";
+  if (key.includes("retail") || key.includes("e-commerce") || key.includes("ecommerce") || key.includes("shop") || key.includes("store")) return "ShoppingCart";
+  if (key.includes("hospitality") || key.includes("resort") || key.includes("hotel") || key.includes("travel") || key.includes("tourism")) return "Hotel";
+  if (key.includes("education") || key.includes("training") || key.includes("school") || key.includes("college") || key.includes("academy") || key.includes("learn")) return "GraduationCap";
+  if (key.includes("fintech") || key.includes("bank") || key.includes("finance")) return "Landmark";
+  if (key.includes("saas") || key.includes("cloud") || key.includes("software")) return "CloudCog";
+  if (key.includes("real estate") || key.includes("property") || key.includes("proptech")) return "Building2";
+  if (key.includes("automotive") || key.includes("mobility") || key.includes("vehicle") || key.includes("car")) return "Car";
+  return "Factory";
 }
 
 export const DEFAULT_INDUSTRIES_DATA: IndustryItemData[] = [
@@ -465,6 +485,11 @@ export async function getIndustriesData(): Promise<IndustryItemData[]> {
       const fallbackWorkTitle = staticMatch?.works?.[0]?.title || "Enterprise Digital Platform";
       const workTitle = doc.featured_project || fallbackWorkTitle;
       const cardImage = doc.image || staticMatch?.works?.[0]?.image || "/Industries/manufacturing_mockup.png";
+      const resolvedIcon =
+        doc.icon_name ||
+        doc.icon ||
+        (doc as any).iconName ||
+        getDefaultIndustryIcon(doc.title, doc.slug);
 
       return {
         id: `${doc.slug || doc._id?.toString() || String(idx)}-${idx}`,
@@ -477,7 +502,9 @@ export async function getIndustriesData(): Promise<IndustryItemData[]> {
         shortInfo: doc.short_info || doc.description || "",
         description: doc.description || "",
         image: cardImage,
-        iconName: "Building2",
+        iconName: resolvedIcon,
+        icon_name: resolvedIcon,
+        icon: resolvedIcon,
         heroMetrics: (doc.hero_metrics && doc.hero_metrics.length > 0)
           ? doc.hero_metrics
           : (staticMatch?.heroMetrics || []),

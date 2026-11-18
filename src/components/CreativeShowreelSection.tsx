@@ -3,27 +3,189 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 
-export default function CreativeShowreelSection() {
+interface CreativeShowreelSectionProps {
+  totalFrames?: number;
+  framePathPrefix?: string;
+  damping?: number;
+}
+
+export default function CreativeShowreelSection({
+  totalFrames = 240,
+  framePathPrefix = "/office-frames/frame_",
+  damping = 0.12, // Silk-smooth Apple-grade inertia
+}: CreativeShowreelSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const progressLineRef = useRef<HTMLDivElement>(null);
-  const animFrameRef = useRef<number | null>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   const [isMuted, setIsMuted] = useState(true);
+  const [isInitialReady, setIsInitialReady] = useState(false);
 
-  // Scroll targets & physics values
-  const targetProgressRef = useRef(0);
-  const currentProgressRef = useRef(0);
-  const isSeekingRef = useRef(false);
-  const lastTimeRef = useRef<number | null>(null);
+  // Images cache & tracking
+  const imagesRef = useRef<HTMLImageElement[]>([]);
+  const loadedCountRef = useRef(0);
+  const lastDrawnIndexRef = useRef(-1);
 
-  // Speed tuning parameters:
-  // 1. Normal speed: slightly decreased rate for gentle, cinematic control
-  const NORMAL_LERP_FACTOR = 0.055;
-  // 2. Fast scroll cap: decided constant max playback speed (~1.25x real-time speed)
-  const FAST_MAX_SPEED_RATE = 1.25;
+  // Scroll targets & physics values for ultra-smooth 60/120fps scrubbing
+  const targetFrameRef = useRef(1);
+  const currentFrameRef = useRef(1);
+  const animFrameRef = useRef<number | null>(null);
 
-  // Listen to scroll to compute target scrollProgress (0 to 1)
+  // Format frame number to 4 digits: e.g. 1 -> "0001"
+  const getFrameUrl = useCallback(
+    (index: number) => {
+      const padded = String(Math.max(1, Math.min(totalFrames, index))).padStart(
+        4,
+        "0"
+      );
+      return `${framePathPrefix}${padded}.jpg`;
+    },
+    [framePathPrefix, totalFrames]
+  );
+
+  // GPU-accelerated frame drawing onto HTML5 Canvas with cover-mode & nearest-frame fallback
+  const drawFrame = useCallback((frameIndex: number) => {
+    // Avoid redundant canvas repaints if frame has not changed
+    if (frameIndex === lastDrawnIndexRef.current) return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d", { alpha: false });
+    if (!ctx) return;
+
+    let img = imagesRef.current[frameIndex - 1];
+    if (!img || !img.complete || img.naturalWidth === 0) {
+      // Find nearest loaded frame so canvas never flickers, stutters, or goes blank
+      for (let offset = 1; offset < 40; offset++) {
+        const prev = imagesRef.current[frameIndex - 1 - offset];
+        if (prev && prev.complete && prev.naturalWidth > 0) {
+          img = prev;
+          break;
+        }
+        const next = imagesRef.current[frameIndex - 1 + offset];
+        if (next && next.complete && next.naturalWidth > 0) {
+          img = next;
+          break;
+        }
+      }
+    }
+
+    if (!img || !img.complete || img.naturalWidth === 0) return;
+
+    const cw = canvas.width;
+    const ch = canvas.height;
+    const iw = img.naturalWidth;
+    const ih = img.naturalHeight;
+
+    // Edge-to-edge cover calculation (100% viewport coverage, no letterboxing)
+    const ratio = Math.max(cw / iw, ch / ih);
+    const renderWidth = Math.round(iw * ratio);
+    const renderHeight = Math.round(ih * ratio);
+    const offsetX = Math.round((cw - renderWidth) / 2);
+    const offsetY = Math.round((ch - renderHeight) / 2);
+
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(img, 0, 0, iw, ih, offsetX, offsetY, renderWidth, renderHeight);
+
+    lastDrawnIndexRef.current = frameIndex;
+  }, []);
+
+  // Responsive Canvas Sizing (accounts for retina display / devicePixelRatio)
+  const resizeCanvas = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const container = containerRef.current;
+    const width =
+      (container && container.clientWidth > 0 ? container.clientWidth : 0) ||
+      (typeof window !== "undefined" ? window.innerWidth : 1920);
+    const height =
+      (typeof window !== "undefined" ? window.innerHeight : 1080);
+    const dpr = Math.min(
+      typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1,
+      1.5 // Optimal DPI clamp for peak 60-120fps GPU performance
+    );
+
+    const targetWidth = Math.floor(width * dpr);
+    const targetHeight = Math.floor(height * dpr);
+
+    if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
+      canvas.width = targetWidth;
+      canvas.height = targetHeight;
+      lastDrawnIndexRef.current = -1; // Force redraw on resize
+      drawFrame(Math.round(currentFrameRef.current));
+    }
+  }, [drawFrame]);
+
+  // Progressive Preloading Pipeline:
+  // 1. Frame 1 (Instant Paint)
+  // 2. Keyframes spaced every 8 frames for rapid scrubbing readiness
+  // 3. Complete streaming of all remaining frames
+  useEffect(() => {
+    let isCancelled = false;
+    imagesRef.current = new Array(totalFrames);
+
+    // 1. First frame (instant paint)
+    const firstImg = new Image();
+    firstImg.src = getFrameUrl(1);
+    imagesRef.current[0] = firstImg;
+    firstImg.onload = () => {
+      if (isCancelled) return;
+      loadedCountRef.current++;
+      setIsInitialReady(true);
+      resizeCanvas();
+      drawFrame(1);
+    };
+
+    // 2. Preload keyframes spaced by 8
+    const keyframes: number[] = [];
+    for (let i = 2; i <= totalFrames; i += 8) {
+      keyframes.push(i);
+    }
+
+    keyframes.forEach((frameNum) => {
+      const img = new Image();
+      img.src = getFrameUrl(frameNum);
+      imagesRef.current[frameNum - 1] = img;
+      img.onload = () => {
+        if (!isCancelled) loadedCountRef.current++;
+      };
+    });
+
+    // 3. Background stream all remaining frames
+    const preloadTimer = setTimeout(() => {
+      for (let i = 1; i <= totalFrames; i++) {
+        if (!imagesRef.current[i - 1]) {
+          const img = new Image();
+          img.src = getFrameUrl(i);
+          imagesRef.current[i - 1] = img;
+          img.onload = () => {
+            if (!isCancelled) loadedCountRef.current++;
+          };
+        }
+      }
+    }, 150);
+
+    return () => {
+      isCancelled = true;
+      clearTimeout(preloadTimer);
+    };
+  }, [totalFrames, getFrameUrl, resizeCanvas, drawFrame]);
+
+  // Window resize observer
+  useEffect(() => {
+    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("orientationchange", resizeCanvas);
+    resizeCanvas();
+
+    return () => {
+      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("orientationchange", resizeCanvas);
+    };
+  }, [resizeCanvas]);
+
+  // Listen to scroll to compute target scrollProgress (0 to 1) and target frame
   useEffect(() => {
     const handleScroll = () => {
       if (!containerRef.current) return;
@@ -33,112 +195,84 @@ export default function CreativeShowreelSection() {
 
       const currentScroll = -rect.top;
       const progress = Math.max(0, Math.min(1, currentScroll / totalScroll));
-      targetProgressRef.current = progress;
+      
+      // Calculate target frame [1, totalFrames]
+      const frameIndex = Math.round(progress * (totalFrames - 1)) + 1;
+      targetFrameRef.current = frameIndex;
+
+      // Sync audio if unmuted
+      if (audioRef.current && !audioRef.current.paused && audioRef.current.duration) {
+        const targetTime = progress * audioRef.current.duration;
+        if (Math.abs(audioRef.current.currentTime - targetTime) > 0.15) {
+          audioRef.current.currentTime = targetTime;
+        }
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [totalFrames]);
 
-  // Avoid browser seek backlog on rapid scroll
-  const handleSeeked = useCallback(() => {
-    isSeekingRef.current = false;
-    const video = videoRef.current;
-    if (!video || !video.duration) return;
-
-    const targetTime = currentProgressRef.current * video.duration;
-    if (Math.abs(video.currentTime - targetTime) > 0.03) {
-      isSeekingRef.current = true;
-      if ("fastSeek" in video && typeof (video as any).fastSeek === "function") {
-        (video as any).fastSeek(targetTime);
-      } else {
-        video.currentTime = targetTime;
-      }
-    }
-  }, []);
-
-  const handleSeeking = useCallback(() => {
-    isSeekingRef.current = true;
-  }, []);
-
-  // Animation loop with constant speed cap & decreased normal speed
+  // 60-120 FPS Physics Animation Loop: Smooth inertia LERP
+  // Ensures buttery smooth motion with zero seek lag or micro-stutters
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+    let isRunning = true;
 
-    const updateScrub = (timestamp: number) => {
-      if (lastTimeRef.current === null) {
-        lastTimeRef.current = timestamp;
-      }
-      // Elapsed seconds between frames, clamped to max 100ms (to prevent large leaps on tab switches)
-      const deltaTime = Math.min((timestamp - lastTimeRef.current) / 1000, 0.1);
-      lastTimeRef.current = timestamp;
+    const renderLoop = () => {
+      if (!isRunning) return;
 
-      const diff = targetProgressRef.current - currentProgressRef.current;
-      const absDiff = Math.abs(diff);
+      const diff = targetFrameRef.current - currentFrameRef.current;
 
-      if (absDiff > 0.0001) {
-        const duration =
-          video.duration && !isNaN(video.duration) ? video.duration : 15.56;
-
-        // Decided maximum constant speed rate (progress delta per frame)
-        const maxProgressPerSec = FAST_MAX_SPEED_RATE / duration;
-        const maxDeltaThisFrame = maxProgressPerSec * deltaTime;
-
-        // Normal speed calculation (slightly decreased for smooth, relaxed scrubbing)
-        let step = diff * (NORMAL_LERP_FACTOR * 60 * deltaTime);
-
-        // If the user scrolls fast, clamp speed to the decided constant speed
-        if (Math.abs(step) > maxDeltaThisFrame) {
-          step = Math.sign(step) * maxDeltaThisFrame;
-        }
-
-        currentProgressRef.current += step;
-      } else {
-        currentProgressRef.current = targetProgressRef.current;
-      }
-
-      // Update video currentTime based on computed progress
-      if (video.duration) {
-        const targetTime = currentProgressRef.current * video.duration;
-        const timeDiff = Math.abs(video.currentTime - targetTime);
-
-        if (timeDiff > 0.02 && !isSeekingRef.current) {
-          isSeekingRef.current = true;
-          if ("fastSeek" in video && typeof (video as any).fastSeek === "function") {
-            (video as any).fastSeek(targetTime);
-          } else {
-            video.currentTime = targetTime;
-          }
-        }
+      // When position difference is noticeable, interpolate smoothly
+      if (Math.abs(diff) > 0.005) {
+        currentFrameRef.current += diff * damping;
+        drawFrame(Math.round(currentFrameRef.current));
+      } else if (currentFrameRef.current !== targetFrameRef.current) {
+        currentFrameRef.current = targetFrameRef.current;
+        drawFrame(Math.round(currentFrameRef.current));
       }
 
       // Update bottom progress bar directly via DOM to eliminate React re-render overhead
       if (progressLineRef.current) {
         const pct = Math.min(
           100,
-          Math.max(0, currentProgressRef.current * 100)
+          Math.max(
+            0,
+            ((currentFrameRef.current - 1) / (totalFrames - 1)) * 100
+          )
         );
         progressLineRef.current.style.width = `${pct}%`;
       }
 
-      animFrameRef.current = requestAnimationFrame(updateScrub);
+      animFrameRef.current = requestAnimationFrame(renderLoop);
     };
 
-    animFrameRef.current = requestAnimationFrame(updateScrub);
+    animFrameRef.current = requestAnimationFrame(renderLoop);
+
     return () => {
+      isRunning = false;
       if (animFrameRef.current) {
         cancelAnimationFrame(animFrameRef.current);
       }
     };
-  }, []);
+  }, [damping, drawFrame, totalFrames]);
 
+  // Audio mute/unmute toggle
   const toggleMute = () => {
-    const video = videoRef.current;
-    if (!video) return;
+    const audio = audioRef.current;
+    if (!audio) return;
     const nextMuted = !isMuted;
-    video.muted = nextMuted;
+    if (nextMuted) {
+      audio.pause();
+    } else {
+      if (audio.duration) {
+        audio.currentTime =
+          ((currentFrameRef.current - 1) / (totalFrames - 1)) * audio.duration;
+      }
+      audio.play().catch(() => {});
+    }
+    audio.muted = nextMuted;
     setIsMuted(nextMuted);
   };
 
@@ -148,22 +282,25 @@ export default function CreativeShowreelSection() {
       ref={containerRef}
       className="relative w-full h-[400vh] bg-[#050608] z-10"
     >
-      {/* Pinned Sticky Stage spanning 100% full screen width & height with zero text */}
+      {/* Hidden Audio Element for ambient/showreel sound */}
+      <audio
+        ref={audioRef}
+        src="/office/office.mp4"
+        preload="auto"
+        muted={isMuted}
+        loop
+      />
+
+      {/* Pinned Sticky Stage spanning 100% full screen width & height */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {/* Full-width Video Element covering edge-to-edge */}
-        <video
-          ref={videoRef}
-          src="/office/office.mp4"
-          muted={isMuted}
-          playsInline
-          preload="auto"
-          onSeeked={handleSeeked}
-          onSeeking={handleSeeking}
-          className="w-full h-full object-cover"
+        {/* Full-width GPU-Accelerated Canvas for Smooth Scrubbing */}
+        <canvas
+          ref={canvasRef}
+          className="w-full h-full block object-cover will-change-transform"
           style={{ transform: "translateZ(0)" }}
         />
 
-        {/* Minimal Audio Toggle Icon (No text overlay) */}
+        {/* Minimal Audio Toggle Icon */}
         <button
           onClick={toggleMute}
           aria-label={isMuted ? "Unmute audio" : "Mute audio"}
@@ -184,6 +321,16 @@ export default function CreativeShowreelSection() {
             style={{ width: "0%" }}
           />
         </div>
+
+        {/* First frame initializing indicator */}
+        {!isInitialReady && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#050608] z-20">
+            <div className="w-10 h-10 border-3 border-[#FFD400] border-t-transparent rounded-full animate-spin mb-3" />
+            <span className="text-[11px] font-mono text-[#FFD400] tracking-widest uppercase">
+              CALIBRATING SHOWREEL FRAMES...
+            </span>
+          </div>
+        )}
       </div>
     </section>
   );

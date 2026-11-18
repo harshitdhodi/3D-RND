@@ -7,10 +7,17 @@ import {
   HeartPulse,
   CloudCog,
   ShoppingBag,
+  ShoppingCart,
   Car,
   Factory,
   GraduationCap,
   Building2,
+  Utensils,
+  Hotel,
+  Stethoscope,
+  Briefcase,
+  Cpu,
+  Globe,
   ArrowUpRight,
 } from "lucide-react";
 import {
@@ -31,19 +38,25 @@ const ICON_MAP: Record<
   HeartPulse,
   CloudCog,
   ShoppingBag,
+  ShoppingCart,
   Car,
   Factory,
   GraduationCap,
   Building2,
+  Utensils,
+  Hotel,
+  Stethoscope,
+  Briefcase,
+  Cpu,
+  Globe,
   ShieldCheck: Landmark,
   Cloud: CloudCog,
-  ShoppingCart: ShoppingBag,
   Plane: Car,
 };
 
 function getIconAnimationClass(title: string, slug?: string, iconName?: string): string {
   const key = `${title} ${slug || ""} ${iconName || ""}`.toLowerCase();
-  if (key.includes("health") || key.includes("medtech") || key.includes("heart")) {
+  if (key.includes("health") || key.includes("dental") || key.includes("medtech") || key.includes("heart")) {
     return "animate-icon-heartbeat";
   }
   if (key.includes("fintech") || key.includes("bank") || key.includes("landmark") || key.includes("shield")) {
@@ -54,6 +67,12 @@ function getIconAnimationClass(title: string, slug?: string, iconName?: string):
   }
   if (key.includes("retail") || key.includes("e-commerce") || key.includes("shop") || key.includes("cart")) {
     return "animate-icon-retail";
+  }
+  if (key.includes("food") || key.includes("fmcg") || key.includes("utensil") || key.includes("dining")) {
+    return "animate-icon-retail";
+  }
+  if (key.includes("hospitality") || key.includes("resort") || key.includes("hotel")) {
+    return "animate-icon-realestate";
   }
   if (key.includes("mobility") || key.includes("aero") || key.includes("car") || key.includes("plane")) {
     return "animate-icon-mobility";

@@ -1,6 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { getServiceCategoryBySlug, getServiceSubcategories, ServiceCategory, ServiceSubcategory } from "@/lib/getServiceData";
+import { getPortfolioCategories } from "@/lib/getPortfolioData";
 import { getSectionHeading } from "@/lib/getSectionHeading";
 import CategoryPageClient from "@/components/CategoryPageClient";
 import { categoryPagesData } from "@/data/categoryPagesData";
@@ -23,6 +24,14 @@ export async function generateMetadata({
   const data = await getServiceCategoryBySlug(category);
 
   if (!data) {
+    const portfolioCats = await getPortfolioCategories();
+    const isPortfolioCat = portfolioCats.find((c) => c.slug === category);
+    if (isPortfolioCat) {
+      return {
+        title: `${isPortfolioCat.title} | RND Technosoft Portfolio`,
+        description: isPortfolioCat.description,
+      };
+    }
     return {
       title: "Category Not Found | RND Technosoft",
       robots: "noindex, nofollow",
@@ -82,6 +91,11 @@ export default async function CategoryPage({
   ]);
 
   if (!categoryData) {
+    const portfolioCats = await getPortfolioCategories();
+    const isPortfolioCat = portfolioCats.find((c) => c.slug === category);
+    if (isPortfolioCat) {
+      redirect(`/portfolio/${category}`);
+    }
     notFound();
   }
 

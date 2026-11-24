@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { getServiceSubcategoryBySlug, getServiceItems, ServiceSubcategory, ServiceItem } from "@/lib/getServiceData";
 import { getSectionHeading } from "@/lib/getSectionHeading";
 import ServiceDetailsView from "@/components/ServiceDetailsView";
+import { getPortfolioProjectBySlug, getPortfolioProjects } from "@/lib/getPortfolioData";
+import PortfolioProjectCaseStudyView from "@/components/PortfolioProjectCaseStudyView";
 
 // Enable dynamic rendering so all subcategories from CMS are rendered live
 export const dynamic = 'force-dynamic';
@@ -168,6 +170,51 @@ export async function generateMetadata({
   const resolved = await resolveService(category, subcategory);
 
   if (!resolved) {
+    // Check if it's a portfolio project case study (/[slug]/:portfolio_slug)
+    const portfolioProject = await getPortfolioProjectBySlug(subcategory);
+    if (portfolioProject) {
+      const title = `${portfolioProject.title} | Case Study & Engineering Showcase`;
+      const description = portfolioProject.summary || portfolioProject.tagline || portfolioProject.subtitle;
+      const pageUrl = `https://rndtechnosoft.com/${category}/${subcategory}`;
+
+      return {
+        title,
+        description,
+        keywords: [
+          portfolioProject.title,
+          portfolioProject.category_title || category,
+          portfolioProject.client,
+          "Case Study",
+          "RND Technosoft",
+          ...(portfolioProject.tech_stack || []),
+        ],
+        alternates: {
+          canonical: pageUrl,
+        },
+        openGraph: {
+          title,
+          description,
+          url: pageUrl,
+          siteName: "RND Technosoft",
+          type: "article",
+          images: [
+            {
+              url: portfolioProject.image || "/banner/service.png",
+              width: 1200,
+              height: 630,
+              alt: `${portfolioProject.title} Case Study | RND Technosoft`,
+            },
+          ],
+        },
+        twitter: {
+          card: "summary_large_image",
+          title,
+          description,
+          images: [portfolioProject.image || "/banner/service.png"],
+        },
+      };
+    }
+
     return {
       title: "Service Not Found | RND Technosoft",
       robots: "noindex, nofollow",
@@ -225,6 +272,33 @@ export default async function CategorySubcategoryServicePage({
   const resolved = await resolveService(category, subcategory);
 
   if (!resolved) {
+    // Check if it's a portfolio project case study (/[slug]/:portfolio_slug)
+    const portfolioProject = await getPortfolioProjectBySlug(subcategory);
+    if (portfolioProject) {
+      const categoryProjects = await getPortfolioProjects(portfolioProject.category_slug || category);
+      const currentIndex = categoryProjects.findIndex((p) => p.slug === portfolioProject.slug);
+
+      const prevProject =
+        currentIndex > 0 ? categoryProjects[currentIndex - 1] : null;
+      const nextProject =
+        currentIndex >= 0 && currentIndex < categoryProjects.length - 1
+          ? categoryProjects[currentIndex + 1]
+          : null;
+
+      const relatedProjects = categoryProjects
+        .filter((p) => p.slug !== portfolioProject.slug)
+        .slice(0, 3);
+
+      return (
+        <PortfolioProjectCaseStudyView
+          project={portfolioProject}
+          relatedProjects={relatedProjects}
+          prevProject={prevProject}
+          nextProject={nextProject}
+        />
+      );
+    }
+
     notFound();
   }
 

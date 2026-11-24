@@ -169,6 +169,7 @@ export async function getSectionHeading(
       `${API_BASE_URL}/api/heading?section=${encodeURIComponent(sectionName)}`,
       {
         cache: "no-store",
+        signal: AbortSignal.timeout(2000),
       }
     );
     if (res.ok) {
@@ -197,7 +198,7 @@ export async function getSectionHeading(
     if (altSection) {
       const altRes = await fetch(
         `${API_BASE_URL}/api/heading?section=${encodeURIComponent(altSection)}`,
-        { cache: "no-store" }
+        { cache: "no-store", signal: AbortSignal.timeout(2000) }
       );
       if (altRes.ok) {
         const altJson = await altRes.json();

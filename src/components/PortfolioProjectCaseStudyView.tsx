@@ -3,6 +3,8 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   ArrowLeft,
   ArrowRight,
@@ -40,6 +42,8 @@ import SpaceBackground from "@/components/SpaceBackground";
 import PageBanner from "@/components/PageBanner";
 import ServiceConversionCTA from "@/components/ServiceConversionCTA";
 import BeforeAfterSection, { BeforeAfterData } from "@/components/BeforeAfterSection";
+import WaveText from "@/components/WaveText";
+import ScrollReveal from "@/components/ScrollReveal";
 import { PortfolioProject } from "@/lib/getPortfolioData";
 
 export interface PortfolioCaseStudyProps {
@@ -67,234 +71,74 @@ export default function PortfolioProjectCaseStudyView({
   const processSteps = getProjectProcessSteps(project);
   const telemetryMetrics = getProjectTelemetry(project);
 
-  // Horizontal Scroll Logic & Drag State for Process Roadmap
-  const scrollRef = useRef<HTMLDivElement>(null);
   const roadmapSectionRef = useRef<HTMLElement>(null);
-  const targetScrollRef = useRef<number>(0);
-  const animIdRef = useRef<number | null>(null);
-  const [isWheelFrozen, setIsWheelFrozen] = useState(false);
 
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [activeStep, setActiveStep] = useState(0);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
+  // GSAP: ScrollTrigger entrance animation for vertical roadmap cards
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    gsap.registerPlugin(ScrollTrigger);
 
-  const isDraggingRef = useRef(false);
-  const startXRef = useRef(0);
-  const scrollLeftRef = useRef(0);
+    const section = roadmapSectionRef.current;
+    if (!section) return;
 
-  const updateScrollState = useCallback(() => {
-    if (!scrollRef.current) return;
-    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-    const maxScroll = scrollWidth - clientWidth;
-    const progress = maxScroll > 0 ? (scrollLeft / maxScroll) * 100 : 0;
-    setScrollProgress(progress);
-    setCanScrollLeft(scrollLeft > 15);
-    setCanScrollRight(scrollLeft < maxScroll - 15);
+    const cards = section.querySelectorAll(".vertical-roadmap-item");
+    if (!cards || cards.length === 0) return;
 
-    const items = scrollRef.current.querySelectorAll("[data-step-card]");
-    if (items.length > 0) {
-      const containerCenter = scrollLeft + clientWidth / 2;
-      let closestIndex = 0;
-      let closestDistance = Infinity;
-
-      items.forEach((item, index) => {
-        const el = item as HTMLElement;
-        const itemCenter = el.offsetLeft + el.offsetWidth / 2;
-        const dist = Math.abs(containerCenter - itemCenter);
-        if (dist < closestDistance) {
-          closestDistance = dist;
-          closestIndex = index;
-        }
+    const ctx = gsap.context(() => {
+      cards.forEach((card) => {
+        gsap.fromTo(
+          card,
+          {
+            opacity: 0,
+            y: 40,
+            filter: "blur(4px)",
+          },
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.75,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 88%",
+              toggleActions: "play none none none",
+              once: true,
+            },
+            onComplete: () => {
+              gsap.set(card, { clearProps: "filter,transform" });
+            },
+          }
+        );
       });
+    }, section);
 
-      setActiveStep(closestIndex);
-    }
+    return () => ctx.revert();
   }, [processSteps.length]);
 
-  useEffect(() => {
-    updateScrollState();
-    window.addEventListener("resize", updateScrollState);
-    return () => window.removeEventListener("resize", updateScrollState);
-  }, [updateScrollState]);
-
-  // Mouse wheel freeze & buttery-smooth momentum horizontal scroll controller
-  useEffect(() => {
-    const sectionEl = roadmapSectionRef.current;
-    if (!sectionEl) return;
-
-    if (scrollRef.current) {
-      targetScrollRef.current = scrollRef.current.scrollLeft;
-    }
-
-    const startSmoothLoop = () => {
-      if (animIdRef.current) return;
-
-      const step = () => {
-        const container = scrollRef.current;
-        if (!container) {
-          animIdRef.current = null;
-          return;
-        }
-
-        const current = container.scrollLeft;
-        const target = targetScrollRef.current;
-        const diff = target - current;
-
-        // Luxurious weightless lerp interpolation
-        if (Math.abs(diff) > 0.5) {
-          container.scrollLeft = current + diff * 0.12;
-          animIdRef.current = requestAnimationFrame(step);
-        } else {
-          container.scrollLeft = target;
-          animIdRef.current = null;
-        }
-      };
-
-      animIdRef.current = requestAnimationFrame(step);
-    };
-
-    const handleWheel = (e: WheelEvent) => {
-      // If user is doing an intentional trackpad horizontal gesture, let native handle it
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-
-      const container = scrollRef.current;
-      if (!container) return;
-
-      const { scrollLeft, scrollWidth, clientWidth } = container;
-      const maxScroll = scrollWidth - clientWidth;
-      if (maxScroll <= 5) return;
-
-      const isScrollingDown = e.deltaY > 0;
-      const isScrollingUp = e.deltaY < 0;
-
-      // Ensure the section is fully framed on screen before locking vertical scroll
-      const rect = sectionEl.getBoundingClientRect();
-      if (isScrollingDown && rect.top > 120) {
-        // Let page scroll down naturally into full view
-        return;
-      }
-      if (isScrollingUp && rect.bottom < window.innerHeight * 0.45) {
-        // Let page scroll up naturally
-        return;
-      }
-
-      // Check whether we are within horizontal bounds for this direction
-      const canGoForward = isScrollingDown && targetScrollRef.current < maxScroll - 4;
-      const canGoBackward = isScrollingUp && targetScrollRef.current > 4;
-
-      if (canGoForward || canGoBackward) {
-        // FREEZE vertical page scroll so screen locks on the process section
-        e.preventDefault();
-        setIsWheelFrozen(true);
-
-        // Normalize delta to eliminate abrupt jumps from aggressive mouse wheels
-        const delta = Math.sign(e.deltaY) * Math.min(Math.abs(e.deltaY), 120);
-        const scrollSpeed = 1.6;
-
-        // Smoothly accumulate target position
-        targetScrollRef.current = Math.max(
-          0,
-          Math.min(maxScroll, targetScrollRef.current + delta * scrollSpeed)
-        );
-
-        startSmoothLoop();
-      } else {
-        // Reached start or end: release freeze so vertical page scroll unfreezes and resumes
-        setIsWheelFrozen(false);
-      }
-    };
-
-    sectionEl.addEventListener("wheel", handleWheel, { passive: false });
-    return () => {
-      sectionEl.removeEventListener("wheel", handleWheel);
-      if (animIdRef.current) {
-        cancelAnimationFrame(animIdRef.current);
-        animIdRef.current = null;
-      }
-    };
-  }, []);
-
-  const scrollToStep = (index: number) => {
-    if (!scrollRef.current) return;
-    const items = scrollRef.current.querySelectorAll("[data-step-card]");
-    if (items[index]) {
-      const container = scrollRef.current;
-      const { scrollWidth, clientWidth } = container;
-      const maxScroll = scrollWidth - clientWidth;
-
-      const el = items[index] as HTMLElement;
-      const targetX = Math.max(
-        0,
-        Math.min(maxScroll, el.offsetLeft - (clientWidth - el.offsetWidth) / 2)
-      );
-
-      targetScrollRef.current = targetX;
-      setActiveStep(index);
-
-      if (animIdRef.current) cancelAnimationFrame(animIdRef.current);
-      const step = () => {
-        const cur = container.scrollLeft;
-        const diff = targetScrollRef.current - cur;
-        if (Math.abs(diff) > 0.5) {
-          container.scrollLeft = cur + diff * 0.14;
-          animIdRef.current = requestAnimationFrame(step);
-        } else {
-          container.scrollLeft = targetScrollRef.current;
-          animIdRef.current = null;
-        }
-      };
-      animIdRef.current = requestAnimationFrame(step);
-    }
-  };
-
-  const scrollRoadmap = (direction: "left" | "right") => {
-    const nextIdx =
-      direction === "left"
-        ? Math.max(0, activeStep - 1)
-        : Math.min(processSteps.length - 1, activeStep + 1);
-    scrollToStep(nextIdx);
-  };
-
-  const onMouseDown = (e: React.MouseEvent) => {
-    if (!scrollRef.current) return;
-    isDraggingRef.current = true;
-    startXRef.current = e.pageX - scrollRef.current.offsetLeft;
-    scrollLeftRef.current = scrollRef.current.scrollLeft;
-    targetScrollRef.current = scrollRef.current.scrollLeft;
-    if (animIdRef.current) cancelAnimationFrame(animIdRef.current);
-  };
-
-  const onMouseMove = (e: React.MouseEvent) => {
-    if (!isDraggingRef.current || !scrollRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startXRef.current) * 1.5;
-    scrollRef.current.scrollLeft = scrollLeftRef.current - walk;
-    targetScrollRef.current = scrollRef.current.scrollLeft;
-  };
-
-  const onMouseUp = () => {
-    isDraggingRef.current = false;
-  };
-
   return (
-    <div className="font-archia relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black">
+    <div className="font-archia relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black overflow-x-hidden">
+      {/* 3D Interactive Space Starfield Canvas */}
       <SpaceBackground />
+
       <Navbar />
 
       {/* Page Banner with Deep Breadcrumb Navigation */}
       <PageBanner
         title={project.title.toUpperCase()}
-        parentBreadcrumb={{ label: "PORTFOLIO", href: "/portfolio" }}
-        breadcrumb={`PORTFOLIO / ${catTitle.toUpperCase()} / ${project.title.toUpperCase()}`}
-        imageSrc={project.image || "/banner/service.png"}
+        breadcrumbs={[
+          { label: "PORTFOLIO", href: "/portfolio" },
+          { label: catTitle.toUpperCase(), href: `/portfolio/${catSlug}` },
+          { label: project.title.toUpperCase(), href: `/portfolio/${catSlug}/${project.slug}` },
+        ]}
+        imageSrc={(project as any).banner_image || (project as any).bannerImg || "/NewBanner/protfolio page banner.png"}
         imgtitle={project.imgtitle || `${project.title} Case Study`}
         altname={project.altname || `${project.title} - RND Technosoft Case Study`}
       />
 
-      <main className="relative z-20 w-full mt-10 sm:mt-14 rounded-t-4xl sm:rounded-t-[48px] bg-[#050608] border-t border-white/10 shadow-[0_-30px_70px_rgba(0,0,0,0.9)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-12 sm:pt-16 pb-20">
+      {/* Main Content (Directly below banner without overlap) */}
+      <main className="relative z-10 w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-8 sm:pt-12 pb-12">
 
           {/* =========================================================================
               1. HERO TELEMETRY HUD & NAVIGATION BAR
@@ -314,13 +158,17 @@ export default function PortfolioProjectCaseStudyView({
                 </span>
               </div>
 
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold uppercase tracking-tight text-white mb-4 font-[family-name:var(--font-syne)]">
-                {project.title}
-              </h1>
+              <ScrollReveal yOffset={18}>
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold uppercase tracking-tight text-white mb-4 font-[family-name:var(--font-syne)]">
+                  <WaveText text={project.title} />
+                </h1>
+              </ScrollReveal>
 
-              <p className="text-base sm:text-lg lg:text-xl text-neutral-300 font-light max-w-4xl leading-relaxed">
-                {project.subtitle || project.tagline || project.summary}
-              </p>
+              <ScrollReveal delay={0.15} yOffset={20}>
+                <p className="text-base sm:text-lg lg:text-xl text-neutral-300 font-light max-w-4xl leading-relaxed">
+                  {project.subtitle || project.tagline || project.summary}
+                </p>
+              </ScrollReveal>
             </div>
 
             {/* Quick Actions */}
@@ -464,40 +312,6 @@ export default function PortfolioProjectCaseStudyView({
                 </span>
               </div>
             </div>
-
-            {/* Gallery Lightbox Preview (if gallery images exist) */}
-            {project.gallery_images && project.gallery_images.length > 0 && (
-              <div className="mt-8">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#FFD400]">
-                    INTERFACE SHOTS &amp; TELEMETRY VIEWPORTS ({project.gallery_images.length})
-                  </span>
-                  <span className="text-xs text-neutral-400 font-mono">
-                    Click to zoom viewport
-                  </span>
-                </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {project.gallery_images.map((imgUrl, i) => (
-                    <div
-                      key={i}
-                      onClick={() => setSelectedGalleryImg(imgUrl)}
-                      className="group relative rounded-2xl overflow-hidden aspect-video bg-[#0c0e14] border border-white/10 hover:border-[#FFD400] transition-all cursor-pointer shadow-lg"
-                    >
-                      <Image
-                        src={imgUrl}
-                        alt={`${project.title} Interface ${i + 1}`}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
-                      <div className="absolute bottom-2.5 right-2.5 w-7 h-7 rounded-full bg-black/70 backdrop-blur-md flex items-center justify-center text-[#FFD400] opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Eye className="w-3.5 h-3.5" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
 
           {/* =========================================================================
@@ -505,13 +319,15 @@ export default function PortfolioProjectCaseStudyView({
               ========================================================================= */}
           <div className="py-16 border-b border-white/10">
             <div className="text-center max-w-3xl mx-auto mb-14">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-wider mb-3 bg-white/5 border border-[#FFD400]/30 text-[#FFD400]">
-                <Layers className="w-4 h-4" />
-                <span>Strategic Case Study Blueprint</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase text-white font-[family-name:var(--font-syne)]">
-                The Engineering Mandate
-              </h2>
+              <ScrollReveal yOffset={16}>
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-wider mb-3 bg-white/5 border border-[#FFD400]/30 text-[#FFD400]">
+                  <Layers className="w-4 h-4" />
+                  <span>Strategic Case Study Blueprint</span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase text-white font-[family-name:var(--font-syne)]">
+                  <WaveText text="The Engineering Mandate" />
+                </h2>
+              </ScrollReveal>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -608,16 +424,20 @@ export default function PortfolioProjectCaseStudyView({
               ========================================================================= */}
           <section id="case-study-transformation" className="py-16 border-b border-white/10">
             <div className="text-center max-w-3xl mx-auto mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-wider mb-3 bg-[#FFD400]/10 border border-[#FFD400]/40 text-[#FFD400]">
-                <SlidersHorizontal className="w-4 h-4" />
-                <span>Case Study Transformation Benchmark</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase text-white font-[family-name:var(--font-syne)] mb-4">
-                Before RND vs. How We Improvised
-              </h2>
-              <p className="text-neutral-300 text-sm sm:text-base leading-relaxed">
-                Direct contrast demonstrating how the legacy platform performed before intervention, and how RND Technosoft engineered an avant-garde digital transformation.
-              </p>
+              <ScrollReveal yOffset={16}>
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-wider mb-3 bg-[#FFD400]/10 border border-[#FFD400]/40 text-[#FFD400]">
+                  <SlidersHorizontal className="w-4 h-4" />
+                  <span>Case Study Transformation Benchmark</span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase text-white font-[family-name:var(--font-syne)] mb-4">
+                  <WaveText text="Before RND vs. How We Improvised" />
+                </h2>
+              </ScrollReveal>
+              <ScrollReveal delay={0.12} yOffset={20}>
+                <p className="text-neutral-300 text-sm sm:text-base leading-relaxed">
+                  Direct contrast demonstrating how the legacy platform performed before intervention, and how RND Technosoft engineered an avant-garde digital transformation.
+                </p>
+              </ScrollReveal>
 
               {/* View Switcher Pills */}
               <div className="mt-8 inline-flex p-1.5 rounded-full bg-white/5 border border-white/15">
@@ -729,342 +549,174 @@ export default function PortfolioProjectCaseStudyView({
                 </div>
               )}
             </div>
-
-            {/* Performance Comparison Lift Table */}
-            <div className="p-8 rounded-3xl bg-[#0c0e14] border border-white/10">
-              <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
-                <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#FFD400] font-bold">
-                  TELEMETRY LIFT &amp; BENCHMARK MATRIX
-                </span>
-                <span className="text-xs font-mono text-neutral-400">
-                  Audit Verified Telemetry
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {beforeAfterConfig.metrics.map((metric, i) => (
-                  <div
-                    key={i}
-                    className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 flex flex-col justify-between"
-                  >
-                    <div>
-                      <span className="text-xs font-mono uppercase text-neutral-400 block mb-2">
-                        {metric.label}
-                      </span>
-                      <div className="flex items-baseline justify-between gap-2 mb-2">
-                        <span className="text-sm font-mono text-red-400/80 line-through">
-                          {metric.before}
-                        </span>
-                        <span className="text-xl sm:text-2xl font-bold font-mono text-[#FFD400]">
-                          {metric.after}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="pt-2 border-t border-white/5 flex items-center justify-between text-xs font-mono">
-                      <span className="text-emerald-400 font-bold">{metric.improvement}</span>
-                      <span className="text-neutral-500">{metric.subtext}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
           </section>
+        </div>
 
-          {/* =========================================================================
-              6. STEP-BY-STEP PROCESS: ALTERNATING HORIZONTAL TIMELINE ROADMAP
-              ========================================================================= */}
-          <section
-            ref={roadmapSectionRef}
-            className="py-6 sm:py-8 border-b border-white/10 relative transition-all"
-          >
-            {/* Top Bar: Compact Unified Header (Title + Controls) */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 sm:mb-6">
-              <div>
-                <div className="flex items-center gap-2 mb-1">
+        {/* =========================================================================
+            6. STEP-BY-STEP PROCESS: VERTICAL CHRONOLOGICAL ROADMAP
+            ========================================================================= */}
+        <section
+          ref={roadmapSectionRef}
+          className="w-full py-16 sm:py-24 border-y border-white/10 relative transition-all bg-transparent overflow-hidden"
+        >
+          {/* Ambient decorative glowing backdrop orbs */}
+          <div className="absolute top-1/4 right-10 w-96 h-96 bg-[#FFD400]/5 rounded-full blur-3xl pointer-events-none -z-10" />
+          <div className="absolute bottom-1/4 left-10 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none -z-10" />
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+            {/* Top Bar: Section Header */}
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14 sm:mb-20">
+              <div className="space-y-2 max-w-2xl">
+                <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#FFD400] shadow-[0_0_8px_#FFD400] animate-pulse" />
-                  <span className="font-mono text-[11px] sm:text-xs uppercase tracking-[0.2em] text-neutral-300 font-semibold">
+                  <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.22em] text-[#FFD400] font-semibold">
                     CHRONOLOGICAL PIPELINE • WEEKS 01 TO 14
                   </span>
                 </div>
-                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold uppercase text-white font-[family-name:var(--font-syne)] tracking-tight">
-                  All Process Step-by-Step
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold uppercase text-white font-[family-name:var(--font-syne)] tracking-tight">
+                  <WaveText text="All Process Step-by-Step" />
                 </h2>
+                <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
+                  A structured, milestone-driven execution framework engineered from discovery through production deployment.
+                </p>
               </div>
 
-              {/* Right: Milestone Counter & Navigation Arrow Buttons */}
-              <div className="flex items-center gap-4 sm:gap-6 shrink-0">
-                <div className="text-right">
-                  <div className="font-mono text-sm sm:text-base font-bold text-white tracking-wider">
-                    0{activeStep + 1} <span className="text-neutral-500 font-normal">/</span> 0{processSteps.length}
-                  </div>
-                  <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-neutral-400">
-                    MILESTONE
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-1.5">
-                  <button
-                    type="button"
-                    onClick={() => scrollRoadmap("left")}
-                    disabled={!canScrollLeft}
-                    aria-label="Previous Milestone"
-                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
-                      canScrollLeft
-                        ? "bg-white/5 border-white/20 text-white hover:bg-[#FFD400] hover:text-black hover:border-[#FFD400] shadow-md active:scale-95"
-                        : "bg-white/[0.02] border-white/5 text-neutral-600 cursor-not-allowed opacity-40"
-                    }`}
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => scrollRoadmap("right")}
-                    disabled={!canScrollRight}
-                    aria-label="Next Milestone"
-                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
-                      canScrollRight
-                        ? "bg-white/5 border-white/20 text-white hover:bg-[#FFD400] hover:text-black hover:border-[#FFD400] shadow-md active:scale-95"
-                        : "bg-white/[0.02] border-white/5 text-neutral-600 cursor-not-allowed opacity-40"
-                    }`}
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
+              <div className="flex items-center gap-2 text-xs font-mono text-neutral-300 px-4 py-2 rounded-full bg-white/[0.03] border border-white/10 shrink-0 self-start sm:self-auto shadow-sm">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>06 PHASES // PRODUCTION-VERIFIED</span>
               </div>
             </div>
 
-            {/* Alternating Horizontal Scroll Timeline Track */}
-            <div
-              ref={scrollRef}
-              onScroll={updateScrollState}
-              onMouseDown={onMouseDown}
-              onMouseMove={onMouseMove}
-              onMouseUp={onMouseUp}
-              onMouseLeave={onMouseUp}
-              className="relative w-full overflow-x-auto pb-3 pt-2 cursor-grab active:cursor-grabbing select-none no-scrollbar [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            >
-              <div className="relative min-w-max h-[340px] sm:h-[370px] flex items-center px-6 sm:px-12">
-                {/* Background Axis Line spanning across whole scroll container */}
-                <div className="absolute top-1/2 left-0 right-0 h-[2px] bg-white/15 -translate-y-1/2 z-0" />
+            {/* Vertical Timeline Container */}
+            <div className="relative">
+              {/* Central Vertical Spine (Desktop md+) */}
+              <div className="hidden md:block absolute left-1/2 top-4 bottom-4 w-[2px] -translate-x-1/2 bg-gradient-to-b from-[#FFD400] via-white/20 to-[#FFD400]/40 z-0" />
 
-                {/* Active Glowing Progress Track */}
-                <div
-                  className="absolute top-1/2 left-0 h-[3px] bg-gradient-to-r from-[#FFD400] via-[#FFD400] to-[#FFE875] -translate-y-1/2 z-[1] transition-all duration-300 shadow-[0_0_15px_#FFD400]"
-                  style={{
-                    width: `${Math.min(
-                      Math.max(
-                        ((activeStep + 0.5) / processSteps.length) * 100,
-                        8
-                      ),
-                      100
-                    )}%`,
-                  }}
-                />
+              {/* Left-Aligned Spine (Mobile < md) */}
+              <div className="block md:hidden absolute left-5 sm:left-6 top-4 bottom-4 w-[2px] bg-gradient-to-b from-[#FFD400] via-white/20 to-[#FFD400]/40 z-0" />
 
-                {/* Step Columns */}
-                <div className="flex gap-8 sm:gap-10 relative z-10">
-                  {processSteps.map((step, idx) => {
-                    const isActive = activeStep === idx;
-                    const isPassed = activeStep > idx;
-                    const isEven = idx % 2 === 0;
+              {/* Timeline Steps */}
+              <div className="space-y-10 sm:space-y-14 md:space-y-16 relative z-10">
+                {processSteps.map((step, idx) => {
+                  const isEven = idx % 2 === 0;
 
-                    return (
+                  return (
+                    <div
+                      key={step.number || idx}
+                      className="vertical-roadmap-item relative flex flex-col md:flex-row items-stretch md:items-center group"
+                    >
+                      {/* Center Node (Desktop md+) */}
+                      <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 z-20 w-11 h-11 lg:w-12 lg:h-12 rounded-full bg-[#050608] border-2 border-[#FFD400] items-center justify-center shadow-[0_0_20px_rgba(255,212,0,0.35)] group-hover:scale-110 group-hover:bg-[#FFD400] transition-all duration-300">
+                        <span className="font-mono text-xs font-bold text-[#FFD400] group-hover:text-black transition-colors">
+                          {step.number}
+                        </span>
+                      </div>
+
+                      {/* Mobile Node (< md) */}
+                      <div className="md:hidden absolute left-5 sm:left-6 -translate-x-1/2 top-6 z-20 w-8 h-8 rounded-full bg-[#050608] border-2 border-[#FFD400] flex items-center justify-center shadow-[0_0_15px_rgba(255,212,0,0.35)]">
+                        <span className="font-mono text-[10px] font-bold text-[#FFD400]">
+                          {step.number}
+                        </span>
+                      </div>
+
+                      {/* Desktop Horizontal Connector Stem */}
                       <div
-                        key={idx}
-                        data-step-card
-                        className="w-[360px] sm:w-[420px] lg:w-[460px] shrink-0 relative h-[340px] sm:h-[370px] flex flex-col justify-center items-center snap-center"
+                        className={`hidden md:block absolute top-1/2 -translate-y-1/2 h-[2px] z-10 pointer-events-none ${
+                          isEven
+                            ? "right-1/2 w-8 lg:w-12 bg-gradient-to-l from-[#FFD400] to-white/10"
+                            : "left-1/2 w-8 lg:w-12 bg-gradient-to-r from-[#FFD400] to-white/10"
+                        }`}
+                      />
+
+                      {/* Step Card: Left on Even, Right on Odd (Desktop), Left-Indented on Mobile */}
+                      <div
+                        className={`w-full md:w-[calc(50%-36px)] lg:w-[calc(50%-48px)] pl-12 sm:pl-14 md:pl-0 ${
+                          isEven
+                            ? "md:mr-auto md:pr-4 lg:md:pr-8"
+                            : "md:ml-auto md:pl-4 lg:md:pl-8"
+                        }`}
                       >
-                        {/* Marker Node placed directly on central axis line */}
-                        <div
-                          onClick={() => scrollToStep(idx)}
-                          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 cursor-pointer group/node"
-                        >
-                          {isActive ? (
-                            <div className="relative flex items-center justify-center">
-                              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-[#FFD400] bg-[#FFD400]/25 flex items-center justify-center shadow-[0_0_15px_#FFD400] transition-all scale-110 animate-pulse">
-                                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#FFD400]" />
+                        <div className="relative rounded-2xl p-5 sm:p-7 bg-gradient-to-b from-[#0F131D]/95 via-[#0A0D14]/95 to-[#05070B] border border-white/10 hover:border-[#FFD400]/60 transition-all duration-300 shadow-xl hover:shadow-[0_0_35px_rgba(255,212,0,0.18)] backdrop-blur-xl group/card overflow-hidden">
+                          {/* Watermark Step Number */}
+                          <div className="absolute -top-3 -right-2 text-7xl sm:text-8xl font-black font-[family-name:var(--font-syne)] text-white/[0.02] group-hover/card:text-[#FFD400]/[0.06] transition-colors select-none pointer-events-none">
+                            {step.number}
+                          </div>
+
+                          {/* Top Meta Bar */}
+                          <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/10 relative z-10">
+                            <div className="flex items-center gap-2">
+                              <Clock className="w-3.5 h-3.5 text-[#FFD400]" />
+                              <span className="font-mono text-xs sm:text-sm font-bold text-[#FFD400] tracking-wide">
+                                {step.duration}
+                              </span>
+                            </div>
+                            <span className="px-2.5 py-0.5 rounded-full bg-white/[0.04] border border-white/10 text-[10px] font-mono text-neutral-300 uppercase tracking-wider">
+                              PHASE {step.number}
+                            </span>
+                          </div>
+
+                          {/* Split Content: Thumbnail + Details */}
+                          <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 items-start relative z-10">
+                            {/* Thumbnail */}
+                            <div
+                              className="relative w-full sm:w-44 h-40 sm:h-32 rounded-xl overflow-hidden shrink-0 border border-white/10 bg-black/60 shadow-md group-hover/card:border-[#FFD400]/40 transition-colors cursor-pointer group/thumb"
+                              onClick={() => setSelectedGalleryImg(step.image)}
+                            >
+                              <Image
+                                src={step.image}
+                                alt={step.title}
+                                fill
+                                className="object-cover group-hover/thumb:scale-108 transition-transform duration-500"
+                                sizes="(max-width: 640px) 100vw, 176px"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                              <div className="absolute bottom-2 left-2 flex items-center gap-1.5 px-2 py-0.5 rounded bg-black/80 backdrop-blur-md font-mono text-[9px] text-[#FFD400] border border-[#FFD400]/30 font-bold">
+                                <Eye className="w-2.5 h-2.5" />
+                                <span>PREVIEW</span>
                               </div>
                             </div>
-                          ) : isPassed ? (
-                            <div className="w-4 h-4 rounded-full border-2 border-[#FFD400] bg-[#FFD400] shadow-[0_0_8px_#FFD400] transition-all" />
-                          ) : (
-                            <div className="w-3.5 h-3.5 rounded-full border-2 border-white/40 bg-[#050608] group-hover/node:border-[#FFD400] group-hover/node:scale-125 transition-all" />
+
+                            {/* Phase Text */}
+                            <div className="flex-1 min-w-0 space-y-2">
+                              <h3 className="text-base sm:text-lg font-bold text-white uppercase font-[family-name:var(--font-syne)] group-hover/card:text-[#FFD400] transition-colors leading-snug">
+                                {step.title}
+                              </h3>
+                              <p className="text-xs sm:text-[13px] text-neutral-300 font-light leading-relaxed">
+                                {step.desc}
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Architectural Deliverables */}
+                          {step.deliverables && step.deliverables.length > 0 && (
+                            <div className="mt-5 pt-4 border-t border-white/10 relative z-10 space-y-2">
+                              <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#FFD400] font-bold block">
+                                Phase Deliverables:
+                              </span>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                                {step.deliverables.map((deliv, dIdx) => (
+                                  <div
+                                    key={dIdx}
+                                    className="flex items-start gap-1.5 text-xs font-mono text-neutral-300"
+                                  >
+                                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400] shrink-0 mt-0.5" />
+                                    <span className="font-light leading-tight">{deliv}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
                           )}
                         </div>
-
-                        {/* =======================================================
-                            EVEN INDEX (0, 2, 4) -> PLACED BELOW THE AXIS LINE
-                            ======================================================= */}
-                        {isEven && (
-                          <>
-                            {/* Vertical Connector Stem leading downward from marker */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 h-5 sm:h-6 w-[2px] bg-gradient-to-b from-[#FFD400] to-white/10 z-10" />
-
-                            {/* Content Card below */}
-                            <div
-                              onClick={() => scrollToStep(idx)}
-                              className={`absolute top-[calc(50%+20px)] sm:top-[calc(50%+24px)] left-0 right-0 rounded-xl sm:rounded-2xl p-2.5 sm:p-3 bg-gradient-to-b from-[#0F131D]/95 via-[#0A0D14]/95 to-[#05070B] border transition-all duration-300 cursor-pointer shadow-xl backdrop-blur-xl group flex gap-3 sm:gap-4 items-center ${
-                                isActive
-                                  ? "border-[#FFD400] shadow-[0_0_25px_rgba(255,212,0,0.22)] ring-1 ring-[#FFD400]/40 -translate-y-0.5"
-                                  : "border-white/10 hover:border-white/30"
-                              }`}
-                            >
-                              {/* Thumbnail Image on Left */}
-                              <div
-                                className="relative w-24 h-20 sm:w-28 sm:h-22 rounded-lg overflow-hidden shrink-0 border border-white/10 bg-black/60 shadow-md group-hover:border-[#FFD400]/40 transition-colors"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setSelectedGalleryImg(step.image);
-                                }}
-                              >
-                                <Image
-                                  src={step.image}
-                                  alt={step.title}
-                                  fill
-                                  className="object-cover group-hover:scale-108 transition-transform duration-500"
-                                  sizes="(max-width: 640px) 96px, 112px"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-                                <span className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded bg-black/80 backdrop-blur-md font-mono text-[9px] text-[#FFD400] border border-[#FFD400]/30 font-bold">
-                                  {step.number}
-                                </span>
-                              </div>
-
-                              {/* Text Info on Right */}
-                              <div className="flex-1 min-w-0">
-                                <div className="font-mono text-sm sm:text-base font-bold text-[#FFD400] tracking-tight mb-0.5 font-[family-name:var(--font-syne)] flex items-center justify-between">
-                                  <span>{step.duration}</span>
-                                  <span className="text-[9px] font-mono text-neutral-400 font-normal uppercase tracking-wider">
-                                    PHASE {step.number}
-                                  </span>
-                                </div>
-
-                                <h4 className="text-xs sm:text-sm font-bold text-white uppercase font-[family-name:var(--font-syne)] line-clamp-1 mb-1 group-hover:text-[#FFD400] transition-colors">
-                                  {step.title}
-                                </h4>
-
-                                <p className="text-[11px] text-neutral-300 font-light leading-relaxed line-clamp-2 mb-1.5">
-                                  {step.desc}
-                                </p>
-
-                                <div className="flex flex-wrap gap-1">
-                                  {step.deliverables.slice(0, 2).map((deliv, dIdx) => (
-                                    <span
-                                      key={dIdx}
-                                      className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-[9px] font-mono text-neutral-300 truncate max-w-[140px]"
-                                    >
-                                      <CheckCircle2 className="w-2.5 h-2.5 text-[#FFD400] shrink-0" />
-                                      <span className="truncate">{deliv}</span>
-                                    </span>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-                          </>
-                        )}
-
-                        {/* =======================================================
-                            ODD INDEX (1, 3, 5) -> PLACED ABOVE THE AXIS LINE
-                            ======================================================= */}
-                        {!isEven && (
-                          <>
-                            {/* Content Card above */}
-                            <div
-                              onClick={() => scrollToStep(idx)}
-                              className={`absolute bottom-[calc(50%+20px)] sm:bottom-[calc(50%+24px)] left-0 right-0 rounded-xl sm:rounded-2xl p-2.5 sm:p-3 bg-gradient-to-b from-[#0F131D]/95 via-[#0A0D14]/95 to-[#05070B] border transition-all duration-300 cursor-pointer shadow-xl backdrop-blur-xl group flex gap-3 sm:gap-4 items-center ${
-                                isActive
-                                  ? "border-[#FFD400] shadow-[0_0_25px_rgba(255,212,0,0.22)] ring-1 ring-[#FFD400]/40 translate-y-0.5"
-                                  : "border-white/10 hover:border-white/30"
-                              }`}
-                            >
-                              {/* Thumbnail Image on Left */}
-                              <div
-                                className="relative w-24 h-20 sm:w-28 sm:h-22 rounded-lg overflow-hidden shrink-0 border border-white/10 bg-black/60 shadow-md group-hover:border-[#FFD400]/40 transition-colors"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setSelectedGalleryImg(step.image);
-                                }}
-                              >
-                                <Image
-                                  src={step.image}
-                                  alt={step.title}
-                                  fill
-                                  className="object-cover group-hover:scale-108 transition-transform duration-500"
-                                  sizes="(max-width: 640px) 96px, 112px"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-                                <span className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded bg-black/80 backdrop-blur-md font-mono text-[9px] text-[#FFD400] border border-[#FFD400]/30 font-bold">
-                                  {step.number}
-                                </span>
-                              </div>
-
-                              {/* Text Info on Right */}
-                              <div className="flex-1 min-w-0">
-                                <div className="font-mono text-sm sm:text-base font-bold text-[#FFD400] tracking-tight mb-0.5 font-[family-name:var(--font-syne)] flex items-center justify-between">
-                                  <span>{step.duration}</span>
-                                  <span className="text-[9px] font-mono text-neutral-400 font-normal uppercase tracking-wider">
-                                    PHASE {step.number}
-                                  </span>
-                                </div>
-
-                                <h4 className="text-xs sm:text-sm font-bold text-white uppercase font-[family-name:var(--font-syne)] line-clamp-1 mb-1 group-hover:text-[#FFD400] transition-colors">
-                                  {step.title}
-                                </h4>
-
-                                <p className="text-[11px] text-neutral-300 font-light leading-relaxed line-clamp-2 mb-1.5">
-                                  {step.desc}
-                                </p>
-
-                                <div className="flex flex-wrap gap-1">
-                                  {step.deliverables.slice(0, 2).map((deliv, dIdx) => (
-                                    <span
-                                      key={dIdx}
-                                      className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-[9px] font-mono text-neutral-300 truncate max-w-[140px]"
-                                    >
-                                      <CheckCircle2 className="w-2.5 h-2.5 text-[#FFD400] shrink-0" />
-                                      <span className="truncate">{deliv}</span>
-                                    </span>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Vertical Connector Stem leading downward from card to marker */}
-                            <div className="absolute bottom-1/2 left-1/2 -translate-x-1/2 h-5 sm:h-6 w-[2px] bg-gradient-to-b from-white/10 to-[#FFD400] z-10" />
-                          </>
-                        )}
                       </div>
-                    );
-                  })}
-                </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
+          </div>
+        </section>
 
-            {/* Instruction Footer Pill & Freeze Status */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mt-3 sm:mt-4 text-xs font-mono text-neutral-400">
-              <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-white/5 border border-white/10">
-                <span
-                  className={`w-1.5 h-1.5 rounded-full ${
-                    isWheelFrozen
-                      ? "bg-[#FFD400] shadow-[0_0_8px_#FFD400] animate-ping"
-                      : "bg-[#FFD400]"
-                  }`}
-                />
-                <span className="text-[#FFD400] font-semibold tracking-wider uppercase text-[10px]">
-                  {isWheelFrozen
-                    ? "HORIZONTAL WHEEL ENGAGED // PAGE FROZEN"
-                    : "AUTO HORIZONTAL SCROLL ENABLED"}
-                </span>
-              </div>
-              <span className="hidden sm:inline text-white/20">•</span>
-              <span className="text-neutral-400 text-center text-[10px]">
-                Roll mouse wheel to traverse chronological milestones • Automatically unfreezes at ends
-              </span>
-            </div>
-          </section>
-
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-8 pb-20">
           {/* =========================================================================
               7. PREVIOUS / NEXT MISSION NAVIGATION
               ========================================================================= */}

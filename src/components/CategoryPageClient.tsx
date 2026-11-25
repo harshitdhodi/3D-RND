@@ -45,14 +45,17 @@ export default function CategoryPageClient({ data }: { data: CategoryPageData })
 
       <PageBanner
         title="INTEGRATED CAPABILITIES"
-        breadcrumb={data.breadcrumb}
+        breadcrumbs={[
+          { label: "SERVICES", href: "/services" },
+          { label: (data.breadcrumb || data.heroTitle || "SERVICE").toUpperCase(), href: `/${data.slug}` },
+        ]}
         imageSrc="/NewBanner/service.png"
-        parentBreadcrumb={{ label: "Services", href: "/services" }}
       />
 
-      <main className="relative z-20 w-full max-w-full bg-transparent overflow-x-hidden">
+      {/* Main Content (Directly below banner without overlap) */}
+      <main className="relative z-10 w-full max-w-full overflow-x-hidden">
         {/* ── Category Hero & Overview Division Card (Matching Services Page Style with Centered Title & Tagline) ── */}
-        <section className="w-full max-w-full px-4 sm:px-8 lg:px-12 pt-14 pb-8 overflow-hidden">
+        <section className="w-full max-w-full px-4 sm:px-8 lg:px-12 pt-8 sm:pt-12 pb-8 overflow-hidden">
           <div className="max-w-7xl mx-auto">
             <div className="rounded-[32px] sm:rounded-[40px] bg-[#0c0e14] border border-white/10 hover:border-[#FFD400]/40 transition-colors duration-300 p-6 sm:p-10 lg:p-14 shadow-2xl relative overflow-hidden group">
               {/* Top Accent Gradient Line */}

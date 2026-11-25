@@ -27,8 +27,8 @@ export default function SpaceBackground() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // Star Particles
-    const particlesCount = 1200;
+    // Star Particles - Clean space friendly golden & white stardust
+    const particlesCount = 1350;
     const particlesGeometry = new THREE.BufferGeometry();
     const posArray = new Float32Array(particlesCount * 3);
     const colorsArray = new Float32Array(particlesCount * 3);
@@ -41,25 +41,35 @@ export default function SpaceBackground() {
       posArray[i * 3 + 1] = (Math.random() - 0.5) * 16;
       posArray[i * 3 + 2] = (Math.random() - 0.5) * 16;
 
-      // 70% yellow accent, 30% subtle white
+      // 70% yellow accent, 30% subtle white (exact signature RnD space particle balance)
       const c = Math.random() > 0.3 ? yellowColor : whiteColor;
       colorsArray[i * 3] = c.r;
       colorsArray[i * 3 + 1] = c.g;
       colorsArray[i * 3 + 2] = c.b;
     }
 
-    particlesGeometry.setAttribute("position", new THREE.BufferAttribute(posArray, 3));
-    particlesGeometry.setAttribute("color", new THREE.BufferAttribute(colorsArray, 3));
+    particlesGeometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(posArray, 3)
+    );
+    particlesGeometry.setAttribute(
+      "color",
+      new THREE.BufferAttribute(colorsArray, 3)
+    );
 
+    // Native square points billboard for signature geometric space particles
     const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.032,
+      size: 0.035,
       vertexColors: true,
       transparent: true,
       opacity: 0.85,
       blending: THREE.AdditiveBlending,
     });
 
-    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    const particlesMesh = new THREE.Points(
+      particlesGeometry,
+      particlesMaterial
+    );
     scene.add(particlesMesh);
 
     camera.position.z = 3.5;

@@ -343,15 +343,15 @@ export default function IndustriesIndexPage() {
                 imageSrc="/NewBanner/Industry page banner.png"
             />
 
-            {/* Main Content with Layered Overlap over the Banner */}
+            {/* Main Content (Directly below banner without overlap) */}
             <main
                 ref={mainRef}
-                className="relative z-20 w-full mt-[50px] rounded-t-[32px] sm:rounded-t-[44px] bg-[#050.85)]"
+                className="relative z-10 w-full"
             >
                 {/* =========================================================================
             1. INDUSTRIES HERO BAR
             ========================================================================= */}
-                <section className="max-w-7xl mx-auto px-6 md:px-12 pt-14 pb-8">
+                <section className="max-w-7xl mx-auto px-6 md:px-12 pt-8 sm:pt-12 pb-8">
                     <div className="industry-hero-card p-8 sm:p-12 bg-gradient-to-r from-[#0c0e14]/40 via-[#121520]/40 to-[#0c0e14]/40 backdrop-blur-sm border border-white/10 shadow-2xl relative overflow-hidden">
                         <div className="relative z-10 max-w-3xl space-y-4">
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase">

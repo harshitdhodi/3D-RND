@@ -7,11 +7,18 @@ import { Home, ChevronRight } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+export interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
 export interface PageBannerProps {
   title: string;
   subtitle?: string;
   breadcrumb?: string;
-  parentBreadcrumb?: { label: string; href: string };
+  breadcrumbHref?: string;
+  parentBreadcrumb?: { label: string; href: string } | BreadcrumbItem[];
+  breadcrumbs?: BreadcrumbItem[];
   imageSrc?: string;
   className?: string;
   imagePosition?: string;
@@ -22,11 +29,31 @@ export interface PageBannerProps {
   altname?: string;
 }
 
+// Well-known section route mappings for automatic breadcrumb linking
+const DEFAULT_ROUTE_MAP: Record<string, string> = {
+  home: "/",
+  portfolio: "/portfolio",
+  services: "/services",
+  industries: "/industries",
+  career: "/career",
+  careers: "/career",
+  "contact us": "/contact-us",
+  "about us": "/about-us",
+  insights: "/insights",
+  blogs: "/insights",
+  "legal policies": "/privacy-policy",
+  "privacy policy": "/privacy-policy",
+  "terms of service": "/terms-of-service",
+  "cookie policy": "/cookies-policy",
+};
+
 export default function PageBanner({
   title,
   subtitle,
   breadcrumb,
+  breadcrumbHref,
   parentBreadcrumb,
+  breadcrumbs,
   imageSrc = "/banner.png",
   className = "",
   imagePosition = "object-[center_60%]",
@@ -203,6 +230,80 @@ export default function PageBanner({
     ? "h-[54vh] sm:h-[60vh] pb-[50px] sm:pb-[65px] pt-20"
     : "h-[80vh] pb-[60px] sm:pb-[85px] pt-24";
 
+  // Normalize breadcrumbs & resolve links with deduplication
+  const normalizedCrumbs: BreadcrumbItem[] = [];
+
+  const resolveHref = (label: string, explicitHref?: string): string | undefined => {
+    if (explicitHref) return explicitHref;
+    const clean = label.trim().toLowerCase();
+    return DEFAULT_ROUTE_MAP[clean];
+  };
+
+  if (breadcrumbs && breadcrumbs.length > 0) {
+    breadcrumbs.forEach((item) => {
+      if (!item || !item.label) return;
+      if (item.label.trim().toLowerCase() === "home") return;
+      // Deduplicate consecutive identical crumbs
+      const last = normalizedCrumbs[normalizedCrumbs.length - 1];
+      if (last && last.label.trim().toUpperCase() === item.label.trim().toUpperCase()) {
+        if (!last.href && item.href) last.href = item.href;
+        return;
+      }
+      normalizedCrumbs.push({
+        label: item.label,
+        href: resolveHref(item.label, item.href),
+      });
+    });
+  } else {
+    // 1. Process parentBreadcrumb
+    if (parentBreadcrumb) {
+      if (Array.isArray(parentBreadcrumb)) {
+        parentBreadcrumb.forEach((pb) => {
+          if (pb && pb.label && pb.label.trim().toLowerCase() !== "home") {
+            normalizedCrumbs.push({
+              label: pb.label,
+              href: resolveHref(pb.label, pb.href),
+            });
+          }
+        });
+      } else if (parentBreadcrumb.label && parentBreadcrumb.label.trim().toLowerCase() !== "home") {
+        normalizedCrumbs.push({
+          label: parentBreadcrumb.label,
+          href: resolveHref(parentBreadcrumb.label, parentBreadcrumb.href),
+        });
+      }
+    }
+
+    // 2. Process current breadcrumb / title
+    const rawBreadcrumb = breadcrumb || title;
+    if (rawBreadcrumb) {
+      // Split on slashes if provided as compound string (e.g., "PORTFOLIO / CATEGORY / PROJECT")
+      if (rawBreadcrumb.includes(" / ") || rawBreadcrumb.includes(" /") || rawBreadcrumb.includes("/ ")) {
+        const parts = rawBreadcrumb.split(/\s*\/\s*/).filter(Boolean);
+        parts.forEach((part, idx) => {
+          const last = normalizedCrumbs[normalizedCrumbs.length - 1];
+          // Prevent repeating parent token (e.g. parent is "PORTFOLIO" and first compound token is also "PORTFOLIO")
+          if (last && last.label.trim().toUpperCase() === part.trim().toUpperCase()) {
+            return;
+          }
+          const isLast = idx === parts.length - 1;
+          normalizedCrumbs.push({
+            label: part,
+            href: isLast ? resolveHref(part, breadcrumbHref) : resolveHref(part),
+          });
+        });
+      } else {
+        const last = normalizedCrumbs[normalizedCrumbs.length - 1];
+        if (!last || last.label.trim().toUpperCase() !== rawBreadcrumb.trim().toUpperCase()) {
+          normalizedCrumbs.push({
+            label: rawBreadcrumb,
+            href: resolveHref(rawBreadcrumb, breadcrumbHref),
+          });
+        }
+      }
+    }
+  }
+
   return (
     <section
       ref={bannerRef}
@@ -238,28 +339,43 @@ export default function PageBanner({
         {/* Breadcrumb */}
         <nav
           aria-label="Breadcrumb"
-          className="banner-nav-anim flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-white/80 mb-3 sm:mb-4 pb-2 border-b border-white/20 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]"
+          className="banner-nav-anim flex flex-wrap items-center gap-2 text-xs font-mono uppercase tracking-widest text-white/80 mb-3 sm:mb-4 pb-2 border-b border-white/20 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]"
         >
           <Link
             href="/"
-            className="flex items-center gap-1.5 text-white/70 hover:text-[#FFD400] transition-colors group"
+            className="flex items-center gap-1.5 text-white/70 hover:text-[#FFD400] transition-colors group shrink-0"
           >
             <Home className="w-3.5 h-3.5 text-white/50 group-hover:text-[#FFD400] transition-colors" />
             <span>Home</span>
           </Link>
-          {parentBreadcrumb && (
-            <>
-              <ChevronRight className="w-3 h-3 text-white/40" />
-              <Link
-                href={parentBreadcrumb.href}
-                className="text-white/70 hover:text-[#FFD400] transition-colors"
-              >
-                {parentBreadcrumb.label}
-              </Link>
-            </>
-          )}
-          <ChevronRight className="w-3 h-3 text-white/40" />
-          <span className="text-[#FFD400] font-bold">{breadcrumb || title}</span>
+          {normalizedCrumbs.map((crumb, idx) => {
+            const isLast = idx === normalizedCrumbs.length - 1;
+            return (
+              <React.Fragment key={idx}>
+                <ChevronRight className="w-3 h-3 text-white/40 shrink-0" />
+                {crumb.href ? (
+                  <Link
+                    href={crumb.href}
+                    className={`transition-colors truncate max-w-[280px] sm:max-w-md ${
+                      isLast
+                        ? "text-[#FFD400] font-bold hover:text-white"
+                        : "text-white/70 hover:text-[#FFD400]"
+                    }`}
+                  >
+                    {crumb.label}
+                  </Link>
+                ) : (
+                  <span
+                    className={`truncate max-w-[280px] sm:max-w-md ${
+                      isLast ? "text-[#FFD400] font-bold" : "text-white/70"
+                    }`}
+                  >
+                    {crumb.label}
+                  </span>
+                )}
+              </React.Fragment>
+            );
+          })}
         </nav>
 
         {/* Main Heading with Typewriter Letter Reveal Animation */}

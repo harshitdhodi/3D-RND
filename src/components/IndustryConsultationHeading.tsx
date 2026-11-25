@@ -1,6 +1,7 @@
 import React from "react";
 import { Sparkles, CheckCircle2 } from "lucide-react";
 import { IndustryConsultationData } from "@/lib/getIndustriesData";
+import ScrollReveal from "@/components/ScrollReveal";
 
 interface IndustryConsultationHeadingProps {
     data?: IndustryConsultationData;
@@ -52,9 +53,11 @@ export default function IndustryConsultationHeading({ data, className = "" }: In
                     );
                 })}
             </h2>
-            <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light">
-                {description}
-            </p>
+            <ScrollReveal delay={0.15}>
+                <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light">
+                    {description}
+                </p>
+            </ScrollReveal>
 
             <div className="p-4 bg-white/[0.02] border border-white/10 space-y-2.5 text-xs font-mono text-neutral-300">
                 <p className="text-[10px] font-mono uppercase tracking-[0.22em] text-[#FFD400] font-semibold mb-2">

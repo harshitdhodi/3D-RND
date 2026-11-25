@@ -249,7 +249,7 @@ export default function UnifiedDetailsView({
 
 
     return (
-        <div className="relative min-h-screen bg-transparent text-white selection:bg-[#FFD400] selection:text-black font-archia">
+        <div className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black font-archia overflow-x-hidden">
             {/* Background Galactic Starfield */}
             <SpaceBackground />
 
@@ -259,12 +259,15 @@ export default function UnifiedDetailsView({
             {/* Page Banner - Compact 2-line title matching Contact Us banner height */}
             <PageBanner
                 title="INTEGRATED CAPABILITIES"
-                breadcrumb={item.title}
-                parentBreadcrumb={{ label: parentLabel, href: parentPath }}
+                breadcrumbs={[
+                    { label: parentLabel.toUpperCase(), href: parentPath },
+                    { label: item.title.toUpperCase(), href: `${parentPath}/${(item as any).slug || item.id}` }
+                ]}
                 imageSrc={getCategoryBanner(parentPath, type)}
             />
 
-            <main className="relative z-20 w-full bg-transparent overflow-hidden">
+            {/* Main Content (Directly below banner without overlap) */}
+            <main className="relative z-10 w-full">
 
 
                 {/* =========================================================================

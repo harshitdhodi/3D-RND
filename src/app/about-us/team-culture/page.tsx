@@ -141,8 +141,10 @@ export default function TeamCulturePage() {
       {/* Page Banner with Typewriter Title & Breadcrumbs */}
       <PageBanner
         title="TEAM & CULTURE"
-        breadcrumb="TEAM & CULTURE"
-        parentBreadcrumb={{ label: "ABOUT US", href: "/about-us" }}
+        breadcrumbs={[
+          { label: "ABOUT US", href: "/about-us" },
+          { label: "TEAM & CULTURE", href: "/about-us/team-culture" },
+        ]}
       />
 
       {/* Overlapping Main Content */}

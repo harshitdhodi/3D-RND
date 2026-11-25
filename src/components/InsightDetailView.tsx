@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ChevronRight,
   ChevronDown,
@@ -80,6 +81,7 @@ export default function InsightDetailView({
 
   // Mobile outline modal toggle
   const [isMobileOutlineOpen, setIsMobileOutlineOpen] = useState(false);
+  const router = useRouter();
 
   // FAQ accordion open state
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -193,13 +195,35 @@ export default function InsightDetailView({
     return () => window.removeEventListener("scroll", handleScroll);
   }, [sectionsList]);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormLoading(true);
-    setTimeout(() => {
-      setFormLoading(false);
+    try {
+      await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          service: formData.serviceType,
+          project_type: formData.serviceType,
+          budget: formData.scale,
+          message: `Consultation inquiry submitted from article: "${article.title}"`,
+          source: `Article: ${article.title}`,
+          source_page: `/insights/${article.slug}`,
+          collection: "inquiry",
+        }),
+      });
       setFormSubmitted(true);
-    }, 800);
+      router.push("/thank-you?type=consultation");
+    } catch (err) {
+      console.error("Consultation form submit error:", err);
+      setFormSubmitted(true);
+      router.push("/thank-you?type=consultation");
+    } finally {
+      setFormLoading(false);
+    }
   };
 
   // Drop cap letter from first overview paragraph
@@ -223,11 +247,14 @@ export default function InsightDetailView({
       {/* Page Banner with slug in Title Format */}
       <PageBanner
         title={bannerTitle}
-        breadcrumb={bannerTitle}
-        parentBreadcrumb={{ label: "Insights", href: "/insights" }}
+        breadcrumbs={[
+          { label: "INSIGHTS", href: "/insights" },
+          { label: bannerTitle.toUpperCase(), href: `/insights/${article.slug}` },
+        ]}
         imageSrc="/NewBanner/blogs banner.png"
       />
 
+      {/* Main Content (Directly below banner without overlap) */}
       <main className="relative z-10 w-full">
 
         {/* =========================================================================

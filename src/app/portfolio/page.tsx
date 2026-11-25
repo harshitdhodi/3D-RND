@@ -183,10 +183,10 @@ export default function PortfolioPage() {
         altname={heroData.altname || heroData.banner_altname}
       />
 
-      {/* Main Content Area */}
-      <main className="relative z-20 w-full mt-12.5 rounded-t-4xl sm:rounded-t-[44px] bg-[#050608] border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)]">
+      {/* Main Content (Directly below banner without overlap) */}
+      <main className="relative z-10 w-full">
         {/* Top Header Section */}
-        <section className="bg-black w-full px-4 sm:px-8 lg:px-12 pt-14 pb-6">
+        <section className="bg-black w-full px-4 sm:px-8 lg:px-12 pt-8 sm:pt-12 pb-6">
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2">
               <div>

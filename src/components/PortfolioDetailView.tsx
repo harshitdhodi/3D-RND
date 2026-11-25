@@ -61,8 +61,11 @@ export default function PortfolioDetailView({
       {/* Page Banner */}
       <PageBanner
         title={project.title}
-        breadcrumb={project.category}
-        parentBreadcrumb={{ label: "Portfolio", href: "/portfolio" }}
+        breadcrumbs={[
+          { label: "PORTFOLIO", href: "/portfolio" },
+          { label: (project.category || "PROJECT").toUpperCase(), href: project.category ? `/portfolio/${project.category.toLowerCase().replace(/\s+/g, "-")}` : "/portfolio" },
+          { label: project.title.toUpperCase(), href: `/portfolio/${(project as any).slug || project.id || ""}` },
+        ]}
         imageSrc="/NewBanner/protfolio page banner.png"
       />
 

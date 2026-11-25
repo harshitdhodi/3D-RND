@@ -80,7 +80,7 @@ export default async function Home() {
     heroData,
     aboutData,
     servicesData,
-    portfolioData,  
+    portfolioData,
     whyChooseData,
     industriesData,
     processData,
@@ -105,7 +105,7 @@ export default async function Home() {
   ]);
 
   return (
-    <div className="font-archia relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black w-full">
+    <div className="font-archia relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black w-full overflow-x-hidden">
       {/* Global GSAP ScrollTrigger Animations for Headings, Images & Grids */}
       <GSAPScrollAnimations />
 
@@ -115,7 +115,7 @@ export default async function Home() {
       {/* 1.1 Header: Logo, navigation, service mega-menu, contact CTA */}
       <Navbar />
 
-      <main className="relative z-10 w-full">
+      <main className="relative z-10 w-full bg-transparent">
         {/* 1.2 Hero section: Headline, supporting copy, astronaut mascot, animated orbital visuals, primary and secondary CTAs */}
         <HeroSection initialData={heroData} />
 
@@ -141,7 +141,7 @@ export default async function Home() {
         {/* <ResultsTrustSection /> */}
 
         {/* 1.10 Creative showreel: Videography, photography, brand films and selected campaigns */}
-        <CreativeShowreelSection />
+        {/* <CreativeShowreelSection /> */}
 
         {/* 1.11 Insights: Latest blog posts and useful industry content */}
         <InsightsSection initialArticles={recentBlogs} initialHeading={insightsHeading} />

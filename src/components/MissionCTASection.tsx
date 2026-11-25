@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Rocket, Send, Sparkles, Phone, Mail, CheckCircle2 } from "lucide-react";
 import CyberButton from "@/components/CyberButton";
 
 export default function MissionCTASection() {
+  const router = useRouter();
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -41,6 +43,7 @@ export default function MissionCTASection() {
       }
 
       setSubmitted(true);
+      router.push("/thank-you?type=inquiry");
       setFormData({
         name: "",
         email: "",

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Sparkles,
   ShieldCheck,
@@ -81,6 +82,7 @@ export default function ServiceConversionCTA({
   projectSlug,
   initialData,
 }: ServiceConversionCTAProps) {
+  const router = useRouter();
   const [ctaData, setCtaData] = useState<ServiceCTAData>(initialData || DEFAULT_SERVICE_CTA);
 
   useEffect(() => {
@@ -143,6 +145,7 @@ export default function ServiceConversionCTA({
       }
 
       setIsSubmitted(true);
+      router.push("/thank-you?type=service");
     } catch (err: any) {
       console.error("ServiceConversionCTA error:", err);
       setErrorMessage(err.message || "Failed to send enquiry. Please try again.");

@@ -382,17 +382,19 @@ export default function PortfolioSlugPage() {
         {/* Banner */}
         <PageBanner
           title={categoryHero?.banner_title?.toUpperCase() || categoryHero?.Title?.toUpperCase() || category.title.toUpperCase()}
-          parentBreadcrumb={{ label: "PORTFOLIO", href: "/portfolio" }}
-          breadcrumb={categoryHero?.banner_title?.toUpperCase() || categoryHero?.Title?.toUpperCase() || category.title.toUpperCase()}
+          breadcrumbs={[
+            { label: "PORTFOLIO", href: "/portfolio" },
+            { label: (categoryHero?.banner_title || categoryHero?.Title || category.title).toUpperCase(), href: `/portfolio/${category.slug}` },
+          ]}
           imageSrc={categoryHero?.bannerImg || categoryHero?.banner_image || category.banner_image}
           imgtitle={categoryHero?.imgtitle || category.imgtitle || `${category.title} Banner`}
           altname={categoryHero?.altname || category.altname || `${category.title} - RND Technosoft`}
         />
 
-        {/* Main Content */}
-        <main className="relative z-20 w-full mt-12.5 rounded-t-4xl sm:rounded-t-[44px] bg-[#050608] border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)]">
+        {/* Main Content (Directly below banner without overlap) */}
+        <main className="relative z-10 w-full">
           {/* Projects Grid Section */}
-          <section className="relative pt-16 pb-8 px-4 sm:px-8 lg:px-12">
+          <section className="relative pt-10 sm:pt-14 pb-8 px-4 sm:px-8 lg:px-12">
             <div className="max-w-7xl mx-auto">
               {/* Section Header */}
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10">

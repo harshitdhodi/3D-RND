@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -25,6 +26,7 @@ import {
 import { getContactInfo, DEFAULT_CONTACT_INFO } from "@/lib/getContactInfo";
 
 export default function ContactSection() {
+    const router = useRouter();
     const containerRef = useRef<HTMLDivElement>(null);
     const [contactInfo, setContactInfo] = useState(DEFAULT_CONTACT_INFO);
 
@@ -267,6 +269,7 @@ export default function ContactSection() {
             }
 
             setIsSubmitted(true);
+            router.push("/thank-you?type=contact");
             setFormData({
                 name: "",
                 email: "",

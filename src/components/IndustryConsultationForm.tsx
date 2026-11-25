@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { CheckCircle2, Send } from "lucide-react";
 
 interface IndustryConsultationFormProps {
@@ -18,6 +19,7 @@ export default function IndustryConsultationForm({
     formDescription = "Share a few details about your business and requirements. Our team will connect with you to discuss the next steps.",
     className = "",
 }: IndustryConsultationFormProps) {
+    const router = useRouter();
     const [inquiryIndustry, setInquiryIndustry] = useState(defaultIndustry || industries[0] || "");
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -61,9 +63,11 @@ export default function IndustryConsultationForm({
                 console.warn("Industry form submit warning:", data.error);
             }
             setFormSubmitted(true);
+            router.push("/thank-you?type=industry");
         } catch (err) {
             console.error("Industry form submit error:", err);
             setFormSubmitted(true);
+            router.push("/thank-you?type=industry");
         } finally {
             setIsSubmitting(false);
         }

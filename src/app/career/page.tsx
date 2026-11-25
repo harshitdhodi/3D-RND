@@ -3,6 +3,7 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
     Search,
     ArrowUpRight,
@@ -54,6 +55,7 @@ const defaultServiceCategories = [
 export default function CareerPage() {
     const pageRef = useRef<HTMLDivElement>(null);
     const formSectionRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
 
     const [activeCategory, setActiveCategory] = useState("All Roles");
     const [searchQuery, setSearchQuery] = useState("");
@@ -249,6 +251,7 @@ export default function CareerPage() {
             
             if (success) {
                 setIsSubmitted(true);
+                router.push("/thank-you?type=career");
             } else {
                 alert('Failed to submit application. Please try again.');
             }
@@ -343,12 +346,12 @@ export default function CareerPage() {
                 imageSrc="/banner/career.png"
             />
 
-            <main className="relative z-20 w-full mt-[50px] rounded-t-[32px] sm:rounded-t-[44px] bg-[#050608] border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)]">
-
+            {/* Main Content (Directly below banner without overlap) */}
+            <main className="relative z-10 w-full">
                 {/* =========================================================================
             1. ENGINEERING ATELIER PHILOSOPHY HERO BAR
             ========================================================================= */}
-                <section className="max-w-7xl mx-auto px-6 md:px-12 pt-14 pb-8">
+                <section className="max-w-7xl mx-auto px-6 md:px-12 pt-8 sm:pt-12 pb-8">
                     <div className="p-8 sm:p-12 bg-gradient-to-r from-[#0c0e14] via-[#121520] to-[#0c0e14] border border-white/10 shadow-2xl relative overflow-hidden">
                         <div className="relative z-10 max-w-3xl space-y-4">
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase">

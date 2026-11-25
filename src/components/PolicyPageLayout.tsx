@@ -205,6 +205,7 @@ export default function PolicyPageLayout({ data }: PolicyPageLayoutProps) {
         imageSrc={data.bannerImage || "/banner/legal.png"}
       />
 
+      {/* Main Content (Directly below banner without overlap) */}
       <main className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 py-16 sm:py-20">
         {/* Top Header Card */}
         <div className="mb-12 p-6 sm:p-8 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-xl relative overflow-hidden">

@@ -245,10 +245,34 @@ export default async function IndustryDetailPage({
     return staticIndustry?.faqs || [];
   })();
 
+  // Helper to resolve industry mockup image reliably across CMS and static data
+  const resolveIndustryMockup = (slugKey: string, candidateImage?: string) => {
+    const staticMap: Record<string, string> = {
+      "manufacturing": "/Industries/manufacturing_mockup.png",
+      "healthcare": "/Industries/healthcare_mockup.png",
+      "food-fmcg": "/Industries/food_mockup.png",
+      "retail-ecommerce": "/Industries/retail_mockup.png",
+      "hospitality": "/Industries/hospitality_mockup.png",
+      "education": "/Industries/education_mockup.png",
+    };
+    if (candidateImage && candidateImage.startsWith("/Industries/") && !candidateImage.includes("undefined")) {
+      return candidateImage;
+    }
+    const s = (slugKey || "").toLowerCase();
+    for (const [key, path] of Object.entries(staticMap)) {
+      if (s.includes(key)) return path;
+    }
+    if (candidateImage && !candidateImage.startsWith("/uploads/") && candidateImage.trim() !== "") {
+      return candidateImage;
+    }
+    return staticMap[s] || staticIndustry?.image || "/Industries/manufacturing_mockup.png";
+  };
+
   // Combine industry basic info with detail content and static fallbacks
   const combinedIndustry = {
     ...staticIndustry,
     ...industry,
+    image: resolveIndustryMockup(slug, industry.image || staticIndustry?.image),
     hero_tagline: industryDetail?.hero_tagline || industry.badge || staticIndustry?.badge || "INDUSTRY SOLUTIONS",
     tagline: industryDetail?.hero_heading || industry.tagline || staticIndustry?.tagline || industry.title,
     shortInfo: industryDetail?.hero_description || industry.short_info || staticIndustry?.shortInfo || industry.description || "",
@@ -308,6 +332,7 @@ export default async function IndustryDetailPage({
   const combinedNextIndustry = {
     ...staticNextIndustry,
     ...nextIndustry,
+    image: resolveIndustryMockup(nextIndustry.slug, nextIndustry.image || staticNextIndustry?.image),
     shortInfo: nextIndustry.short_info || staticNextIndustry?.shortInfo || nextIndustry.description || "",
     heroMetrics: (nextIndustry.hero_metrics && nextIndustry.hero_metrics.length > 0)
       ? nextIndustry.hero_metrics

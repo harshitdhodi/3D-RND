@@ -66,7 +66,7 @@ Updated metadata generation for the manufacturing page:
 #### SEO Metadata
 - **Title**: "Manufacturing Software & Digital Solutions | RND Technosoft"
 - **Meta Description**: "Explore manufacturing and industrial digital solutions by RND Technosoft, including custom software development, business applications, website development, digital marketing and branding."
-- **Canonical URL**: `https://new.rndtechnosoft.com/industries/manufacturing`
+- **Canonical URL**: `https://rndtechnosoft.com/industries/manufacturing`
 
 #### Implementation
 Added conditional logic to apply custom metadata specifically for the manufacturing page while preserving existing metadata logic for other industry pages.
@@ -94,7 +94,7 @@ The content emphasizes RND Technosoft's ability to combine multiple services:
 - Emphasis on practical outcomes over technical jargon
 
 ## Page URL
-`https://new.rndtechnosoft.com/industries/manufacturing`
+`https://rndtechnosoft.com/industries/manufacturing`
 
 ## Status
 ✅ Content fully updated

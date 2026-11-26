@@ -191,7 +191,7 @@
 
 - **Title**: "Healthcare Website & Digital Solutions | RND Technosoft"
 - **Meta Description**: "Explore healthcare and dental digital solutions by RND Technosoft, including website development, custom software, digital marketing, branding and media production."
-- **Canonical URL**: https://new.rndtechnosoft.com/industries/healthcare
+- **Canonical URL**: https://rndtechnosoft.com/industries/healthcare
 - **H1**: "FROM BETTER PATIENT EXPERIENCES TO A MORE CONNECTED HEALTHCARE FUTURE."
 
 ---

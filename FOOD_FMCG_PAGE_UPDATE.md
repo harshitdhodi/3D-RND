@@ -189,7 +189,7 @@
 
 - **Title**: "Food & FMCG Digital Solutions | RND Technosoft"
 - **Meta Description**: "Discover Food & FMCG digital solutions by RND Technosoft, including e-commerce development, custom software, digital marketing, product branding and commercial photography."
-- **Canonical URL**: https://new.rndtechnosoft.com/industries/food-fmcg
+- **Canonical URL**: https://rndtechnosoft.com/industries/food-fmcg
 - **H1**: "FROM PRODUCT DISCOVERY TO PURCHASE. BUILDING THE FUTURE OF FOOD & FMCG."
 
 ---

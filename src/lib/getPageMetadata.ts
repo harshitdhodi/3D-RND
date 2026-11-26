@@ -34,7 +34,7 @@ export const DEFAULT_PAGE_METADATA: Record<string, PageMetadata> = {
       "technology solutions",
       "creative agency",
     ],
-    canonical_link: "https://new.rndtechnosoft.com",
+    canonical_link: "https://rndtechnosoft.com",
     og_image: "/images/nebula_cloud_os_3d.jpg",
     og_title: "RND Technosoft | Digital Solutions, Technology & Creative Agency",
     og_description: "RND Technosoft is a full-service digital agency providing web development, custom software, digital marketing, branding, and media production services for businesses worldwide.",
@@ -54,7 +54,7 @@ export const DEFAULT_PAGE_METADATA: Record<string, PageMetadata> = {
       "our team",
       "company profile",
     ],
-    canonical_link: "https://new.rndtechnosoft.com/about-us",
+    canonical_link: "https://rndtechnosoft.com/about-us",
     og_image: "/images/nebula_cloud_os_3d.jpg",
     og_title: "About Us | RND Technosoft",
     og_description: "Learn about RND Technosoft's journey, team, and commitment to delivering exceptional digital solutions.",
@@ -73,7 +73,7 @@ export const DEFAULT_PAGE_METADATA: Record<string, PageMetadata> = {
       "digital services",
       "consultation",
     ],
-    canonical_link: "https://new.rndtechnosoft.com/contact-us",
+    canonical_link: "https://rndtechnosoft.com/contact-us",
     og_image: "/images/nebula_cloud_os_3d.jpg",
     og_title: "Contact Us | RND Technosoft",
     og_description: "Get in touch with RND Technosoft for your digital project needs.",
@@ -94,7 +94,7 @@ export const DEFAULT_PAGE_METADATA: Record<string, PageMetadata> = {
       "education technology",
       "hospitality solutions",
     ],
-    canonical_link: "https://new.rndtechnosoft.com/industries",
+    canonical_link: "https://rndtechnosoft.com/industries",
     og_image: "/images/nebula_cloud_os_3d.jpg",
     og_title: "Industries We Serve | RND Technosoft",
     og_description: "Explore the industries RND Technosoft serves with sector-specific digital solutions.",
@@ -115,7 +115,7 @@ export const DEFAULT_PAGE_METADATA: Record<string, PageMetadata> = {
       "SEO services",
       "technology solutions",
     ],
-    canonical_link: "https://new.rndtechnosoft.com/services",
+    canonical_link: "https://rndtechnosoft.com/services",
     og_image: "/images/nebula_cloud_os_3d.jpg",
     og_title: "Our Services | RND Technosoft",
     og_description: "Discover RND Technosoft's comprehensive services for your business growth.",
@@ -135,7 +135,7 @@ export const DEFAULT_PAGE_METADATA: Record<string, PageMetadata> = {
       "work examples",
       "client projects",
     ],
-    canonical_link: "https://new.rndtechnosoft.com/portfolio",
+    canonical_link: "https://rndtechnosoft.com/portfolio",
     og_image: "/images/nebula_cloud_os_3d.jpg",
     og_title: "Our Portfolio | RND Technosoft",
     og_description: "Explore RND Technosoft's portfolio of successful digital solutions.",
@@ -154,7 +154,7 @@ export const DEFAULT_PAGE_METADATA: Record<string, PageMetadata> = {
       "creative trends",
       "industry news",
     ],
-    canonical_link: "https://new.rndtechnosoft.com/blogs",
+    canonical_link: "https://rndtechnosoft.com/blogs",
     og_image: "/images/nebula_cloud_os_3d.jpg",
     og_title: "Blog & Insights | RND Technosoft",
     og_description: "Stay updated with the latest technology trends and digital insights.",
@@ -175,7 +175,7 @@ export const DEFAULT_PAGE_METADATA: Record<string, PageMetadata> = {
       "designer jobs",
       "marketing jobs",
     ],
-    canonical_link: "https://new.rndtechnosoft.com/career",
+    canonical_link: "https://rndtechnosoft.com/career",
     og_image: "/images/nebula_cloud_os_3d.jpg",
     og_title: "Careers | RND Technosoft",
     og_description: "Explore career opportunities at RND Technosoft and join our team.",
@@ -242,7 +242,7 @@ export async function getPageMetadata(pageKey: string): Promise<PageMetadata> {
  */
 function getDefaultMetadata(pageKey: string): PageMetadata {
   const siteName = "RND Technosoft";
-  const baseUrl = "https://new.rndtechnosoft.com";
+  const baseUrl = "https://rndtechnosoft.com";
 
   return {
     page_key: pageKey,

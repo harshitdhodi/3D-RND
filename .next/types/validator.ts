@@ -497,6 +497,26 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../src/app/llms.txt/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/llms.txt">> = Specific
+  const handler = {} as typeof import("../../src/app/llms.txt/route.js")
+  type __Check = __IsExpected<typeof handler>
+  
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../src/app/robots.txt/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/robots.txt">> = Specific
+  const handler = {} as typeof import("../../src/app/robots.txt/route.js")
+  type __Check = __IsExpected<typeof handler>
+  
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 
 
 

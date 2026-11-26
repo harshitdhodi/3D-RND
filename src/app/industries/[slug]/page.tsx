@@ -24,7 +24,7 @@ export async function generateMetadata({
   const dbIndustries = await getIndustries();
   const industries = dbIndustries.length > 0 ? dbIndustries : industriesList;
   const industry = industries.find((item) => item.slug === slug);
-  
+
   if (!industry) {
     return {
       title: "Industry Not Found | RND Technosoft",
@@ -32,8 +32,8 @@ export async function generateMetadata({
     };
   }
 
-  const pageUrl = `https://new.rndtechnosoft.com/industries/${industry.slug}`;
-  
+  const pageUrl = `https://rndtechnosoft.com/industries/${industry.slug}`;
+
   // Custom metadata for manufacturing, healthcare, food-fmcg, retail-ecommerce, hospitality, and education
   const isManufacturing = industry.slug === "manufacturing";
   const isHealthcare = industry.slug === "healthcare";
@@ -41,34 +41,34 @@ export async function generateMetadata({
   const isRetail = industry.slug === "retail-ecommerce";
   const isHospitality = industry.slug === "hospitality";
   const isEducation = industry.slug === "education";
-  
-  const metaTitle = isManufacturing 
+
+  const metaTitle = isManufacturing
     ? "Manufacturing Software & Digital Solutions | RND Technosoft"
     : isHealthcare
-    ? "Healthcare Website & Digital Solutions | RND Technosoft"
-    : isFoodFMCG
-    ? "Food & FMCG Digital Solutions | RND Technosoft"
-    : isRetail
-    ? "Retail & E-commerce Website Solutions | RND Technosoft"
-    : isHospitality
-    ? "Hospitality Website & Digital Solutions | RND Technosoft"
-    : isEducation
-    ? "Education Website & Digital Solutions | RND Technosoft"
-    : `${industry.title} Digital Solutions | RND Technosoft`;
-    
+      ? "Healthcare Website & Digital Solutions | RND Technosoft"
+      : isFoodFMCG
+        ? "Food & FMCG Digital Solutions | RND Technosoft"
+        : isRetail
+          ? "Retail & E-commerce Website Solutions | RND Technosoft"
+          : isHospitality
+            ? "Hospitality Website & Digital Solutions | RND Technosoft"
+            : isEducation
+              ? "Education Website & Digital Solutions | RND Technosoft"
+              : `${industry.title} Digital Solutions | RND Technosoft`;
+
   const metaDescription = isManufacturing
     ? "Explore manufacturing and industrial digital solutions by RND Technosoft, including custom software development, business applications, website development, digital marketing and branding."
     : isHealthcare
-    ? "Explore healthcare and dental digital solutions by RND Technosoft, including website development, custom software, digital marketing, branding and media production."
-    : isFoodFMCG
-    ? "Discover Food & FMCG digital solutions by RND Technosoft, including e-commerce development, custom software, digital marketing, product branding and commercial photography."
-    : isRetail
-    ? "Explore retail and e-commerce solutions by RND Technosoft, including online store development, custom software, 3D product experiences, digital marketing, branding and media production."
-    : isHospitality
-    ? "Explore hospitality digital solutions by RND Technosoft, including hotel website development, booking platforms, digital marketing, branding, photography and videography."
-    : isEducation
-    ? "Explore education and training digital solutions by RND Technosoft, including educational website development, LMS platforms, custom software, digital marketing, branding and media production."
-    : `${((industry as any).short_info || (industry as any).shortInfo || (industry as any).description || "").slice(0, 155)}...`;
+      ? "Explore healthcare and dental digital solutions by RND Technosoft, including website development, custom software, digital marketing, branding and media production."
+      : isFoodFMCG
+        ? "Discover Food & FMCG digital solutions by RND Technosoft, including e-commerce development, custom software, digital marketing, product branding and commercial photography."
+        : isRetail
+          ? "Explore retail and e-commerce solutions by RND Technosoft, including online store development, custom software, 3D product experiences, digital marketing, branding and media production."
+          : isHospitality
+            ? "Explore hospitality digital solutions by RND Technosoft, including hotel website development, booking platforms, digital marketing, branding, photography and videography."
+            : isEducation
+              ? "Explore education and training digital solutions by RND Technosoft, including educational website development, LMS platforms, custom software, digital marketing, branding and media production."
+              : `${((industry as any).short_info || (industry as any).shortInfo || (industry as any).description || "").slice(0, 155)}...`;
 
   return {
     title: metaTitle,
@@ -226,10 +226,10 @@ export default async function IndustryDetailPage({
           : (staticIndustry?.caseStudy?.metrics || []),
         quote: industryDetail.case_study_quote_text
           ? {
-              text: industryDetail.case_study_quote_text,
-              author: industryDetail.case_study_quote_author || "",
-              role: industryDetail.case_study_quote_role || "",
-            }
+            text: industryDetail.case_study_quote_text,
+            author: industryDetail.case_study_quote_author || "",
+            role: industryDetail.case_study_quote_role || "",
+          }
           : (staticIndustry?.caseStudy?.quote || null),
         tagline: industryDetail.case_study_tagline || (slug === "healthcare" ? "SUCCESS STORY" : "INDUSTRY SPOTLIGHT // BUSINESS TRANSFORMATION"),
       };
@@ -304,8 +304,8 @@ export default async function IndustryDetailPage({
     works: ((industryWorks && industryWorks.length > 0)
       ? industryWorks
       : (staticIndustry?.works && staticIndustry.works.length > 0)
-      ? staticIndustry.works
-      : [{ title: industry.featured_project || industry.title, image: industry.image }]).slice(0, 5),
+        ? staticIndustry.works
+        : [{ title: industry.featured_project || industry.title, image: industry.image }]).slice(0, 5),
 
     // Section 5: Process
     process_tagline: industryDetail?.process_tagline,

@@ -82,7 +82,7 @@ Three metrics displayed:
 ### Page Metadata (from [slug]/page.tsx)
 - **Title**: "Manufacturing Software & Digital Solutions | RND Technosoft"
 - **Meta Description**: "Explore manufacturing and industrial digital solutions by RND Technosoft..."
-- **Canonical URL**: https://new.rndtechnosoft.com/industries/manufacturing
+- **Canonical URL**: https://rndtechnosoft.com/industries/manufacturing
 - **H1**: "FROM THE FACTORY FLOOR TO THE FUTURE OF INDUSTRY."
 
 ## Files Modified

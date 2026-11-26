@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import GlobalCursor from "@/components/GlobalCursor";
 import ExtensionHydrationSuppressor from "@/components/ExtensionHydrationSuppressor";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 import "./globals.css";
 
 const plusJakarta = localFont({
@@ -162,6 +163,7 @@ export default function RootLayout({
     >
       <body suppressHydrationWarning className="min-h-screen bg-[#050608] text-white antialiased font-[family-name:var(--font-jakarta)] selection:bg-[#FFD400] selection:text-black">
         <ExtensionHydrationSuppressor />
+        <AnalyticsTracker />
         <GlobalCursor />
         {children}
       </body>

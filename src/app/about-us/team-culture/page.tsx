@@ -28,6 +28,8 @@ import SpaceBackground from "@/components/SpaceBackground";
 import PageBanner from "@/components/PageBanner";
 import CyberButton from "@/components/CyberButton";
 import WaveText from "@/components/WaveText";
+import { getPageComponents, isSectionActive, getSectionStyle, isPageHidden } from "@/lib/getPageComponents";
+import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Team & Culture | RnD Technosoft Leadership & Squads",
@@ -35,7 +37,16 @@ export const metadata: Metadata = {
     "Meet the visionary leadership, specialized engineering squads, 3D spatial designers, and growth architects driving digital transformation at RnD Technosoft.",
 };
 
-export default function TeamCulturePage() {
+export default async function TeamCulturePage() {
+  const [pageComponents, hidden] = await Promise.all([
+    getPageComponents("team-culture"),
+    isPageHidden("team-culture"),
+  ]);
+
+  if (hidden) {
+    notFound();
+  }
+
   const squadLeaders = [
     {
       id: "cfo",
@@ -139,14 +150,21 @@ export default function TeamCulturePage() {
       <Navbar />
 
       {/* Page Banner with Typewriter Title & Breadcrumbs */}
-      <PageBanner
-        title="TEAM & CULTURE"
-        breadcrumb="TEAM & CULTURE"
-        parentBreadcrumb={{ label: "ABOUT US", href: "/about-us" }}
-      />
+      {isSectionActive(pageComponents, "banner") && (
+        <div style={getSectionStyle(pageComponents, "banner")}>
+          <PageBanner
+            title="TEAM & CULTURE"
+            breadcrumbs={[
+              { label: "ABOUT US", href: "/about-us" },
+              { label: "TEAM & CULTURE", href: "/about-us/team-culture" },
+            ]}
+          />
+        </div>
+      )}
 
       {/* Overlapping Main Content */}
-      <main className="relative z-20 w-full mt-[50px] rounded-t-[32px] sm:rounded-t-[44px] bg-transparent border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)]">
+      {isSectionActive(pageComponents, "leadership_team") && (
+      <main className="relative z-20 w-full mt-[50px] rounded-t-[32px] sm:rounded-t-[44px] bg-transparent border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)]" style={getSectionStyle(pageComponents, "leadership_team")}>
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24 space-y-24">
 
           {/* =========================================================================
@@ -212,7 +230,7 @@ export default function TeamCulturePage() {
                     </div>
                     <div className="space-y-1">
                       <span className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-[#FFD400]">
-                        250+
+                        500+
                       </span>
                       <span className="text-[10px] sm:text-xs font-mono text-neutral-400 block uppercase leading-tight">
                         Shipped Systems
@@ -428,6 +446,7 @@ export default function TeamCulturePage() {
 
         </div>
       </main>
+      )}
 
       <RnDFooter />
     </div>

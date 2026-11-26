@@ -23,7 +23,11 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/uploads/:path*",
-        destination: "http://localhost:3014/uploads/:path*",
+        destination: "http://localhost:3058/uploads/:path*",
+      },
+      {
+        source: "/api/upload",
+        destination: "http://localhost:3058/api/upload",
       },
     ];
   },
@@ -32,6 +36,11 @@ const nextConfig: NextConfig = {
       {
         source: "/portfolios",
         destination: "/portfolio",
+        permanent: true,
+      },
+      {
+        source: "/portfolios/:path*",
+        destination: "/portfolio/:path*",
         permanent: true,
       },
       {

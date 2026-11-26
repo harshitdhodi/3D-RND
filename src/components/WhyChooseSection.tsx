@@ -61,6 +61,8 @@ import {
 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { WhyChooseData, DEFAULT_WHY_CHOOSE_DATA } from "@/lib/getWhyChooseData";
+import { SectionHeadingData } from "@/lib/getSectionHeading";
 
 /**
  * WaveText component renders text character-by-character with staggered delays
@@ -689,6 +691,17 @@ function resolveServiceConfig(category?: string, serviceId?: string): WhyChooseS
   return TECHNOLOGY_SOLUTIONS_DATA;
 }
 
+export interface WhyChooseSectionProps {
+  className?: string;
+  category?: string;
+  serviceId?: string;
+  badge?: string;
+  titlePrefix?: string;
+  subtitle?: string;
+  initialData?: WhyChooseData;
+  initialHeading?: SectionHeadingData | null;
+}
+
 export default function WhyChooseSection({
   className = "",
   category = "",
@@ -696,28 +709,35 @@ export default function WhyChooseSection({
   badge,
   titlePrefix,
   subtitle,
-}: {
-  className?: string;
-  category?: string;
-  serviceId?: string;
-  badge?: string;
-  titlePrefix?: string;
-  subtitle?: string;
-} = {}) {
+  initialData,
+  initialHeading,
+}: WhyChooseSectionProps = {}) {
   const isHome = (!category || category.trim() === "") && (!serviceId || serviceId.trim() === "");
+  const whyData = initialData || DEFAULT_WHY_CHOOSE_DATA;
 
-  const homeTypewriterPhrases = [
-    "ENGINEERED TO LEAD."
-  ];
+  const homeTypewriterPhrases = whyData.typewriterText
+    ? [whyData.typewriterText]
+    : [
+        "ENGINEERED TO LEAD."
+      ];
 
   const serviceData = useMemo(
     () => resolveServiceConfig(category, serviceId),
     [category, serviceId]
   );
 
-  const activeBadge = badge || (isHome ? "WHY CHOOSE RND // THE RND ADVANTAGE" : serviceData.badge);
-  const activeTitlePrefix = titlePrefix || (isHome ? "BUILT TO PERFORM." : serviceData.titlePrefix);
-  const activeSubtitle = subtitle || (isHome ? "We bring together strategic thinking, technical expertise and creative execution to help businesses move forward. From the first idea to long-term growth, we build solutions that are scalable, secure and designed to deliver lasting value." : serviceData.subtitle);
+  const activeBadge =
+    badge ||
+    (isHome ? (whyData.badge || initialHeading?.badge) : (initialHeading?.badge || serviceData.badge)) ||
+    "WHY CHOOSE RND // THE RND ADVANTAGE";
+  const activeTitlePrefix =
+    titlePrefix ||
+    (isHome ? (whyData.titlePrefix || initialHeading?.title) : (initialHeading?.title || serviceData.titlePrefix)) ||
+    "BUILT TO PERFORM.";
+  const activeSubtitle =
+    subtitle ||
+    (isHome ? (whyData.subtitle || initialHeading?.subtitle) : (initialHeading?.subtitle || serviceData.subtitle)) ||
+    "We bring together strategic thinking, technical expertise and creative execution to help businesses move forward. From the first idea to long-term growth, we build solutions that are scalable, secure and designed to deliver lasting value.";
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -943,53 +963,46 @@ export default function WhyChooseSection({
                 <div>
                   <div className="flex items-start justify-between mb-3">
                     <div className="text-2xl sm:text-3xl font-black text-black font-[family-name:var(--font-syne)] tracking-tight">
-                      01 /
+                      {whyData.card1.number}
                     </div>
                     <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black text-[#FFD400] text-xs font-mono font-bold uppercase tracking-wider shadow-sm">
                       <span className="w-2 h-2 rounded-full bg-[#FFD400] inline-block" />
-                      OUR APPROACH
+                      {whyData.card1.badge}
                     </span>
                   </div>
 
                   <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold mb-3 leading-tight font-[family-name:var(--font-syne)] text-black">
-                    <WaveText text="AGILE BY" />
+                    <WaveText text={whyData.card1.titleLine1} />
                     <br />
-                    <WaveText text="DESIGN" delayOffset={12} />
+                    <WaveText text={whyData.card1.titleLine2} delayOffset={12} />
                   </h3>
 
                   <p className="text-xs sm:text-sm font-bold text-black mb-2.5 leading-snug">
-                    From concept to execution, without the complexity.
+                    {whyData.card1.tagline}
                   </p>
                   <p className="text-xs sm:text-[13px] text-black font-semibold leading-relaxed mb-6">
-                    We turn ideas into actionable solutions through streamlined workflows, collaborative planning and adaptive execution.
+                    {whyData.card1.description}
                   </p>
 
                   {/* Segmented Timeline with Strategy, Execution, Innovation */}
                   <div className="grid grid-cols-3 gap-2 mb-2">
-                    <div className="sprint-segment-bar relative h-2 sm:h-2.5 bg-black rounded-full overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-bar-shimmer" />
-                    </div>
-                    <div className="sprint-segment-bar relative h-2 sm:h-2.5 bg-black rounded-full overflow-hidden">
-                      <div
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-bar-shimmer"
-                        style={{ animationDelay: "0.5s" }}
-                      />
-                    </div>
-                    <div className="sprint-segment-bar relative h-2 sm:h-2.5 bg-black rounded-full overflow-hidden">
-                      <div
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-bar-shimmer"
-                        style={{ animationDelay: "1s" }}
-                      />
-                    </div>
+                    {(whyData.card1.tags.length > 0 ? whyData.card1.tags.slice(0, 3) : ["Strategy", "Execution", "Innovation"]).map((_, idx) => (
+                      <div key={idx} className="sprint-segment-bar relative h-2 sm:h-2.5 bg-black rounded-full overflow-hidden">
+                        <div
+                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-bar-shimmer"
+                          style={{ animationDelay: `${idx * 0.5}s` }}
+                        />
+                      </div>
+                    ))}
                   </div>
 
                   <div className="grid grid-cols-3 gap-2 text-[11px] sm:text-xs font-bold text-black font-[family-name:var(--font-jakarta)]">
-                    <span>Strategy</span>
-                    <span>Execution</span>
-                    <span className="flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-black inline-block" />
-                      Innovation
-                    </span>
+                    {(whyData.card1.tags.length > 0 ? whyData.card1.tags.slice(0, 3) : ["Strategy", "Execution", "Innovation"]).map((tag, idx) => (
+                      <span key={idx} className={idx === 2 ? "flex items-center gap-1.5" : ""}>
+                        {idx === 2 && <span className="w-2 h-2 rounded-full bg-black inline-block" />}
+                        {tag}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -1001,31 +1014,30 @@ export default function WhyChooseSection({
                 <div>
                   <div className="flex items-start justify-between mb-3">
                     <div className="text-2xl sm:text-3xl font-black text-white/40 font-[family-name:var(--font-syne)] tracking-tight">
-                      02 /
+                      {whyData.card2.number}
                     </div>
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/80 text-xs font-mono uppercase tracking-wider">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      OUR PEOPLE
+                      {whyData.card2.badge}
                     </span>
                   </div>
 
                   <h3 className="text-lg sm:text-xl md:text-2xl font-extrabold mb-3 leading-tight font-[family-name:var(--font-syne)] text-white">
-                    <WaveText text="EXPERTISE THAT" />
+                    <WaveText text={whyData.card2.titleLine1} />
                     <br />
-                    <WaveText text="DELIVERS" delayOffset={14} />
+                    <WaveText text={whyData.card2.titleLine2} delayOffset={14} />
                   </h3>
 
                   <p className="text-xs sm:text-sm font-medium text-[#FFD400] mb-2 leading-snug">
-                    The right minds. The right solutions.
+                    {whyData.card2.tagline}
                   </p>
                   <p className="text-xs text-white/70 font-light leading-relaxed mb-5">
-                    Our multidisciplinary expertise brings developers, strategists, designers and creative professionals together to solve business challenges and build meaningful digital experiences.
+                    {whyData.card2.description}
                   </p>
 
-              
-                  {/* Tech / Discipline Badges: Technology • Strategy • Design • Marketing */}
+                  {/* Tech / Discipline Badges */}
                   <div className="flex flex-wrap gap-2 pt-3 border-t border-white/10">
-                    {["Technology", "Strategy", "Design", "Marketing"].map((tech) => (
+                    {whyData.card2.tags.map((tech) => (
                       <span
                         key={tech}
                         className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-xs text-white/75 font-mono hover:border-[#FFD400]/40 transition-colors"
@@ -1051,8 +1063,9 @@ export default function WhyChooseSection({
 
                   <div className="relative w-full h-full max-w-[340px] sm:max-w-[380px] aspect-[3/4] flex items-center justify-center animate-subtle-float">
                     <Image
-                      src="/office/whychooseus.png"
-                      alt="Why Choose RnD Technosoft Astronaut"
+                      src={whyData.hero.image || "/uploads/whychooseus.png"}
+                      alt={whyData.hero.altname || "Why Choose RnD Technosoft Astronaut"}
+                      title={whyData.hero.imgtitle || undefined}
                       fill
                       sizes="(max-width: 768px) 100vw, 400px"
                       className="object-contain select-none pointer-events-none group-hover:scale-105 transition-transform duration-700 ease-out"
@@ -1064,24 +1077,24 @@ export default function WhyChooseSection({
                 {/* IDEAS → IMPACT, BUILT TO SCALE & Subtitle */}
                 <div className="relative z-10 text-center mb-6">
                   <h3 className="text-3xl sm:text-4xl md:text-[40px] font-black text-[#FFD400] mb-2 tracking-tight font-[family-name:var(--font-syne)] animate-glow-pulse whitespace-nowrap">
-                    <WaveText text="IDEAS → IMPACT" className="whitespace-nowrap" />
+                    <WaveText text={whyData.hero.watermark} className="whitespace-nowrap" />
                   </h3>
                   <h4 className="text-white font-bold text-sm sm:text-base uppercase tracking-wider font-[family-name:var(--font-syne)] mb-1.5">
-                    BUILT TO SCALE.
+                    {whyData.hero.headline}
                   </h4>
-                  <p className="text-white/70 text-xs sm:text-sm font-[family-name:var(--font-jakarta)] leading-snug max-w-[280px] mx-auto">
-                    One vision. Four capabilities.<br />Endless possibilities
+                  <p className="text-white/70 text-xs sm:text-sm font-[family-name:var(--font-jakarta)] leading-snug max-w-[280px] mx-auto whitespace-pre-line">
+                    {whyData.hero.subheading}
                   </p>
                 </div>
 
                 {/* CTA Button with Infinite Radiant Sheen Sweep */}
                 <Link
-                  href="/#contact"
+                  href={whyData.hero.ctaLink || "/#contact"}
                   className="relative z-10 w-full py-4 px-6 rounded-2xl bg-[#FFD400] text-black font-extrabold text-xs sm:text-sm md:text-base flex items-center justify-center gap-2 hover:bg-[#ffe033] transition-all group/btn font-[family-name:var(--font-syne)] uppercase tracking-wider shadow-[0_0_25px_rgba(255,212,0,0.3)] hover:shadow-[0_0_40px_rgba(255,212,0,0.55)] overflow-hidden"
                 >
                   {/* Continuous Light Sweep Sheen */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/35 to-transparent animate-cta-sheen pointer-events-none" />
-                  <span className="relative z-10">Book Free Consultation</span>
+                  <span className="relative z-10">{whyData.hero.ctaText}</span>
                   <ArrowUpRight className="relative z-10 w-5 h-5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
                 </Link>
               </div>
@@ -1093,25 +1106,25 @@ export default function WhyChooseSection({
                 <div>
                   <div className="flex items-start justify-between mb-3">
                     <div className="text-2xl sm:text-3xl font-black text-white/40 font-[family-name:var(--font-syne)] tracking-tight">
-                      03 /
+                      {whyData.card3.number}
                     </div>
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono uppercase tracking-wider">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                      OUR TECHNOLOGY
+                      {whyData.card3.badge}
                     </span>
                   </div>
 
                   <h3 className="text-lg sm:text-xl md:text-2xl font-extrabold mb-3 leading-tight font-[family-name:var(--font-syne)] text-white">
-                    <WaveText text="SECURITY MEETS" />
+                    <WaveText text={whyData.card3.titleLine1} />
                     <br />
-                    <WaveText text="SCALABILITY" delayOffset={11} />
+                    <WaveText text={whyData.card3.titleLine2} delayOffset={11} />
                   </h3>
 
                   <p className="text-xs sm:text-sm font-medium text-[#FFD400] mb-2 leading-snug">
-                    Built for today. Ready for tomorrow.
+                    {whyData.card3.tagline}
                   </p>
                   <p className="text-xs text-white/70 font-light leading-relaxed mb-4">
-                    We develop robust digital solutions with a focus on performance, security and scalability, helping businesses adapt, evolve and grow with confidence.
+                    {whyData.card3.description}
                   </p>
 
                   {/* Glowing Yellow Sine / Spline Wave Graph with Traveling Data Packet */}
@@ -1169,7 +1182,7 @@ export default function WhyChooseSection({
 
                   {/* Tech Badges: Cloud Infrastructure • Security • Performance • Scalability */}
                   <div className="flex flex-wrap gap-1.5 pt-3 border-t border-white/10">
-                    {["Cloud Infrastructure", "Security", "Performance", "Scalability"].map((tag) => (
+                    {whyData.card3.tags.map((tag) => (
                       <span
                         key={tag}
                         className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-[11px] text-white/75 font-mono hover:border-[#FFD400]/40 transition-colors"
@@ -1188,19 +1201,19 @@ export default function WhyChooseSection({
                 <div>
                   <div className="flex items-start justify-between mb-3">
                     <div className="text-2xl sm:text-3xl font-black text-white/40 font-[family-name:var(--font-syne)] tracking-tight">
-                      04 /
+                      {whyData.card4.number}
                     </div>
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/80 text-xs font-mono uppercase tracking-wider">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#FFD400] animate-pulse" />
-                      OUR COMMITMENT
+                      {whyData.card4.badge}
                     </span>
                   </div>
 
                   <div className="flex items-start justify-between mb-3">
                     <h3 className="text-lg sm:text-xl md:text-2xl font-extrabold leading-tight font-[family-name:var(--font-syne)] text-white">
-                      <WaveText text="PARTNERSHIP" />
+                      <WaveText text={whyData.card4.titleLine1} />
                       <br />
-                      <WaveText text="BEYOND DELIVERY" delayOffset={15} />
+                      <WaveText text={whyData.card4.titleLine2} delayOffset={15} />
                     </h3>
 
                     {/* Glowing Concentric Radar / Telemetry Node with Active Orbiting Sensors */}
@@ -1226,15 +1239,15 @@ export default function WhyChooseSection({
                   </div>
 
                   <p className="text-xs sm:text-sm font-medium text-[#FFD400] mb-2 leading-snug">
-                    We build relationships, not just projects.
+                    {whyData.card4.tagline}
                   </p>
                   <p className="text-xs text-white/70 font-light leading-relaxed mb-5">
-                    Our commitment extends beyond launch. We provide ongoing collaboration, technical assistance and continuous improvement to keep your digital ecosystem moving forward.
+                    {whyData.card4.description}
                   </p>
 
                   {/* Badges: Dedicated Support • Collaboration • Long-Term Growth */}
                   <div className="flex flex-wrap gap-2 pt-3 border-t border-white/10 mt-auto">
-                    {["Dedicated Support", "Collaboration", "Long-Term Growth"].map((item) => (
+                    {whyData.card4.tags.map((item) => (
                       <span
                         key={item}
                         className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-xs text-white/80 font-mono hover:border-[#FFD400]/40 transition-colors"

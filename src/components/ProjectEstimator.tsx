@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Calculator,
   CheckCircle,
@@ -14,6 +15,7 @@ import {
 } from "lucide-react";
 
 export default function ProjectEstimator() {
+  const router = useRouter();
   const [selectedServices, setSelectedServices] = useState<string[]>([
     "Next.js Web Platform",
   ]);
@@ -50,6 +52,7 @@ export default function ProjectEstimator() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
+    router.push("/thank-you?type=estimator");
   };
 
   return (

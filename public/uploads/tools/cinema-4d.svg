@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
+  <rect width="24" height="24" rx="4" fill="#011A6B"/>
+  <path d="M12 5l5 3v8l-5 3-5-3V8l5-3z" fill="#4D7CFE"/>
+  <text x="5" y="16" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-weight="bold" font-size="7">C4D</text>
+</svg>

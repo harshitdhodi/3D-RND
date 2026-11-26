@@ -25,14 +25,85 @@ import {
   Camera,
   CheckCircle2,
   Zap,
+  Code2,
+  BarChart3,
+  Film,
+  LucideIcon,
 } from "lucide-react";
 import WhyChooseSection from "@/components/WhyChooseSection";
 import CosmicProcessSection from "@/components/CosmicProcessSection";
 import TeamCultureSection from "@/components/TeamCultureSection";
+import { getSectionHeading, SectionHeading, DEFAULT_SECTION_HEADINGS } from "@/lib/getSectionHeading";
+import { resolveIcon } from "@/components/DynamicIcon";
+import {
+  getPortfolioCategories,
+  PortfolioCategory,
+  DEFAULT_CATEGORIES,
+} from "@/lib/getPortfolioData";
+import {
+  getAboutHeroData,
+  getAboutMissionVisionData,
+  getAboutPartnershipCtaData,
+  DEFAULT_ABOUT_HERO,
+  DEFAULT_MISSION_VISION,
+  DEFAULT_PARTNERSHIP_CTA,
+  AboutHeroData,
+  AboutMissionVisionData,
+  AboutPartnershipCtaData,
+} from "@/lib/getAboutPageData";
+import {
+  getTeamData,
+  LeaderData,
+  TeamMemberData,
+} from "@/lib/getTeamData";
+import {
+  getPageComponents,
+  PageComponent,
+  DEFAULT_PAGE_COMPONENTS,
+  isSectionActive,
+  getSectionStyle,
+} from "@/lib/getPageComponents";
+
+const PILLAR_ICON_MAP: Record<string, LucideIcon> = {
+  Code2,
+  Cpu,
+  BarChart3,
+  TrendingUp,
+  Palette,
+  Film,
+  Camera,
+};
 
 export default function AboutUsPage() {
   const [isPlayingShowreel, setIsPlayingShowreel] = useState(false);
   const pageRef = useRef<HTMLDivElement>(null);
+
+  // Dynamic Backend State with Instant Default Fallbacks
+  const [aboutHero, setAboutHero] = useState<AboutHeroData>(DEFAULT_ABOUT_HERO);
+  const [aboutMissionVision, setAboutMissionVision] = useState<AboutMissionVisionData>(DEFAULT_MISSION_VISION);
+  const [portfolioCategories, setPortfolioCategories] = useState<PortfolioCategory[]>(DEFAULT_CATEGORIES);
+  const [partnershipCta, setPartnershipCta] = useState<AboutPartnershipCtaData>(DEFAULT_PARTNERSHIP_CTA);
+  const [pillarsHeading, setPillarsHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.portfolio_categories);
+  const [leaders, setLeaders] = useState<LeaderData[]>([]);
+  const [teamMembers, setTeamMembers] = useState<TeamMemberData[]>([]);
+  const [leadershipHeading, setLeadershipHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.about_page_leader);
+  const [teamHeading, setTeamHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.team_members);
+  const [pageComponents, setPageComponents] = useState<PageComponent[]>(DEFAULT_PAGE_COMPONENTS["about-us"]);
+
+  useEffect(() => {
+    getPageComponents("about-us").then(setPageComponents);
+    getAboutHeroData().then(setAboutHero);
+    getAboutMissionVisionData().then(setAboutMissionVision);
+    getPortfolioCategories().then(setPortfolioCategories);
+    getAboutPartnershipCtaData().then(setPartnershipCta);
+    getSectionHeading("portfolio_categories").then(setPillarsHeading);
+    getTeamData().then(({ leaders, members }) => {
+      setLeaders(leaders);
+      setTeamMembers(members);
+    });
+    getSectionHeading("about_page_leader").then(setLeadershipHeading);
+    getSectionHeading("team_members").then(setTeamHeading);
+  }, []);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -193,15 +264,17 @@ export default function AboutUsPage() {
       {/* Global Navbar */}
       <Navbar />
 
-      {/* Standard Page Banner matching Career & Service page size & animation */}
-      <PageBanner
-        title="ABOUT RND"
-        breadcrumb="ABOUT US"
-        imageSrc="/NewBanner/about.png"
-      />
-
-      {/* Dynamic Rocket Scroll Experience (Below Banner) */}
-      <AboutRocketScrollBanner />
+      {/* Standard Page Banner & Rocket Scroll Experience */}
+      {isSectionActive(pageComponents, "banner") && (
+        <div style={getSectionStyle(pageComponents, "banner")}>
+          <PageBanner
+            title={aboutHero.banner_title || "ABOUT RND"}
+            breadcrumb={aboutHero.banner_breadcrumb || "ABOUT US"}
+            imageSrc={aboutHero.banner_image || "/NewBanner/about.png"}
+          />
+          <AboutRocketScrollBanner data={aboutHero} />
+        </div>
+      )}
 
       {/* =========================================================================
           POST-BANNER OVERLAPPING CONTENT SECTION
@@ -210,27 +283,19 @@ export default function AboutUsPage() {
           ========================================================================= */}
       <div className="relative z-30 mt-0 lg:-mt-[100vh] min-h-screen bg-[#050608] text-white pt-[50px] pb-[50px] shadow-[0_-50px_140px_rgba(0,0,0,0.99)] border-t border-white/[0.08] rounded-t-[36px] sm:rounded-t-[48px]" suppressHydrationWarning>
         {/* Subtle Ambient Top Border Glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-[#FFD400]/6 blur-[160px] rounded-full pointer-events-none" />
+        {/* <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-[#FFD400]/6 blur-[160px] rounded-full pointer-events-none" /> */}
 
         <main className="relative z-10 w-full">
-          {/* =========================================================================
-              CONCEPT 2: THE "CONSTELLATION / ORBITAL" STORYBOARD
-              - Full-width immersive section with sticky telemetry sidebar & floating canvas
-              - Vision as the Core Sun (North Star with soft radial glow)
-              - Mission as the Trajectory (dynamic connecting bridge line)
-              - Core Values as Orbiting Nodes (interactive planetary pills & glassmorphism cards)
-              ========================================================================= */}
-          <ConstellationMissionVision className="py-[50px]" />
+          {/* 1. Constellation Mission & Vision */}
+          {isSectionActive(pageComponents, "mission_vision") && (
+            <div style={getSectionStyle(pageComponents, "mission_vision")}>
+              <ConstellationMissionVision data={aboutMissionVision} className="py-[50px]" />
+            </div>
+          )}
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-
-        {/* =========================================================================
-                3. INTEGRATED CORE AGENCY DISCIPLINES
-                - Left: Sticky Agency Overview & Capabilities Checklist (4 cols)
-                - Right: Expanded Single-Column Multi-Row Cards ending aligned with Navbar Button (8 cols)
-                - Background: Cyber Architectural & Circuit SVGs with Soft Radial Flares
-                ========================================================================= */}
-        <section id="pillars" className="py-[50px] relative">
+          {/* 2. Core Agency Pillars & Capabilities */}
+          {isSectionActive(pageComponents, "pillars") && (
+            <div id="pillars" className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-[50px] relative" style={getSectionStyle(pageComponents, "pillars")}>
           {/* Background Architectural & Circuit SVGs */}
           <div className="absolute inset-0 pointer-events-none select-none -z-10 overflow-hidden">
             {/* Tech Blueprint Grid SVG (Top Right) */}
@@ -277,26 +342,20 @@ export default function AboutUsPage() {
 
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-bold tracking-widest text-[#FFD400] uppercase mb-4 bg-[#FFD400]/10 border border-[#FFD400]/30 shadow-[0_0_20px_rgba(255,212,0,0.15)] group-hover:border-[#FFD400]/60 transition-colors relative z-10">
                   <Layers className="w-3.5 h-3.5 animate-pulse" />
-                  <span>◈ THE RND DIFFERENCE</span>
+                  <span>{pillarsHeading?.badge || "◈ THE RND DIFFERENCE"}</span>
                 </div>
 
                 <h2 className="text-2xl sm:text-3xl font-[family-name:var(--font-archia-local)] font-bold uppercase tracking-tight text-white mb-4 leading-tight relative z-10">
-                  WHERE TECHNOLOGY
-                  <br />
-                  <span className="bg-gradient-to-r from-white via-[#ffe34d] to-[#FFD400] bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(255,212,0,0.25)]">
-                    MEETS CREATIVITY.
-                  </span>
-                  <br />
-                  WHERE IDEAS BECOME IMPACT.
+                  {pillarsHeading?.title || "WHERE TECHNOLOGY MEETS CREATIVITY. WHERE IDEAS BECOME IMPACT."}
                 </h2>
 
                 <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light mb-6 relative z-10">
-                  RND Technosoft brings technology, digital marketing, branding and media production together under one roof. We combine technical expertise, strategic thinking and creative execution to help businesses build stronger brands, smarter digital experiences and meaningful connections with their audiences.
+                  {pillarsHeading?.subtitle || "RND Technosoft brings technology, digital marketing, branding and media production together under one roof. We combine technical expertise, strategic thinking and creative execution to help businesses build stronger brands, smarter digital experiences and meaningful connections with their audiences."}
                 </p>
 
                 <div className="pt-2 relative z-10">
-                  <CyberButton href="/#contact" variant="gold" size="md" fullWidth>
-                    EXPLORE OUR CAPABILITIES →
+                  <CyberButton href={pillarsHeading?.button_link || "/services"} variant="gold" size="md" fullWidth>
+                    {pillarsHeading?.tagline || "EXPLORE OUR CAPABILITIES"}
                   </CyberButton>
                 </div>
               </div>
@@ -304,12 +363,18 @@ export default function AboutUsPage() {
 
             {/* Right Column: Expanded Single Column Multi-Row Cards (8 cols) */}
             <div className="lg:col-span-8 flex flex-col space-y-6">
-              {agencyPillars.map((pillar, idx) => {
-                const Icon = pillar.icon;
+              {portfolioCategories.map((category, idx) => {
+                const Icon = resolveIcon(category.icon, PILLAR_ICON_MAP[category.icon] || Cpu);
+                const featureList = category.features 
+                  ? (Array.isArray(category.features) ? category.features : category.features.split(','))
+                  : [];
+                const cardHref = category.href || `/portfolio/${category.slug}`;
+
                 return (
-                  <div
-                    key={idx}
-                    className="about-pillar-card rounded-[28px] border border-white/10 hover:border-[#FFD400]/70 bg-[#0d0e13]/90 backdrop-blur-xl overflow-hidden transition-all duration-500 hover:-translate-y-1 group shadow-xl hover:shadow-[0_0_45px_rgba(255,212,0,0.22)] flex flex-col md:flex-row items-stretch relative"
+                  <Link
+                    key={category.slug || idx}
+                    href={cardHref}
+                    className="about-pillar-card rounded-[28px] border border-white/10 hover:border-[#FFD400]/70 bg-[#0d0e13]/90 backdrop-blur-xl overflow-hidden transition-all duration-500 hover:-translate-y-1 group shadow-xl hover:shadow-[0_0_45px_rgba(255,212,0,0.22)] flex flex-col md:flex-row items-stretch relative block cursor-pointer"
                   >
                     {/* Hover Light Sweep Beam */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#FFD400]/8 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none z-20" />
@@ -322,26 +387,26 @@ export default function AboutUsPage() {
                             <Icon className="w-5 h-5" />
                           </div>
                           <span className="text-[10px] font-mono tracking-widest text-[#FFD400] font-bold uppercase px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 group-hover:border-[#FFD400]/40 transition-colors">
-                            {pillar.number} {"//"} {pillar.tag}
+                            {category.number} {"//"} {category.tag}
                           </span>
                         </div>
 
                         <h3 className="text-xl sm:text-2xl font-[family-name:var(--font-archia-local)] font-bold uppercase text-white mb-2 group-hover:text-[#FFD400] transition-colors leading-snug">
-                          {pillar.title}
+                          {category.title}
                         </h3>
 
                         <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light mb-4">
-                          {pillar.desc}
+                          {category.description}
                         </p>
 
                         {/* Feature Tags */}
                         <div className="flex flex-wrap gap-1.5 pt-1">
-                          {pillar.features.map((feat, fIdx) => (
+                          {featureList.map((feat, fIdx) => (
                             <span
                               key={fIdx}
                               className="text-[10px] font-mono px-2.5 py-0.5 rounded-md bg-white/[0.04] text-neutral-300 border border-white/5 group-hover:border-[#FFD400]/30 group-hover:text-white transition-colors"
                             >
-                              #{feat}
+                              #{feat.trim()}
                             </span>
                           ))}
                         </div>
@@ -362,9 +427,12 @@ export default function AboutUsPage() {
 
                       {/* Image with zoom and color transition on hover */}
                       <Image
-                        src={pillar.image}
-                        alt={pillar.title}
+                        src={category.image}
+                        alt={category.title}
+                        title={category.title}
                         fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        loading="lazy"
                         className="object-cover object-center grayscale contrast-125 group-hover:grayscale-0 group-hover:contrast-100 opacity-65 group-hover:opacity-100 group-hover:scale-110 group-hover:rotate-0.5 transition-all duration-700 ease-out"
                       />
 
@@ -373,48 +441,67 @@ export default function AboutUsPage() {
                         DISCIPLINE {"//"} PREVIEW
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
             </div>
 
           </div>
-        </section>
         </div>
+        )}
 
         {/* 4. Cosmic Process Section */}
-        <CosmicProcessSection className="py-[50px]" />
+        {isSectionActive(pageComponents, "cosmic_process") && (
+          <div style={getSectionStyle(pageComponents, "cosmic_process")}>
+            <CosmicProcessSection className="py-[50px]" />
+          </div>
+        )}
 
         {/* 5. Team & Culture Section */}
-        <TeamCultureSection className="py-[50px]" />
+        {isSectionActive(pageComponents, "team_culture") && (
+          <div style={getSectionStyle(pageComponents, "team_culture")}>
+            <TeamCultureSection 
+              initialLeaders={leaders} 
+              initialMembers={teamMembers} 
+              leadershipHeading={leadershipHeading}
+              teamHeading={teamHeading}
+              className="py-[50px]" />
+          </div>
+        )}
 
         {/* 6. Why Choose RnD Section */}
-        <WhyChooseSection className="py-[50px]" />
+        {isSectionActive(pageComponents, "why_choose") && (
+          <div style={getSectionStyle(pageComponents, "why_choose")}>
+            <WhyChooseSection className="py-[50px]" />
+          </div>
+        )}
 
         {/* 7. Partnership CTA */}
-        <section className="py-[50px]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-            <div className="about-cta-card rounded-[28px] border border-[#FFD400]/30 bg-gradient-to-r from-[#12141c] via-[#090a0f] to-[#12141c] p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-[0_0_50px_rgba(255,212,0,0.1)]">
-              <div>
-                <span className="text-[10px] font-mono font-bold tracking-widest text-[#FFD400] uppercase block mb-1">
-                  READY FOR WHAT&apos;S NEXT?
-                </span>
-                <h3 className="text-xl sm:text-2xl font-[family-name:var(--font-archia-local)] font-bold uppercase text-white tracking-tight">
-                  GREAT IDEAS DESERVE <span className="text-[#FFD400]">GREAT PARTNERS.</span>
-                </h3>
-                <p className="text-xs sm:text-sm text-neutral-300 font-light mt-2 max-w-xl leading-relaxed">
-                  Let&apos;s bring the right expertise, creativity and technology together to move your business forward.
-                </p>
-              </div>
+        {isSectionActive(pageComponents, "partnership_cta") && (
+          <section className="py-[50px]" style={getSectionStyle(pageComponents, "partnership_cta")}>
+            <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+              <div className="about-cta-card rounded-[28px] border border-[#FFD400]/30 bg-gradient-to-r from-[#12141c] via-[#090a0f] to-[#12141c] p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-[0_0_50px_rgba(255,212,0,0.1)]">
+                <div>
+                  <span className="text-[10px] font-mono font-bold tracking-widest text-[#FFD400] uppercase block mb-1">
+                    {partnershipCta.cta_badge || "READY FOR WHAT'S NEXT?"}
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-[family-name:var(--font-archia-local)] font-bold uppercase text-white tracking-tight">
+                    {partnershipCta.cta_title || "GREAT IDEAS DESERVE GREAT PARTNERS."}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-neutral-300 font-light mt-2 max-w-xl leading-relaxed">
+                    {partnershipCta.cta_desc}
+                  </p>
+                </div>
 
-              <div className="flex items-center gap-3 shrink-0">
-                <CyberButton href="/contact-us" variant="gold" size="md">
-                  INITIATE PARTNERSHIP
-                </CyberButton>
+                <div className="flex items-center gap-3 shrink-0">
+                  <CyberButton href={partnershipCta.cta_button_link || "/contact-us"} variant="gold" size="md">
+                    {partnershipCta.cta_button_text || "INITIATE PARTNERSHIP"}
+                  </CyberButton>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
       </main>
     </div>
       {/* Showreel Modal */}

@@ -5,7 +5,7 @@ import { Award, Star, Quote, CheckCircle2, ShieldCheck, Sparkles } from "lucide-
 export default function ResultsTrustSection() {
   const metrics = [
     { value: "$180M+", label: "Client Revenue Generated", detail: "Through scaled apps & SMM funnels" },
-    { value: "250+", label: "Enterprise Systems Shipped", detail: "Next.js, cloud SaaS & mobile" },
+    { value: "500+", label: "Enterprise Systems Shipped", detail: "Next.js, cloud SaaS & mobile" },
     { value: "99.4%", label: "Client Retention Rate", detail: "Long-term partnership contracts" },
     { value: "15+", label: "Countries Served Globally", detail: "US, UK, EU, UAE, India & APAC" },
   ];

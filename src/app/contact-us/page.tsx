@@ -4,53 +4,45 @@ import PageBanner from "@/components/PageBanner";
 import ContactSection from "@/components/ContactSection";
 import RnDFooter from "@/components/RnDFooter";
 import SpaceBackground from "@/components/SpaceBackground";
+import { getPageMetadata, toNextJsMetadata } from "@/lib/getPageMetadata";
+import { getPageComponents, isSectionActive, getSectionStyle, isPageHidden } from "@/lib/getPageComponents";
+import { notFound } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Contact RND Technosoft | Discuss Your Project",
-  description:
-    "Get in touch with RND Technosoft to discuss your web development, mobile app, digital marketing, branding or media production project. We help businesses build, grow and connect online.",
-  keywords: [
-    "contact RND Technosoft",
-    "digital agency contact",
-    "web development enquiry",
-    "digital marketing enquiry",
-    "branding services enquiry",
-    "hire digital agency",
-  ],
-  alternates: {
-    canonical: "/contact-us",
-  },
-  openGraph: {
-    title: "Contact RND Technosoft | Discuss Your Project",
-    description:
-      "Get in touch with RND Technosoft to discuss your web development, digital marketing, branding or media production project.",
-    url: "https://rndtechnosoft.com/contact-us",
-    siteName: "RND Technosoft",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Contact RND Technosoft | Discuss Your Project",
-    description:
-      "Get in touch with RND Technosoft to discuss your web development, digital marketing, branding or media production project.",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const metadata = await getPageMetadata("contact");
+  return toNextJsMetadata(metadata);
+}
 
-export default function ContactUsPage() {
+export default async function ContactUsPage() {
+  const [pageComponents, hidden] = await Promise.all([
+    getPageComponents("contact-us"),
+    isPageHidden("contact-us"),
+  ]);
+
+  if (hidden) {
+    notFound();
+  }
+
   return (
     <div className="font-archia relative min-h-screen bg-[#050608] text-white">
       <SpaceBackground />
       <Navbar />
       
-      <PageBanner
-        title="GET IN TOUCH"
-        breadcrumb="CONTACT US"
-        imageSrc="/NewBanner/contactus.png"
-      />
+      {isSectionActive(pageComponents, "banner") && (
+        <div style={getSectionStyle(pageComponents, "banner")}>
+          <PageBanner
+            title="GET IN TOUCH"
+            breadcrumb="CONTACT US"
+            imageSrc="/NewBanner/contactus.png"
+          />
+        </div>
+      )}
 
-      <main className="relative z-10">
-        <ContactSection />
-      </main>
+      {isSectionActive(pageComponents, "contact_section") && (
+        <main className="relative z-10" style={getSectionStyle(pageComponents, "contact_section")}>
+          <ContactSection />
+        </main>
+      )}
 
       <RnDFooter />
     </div>

@@ -3,6 +3,7 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
     Search,
     ArrowUpRight,
@@ -28,6 +29,7 @@ import {
     Link2,
     X,
     Layers,
+    Upload,
 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -38,9 +40,10 @@ import CyberButton from "@/components/CyberButton";
 import PageBanner from "@/components/PageBanner";
 import PrintRevealImage from "@/components/PrintRevealImage";
 import WaveText from "@/components/WaveText";
-import { careerRoles, JobRole } from "@/data/careerData";
+import { getJobDescriptions, JobDescription, submitCareerInquiry, getCareerHeroData, CareerHeroData } from "@/lib/getCareerData";
+import { getPageComponents, PageComponent, DEFAULT_PAGE_COMPONENTS, isSectionActive, getSectionStyle } from "@/lib/getPageComponents";
 
-const serviceCategories = [
+const defaultServiceCategories = [
     "All Roles",
     "Spatial 3D & E-Commerce",
     "Web & Cloud",
@@ -53,18 +56,23 @@ const serviceCategories = [
 export default function CareerPage() {
     const pageRef = useRef<HTMLDivElement>(null);
     const formSectionRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
 
     const [activeCategory, setActiveCategory] = useState("All Roles");
     const [searchQuery, setSearchQuery] = useState("");
-    const [selectedRole, setSelectedRole] = useState<JobRole | null>(careerRoles[0]);
+    const [careerRoles, setCareerRoles] = useState<JobDescription[]>([]);
+    const [heroData, setHeroData] = useState<CareerHeroData | null>(null);
+    const [selectedRole, setSelectedRole] = useState<JobDescription | null>(null);
     const [expandedRoleId, setExpandedRoleId] = useState<string | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [pageComponents, setPageComponents] = useState<PageComponent[]>(DEFAULT_PAGE_COMPONENTS["career"] || []);
 
     // Application Modal / Drawer state for quick application
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Application Form States
     const [formData, setFormData] = useState({
-        jobRoleId: careerRoles[0].id,
+        jobRoleId: "",
         fullName: "",
         email: "",
         phone: "",
@@ -76,46 +84,189 @@ export default function CareerPage() {
         note: "",
     });
 
+    const [resumeFileName, setResumeFileName] = useState("");
+    const [portfolioFileName, setPortfolioFileName] = useState("");
+    const [resumeUploading, setResumeUploading] = useState(false);
+    const [portfolioUploading, setPortfolioUploading] = useState(false);
+    const [portfolioMode, setPortfolioMode] = useState<"file" | "url">("file");
+
+    const handleFileUpload = async (file: File, type: "resume" | "portfolio") => {
+        const MAX_SIZE = 15 * 1024 * 1024; // 15MB
+        if (file.size > MAX_SIZE) {
+            alert(`File size exceeds 15MB limit (current: ${(file.size / (1024 * 1024)).toFixed(2)}MB)`);
+            return;
+        }
+
+        if (type === "resume") {
+            setResumeUploading(true);
+        } else {
+            setPortfolioUploading(true);
+        }
+
+        try {
+            const uploadData = new FormData();
+            uploadData.append("file", file);
+            uploadData.append("fieldType", "File");
+            uploadData.append("isPublic", "true");
+            uploadData.append("purpose", "career");
+
+            const res = await fetch("/api/upload", {
+                method: "POST",
+                body: uploadData,
+            });
+
+            const json = await res.json();
+            if (json.success && json.data?.url) {
+                if (type === "resume") {
+                    setFormData((prev) => ({ ...prev, resumeLink: json.data.url }));
+                    setResumeFileName(file.name);
+                } else {
+                    setFormData((prev) => ({ ...prev, portfolioUrl: json.data.url }));
+                    setPortfolioFileName(file.name);
+                }
+            } else {
+                alert(json.error || "Failed to upload file. Please try again.");
+            }
+        } catch (err) {
+            console.error("Upload error:", err);
+            alert("An error occurred during file upload. Please try again.");
+        } finally {
+            if (type === "resume") {
+                setResumeUploading(false);
+            } else {
+                setPortfolioUploading(false);
+            }
+        }
+    };
+
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
-    // Filtered job list
+    // Fetch career data from backend
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const [jobs, hero, comps] = await Promise.all([
+                    getJobDescriptions(),
+                    getCareerHeroData(),
+                    getPageComponents("career"),
+                ]);
+                setCareerRoles(jobs);
+                if (hero) {
+                    setHeroData(hero);
+                }
+                if (comps && comps.length > 0) {
+                    setPageComponents(comps);
+                }
+                if (jobs.length > 0) {
+                    setSelectedRole(jobs[0]);
+                    setFormData((prev) => ({ ...prev, jobRoleId: jobs[0]._id || jobs[0].id || "" }));
+                }
+            } catch (error) {
+                console.error("Failed to fetch career data:", error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchData();
+    }, []);
+
+    // Dynamically derive unique service categories from the backend jobs
+    const categories = useMemo(() => {
+        const unique = Array.from(
+            new Set(
+                careerRoles
+                    .map((r) => r.service_category?.trim())
+                    .filter(Boolean)
+            )
+        );
+        if (unique.length > 0) {
+            return ["All Roles", ...unique];
+        }
+        return defaultServiceCategories;
+    }, [careerRoles]);
+
+    // Filtered job list with robust null-checks
     const filteredRoles = useMemo(() => {
         return careerRoles.filter((role) => {
+            const cat = role.service_category || "";
             const matchesCategory =
                 activeCategory === "All Roles" ||
-                role.serviceCategory.toLowerCase().includes(activeCategory.toLowerCase()) ||
-                activeCategory.toLowerCase().includes(role.serviceCategory.toLowerCase());
+                cat.toLowerCase().trim() === activeCategory.toLowerCase().trim() ||
+                cat.toLowerCase().includes(activeCategory.toLowerCase()) ||
+                activeCategory.toLowerCase().includes(cat.toLowerCase());
 
+            const query = searchQuery.trim().toLowerCase();
             const matchesSearch =
-                role.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                role.serviceCategory.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                role.tagline.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                role.techStack.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
+                query === "" ||
+                (role.title && role.title.toLowerCase().includes(query)) ||
+                (role.service_category && role.service_category.toLowerCase().includes(query)) ||
+                (role.tagline && role.tagline.toLowerCase().includes(query)) ||
+                (role.department && role.department.toLowerCase().includes(query)) ||
+                (role.location && role.location.toLowerCase().includes(query)) ||
+                (role.description && role.description.toLowerCase().includes(query)) ||
+                (Array.isArray(role.tech_stack) && role.tech_stack.some((t) => t.toLowerCase().includes(query)));
 
             return matchesCategory && matchesSearch;
         });
-    }, [activeCategory, searchQuery]);
+    }, [activeCategory, searchQuery, careerRoles]);
 
     // Handle clicking "Apply Now" on any card: updates form selection and scrolls to form (or opens drawer)
-    const handleApplyClick = (role: JobRole) => {
+    const handleApplyClick = (role: JobDescription) => {
+        const roleId = role._id || role.id || "";
         setSelectedRole(role);
         setFormData((prev) => ({
             ...prev,
-            jobRoleId: role.id,
+            jobRoleId: roleId,
         }));
         if (formSectionRef.current) {
             formSectionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
         }
     };
 
-    const handleFormSubmit = (e: React.FormEvent) => {
+    const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (portfolioUploading || resumeUploading) {
+            alert('Please wait for file uploads to complete.');
+            return;
+        }
+        if (!formData.portfolioUrl) {
+            alert('Please attach or upload your Portfolio / Work Deck to proceed.');
+            return;
+        }
+        if (!formData.resumeLink) {
+            alert('Please upload your Resume / CV (PDF, DOC, DOCX) to proceed.');
+            return;
+        }
         setIsSubmitting(true);
-        setTimeout(() => {
+        
+        try {
+            const success = await submitCareerInquiry({
+                job_role_id: formData.jobRoleId,
+                job_title: selectedRole?.title || '',
+                full_name: formData.fullName,
+                email: formData.email,
+                phone: formData.phone,
+                portfolio_url: formData.portfolioUrl,
+                github_url: formData.githubUrl,
+                experience: formData.experience,
+                notice_period: formData.noticePeriod,
+                resume_link: formData.resumeLink,
+                note: formData.note,
+            });
+            
+            if (success) {
+                setIsSubmitted(true);
+                router.push("/thank-you?type=career");
+            } else {
+                alert('Failed to submit application. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error submitting application:', error);
+            alert('An error occurred. Please try again.');
+        } finally {
             setIsSubmitting(false);
-            setIsSubmitted(true);
-        }, 900);
+        }
     };
 
     // GSAP Scroll Animations
@@ -195,63 +346,70 @@ export default function CareerPage() {
             <Navbar />
 
             {/* Page Banner with Typewriter Title */}
-            <PageBanner
-                title="CAREER OPPORTUNITIES"
-                breadcrumb="CAREERS"
-                imageSrc="/banner/career.png"
-            />
+            {isSectionActive(pageComponents, "banner") && (
+                <div style={getSectionStyle(pageComponents, "banner")}>
+                    <PageBanner
+                        title="CAREER OPPORTUNITIES"
+                        breadcrumb="CAREERS"
+                        imageSrc="/banner/career.png"
+                    />
+                </div>
+            )}
 
-            <main className="relative z-20 w-full mt-[50px] rounded-t-[32px] sm:rounded-t-[44px] bg-[#050608] border-t border-white/10 shadow-[0_-25px_60px_rgba(0,0,0,0.85)]">
-
+            {/* Main Content (Directly below banner without overlap) */}
+            <main className="relative z-10 w-full">
                 {/* =========================================================================
             1. ENGINEERING ATELIER PHILOSOPHY HERO BAR
             ========================================================================= */}
-                <section className="max-w-7xl mx-auto px-6 md:px-12 pt-14 pb-8">
+                {isSectionActive(pageComponents, "philosophy_hero") && (
+                <section className="max-w-7xl mx-auto px-6 md:px-12 pt-8 sm:pt-12 pb-8" style={getSectionStyle(pageComponents, "philosophy_hero")}>
                     <div className="p-8 sm:p-12 bg-gradient-to-r from-[#0c0e14] via-[#121520] to-[#0c0e14] border border-white/10 shadow-2xl relative overflow-hidden">
                         <div className="relative z-10 max-w-3xl space-y-4">
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase">
                                 <Sparkles className="w-3.5 h-3.5" />
-                                <span>R&amp;D ENGINEERING ATELIER</span>
+                                <span>{heroData?.tagline || "R&D ENGINEERING ATELIER"}</span>
                             </div>
                             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold text-white uppercase tracking-tight leading-tight">
-                                Build the Future of Digital &amp; Spatial Systems
+                                {heroData?.title || "Build the Future of Digital & Spatial Systems"}
                             </h1>
-                            <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed">
-                                We are an elite squad of spatial 3D architects, full-stack engineers, and creative technologists pushing the limits of the web. Explore high-autonomy opportunities mapped across our core engineering disciplines.
+                            <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed whitespace-pre-line">
+                                {(heroData?.description || "We are an elite squad of spatial 3D architects, full-stack engineers, and creative technologists pushing the limits of the web. Explore high-autonomy opportunities mapped across our core engineering disciplines.").trim()}
                             </p>
                         </div>
 
                         {/* Quick Stats Pill Grid */}
                         <div className="mt-8 pt-6 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-mono">
-                            <div className="p-3 bg-white/[0.02] border border-white/10">
-                                <p className="text-neutral-500 uppercase text-[10px] tracking-widest">Active Openings</p>
-                                <p className="text-lg font-bold text-[#FFD400] mt-1">{careerRoles.length} Positions</p>
-                            </div>
-                            <div className="p-3 bg-white/[0.02] border border-white/10">
-                                <p className="text-neutral-500 uppercase text-[10px] tracking-widest">Work Modality</p>
-                                <p className="text-lg font-bold text-white mt-1">Remote &amp; Hybrid</p>
-                            </div>
-                            <div className="p-3 bg-white/[0.02] border border-white/10">
-                                <p className="text-neutral-500 uppercase text-[10px] tracking-widest">Exploratory R&amp;D</p>
-                                <p className="text-lg font-bold text-white mt-1">20% Lab Time</p>
-                            </div>
-                            <div className="p-3 bg-white/[0.02] border border-white/10">
-                                <p className="text-neutral-500 uppercase text-[10px] tracking-widest">Application SLA</p>
-                                <p className="text-lg font-bold text-[#FFD400] mt-1">48-Hr Review</p>
-                            </div>
+                            {(heroData?.counter && heroData.counter.length > 0
+                                ? heroData.counter
+                                : [
+                                    { heading: "Active Openings", sub_heading: `${careerRoles.length || 5} Positions` },
+                                    { heading: "Work Modality", sub_heading: "Remote & Hybrid" },
+                                    { heading: "Exploratory R&D", sub_heading: "20% Lab Time" },
+                                    { heading: "Application SLA", sub_heading: "48-Hr Review" },
+                                ]
+                            ).map((item, idx) => (
+                                <div key={idx} className="p-3 bg-white/[0.02] border border-white/10">
+                                    <p className="text-neutral-500 uppercase text-[10px] tracking-widest">{item.heading}</p>
+                                    <p className={`text-lg font-bold mt-1 ${idx === 0 || idx === 3 ? "text-[#FFD400]" : "text-white"}`}>
+                                        {item.sub_heading || (idx === 0 ? `${careerRoles.length} Positions` : "")}
+                                    </p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </section>
+                )}
 
                 {/* =========================================================================
             2. SERVICE CATEGORY FILTER & SEARCH BAR
             ========================================================================= */}
-                <section className="career-filter-bar max-w-7xl mx-auto px-6 md:px-12 pt-8 pb-6 border-b border-white/10">
+                {isSectionActive(pageComponents, "filter_search") && (
+                <section className="career-filter-bar max-w-7xl mx-auto px-6 md:px-12 pt-8 pb-6 border-b border-white/10" style={getSectionStyle(pageComponents, "filter_search")}>
                     <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
 
                         {/* Service Typology Filters */}
                         <div className="flex flex-wrap gap-2">
-                            {serviceCategories.map((cat) => {
+                            {categories.map((cat) => {
                                 const isSelected = activeCategory === cat;
                                 return (
                                     <button
@@ -283,12 +441,34 @@ export default function CareerPage() {
                         </div>
                     </div>
                 </section>
+                )}
 
                 {/* =========================================================================
             3. JOB ROLES LISTING SECTION (With Right-to-Left Printer Reveal Images)
             ========================================================================= */}
-                <section className="career-jobs-grid max-w-7xl mx-auto px-6 md:px-12 py-12">
-                    {filteredRoles.length === 0 ? (
+                {isSectionActive(pageComponents, "jobs_listing") && (
+                <section className="career-jobs-grid max-w-7xl mx-auto px-6 md:px-12 py-12" style={getSectionStyle(pageComponents, "jobs_listing")}>
+                    {loading ? (
+                        <div className="space-y-6">
+                            {[1, 2, 3].map((i) => (
+                                <div key={i} className="min-h-[300px] bg-[#0c0e14] border border-white/10 p-8 flex flex-col justify-center space-y-4 animate-pulse">
+                                    <div className="flex gap-2">
+                                        <div className="h-5 w-24 bg-white/10" />
+                                        <div className="h-5 w-20 bg-white/10" />
+                                        <div className="h-5 w-16 bg-white/10" />
+                                    </div>
+                                    <div className="h-8 w-2/3 bg-white/10" />
+                                    <div className="h-4 w-full bg-white/5" />
+                                    <div className="h-4 w-4/5 bg-white/5" />
+                                    <div className="flex gap-2 pt-2">
+                                        <div className="h-6 w-16 bg-white/5" />
+                                        <div className="h-6 w-16 bg-white/5" />
+                                        <div className="h-6 w-16 bg-white/5" />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : filteredRoles.length === 0 ? (
                         <div className="text-center py-20 bg-[#0c0e14] border border-white/10 p-8 space-y-4">
                             <p className="text-sm font-mono text-neutral-400">
                                 No roles found matching &quot;{searchQuery}&quot; under {activeCategory}.
@@ -307,11 +487,12 @@ export default function CareerPage() {
                     ) : (
                         <div className="space-y-8">
                             {filteredRoles.map((role, idx) => {
-                                const isExpanded = expandedRoleId === role.id;
+                                const roleId = role._id || role.id || `role-${idx}`;
+                                const isExpanded = expandedRoleId === roleId;
 
                                 return (
                                     <article
-                                        key={role.id}
+                                        key={roleId}
                                         className="career-job-card group bg-[#0c0e14] border border-white/10 hover:border-[#FFD400]/50 transition-all duration-500 shadow-xl overflow-hidden flex flex-col"
                                     >
                                         <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch min-h-[340px]">
@@ -319,9 +500,9 @@ export default function CareerPage() {
                                             {/* Left: Role Image with Multi-Directional Smooth Glide & Settle Animation */}
                                             <div className="lg:col-span-5 xl:col-span-5 relative w-full h-[280px] sm:h-[340px] lg:h-auto min-h-full flex flex-col justify-stretch self-stretch overflow-hidden">
                                                 <PrintRevealImage
-                                                    src={role.image}
+                                                    src={role.image || "/banner/career.png"}
                                                     alt={role.title}
-                                                    badge={role.serviceCategory}
+                                                    badge={role.service_category}
                                                     aspectClass="w-full h-full min-h-full"
                                                     className="w-full h-full border-0 lg:border-r border-white/10"
                                                     index={idx}
@@ -331,21 +512,39 @@ export default function CareerPage() {
                                             {/* Right: Role Details & Actions */}
                                             <div className="lg:col-span-7 xl:col-span-7 p-6 sm:p-8 lg:p-9 space-y-5 flex flex-col justify-between">
                                                 <div className="space-y-4">
-                                                    {/* Meta Tags: Department • Level • Type • Location */}
+                                                    {/* Meta Tags: Category • Department • Level • Type • Experience • Location */}
                                                     <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-neutral-400">
-                                                        <span className="px-2.5 py-0.5 bg-[#FFD400]/15 text-[#FFD400] border border-[#FFD400]/30 font-bold">
-                                                            {role.serviceCategory}
-                                                        </span>
-                                                        <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10">
-                                                            {role.department}
-                                                        </span>
-                                                        <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10 text-white font-medium">
-                                                            {role.level}
-                                                        </span>
-                                                        <span className="flex items-center gap-1 px-2.5 py-0.5 bg-white/[0.04] border border-white/10">
-                                                            <MapPin className="w-3 h-3 text-[#FFD400]" />
-                                                            <span>{role.location}</span>
-                                                        </span>
+                                                        {role.service_category && (
+                                                            <span className="px-2.5 py-0.5 bg-[#FFD400]/15 text-[#FFD400] border border-[#FFD400]/30 font-bold">
+                                                                {role.service_category}
+                                                            </span>
+                                                        )}
+                                                        {role.department && (
+                                                            <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10">
+                                                                {role.department}
+                                                            </span>
+                                                        )}
+                                                        {role.level && (
+                                                            <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10 text-white font-medium">
+                                                                {role.level}
+                                                            </span>
+                                                        )}
+                                                        {role.type && (
+                                                            <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10 text-neutral-300">
+                                                                {role.type}
+                                                            </span>
+                                                        )}
+                                                        {role.experience && (
+                                                            <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10 text-neutral-300">
+                                                                {role.experience}
+                                                            </span>
+                                                        )}
+                                                        {role.location && (
+                                                            <span className="flex items-center gap-1 px-2.5 py-0.5 bg-white/[0.04] border border-white/10">
+                                                                <MapPin className="w-3 h-3 text-[#FFD400]" />
+                                                                <span>{role.location}</span>
+                                                            </span>
+                                                        )}
                                                     </div>
 
                                                     {/* Role Title with Smooth Wave Animation */}
@@ -354,21 +553,25 @@ export default function CareerPage() {
                                                     </h2>
 
                                                     {/* Tagline */}
-                                                    <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
-                                                        {role.tagline}
-                                                    </p>
+                                                    {role.tagline && (
+                                                        <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
+                                                            {role.tagline}
+                                                        </p>
+                                                    )}
 
                                                     {/* Tech Stack Pills */}
-                                                    <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                                                        {role.techStack.map((tech) => (
-                                                            <span
-                                                                key={tech}
-                                                                className="px-2 py-0.5 bg-white/[0.03] border border-white/10 text-[10px] font-mono text-neutral-300"
-                                                            >
-                                                                {tech}
-                                                            </span>
-                                                        ))}
-                                                    </div>
+                                                    {Array.isArray(role.tech_stack) && role.tech_stack.length > 0 && (
+                                                        <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                                                            {role.tech_stack.map((tech) => (
+                                                                <span
+                                                                    key={tech}
+                                                                    className="px-2 py-0.5 bg-white/[0.03] border border-white/10 text-[10px] font-mono text-neutral-300"
+                                                                >
+                                                                    {tech}
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                    )}
                                                 </div>
 
                                                 {/* Compensation & Actions Row */}
@@ -378,18 +581,22 @@ export default function CareerPage() {
                                                             Compensation Package (Est.)
                                                         </span>
                                                         <p className="text-xs sm:text-sm font-mono text-[#FFD400] font-bold">
-                                                            {role.compensation}
+                                                            {role.compensation || "Competitive"}
                                                         </p>
                                                     </div>
 
                                                     <div className="flex items-center gap-3">
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => setExpandedRoleId(isExpanded ? null : role.id)}
-                                                            className="px-4 py-2 border border-white/20 hover:border-white text-xs font-mono uppercase tracking-wider text-neutral-300 hover:text-white transition-colors cursor-pointer"
-                                                        >
-                                                            {isExpanded ? "Hide Specs" : "View Specs"}
-                                                        </button>
+                                                        {((role.key_responsibilities && role.key_responsibilities.length > 0) ||
+                                                          (role.requirements && role.requirements.length > 0) ||
+                                                          role.description) && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => setExpandedRoleId(isExpanded ? null : roleId)}
+                                                                className="px-4 py-2 border border-white/20 hover:border-white text-xs font-mono uppercase tracking-wider text-neutral-300 hover:text-white transition-colors cursor-pointer"
+                                                            >
+                                                                {isExpanded ? "Hide Specs" : "View Specs"}
+                                                            </button>
+                                                        )}
 
                                                         <button
                                                             type="button"
@@ -407,33 +614,48 @@ export default function CareerPage() {
                                         {/* Inline Expandable Specs & Responsibilities */}
                                         {isExpanded && (
                                             <div className="p-6 sm:p-8 border-t border-white/10 bg-[#08090d]/80 grid grid-cols-1 md:grid-cols-2 gap-6 text-xs font-mono">
-                                                <div className="space-y-2.5">
-                                                    <span className="text-[#FFD400] font-bold uppercase tracking-wider block">
-                                                        Key Responsibilities
-                                                    </span>
-                                                    <ul className="space-y-2 text-neutral-300">
-                                                        {role.keyResponsibilities.map((resp, idx) => (
-                                                            <li key={idx} className="flex items-start gap-2">
-                                                                <span className="text-[#FFD400] shrink-0 mt-0.5">›</span>
-                                                                <span className="font-light leading-relaxed">{resp}</span>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
+                                                {role.key_responsibilities && role.key_responsibilities.length > 0 && (
+                                                    <div className="space-y-2.5">
+                                                        <span className="text-[#FFD400] font-bold uppercase tracking-wider block">
+                                                            Key Responsibilities
+                                                        </span>
+                                                        <ul className="space-y-2 text-neutral-300">
+                                                            {role.key_responsibilities.map((resp, idx) => (
+                                                                <li key={idx} className="flex items-start gap-2">
+                                                                    <span className="text-[#FFD400] shrink-0 mt-0.5">›</span>
+                                                                    <span className="font-light leading-relaxed">{resp}</span>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                )}
 
-                                                <div className="space-y-2.5">
-                                                    <span className="text-white font-bold uppercase tracking-wider block">
-                                                        Core Prerequisites
-                                                    </span>
-                                                    <ul className="space-y-2 text-neutral-300">
-                                                        {role.requirements.map((req, idx) => (
-                                                            <li key={idx} className="flex items-start gap-2">
-                                                                <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400] shrink-0 mt-0.5" />
-                                                                <span className="font-light leading-relaxed">{req}</span>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
+                                                {role.requirements && role.requirements.length > 0 && (
+                                                    <div className="space-y-2.5">
+                                                        <span className="text-white font-bold uppercase tracking-wider block">
+                                                            Core Prerequisites
+                                                        </span>
+                                                        <ul className="space-y-2 text-neutral-300">
+                                                            {role.requirements.map((req, idx) => (
+                                                                <li key={idx} className="flex items-start gap-2">
+                                                                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD400] shrink-0 mt-0.5" />
+                                                                    <span className="font-light leading-relaxed">{req}</span>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                )}
+
+                                                {role.description && (
+                                                    <div className="col-span-full pt-3 border-t border-white/5 space-y-1.5">
+                                                        <span className="text-[#FFD400] font-bold uppercase tracking-wider block text-[10px]">
+                                                            Role Overview
+                                                        </span>
+                                                        <p className="text-neutral-300 font-light leading-relaxed whitespace-pre-line text-xs font-mono">
+                                                            {role.description}
+                                                        </p>
+                                                    </div>
+                                                )}
                                             </div>
                                         )}
                                     </article>
@@ -442,14 +664,17 @@ export default function CareerPage() {
                         </div>
                     )}
                 </section>
+                )}
 
                 {/* =========================================================================
             4. APPLICATION FORM SECTION (Prefilled with Specific Role)
             ========================================================================= */}
+                {isSectionActive(pageComponents, "application_form") && (
                 <section
                     ref={formSectionRef}
                     id="apply-section"
                     className="max-w-7xl mx-auto px-6 md:px-12 py-16 scroll-mt-24 border-t border-white/10"
+                    style={getSectionStyle(pageComponents, "application_form")}
                 >
                     <div className="bg-[#0c0e14] border border-white/15 p-8 sm:p-12 shadow-2xl relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
 
@@ -484,7 +709,7 @@ export default function CareerPage() {
                                             {selectedRole.title}
                                         </h3>
                                         <p className="text-xs text-neutral-400 font-mono mt-0.5">
-                                            Service: {selectedRole.serviceCategory}
+                                            Service: {selectedRole.service_category}
                                         </p>
                                     </div>
                                     <div className="flex items-center gap-4 text-xs font-mono text-neutral-300 pt-1">
@@ -495,26 +720,7 @@ export default function CareerPage() {
                                 </div>
                             )}
 
-                            {/* Review Process SLA */}
-                            <div className="p-4 bg-white/[0.02] border border-white/10 space-y-2 text-xs font-mono">
-                                <span className="text-[11px] uppercase tracking-widest text-neutral-400 font-bold block">
-                                    Application Review Process:
-                                </span>
-                                <div className="space-y-1.5 text-neutral-300">
-                                    <p className="flex items-center justify-between">
-                                        <span>1. Code / Portfolio Audit:</span>
-                                        <strong className="text-[#FFD400]">Within 48 Hours</strong>
-                                    </p>
-                                    <p className="flex items-center justify-between">
-                                        <span>2. Technical Architecture Deep-Dive:</span>
-                                        <strong className="text-white">60 Min Live Session</strong>
-                                    </p>
-                                    <p className="flex items-center justify-between">
-                                        <span>3. Leadership Culture Alignment:</span>
-                                        <strong className="text-white">Final Chat</strong>
-                                    </p>
-                                </div>
-                            </div>
+                           
                         </div>
 
                         {/* Right Column (7 cols): The Application Form */}
@@ -535,7 +741,7 @@ export default function CareerPage() {
                                         onClick={() => {
                                             setIsSubmitted(false);
                                             setFormData({
-                                                jobRoleId: careerRoles[0].id,
+                                                jobRoleId: careerRoles[0]?._id || careerRoles[0]?.id || "",
                                                 fullName: "",
                                                 email: "",
                                                 phone: "",
@@ -546,6 +752,8 @@ export default function CareerPage() {
                                                 resumeLink: "",
                                                 note: "",
                                             });
+                                            setResumeFileName("");
+                                            setPortfolioFileName("");
                                         }}
                                         className="mt-4 px-6 py-2 rounded-full border border-white/20 text-xs font-mono uppercase tracking-wider text-neutral-300 hover:text-white hover:border-[#FFD400] transition-colors cursor-pointer"
                                     >
@@ -565,16 +773,19 @@ export default function CareerPage() {
                                             onChange={(e) => {
                                                 const newRoleId = e.target.value;
                                                 setFormData({ ...formData, jobRoleId: newRoleId });
-                                                const found = careerRoles.find((r) => r.id === newRoleId);
+                                                const found = careerRoles.find((r) => (r._id || r.id) === newRoleId);
                                                 if (found) setSelectedRole(found);
                                             }}
                                             className="w-full px-3 py-2.5 text-xs font-mono bg-[#0c0e14] border border-white/15 text-white focus:outline-none focus:border-[#FFD400] transition-colors"
                                         >
-                                            {careerRoles.map((r) => (
-                                                <option key={r.id} value={r.id}>
-                                                    {r.title} ({r.serviceCategory})
-                                                </option>
-                                            ))}
+                                            {careerRoles.map((r) => {
+                                                const rId = r._id || r.id || "";
+                                                return (
+                                                    <option key={rId} value={rId}>
+                                                        {r.title} ({r.service_category})
+                                                    </option>
+                                                );
+                                            })}
                                         </select>
                                     </div>
 
@@ -659,27 +870,99 @@ export default function CareerPage() {
                                         </div>
                                     </div>
 
-                                    {/* Portfolio & GitHub URLs */}
+                                    {/* Portfolio (File / Link) & GitHub/LinkedIn URLs */}
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        {/* Portfolio File / Deck */}
                                         <div>
-                                            <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                                Portfolio / Live Projects URL *
-                                            </label>
-                                            <div className="relative">
-                                                <Link2 className="w-4 h-4 text-[#FFD400] absolute left-3.5 top-1/2 -translate-y-1/2" />
-                                                <input
-                                                    type="url"
-                                                    required
-                                                    placeholder="https://arjun.dev"
-                                                    value={formData.portfolioUrl}
-                                                    onChange={(e) =>
-                                                        setFormData({ ...formData, portfolioUrl: e.target.value })
-                                                    }
-                                                    className="w-full pl-10 pr-3.5 py-2.5 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors"
-                                                />
+                                            <div className="flex items-center justify-between mb-1.5">
+                                                <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400">
+                                                    Portfolio File / Deck *
+                                                </label>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setPortfolioMode(portfolioMode === "file" ? "url" : "file")}
+                                                    className="text-[10px] font-mono text-[#FFD400]/80 hover:text-[#FFD400] underline uppercase cursor-pointer"
+                                                >
+                                                    {portfolioMode === "file" ? "Or URL Link" : "Or File Upload"}
+                                                </button>
                                             </div>
+
+                                            {portfolioMode === "file" ? (
+                                                formData.portfolioUrl && !portfolioUploading ? (
+                                                    <div className="flex items-center justify-between p-2.5 bg-white/[0.04] border border-[#FFD400]/40 text-xs font-mono">
+                                                        <div className="flex items-center gap-2 truncate">
+                                                            <CheckCircle2 className="w-4 h-4 text-[#FFD400] shrink-0" />
+                                                            <span className="truncate text-neutral-200">
+                                                                {portfolioFileName || formData.portfolioUrl.split("/").pop()}
+                                                            </span>
+                                                        </div>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => {
+                                                                setFormData((prev) => ({ ...prev, portfolioUrl: "" }));
+                                                                setPortfolioFileName("");
+                                                            }}
+                                                            className="text-neutral-400 hover:text-white ml-2 p-1 hover:bg-white/10 rounded transition-colors"
+                                                            title="Remove file"
+                                                        >
+                                                            <X className="w-3.5 h-3.5" />
+                                                        </button>
+                                                    </div>
+                                                ) : (
+                                                    <label
+                                                        onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                                                        onDrop={(e) => {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+                                                            const file = e.dataTransfer.files?.[0];
+                                                            if (file) handleFileUpload(file, "portfolio");
+                                                        }}
+                                                        className={`flex flex-col items-center justify-center p-2.5 border border-dashed rounded-none cursor-pointer transition-all ${
+                                                            portfolioUploading
+                                                                ? "border-[#FFD400] bg-[#FFD400]/5"
+                                                                : "border-white/20 bg-white/[0.02] hover:border-[#FFD400]/50 hover:bg-white/[0.04]"
+                                                        }`}
+                                                    >
+                                                        <input
+                                                            type="file"
+                                                            className="hidden"
+                                                            accept=".pdf,.zip,.rar,.doc,.docx,.png,.jpg,.jpeg,.webp"
+                                                            disabled={portfolioUploading}
+                                                            onChange={(e) => {
+                                                                const file = e.target.files?.[0];
+                                                                if (file) handleFileUpload(file, "portfolio");
+                                                            }}
+                                                        />
+                                                        {portfolioUploading ? (
+                                                            <div className="flex items-center gap-2 text-xs font-mono text-[#FFD400] py-0.5">
+                                                                <div className="w-3 h-3 border-2 border-[#FFD400] border-t-transparent rounded-full animate-spin" />
+                                                                <span>Uploading Portfolio...</span>
+                                                            </div>
+                                                        ) : (
+                                                            <div className="flex items-center gap-2 text-xs font-mono text-neutral-400 hover:text-white py-0.5">
+                                                                <Upload className="w-3.5 h-3.5 text-[#FFD400]" />
+                                                                <span>Upload Portfolio File (PDF/ZIP/IMG)</span>
+                                                            </div>
+                                                        )}
+                                                    </label>
+                                                )
+                                            ) : (
+                                                <div className="relative">
+                                                    <Link2 className="w-4 h-4 text-[#FFD400] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                                                    <input
+                                                        type="url"
+                                                        placeholder="https://arjun.dev / behance / figma"
+                                                        value={formData.portfolioUrl}
+                                                        onChange={(e) =>
+                                                            setFormData({ ...formData, portfolioUrl: e.target.value })
+                                                        }
+                                                        className="w-full pl-10 pr-3.5 py-2.5 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors"
+                                                    />
+                                                </div>
+                                            )}
                                         </div>
 
+                                        {/* GitHub / LinkedIn URL */}
                                         <div>
                                             <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
                                                 GitHub / LinkedIn URL
@@ -699,24 +982,79 @@ export default function CareerPage() {
                                         </div>
                                     </div>
 
-                                    {/* Resume PDF Drive / Cloud Link */}
+                                    {/* Resume PDF / File Upload */}
                                     <div>
-                                        <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                                            Resume PDF Link (Google Drive / Dropbox / Notion) *
+                                        <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5 flex items-center justify-between">
+                                            <span>Resume / CV (PDF, DOC, DOCX) *</span>
+                                            <span className="text-[10px] text-neutral-500 font-mono lowercase">Max 15MB file</span>
                                         </label>
-                                        <div className="relative">
-                                            <FileText className="w-4 h-4 text-[#FFD400] absolute left-3.5 top-1/2 -translate-y-1/2" />
-                                            <input
-                                                type="url"
-                                                required
-                                                placeholder="https://drive.google.com/file/d/your-resume-pdf"
-                                                value={formData.resumeLink}
-                                                onChange={(e) =>
-                                                    setFormData({ ...formData, resumeLink: e.target.value })
-                                                }
-                                                className="w-full pl-10 pr-3.5 py-2.5 text-xs font-mono bg-white/[0.04] border border-white/15 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFD400] transition-colors"
-                                            />
-                                        </div>
+                                        {formData.resumeLink && !resumeUploading ? (
+                                            <div className="flex items-center justify-between p-3 bg-white/[0.04] border border-[#FFD400]/40 text-xs font-mono">
+                                                <div className="flex items-center gap-2.5 truncate">
+                                                    <CheckCircle2 className="w-4 h-4 text-[#FFD400] shrink-0" />
+                                                    <div className="truncate">
+                                                        <span className="text-white block truncate">
+                                                            {resumeFileName || formData.resumeLink.split("/").pop()}
+                                                        </span>
+                                                        <span className="text-[10px] text-[#FFD400]">Attached &bull; Ready to transmit</span>
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setFormData((prev) => ({ ...prev, resumeLink: "" }));
+                                                        setResumeFileName("");
+                                                    }}
+                                                    className="text-neutral-400 hover:text-white p-1 hover:bg-white/10 rounded transition-colors"
+                                                    title="Remove resume"
+                                                >
+                                                    <X className="w-4 h-4" />
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <label
+                                                onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                                                onDrop={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    const file = e.dataTransfer.files?.[0];
+                                                    if (file) handleFileUpload(file, "resume");
+                                                }}
+                                                className={`flex flex-col items-center justify-center p-4 border border-dashed rounded-none cursor-pointer transition-all ${
+                                                    resumeUploading
+                                                        ? "border-[#FFD400] bg-[#FFD400]/5"
+                                                        : "border-white/20 bg-white/[0.02] hover:border-[#FFD400]/50 hover:bg-white/[0.04]"
+                                                }`}
+                                            >
+                                                <input
+                                                    type="file"
+                                                    className="hidden"
+                                                    accept=".pdf,.doc,.docx"
+                                                    disabled={resumeUploading}
+                                                    onChange={(e) => {
+                                                        const file = e.target.files?.[0];
+                                                        if (file) handleFileUpload(file, "resume");
+                                                    }}
+                                                />
+                                                {resumeUploading ? (
+                                                    <div className="flex items-center gap-2 text-xs font-mono text-[#FFD400] py-1">
+                                                        <div className="w-3.5 h-3.5 border-2 border-[#FFD400] border-t-transparent rounded-full animate-spin" />
+                                                        <span>Uploading Resume to Atelier...</span>
+                                                    </div>
+                                                ) : (
+                                                    <div className="flex flex-col items-center gap-1.5 text-center py-1">
+                                                        <div className="flex items-center gap-2 text-xs font-mono text-neutral-300">
+                                                            <Upload className="w-4 h-4 text-[#FFD400]" />
+                                                            <span className="font-medium text-white">Choose Resume File</span>
+                                                            <span className="text-neutral-500 font-light">or drag and drop</span>
+                                                        </div>
+                                                        <span className="text-[10px] font-mono text-neutral-500">
+                                                            PDF, DOC, DOCX up to 15MB
+                                                        </span>
+                                                    </div>
+                                                )}
+                                            </label>
+                                        )}
                                     </div>
 
                                     {/* Cover Note */}
@@ -761,6 +1099,7 @@ export default function CareerPage() {
                         </div>
                     </div>
                 </section>
+                )}
             </main>
 
             {/* Global RnDFooter */}

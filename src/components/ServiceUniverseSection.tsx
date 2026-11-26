@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import {
   Sparkles,
@@ -12,6 +12,8 @@ import {
   ArrowUpRight,
   CheckCircle2,
 } from "lucide-react";
+import { getSectionHeading, SectionHeading, DEFAULT_SECTION_HEADINGS } from "@/lib/getSectionHeading";
+import { getServiceUniverse, ServiceUniverseItem } from "@/lib/getServiceData";
 
 // ============================================================================
 // GENUINE BRAND SVG LOGOS (IN ACTUAL OFFICIAL BRAND COLORS)
@@ -793,13 +795,16 @@ const SUBCATEGORY_TOOLS_MAP: Record<string, { title: string; subtitle: string; l
     title: "ENTERPRISE SOFTWARE ARCHITECTURE STACK",
     subtitle: "Mission-critical backend runtimes, high-concurrency microservices, and enterprise relational databases.",
     tools: [
-      { id: "nextjs", name: "NEXT JS", tagline: "Enterprise Frontends" },
+      { id: "react", name: "React.js", tagline: "Frontend Reactive Engine" },
+      { id: "nodejs", name: "Node.js", tagline: "Asynchronous I/O Runtime" },
+      { id: "mongodb", name: "MongoDB", tagline: "High-Scale Document DB" },
+      { id: "sql", name: "PostgreSQL", tagline: "ACID Relational Storage" },
+      { id: "nextjs", name: "NEXT JS", tagline: "Server Components & Edge" },
+      { id: "figma-tech", name: "Figma", tagline: "Design Token Pipeline" },
       { id: "typescript", name: "TypeScript", tagline: "Strict Contract Safety" },
-      { id: "nodejs", name: "Node.js", tagline: "High-Throughput APIs" },
-      { id: "python", name: "Python", tagline: "AI Data Pipelines & Services" },
-      { id: "sql", name: "PostgreSQL", tagline: "Enterprise Relational DB" },
-      { id: "redis", name: "Redis Cluster", tagline: "Sub-Millisecond Cache" },
-      { id: "docker", name: "Docker", tagline: "Containerization" },
+      { id: "tailwind", name: "Tailwind CSS", tagline: "Atomic Design Tokens" },
+      { id: "docker", name: "Docker", tagline: "Containerization & DevOps" },
+      { id: "python", name: "Python", tagline: "Neural Mesh & AI Serving" },
       { id: "kubernetes", name: "Kubernetes", tagline: "Auto-Scaling Pods" },
     ],
   },
@@ -1031,6 +1036,123 @@ export default function ServiceUniverseSection({
   subcategoryId?: string;
   showCategoryTabs?: boolean;
 } = {}) {
+  const [heading, setHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.service_universe);
+  const [dbTools, setDbTools] = useState<ServiceUniverseItem[]>([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadData() {
+      try {
+        const [h, tools] = await Promise.all([
+          getSectionHeading("service_universe"),
+          getServiceUniverse(),
+        ]);
+        if (isMounted) {
+          if (h && h.title) setHeading(h);
+          if (tools && tools.length > 0) setDbTools(tools);
+        }
+      } catch (err) {
+        console.warn("Failed to load service universe data:", err);
+      }
+    }
+    loadData();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const formatTitleWithHighlight = (titleText: string) => {
+    if (!titleText) {
+      return (
+        <>THE TECHNOLOGY BEHIND <span className="text-[#FFD400]">EVERY DIGITAL SOLUTION</span></>
+      );
+    }
+    const upper = titleText.toUpperCase();
+    if (upper.includes("EVERY DIGITAL SOLUTION")) {
+      const idx = upper.indexOf("EVERY DIGITAL SOLUTION");
+      return (
+        <>
+          {titleText.substring(0, idx)}
+          <span className="text-[#FFD400]">{titleText.substring(idx)}</span>
+        </>
+      );
+    }
+    if (upper.includes("TECHNOLOGY ARCHITECTURE")) {
+      const idx = upper.indexOf("TECHNOLOGY ARCHITECTURE");
+      return (
+        <>
+          {titleText.substring(0, idx)}
+          <span className="text-[#FFD400]">{titleText.substring(idx)}</span>
+        </>
+      );
+    }
+    if (upper.includes("DIGITAL SOLUTION")) {
+      const idx = upper.indexOf("DIGITAL SOLUTION");
+      return (
+        <>
+          {titleText.substring(0, idx)}
+          <span className="text-[#FFD400]">{titleText.substring(idx)}</span>
+        </>
+      );
+    }
+    const words = titleText.trim().split(" ");
+    if (words.length >= 4) {
+      return (
+        <>
+          {words.slice(0, -3).join(" ")}{" "}
+          <span className="text-[#FFD400]">{words.slice(-3).join(" ")}</span>
+        </>
+      );
+    }
+    if (words.length >= 2) {
+      return (
+        <>
+          {words.slice(0, -1).join(" ")}{" "}
+          <span className="text-[#FFD400]">{words.slice(-1).join(" ")}</span>
+        </>
+      );
+    }
+    return <>{titleText}</>;
+  };
+
+  const parsedTaglineParagraphs = useMemo(() => {
+    const raw = heading?.tagline || heading?.subtitle;
+    if (!raw) return [];
+    const trimmed = raw.trim();
+    if (trimmed.includes("\n")) {
+      return trimmed.split(/\n+/).map((p) => p.trim()).filter(Boolean);
+    }
+    const normalized = trimmed
+      .replace(/\.([A-Z])/g, ".\n$1")
+      .replace(/\.\s+([A-Z])/g, ".\n$1");
+    return normalized.split(/\n+/).map((p) => p.trim()).filter(Boolean);
+  }, [heading?.tagline, heading?.subtitle]);
+
+  const titleParts = useMemo(() => {
+    const raw = heading?.title || "MULTIVERSE TECHNOLOGY ARCHITECTURE";
+    if (raw.toUpperCase().includes("TECHNOLOGY ARCHITECTURE")) {
+      const idx = raw.toUpperCase().indexOf("TECHNOLOGY ARCHITECTURE");
+      return {
+        main: raw.substring(0, idx).trim(),
+        highlight: raw.substring(idx).trim(),
+      };
+    }
+    const words = raw.trim().split(" ");
+    if (words.length > 2) {
+      return {
+        main: words.slice(0, -2).join(" "),
+        highlight: words.slice(-2).join(" "),
+      };
+    }
+    if (words.length > 1) {
+      return {
+        main: words.slice(0, -1).join(" "),
+        highlight: words.slice(-1).join(" "),
+      };
+    }
+    return { main: raw, highlight: "" };
+  }, [heading?.title]);
+
   // Normalize subcategory id
   const subKey = (subcategoryId || "").toLowerCase();
   const subcategoryConfig = subKey ? SUBCATEGORY_TOOLS_MAP[subKey] : null;
@@ -1038,8 +1160,44 @@ export default function ServiceUniverseSection({
   // Resolve matching division for category pages
   const matchedDivision = mapCategoryToDivision(categoryFilter);
 
-  // If subcategory config is found, render the exact tools for that subcategory!
-  if (subcategoryConfig) {
+  // Filter dynamic tools for this subcategory if subcategoryId is provided
+  const dynamicSubcategoryTools = useMemo(() => {
+    if (!subKey || dbTools.length === 0) return null;
+    const matched = dbTools.filter(
+      (t) =>
+        (t.subcategory_slug && t.subcategory_slug.toLowerCase() === subKey) ||
+        (t.subcategory && t.subcategory.toLowerCase() === subKey)
+    );
+    return matched.length > 0 ? matched : null;
+  }, [subKey, dbTools]);
+
+  // Filter dynamic tools for category page view
+  const dynamicCategoryTools = useMemo(() => {
+    if (!categoryFilter || dbTools.length === 0) return null;
+    const catClean = categoryFilter.toLowerCase();
+    const matched = dbTools.filter(
+      (t) =>
+        (t.category_slug && (catClean.includes(t.category_slug.toLowerCase()) || t.category_slug.toLowerCase().includes(catClean))) ||
+        (t.category && t.category.toLowerCase().includes(catClean))
+    );
+    return matched.length > 0 ? matched : null;
+  }, [categoryFilter, dbTools]);
+
+  // If subcategory config or dynamic subcategory tools found, render for that subcategory
+  if (subcategoryConfig || dynamicSubcategoryTools) {
+    const toolsToRender = dynamicSubcategoryTools && dynamicSubcategoryTools.length > 0
+      ? dynamicSubcategoryTools.map(t => ({
+          id: (t as any).id || (t as any)._id || t.name,
+          name: t.name,
+          tagline: t.tagline || "",
+          icon_name: t.icon_name || t.name,
+          logo_url: t.logo_url,
+        }))
+      : (subcategoryConfig?.tools || []);
+
+    const subTitle = subcategoryConfig?.title || `${subKey.replace(/[-_]/g, " ").toUpperCase()} TECH STACK`;
+    const subSubtitle = subcategoryConfig?.subtitle || "Enterprise tools, libraries and frameworks deployed for this specialized offering.";
+
     return (
       <section
         id="service-universe"
@@ -1048,34 +1206,38 @@ export default function ServiceUniverseSection({
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-[#FFD400]/[0.025] blur-[150px] pointer-events-none rounded-full" />
 
         <div className="max-w-7xl mx-auto relative z-10">
-          {/* Header without filter tabs */}
+          {/* Header */}
           <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>{subcategoryConfig.label || "VERIFIED PRODUCTION TECH STACK"}</span>
+              <span>{subcategoryConfig?.label || "VERIFIED PRODUCTION TECH STACK"}</span>
             </div>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.05] text-white">
-              {subcategoryConfig.title.split(" ").slice(0, -1).join(" ")}{" "}
+              {subTitle.split(" ").slice(0, -1).join(" ")}{" "}
               <span className="text-[#FFD400]">
-                {subcategoryConfig.title.split(" ").slice(-1)[0]}
+                {subTitle.split(" ").slice(-1)[0]}
               </span>
             </h2>
             <p className="text-xs sm:text-sm md:text-base font-normal mt-3 leading-relaxed text-neutral-300 font-[family-name:var(--font-jakarta)]">
-              {subcategoryConfig.subtitle}
+              {subSubtitle}
             </p>
           </div>
 
           {/* Clean Focused Tool Grid */}
           <div className="rounded-3xl p-6 sm:p-8 bg-[#0c0e14] border border-white/10 shadow-2xl">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5 sm:gap-4">
-              {subcategoryConfig.tools.map((t) => (
+              {toolsToRender.map((t: any) => (
                 <div
-                  key={t.id}
+                  key={t.id || t.name}
                   className="group relative rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-[#FFD400]/70 flex flex-col items-center justify-center p-4 sm:p-5 transition-all duration-300 hover:scale-[1.03] shadow-md hover:shadow-[0_0_20px_rgba(255,212,0,0.2)] cursor-default"
                   title={t.name}
                 >
                   <div className="w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center mb-3">
-                    <FullColorToolLogo name={t.name} className="w-full h-full object-contain" />
+                    {t.logo_url ? (
+                      <img src={t.logo_url} alt={t.name} className="w-full h-full object-contain" />
+                    ) : (
+                      <FullColorToolLogo name={t.icon_name || t.name} className="w-full h-full object-contain" />
+                    )}
                   </div>
                   <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-[#FFD400] transition-colors font-mono text-center truncate max-w-full">
                     {t.name}
@@ -1093,8 +1255,19 @@ export default function ServiceUniverseSection({
   }
 
   // If on a specific category page, render ONLY that category's technologies with NO filter tabs
-  if (matchedDivision) {
-    const Icon = matchedDivision.icon;
+  if (matchedDivision || dynamicCategoryTools) {
+    const division = matchedDivision || SERVICE_DIVISIONS[0];
+    const Icon = division.icon;
+    const toolsToRender = dynamicCategoryTools && dynamicCategoryTools.length > 0
+      ? dynamicCategoryTools.map(t => ({
+          id: (t as any).id || (t as any)._id || t.name,
+          name: t.name,
+          tagline: t.tagline || "",
+          icon_name: t.icon_name || t.name,
+          logo_url: t.logo_url,
+        }))
+      : division.tools;
+
     return (
       <section
         id="service-universe"
@@ -1107,25 +1280,33 @@ export default function ServiceUniverseSection({
           <div className="text-center max-w-4xl mx-auto mb-10 sm:mb-12">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>✳ PRODUCTION TECHNOLOGY ECOSYSTEM</span>
+              <span>
+                {(heading?.badge || "PRODUCTION TECHNOLOGY ECOSYSTEM")
+                  .replace(/^[\s#*✳✨]+/, "")
+                  .trim()}
+              </span>
             </div>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[1.05] text-white">
-              {matchedDivision.id.includes("technology") ? (
-                <>THE TECHNOLOGY BEHIND <span className="text-[#FFD400]">EVERY DIGITAL SOLUTION</span></>
+              {division.id.includes("technology") ? (
+                formatTitleWithHighlight(
+                  heading?.title || "THE TECHNOLOGY BEHIND EVERY DIGITAL SOLUTION"
+                )
               ) : (
-                <>{matchedDivision.serviceName} <span className="text-[#FFD400]">TECHNOLOGY ARCHITECTURE</span></>
+                <>{division.serviceName} <span className="text-[#FFD400]">TECHNOLOGY ARCHITECTURE</span></>
               )}
             </h2>
-            {matchedDivision.id.includes("technology") ? (
-              <div className="text-xs sm:text-sm md:text-base font-normal mt-4 space-y-2 leading-relaxed text-neutral-300 font-[family-name:var(--font-jakarta)] max-w-3xl mx-auto text-left sm:text-center">
-                <p>At RND Technosoft, we believe the right technology makes the difference between a functional product and a powerful digital solution.</p>
-                <p>Our development ecosystem brings together modern frontend frameworks, backend technologies, robust database systems, cross-platform development tools and cloud-ready deployment technologies.</p>
-                <p>Whether you need custom website development, enterprise software, web application development or mobile app solutions, our technology capabilities help create secure, scalable and performance-driven digital experiences.</p>
-                <p className="font-semibold text-white pt-1">From concept to deployment, we engineer technology that moves your business forward.</p>
+            {division.id.includes("technology") ? (
+              <div className="text-xs sm:text-sm md:text-base font-normal mt-4 leading-relaxed text-neutral-300 font-[family-name:var(--font-jakarta)] max-w-3xl mx-auto text-left sm:text-center">
+                <p className="font-light text-white">
+                  {parsedTaglineParagraphs.length > 0
+                    ? parsedTaglineParagraphs.join(" ")
+                    : heading?.tagline ||
+                      "RND Technosoft, we believe the right technology makes the difference between a functional product and a powerful digital solution."}
+                </p>
               </div>
             ) : (
               <p className="text-xs sm:text-sm md:text-base font-normal mt-3 leading-relaxed text-neutral-300 font-[family-name:var(--font-jakarta)]">
-                {matchedDivision.tagline}
+                {division.tagline}
               </p>
             )}
           </div>
@@ -1136,8 +1317,8 @@ export default function ServiceUniverseSection({
               <div
                 className="w-10 h-10 rounded-xl flex items-center justify-center p-2 shadow-lg"
                 style={{
-                  backgroundColor: `${matchedDivision.accentGlow}20`,
-                  color: matchedDivision.accentGlow,
+                  backgroundColor: `${division.accentGlow}20`,
+                  color: division.accentGlow,
                 }}
               >
                 <Icon className="w-5 h-5" />
@@ -1145,25 +1326,29 @@ export default function ServiceUniverseSection({
               <div>
                 <span
                   className="text-[10px] font-mono uppercase tracking-widest block font-bold"
-                  style={{ color: matchedDivision.accentGlow }}
+                  style={{ color: division.accentGlow }}
                 >
-                  DIVISION 0{matchedDivision.tierNumber} {"//"} ACTIVE ECOSYSTEM
+                  DIVISION 0{division.tierNumber} {"//"} ACTIVE ECOSYSTEM
                 </span>
                 <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight uppercase font-[family-name:var(--font-syne)]">
-                  {matchedDivision.serviceName}
+                  {division.serviceName}
                 </h3>
               </div>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5 sm:gap-4">
-              {matchedDivision.tools.map((t) => (
+              {toolsToRender.map((t: any) => (
                 <div
-                  key={t.id}
+                  key={t.id || t.name}
                   className="group relative rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-[#FFD400]/70 flex flex-col items-center justify-center p-4 sm:p-5 transition-all duration-300 hover:scale-[1.03] shadow-md hover:shadow-[0_0_20px_rgba(255,212,0,0.2)] cursor-default"
                   title={t.name}
                 >
                   <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center mb-2.5">
-                    <FullColorToolLogo name={t.name} className="w-full h-full object-contain" />
+                    {t.logo_url ? (
+                      <img src={t.logo_url} alt={t.name} className="w-full h-full object-contain" />
+                    ) : (
+                      <FullColorToolLogo name={t.icon_name || t.name} className="w-full h-full object-contain" />
+                    )}
                   </div>
                   <h4 className="text-xs font-bold text-white group-hover:text-[#FFD400] transition-colors font-mono text-center truncate max-w-full">
                     {t.name}
@@ -1180,7 +1365,41 @@ export default function ServiceUniverseSection({
     );
   }
 
-  // Fallback for general services page: Show all 4 divisions
+  // ── General Services Page View: 4 Division Cards Grid (Dynamic from DB) ──
+  const divisionList = SERVICE_DIVISIONS.map((division) => {
+    const divisionKey = division.id.toLowerCase();
+
+    const categoryTools = dbTools.filter((t) => {
+      const catSlug = (t.category_slug || "").toLowerCase();
+      if (divisionKey.includes("tech") && (catSlug.includes("tech") || catSlug.includes("web"))) return true;
+      if (divisionKey.includes("market") && (catSlug.includes("market") || catSlug.includes("seo"))) return true;
+      if (divisionKey.includes("brand") && (catSlug.includes("brand") || catSlug.includes("design"))) return true;
+      if (divisionKey.includes("media") && (catSlug.includes("media") || catSlug.includes("video"))) return true;
+      return false;
+    });
+
+    let toolsToDisplay: any[] = [];
+    if (categoryTools.length > 0) {
+      const featured = categoryTools.filter((t) => t.featured !== false);
+      const source = featured.length >= 6 ? featured : categoryTools;
+      toolsToDisplay = source.slice(0, 18).map((t) => ({
+        id: (t as any).id || (t as any)._id || t.name,
+        name: t.name,
+        tagline: t.tagline || "",
+        icon_name: t.icon_name || t.name,
+        logo_url: t.logo_url,
+        accent_color: t.accent_color,
+      }));
+    } else {
+      toolsToDisplay = division.tools;
+    }
+
+    return {
+      ...division,
+      tools: toolsToDisplay,
+    };
+  });
+
   return (
     <section
       id="service-universe"
@@ -1190,21 +1409,32 @@ export default function ServiceUniverseSection({
 
       <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
         <div className="max-w-7xl mx-auto">
+          {/* Section Heading with Dynamic Parent Heading Telemetry */}
           <div className="text-center max-w-4xl mx-auto mb-10 sm:mb-14">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/85 border border-[#FFD400]/40 text-[#FFD400] shadow-md">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>SERVICE UNIVERSE // INTEGRATED TECHNOLOGY ARCHITECTURE</span>
+              <span>
+                {(heading.badge || "SERVICE UNIVERSE // INTEGRATED TECHNOLOGY ARCHITECTURE")
+                  .replace(/^[\s#*✳✨]+/, "")
+                  .trim()}
+              </span>
             </div>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-[family-name:var(--font-syne)] font-bold tracking-tight uppercase leading-[0.98] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
-              MULTIVERSE <span className="text-[#FFD400]">TECHNOLOGY ARCHITECTURE</span>
+              {titleParts.main}{" "}
+              {titleParts.highlight && (
+                <span className="text-[#FFD400]">{titleParts.highlight}</span>
+              )}
             </h2>
             <p className="text-xs sm:text-sm md:text-base font-normal mt-3 leading-relaxed text-neutral-300 max-w-2xl mx-auto font-[family-name:var(--font-jakarta)]">
-              Explore our verified enterprise tech stacks and specialized tool ecosystems across Technology, Digital Marketing, Branding &amp; Design, and Media Production. Official brand logos in genuine colors.
+              {heading.tagline ||
+                heading.subtitle ||
+                "Explore our verified enterprise tech stacks and specialized tool ecosystems across Technology, Digital Marketing, Branding & Design, and Media Production. Official brand logos in genuine colors."}
             </p>
           </div>
 
+          {/* 4 Division Cards Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-            {SERVICE_DIVISIONS.map((division) => {
+            {divisionList.map((division) => {
               const Icon = division.icon;
 
               return (
@@ -1238,14 +1468,18 @@ export default function ServiceUniverseSection({
                   </div>
 
                   <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 sm:gap-3.5">
-                    {division.tools.map((t) => (
+                    {division.tools.map((t: any) => (
                       <div
-                        key={t.id}
+                        key={t.id || t.name}
                         className="group relative aspect-square rounded-2xl bg-white/[0.04] hover:bg-white/[0.09] border border-white/15 hover:border-[#FFD400]/70 flex flex-col items-center justify-center p-3 transition-transform duration-200 hover:scale-105 shadow-md hover:shadow-[0_0_20px_rgba(255,212,0,0.2)] cursor-default"
                         title={t.name}
                       >
                         <div className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center">
-                          <FullColorToolLogo name={t.name} className="w-full h-full object-contain" />
+                          {t.logo_url ? (
+                            <img src={t.logo_url} alt={t.name} className="w-full h-full object-contain" />
+                          ) : (
+                            <FullColorToolLogo name={t.icon_name || t.name} className="w-full h-full object-contain" />
+                          )}
                         </div>
                         <div className="absolute -top-9 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none px-2.5 py-1 rounded-md bg-black/95 border border-white/20 text-[11px] font-mono text-white whitespace-nowrap z-30 shadow-2xl">
                           <span className="text-[#FFD400] font-bold">{t.name}</span>

@@ -13,7 +13,7 @@ export interface WaveTextProps {
 }
 
 export default function WaveText({
-  text,
+  text = "",
   className = "",
   amplitude = 10,
   stagger = 0.052,
@@ -22,7 +22,7 @@ export default function WaveText({
   const containerRef = useRef<HTMLSpanElement>(null);
 
   // Split text into words to preserve standard browser word wrapping
-  const words = useMemo(() => text.split(" "), [text]);
+  const words = useMemo(() => (text || "").split(" "), [text]);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);

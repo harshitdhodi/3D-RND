@@ -27,7 +27,8 @@ export default function RnDFooter() {
     { name: "Our Creations", label: "Selected Works", href: "/portfolio" },
     { name: "Sectors in Focus", label: "Industry Verticals", href: "/industries" },
     { name: "Insights & Ideas", label: "Blog & Research", href: "/insights" },
-    { name: "Mission Control", label: "Contact Us", href: "/contact" },
+    { name: "Join Our Team", label: "Join Our Team", href: "/career" },
+    { name: "Mission Control", label: "Contact Us", href: "/contact-us" },
   ];
 
   // Core Service Categories and their Child Subcategories (from ServicesMegaMenu)

@@ -41,7 +41,7 @@ module.exports = {
       repo: 'https://github.com/harshitdhodi/3D-RND.git',
       path: '/var/www/rndprojects',
       'pre-deploy-local': '',
-      'post-deploy': 'npm install && npm run build && pm2 reload ecosystem.config.js --env production',
+      'post-deploy': 'npm install --include=dev && npm run build && pm2 reload ecosystem.config.js --env production',
       'pre-setup': '',
       ssh_options: 'StrictHostKeyChecking=no',
     },

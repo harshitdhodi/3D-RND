@@ -1,6 +1,10 @@
 "use client";
 
-function getCategoryBanner(parentPath: string | undefined, type: string | undefined): string {
+function getCategoryBanner(parentPath: string | undefined, type: string | undefined, item?: any): string {
+    if (item?.banner_image) return item.banner_image;
+    if (item?.bannerImage) return item.bannerImage;
+    if (item?.banner) return item.banner;
+    if (item?.bannerImg) return item.bannerImg;
     if (parentPath?.includes("technology-solution")) return "/NewBanner/service.png";
     if (parentPath?.includes("digital-marketing")) return "/NewBanner/service.png";
     if (parentPath?.includes("branding-design")) return "/NewBanner/service.png";
@@ -71,12 +75,14 @@ export interface UnifiedDetailItem {
         text: string;
         author: string;
     };
-    deliverables?: (string | { item: string; detail: string; standard?: string })[];
+    deliverables?: (string | { item?: string; points?: string; detail?: string; standard?: string })[];
+    rightSideList?: any[];
     scope?: {
         number: string;
         title: string;
         desc: string;
         iconName?: string;
+        footer?: string;
     }[];
     techStack?: (string | { name: string; role?: string; badge?: string })[];
     faqs?: {
@@ -86,6 +92,7 @@ export interface UnifiedDetailItem {
     beforeAfter?: BeforeAfterData;
     // ── Optional content overrides for per-item page customization ──
     deliverablesCardLabel?: string;
+    deliverablesCardHeading?: string;
     deliverablesCardDescription?: string;
     deliverablesCtaLabel?: string;
     qualityCardLabel?: string;
@@ -97,6 +104,13 @@ export interface UnifiedDetailItem {
     scopeSectionLabel?: string;
     scopeSectionHeading?: string;
     scopeSectionDescription?: string;
+    processSteps?: any[];
+    processBadge?: string;
+    processStageLabel?: string;
+    processHeading?: string;
+    processHighlightTitle?: string;
+    processSubheading?: string;
+    ctaHeading?: any;
 }
 
 export interface RelatedItemSummary {
@@ -168,14 +182,19 @@ export default function UnifiedDetailsView({
         item.galleryImages?.[1] ||
         "/images/nebula_cloud_os_3d.jpg";
 
-    // Normalize deliverables list
-    const deliverablesList = item.deliverables || [
-        "Production-grade Next.js 15 repository with TypeScript type safety",
-        "Comprehensive architecture diagrams and data schema flowcharts",
-        "Continuous integration automated test suite with 90%+ code coverage",
-        "Dedicated technical project lead with bi-weekly live staging releases",
-        "99.9% Uptime SLA and SOC2-compliant zero-trust cloud configuration",
-    ];
+    // Normalize deliverables list from dynamic rightSideList / deliverables or fallback
+    const rawDelivs = (item.rightSideList && item.rightSideList.length > 0)
+        ? item.rightSideList
+        : (item.deliverables && item.deliverables.length > 0 ? item.deliverables : null);
+
+    const deliverablesList = (rawDelivs && rawDelivs.length > 0)
+        ? rawDelivs.map((d: any) => typeof d === "string" ? d : (d.points || d.item || d.title || "")).filter(Boolean)
+        : [
+            "Complete Source Code & Repository Access",
+            "Technical & Architecture Documentation",
+            "Testing, Deployment & CI/CD Setup",
+            "Post-Launch Support & Maintenance Options",
+        ];
 
     // Normalize scope modules (ensure at least 6 modules)
     const defaultScope = [
@@ -234,7 +253,7 @@ export default function UnifiedDetailsView({
 
 
     return (
-        <div className="relative min-h-screen bg-transparent text-white selection:bg-[#FFD400] selection:text-black font-archia">
+        <div className="relative min-h-screen bg-[#050608] text-white selection:bg-[#FFD400] selection:text-black font-archia overflow-x-hidden">
             {/* Background Galactic Starfield */}
             <SpaceBackground />
 
@@ -242,12 +261,17 @@ export default function UnifiedDetailsView({
             <Navbar />
 
             {/* Page Banner - Compact 2-line title matching Contact Us banner height */}
-            <PageBanner title={item.title}
-                breadcrumb={item.title}
-                parentBreadcrumb={{ label: parentLabel, href: parentPath }}
-             imageSrc={getCategoryBanner(parentPath, type)} />
+            <PageBanner
+                title="INTEGRATED CAPABILITIES"
+                breadcrumbs={[
+                    { label: parentLabel.toUpperCase(), href: parentPath },
+                    { label: item.title.toUpperCase(), href: `${parentPath}/${(item as any).slug || item.id}` }
+                ]}
+                imageSrc={getCategoryBanner(parentPath, type, item)}
+            />
 
-            <main className="relative z-20 w-full bg-transparent overflow-hidden">
+            {/* Main Content (Directly below banner without overlap) */}
+            <main className="relative z-10 w-full">
 
 
                 {/* =========================================================================
@@ -263,7 +287,7 @@ export default function UnifiedDetailsView({
                             <div className="space-y-3">
                                 <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono uppercase tracking-[0.2em] font-semibold">
                                     <Sparkles className="w-3.5 h-3.5" />
-                                    <span>{item.badge || "Engineering Discipline & Methodology"}</span>
+                                    <span>{item.badge && !item.badge.includes('#') && !item.badge.includes(',') ? item.badge : (item.title || "Engineering Discipline & Methodology")}</span>
                                 </div>
                                 <h2 className="font-[family-name:var(--font-syne)] text-3xl sm:text-4xl lg:text-5xl text-white font-bold leading-[1.15] uppercase">
                                     {/* The Architectural Craft Behind{" "} */}
@@ -299,36 +323,31 @@ export default function UnifiedDetailsView({
                                 </p>
                             </div>
 
-                            {/* 2 Gallery Images in 2-Column Grid */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-4">
-                                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl group border border-white/10 bg-[#0c0e14]">
-                                    <Image
-                                        src={gallery1}
-                                        alt={`${fullTitle} Architecture Detail`}
-                                        fill
-                                        className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-5">
-                                        <span className="text-white text-xs font-mono uppercase tracking-wider text-[#FFD400]">
-                                            Cloud Topology &amp; Spatial UI
-                                        </span>
+                            {/* Gallery Images (2 Images in 2-Column Grid) */}
+                            {(() => {
+                                const imagesToDisplay = ((item.galleryImages && item.galleryImages.length > 0)
+                                    ? item.galleryImages
+                                    : [gallery1, gallery2]).slice(0, 2);
+                                return (
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-4">
+                                        {imagesToDisplay.map((imgSrc, imgIdx) => (
+                                            <div key={imgIdx} className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl group border border-white/10 bg-[#0c0e14]">
+                                                <Image
+                                                    src={imgSrc}
+                                                    alt={`${fullTitle} Architecture Detail ${imgIdx + 1}`}
+                                                    fill
+                                                    className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                                                />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-5">
+                                                    <span className="text-white text-xs font-mono uppercase tracking-wider text-[#FFD400]">
+                                                        {imgIdx === 0 ? "Cloud Topology & Spatial UI" : "Hardware-Accelerated Execution"}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
-                                </div>
-
-                                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl group border border-white/10 bg-[#0c0e14]">
-                                    <Image
-                                        src={gallery2}
-                                        alt={`${fullTitle} High-Concurrency Infrastructure`}
-                                        fill
-                                        className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-5">
-                                        <span className="text-white text-xs font-mono uppercase tracking-wider text-[#FFD400]">
-                                            Hardware-Accelerated Execution
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
+                                );
+                            })()}
                         </div>
 
                         {/* Right Column (5 cols): Sticky Deliverables Card & Direct Tech Line */}
@@ -343,7 +362,7 @@ export default function UnifiedDetailsView({
                                         <span>{item.deliverablesCardLabel || "Tangible Project Deliverables"}</span>
                                     </div>
                                     <h3 className="font-[family-name:var(--font-syne)] text-2xl sm:text-3xl text-white font-bold uppercase">
-                                        What You Receive
+                                        {item.deliverablesCardHeading || "What You Receive"}
                                     </h3>
                                     <p className="text-md text-neutral-300 font-light leading-relaxed">
                                         {item.deliverablesCardDescription || "Comprehensive architectural documentation, production source code repositories, and SLA guarantees delivered across every phase."}
@@ -352,9 +371,10 @@ export default function UnifiedDetailsView({
 
                                 {/* Deliverable Check Items */}
                                 <div className="space-y-3.5 mb-8 relative z-10">
-                                    {deliverablesList.slice(0, 5).map((deliv, dIdx) => {
+                                    {deliverablesList.map((deliv, dIdx) => {
                                         const text =
-                                            typeof deliv === "string" ? deliv : deliv.item;
+                                            typeof deliv === "string" ? deliv : (deliv.points || deliv.item || deliv.title || "");
+                                        if (!text) return null;
                                         return (
                                             <div
                                                 key={dIdx}
@@ -455,7 +475,7 @@ export default function UnifiedDetailsView({
                                 </div>
 
                                 <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between text-xs font-mono text-neutral-400">
-                                    <span className="text-white/70">RnD Certified Discipline</span>
+                                    <span className="text-white/70">{(mod as any).footer || "RnD Certified Discipline"}</span>
                                     <CheckCircle2 className="w-4 h-4 text-[#FFD400]" />
                                 </div>
                             </div>
@@ -473,10 +493,25 @@ export default function UnifiedDetailsView({
             4.5. OUR DESIGN & ENGINEERING PROCESS (6-Stage Interactive Staircase)
             ========================================================================= */}
                 <CosmicProcessSection
-                    badge="// OUR DESIGN & DELIVERY PROCESS"
-                    stageLabel="// 6-STAGE EXECUTION LIFECYCLE"
-                    title="OUR DESIGN & ENGINEERING"
-                    highlightTitle="PROCESS"
+                    badge={item.processBadge || "// OUR DESIGN & DELIVERY PROCESS"}
+                    stageLabel={item.processStageLabel || "// 6-STAGE EXECUTION LIFECYCLE"}
+                    title={item.processHeading || "OUR DESIGN & ENGINEERING"}
+                    highlightTitle={item.processHighlightTitle || "PROCESS"}
+                    description={item.processSubheading}
+                    initialData={
+                        item.processSteps && item.processSteps.length > 0
+                            ? item.processSteps.map((step: any, idx: number) => ({
+                                  number: step.tagline ? step.tagline.replace(/[^0-9]/g, "") : String(idx + 1).padStart(2, "0"),
+                                  stepLabel: step.tagline || `STEP ${String(idx + 1).padStart(2, "0")}`,
+                                  phase: step.sub_heading || step.phase || "",
+                                  title: step.title || "",
+                                  tagline: step.sub_heading || step.tagline || "",
+                                  desc: step.description || step.desc || "",
+                                  deliverable: step.deliverable || "VERIFIED DELIVERABLE & ARTIFACT",
+                                  kpis: step.kpis || [],
+                              }))
+                            : undefined
+                    }
                 />
 
                 {/* =========================================================================
@@ -620,9 +655,7 @@ export default function UnifiedDetailsView({
                     id="inquire-form"
                     defaultService={fullTitle}
                     category={item.category}
-                    badge="Turnkey Commission Dialogue"
-                    title={`Ready to Architect ${fullTitle}?`}
-                    subtitle="Share your technical goals, target timeline, and key milestones. Our principal software architects will review your brief and respond within 4 business hours."
+                    initialData={item.ctaHeading}
                 />
 
             </main>

@@ -1,4 +1,27 @@
-import { BeforeAfterData } from "@/components/BeforeAfterSection";
+export interface BeforeAfterMetric {
+  label: string;
+  before: string;
+  after: string;
+  improvement: string;
+  subtext?: string;
+  icon?: "gauge" | "zap" | "trending" | "shield";
+}
+
+export interface BeforeAfterData {
+  badge?: string;
+  title?: string;
+  highlightText?: string;
+  description?: string;
+  beforeLabel?: string;
+  afterLabel?: string;
+  beforeImage: string;
+  afterImage: string;
+  beforeTagline?: string;
+  afterTagline?: string;
+  metrics?: BeforeAfterMetric[];
+  legacyPoints?: string[];
+  modernPoints?: string[];
+}
 
 export interface BlogContentSubsection {
   title: string;
@@ -39,12 +62,16 @@ export interface TechMatrixItem {
 
 export interface BlogDetail {
   id: string;
+  slug?: string;
   index: string;
+  order?: number;
   title: string;
   subtitle: string;
   tagline: string;
   category: string;
   image: string;
+  imgtitle?: string;
+  altname?: string;
   galleryImages: string[];
   author: string;
   authorRole: string;
@@ -54,6 +81,12 @@ export interface BlogDetail {
   audioDuration?: string;
   badge: string;
   sla?: string;
+  content?: string;
+  meta_title?: string;
+  meta_description?: string;
+  canonical?: string;
+  schema?: string;
+  meta_keywords?: string;
   overview: string[];
   quote: {
     text: string;

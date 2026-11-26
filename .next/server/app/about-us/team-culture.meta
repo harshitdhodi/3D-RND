@@ -1,0 +1,39 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/about-us/layout,_N_T_/about-us/team-culture/layout,_N_T_/about-us/team-culture/page,_N_T_/about-us/team-culture"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/about-us/team-culture/__PAGE__"
+  ],
+  "prefetchHints": {
+    "hints": 64,
+    "slots": {
+      "children": {
+        "hints": 96,
+        "slots": {
+          "children": {
+            "hints": 96,
+            "slots": {
+              "children": {
+                "hints": 160,
+                "slots": null
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/bd81ae96dff4b01897c174863545ff1368c7c4c2a0242803beca8085a25ecfc8/$/about-us/team-culture",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/about-us/team-culture/page"
+    },
+    "isFallback": false
+  }
+}

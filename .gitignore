@@ -13,12 +13,10 @@
 # testing
 /coverage
 
-# next.js
-/.next/
+# next.js (production build output tracked for VPS, cache/dev ignored)
+/.next/cache/
+/.next/dev/
 /out/
-
-# production
-/build
 
 # misc
 .DS_Store

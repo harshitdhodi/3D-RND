@@ -1,0 +1,309 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    },
+    {
+      "source": "/portfolios",
+      "destination": "/portfolio",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/portfolios(?:/)?$"
+    },
+    {
+      "source": "/portfolios/:path*",
+      "destination": "/portfolio/:path*",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/portfolios(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?(?:/)?$"
+    },
+    {
+      "source": "/services/ecommerce-platforms",
+      "destination": "/technology-solution/ecommerce-platform-engineering",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/services/ecommerce-platforms(?:/)?$"
+    },
+    {
+      "source": "/services/web-cloud",
+      "destination": "/technology-solution/cloud-infrastructure-devops",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/services/web-cloud(?:/)?$"
+    },
+    {
+      "source": "/services/mobile-apps",
+      "destination": "/technology-solution/mobile-applications",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/services/mobile-apps(?:/)?$"
+    },
+    {
+      "source": "/services/seo-search",
+      "destination": "/digital-marketing/technical-seo-dominance",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/services/seo-search(?:/)?$"
+    },
+    {
+      "source": "/services/social-media",
+      "destination": "/digital-marketing/social-media-management",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/services/social-media(?:/)?$"
+    },
+    {
+      "source": "/services/brand-identity",
+      "destination": "/branding-design/brand-identity-systems",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/services/brand-identity(?:/)?$"
+    },
+    {
+      "source": "/services/commercial-media",
+      "destination": "/media-production/commercial-video-production",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/services/commercial-media(?:/)?$"
+    },
+    {
+      "source": "/services/dedicated-squads",
+      "destination": "/media-production/dedicated-squads",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/services/dedicated-squads(?:/)?$"
+    }
+  ],
+  "headers": [],
+  "onMatchHeaders": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [
+      {
+        "source": "/uploads/:path*",
+        "destination": "http://localhost:3058/uploads/:path*",
+        "regex": "^/uploads(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?(?:/)?$"
+      },
+      {
+        "source": "/api/upload",
+        "destination": "http://localhost:3058/api/upload",
+        "regex": "^/api/upload(?:/)?$"
+      }
+    ],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/blogs/[slug]",
+      "regex": "^/blogs/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/blogs/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/industries/[slug]",
+      "regex": "^/industries/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/industries/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/insights/[slug]",
+      "regex": "^/insights/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/insights/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/portfolio/[slug]",
+      "regex": "^/portfolio/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/portfolio/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/portfolio/[slug]/[portfolio_slug]",
+      "regex": "^/portfolio/([^/]+?)/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug",
+        "nxtPportfolio_slug": "nxtPportfolio_slug"
+      },
+      "namedRegex": "^/portfolio/(?<nxtPslug>[^/]+?)/(?<nxtPportfolio_slug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/services/[slug]",
+      "regex": "^/services/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/services/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/[category]",
+      "regex": "^/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPcategory": "nxtPcategory"
+      },
+      "namedRegex": "^/(?<nxtPcategory>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/[category]/[subcategory]",
+      "regex": "^/([^/]+?)/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPcategory": "nxtPcategory",
+        "nxtPsubcategory": "nxtPsubcategory"
+      },
+      "namedRegex": "^/(?<nxtPcategory>[^/]+?)/(?<nxtPsubcategory>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/about-us",
+      "regex": "^/about\\-us(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/about\\-us(?:/)?$"
+    },
+    {
+      "page": "/about-us/team-culture",
+      "regex": "^/about\\-us/team\\-culture(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/about\\-us/team\\-culture(?:/)?$"
+    },
+    {
+      "page": "/api/contact",
+      "regex": "^/api/contact(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/contact(?:/)?$"
+    },
+    {
+      "page": "/api/contact-info",
+      "regex": "^/api/contact\\-info(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/contact\\-info(?:/)?$"
+    },
+    {
+      "page": "/astronaut-test",
+      "regex": "^/astronaut\\-test(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/astronaut\\-test(?:/)?$"
+    },
+    {
+      "page": "/blogs",
+      "regex": "^/blogs(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/blogs(?:/)?$"
+    },
+    {
+      "page": "/career",
+      "regex": "^/career(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/career(?:/)?$"
+    },
+    {
+      "page": "/contact",
+      "regex": "^/contact(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/contact(?:/)?$"
+    },
+    {
+      "page": "/contact-us",
+      "regex": "^/contact\\-us(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/contact\\-us(?:/)?$"
+    },
+    {
+      "page": "/cookies-policy",
+      "regex": "^/cookies\\-policy(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/cookies\\-policy(?:/)?$"
+    },
+    {
+      "page": "/industries",
+      "regex": "^/industries(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/industries(?:/)?$"
+    },
+    {
+      "page": "/insights",
+      "regex": "^/insights(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/insights(?:/)?$"
+    },
+    {
+      "page": "/portfolio",
+      "regex": "^/portfolio(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/portfolio(?:/)?$"
+    },
+    {
+      "page": "/privacy-policy",
+      "regex": "^/privacy\\-policy(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/privacy\\-policy(?:/)?$"
+    },
+    {
+      "page": "/services",
+      "regex": "^/services(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/services(?:/)?$"
+    },
+    {
+      "page": "/terms-of-service",
+      "regex": "^/terms\\-of\\-service(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/terms\\-of\\-service(?:/)?$"
+    },
+    {
+      "page": "/thank-you",
+      "regex": "^/thank\\-you(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/thank\\-you(?:/)?$"
+    },
+    {
+      "page": "/video-cursor-test",
+      "regex": "^/video\\-cursor\\-test(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/video\\-cursor\\-test(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

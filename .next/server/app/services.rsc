@@ -1,0 +1,41 @@
+1:"$Sreact.fragment"
+2:"static/chunks/app/layout-1a59a5bb9869be2f.js"
+3:I[29339,["7177","$2"],"default"]
+4:I[87874,["7177","$2"],"default"]
+5:I[57121,[],""]
+6:I[74581,[],""]
+9:I[61304,[],"ClientPageRoot"]
+a:"static/chunks/bd904a5c-8df722fd37cded49.js"
+b:"static/chunks/b536a0f1-d608ed7f257fb1d8.js"
+c:"static/chunks/c15bf2b0-3a69904d50acc854.js"
+d:"static/chunks/e2ce8796-6f4e02166919ebe0.js"
+e:"static/chunks/2348-4106a48390fcddb7.js"
+f:"static/chunks/785-18dfa31b1d2cdcad.js"
+10:"static/chunks/3197-e4923bed6eb07e95.js"
+11:"static/chunks/6673-5d221c36dca2ca4a.js"
+12:"static/chunks/4429-66d75e2bb5d8ebe4.js"
+13:"static/chunks/2646-efbc96f22e5dcb02.js"
+14:"static/chunks/8234-81048c834d887438.js"
+15:"static/chunks/8464-f8fbc6ff65aaeaaf.js"
+16:"static/chunks/5851-494cb5160edf96e2.js"
+17:"static/chunks/9704-f689db01ef0ec672.js"
+18:"static/chunks/app/services/page-43948335ddfdc83a.js"
+19:I[4766,["1831","$a","9367","$b","5592","$c","7924","$d","2348","$e","785","$f","3197","$10","6673","$11","4429","$12","2646","$13","8234","$14","8464","$15","5851","$16","9704","$17","5763","$18"],"default"]
+1c:I[90484,[],"OutletBoundary"]
+1d:"$Sreact.suspense"
+1f:"ViewportBoundary"
+20:I[90484,[],"$1f"]
+22:"MetadataBoundary"
+23:I[90484,[],"$22"]
+25:I[27123,[],"default",1]
+:HL["/_next/static/css/ad7af96ca3abe519.css","style"]
+:HL["/_next/static/css/35294f654a32c963.css","style"]
+8:[["children",{"s":"__PAGE__","h":512,"d":{"r":["$","$1","c",{"children":[["$","$L9",null,{"Component":"$19","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@1a","$@1b"]}}],null,["$","$L1c",null,{"children":["$","$1d",null,{"name":"Next.MetadataOutlet","children":"$@1e"}]}]]}],"p":false,"v":null}}]]
+7:[["children",{"s":"services","h":512,"d":{"r":["$","$1","c",{"children":[null,["$","$L5",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L6",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],"p":false,"v":null},"c":"$Q8"}]]
+0:{"P":null,"c":["","services"],"q":"","i":false,"t":{"t":{"s":"","h":528,"d":{"r":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/ad7af96ca3abe519.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/css/35294f654a32c963.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]],["$","html",null,{"lang":"en","suppressHydrationWarning":true,"className":"__variable_87a7f3 __variable_58bfd8 __variable_7f9a09 __variable_36f712 __variable_19fd54 scroll-smooth dark","children":["$","body",null,{"suppressHydrationWarning":true,"className":"min-h-screen bg-[#050608] text-white antialiased font-[family-name:var(--font-jakarta)] selection:bg-[#FFD400] selection:text-black","children":[["$","$L3",null,{}],["$","$L4",null,{}],["$","$L5",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L6",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]]}]}]]}],"p":false,"v":null},"c":"$Q7"},"h":{"r":["$","$1","h",{"children":[null,["$","$L20",null,{"children":"$L21"}],["$","$L23",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$1d",null,{"name":"Next.Metadata","children":"$L24"}]}],null]}],null]}],"p":false,"v":null}},"m":"$undefined","G":["$25",[]],"S":true,"r":"$undefined","s":"$undefined","a":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"qG4_dwjBa86CRvHj9rGOE"}
+1a:{}
+1b:"$8:0:1:d:r:props:children:0:props:serverProvidedParams:params"
+21:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
+26:I[86869,[],"IconMark"]
+1e:null
+24:[["$","title","0",{"children":"Our Services | Technology, Marketing, Branding & Media"}],["$","meta","1",{"name":"description","content":"Explore RND Technosoft's full range of digital services: custom web development, mobile apps, custom software, e-commerce, SEO, social media marketing, PPC advertising, branding, logo design, graphic design, videography and photography."}],["$","meta","2",{"name":"author","content":"RND Technosoft"}],["$","meta","3",{"name":"keywords","content":"RND Technosoft services,web development services,mobile app development,custom software development,e-commerce development,SEO services,social media marketing,PPC advertising,branding services,logo design,graphic design,videography services,photography services"}],["$","meta","4",{"name":"creator","content":"RND Technosoft"}],["$","meta","5",{"name":"publisher","content":"RND Technosoft"}],["$","meta","6",{"name":"robots","content":"index, follow"}],["$","meta","7",{"name":"googlebot","content":"index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"}],["$","link","8",{"rel":"canonical","href":"https://rndtechnosoft.com/services"}],["$","meta","9",{"property":"og:title","content":"Our Services | Technology, Marketing, Branding & Media"}],["$","meta","10",{"property":"og:description","content":"Explore RND Technosoft's digital services: web development, mobile apps, software, e-commerce, SEO, social media, PPC, branding, design, videography and photography."}],["$","meta","11",{"property":"og:url","content":"https://rndtechnosoft.com/services"}],["$","meta","12",{"property":"og:site_name","content":"RND Technosoft"}],["$","meta","13",{"property":"og:type","content":"website"}],["$","meta","14",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","15",{"name":"twitter:title","content":"Our Services | Technology, Marketing, Branding & Media"}],["$","meta","16",{"name":"twitter:description","content":"Explore RND Technosoft's digital services: web development, mobile apps, SEO, digital marketing, branding, design and media production."}],["$","link","17",{"rel":"shortcut icon","href":"/favicon.png"}],["$","link","18",{"rel":"icon","href":"/favicon.png"}],["$","link","19",{"rel":"apple-touch-icon","href":"/favicon.png"}],["$","$L26","20",{}]]

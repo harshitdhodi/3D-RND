@@ -173,10 +173,12 @@ export default function IndustriesIndexPage() {
     }, [heroData]);
 
     const filteredIndustries = useMemo(() => {
-        if (selectedCategory === "All") return industriesList;
-        return industriesList.filter((item) =>
-            item.title.toLowerCase().includes(selectedCategory.toLowerCase())
-        );
+        const list = selectedCategory === "All"
+            ? industriesList
+            : industriesList.filter((item) =>
+                item.title.toLowerCase().includes(selectedCategory.toLowerCase())
+            );
+        return list.slice(0, 5);
     }, [selectedCategory, industriesList]);
 
     // GSAP ScrollTrigger Animations for Content

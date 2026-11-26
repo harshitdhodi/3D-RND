@@ -133,9 +133,10 @@ function FAQSection({
                 </button>
                 {isOpen && (
                   <div className="px-6 pb-5 pt-0">
-                    <p className="text-sm sm:text-base text-neutral-300 leading-relaxed whitespace-pre-line">
-                      {faq.answer}
-                    </p>
+                    <div
+                      className="text-sm sm:text-base text-neutral-300 leading-relaxed whitespace-pre-line [&>p]:mb-2 [&>p:last-child]:mb-0"
+                      dangerouslySetInnerHTML={{ __html: faq.answer }}
+                    />
                   </div>
                 )}
               </div>
@@ -553,9 +554,10 @@ export default function PortfolioSlugPage() {
                         dangerouslySetInnerHTML={{ __html: categoryHero.LongDesc }}
                       />
                     ) : (
-                      <p className="text-sm sm:text-base lg:text-lg text-neutral-300 leading-relaxed max-w-4xl font-light">
-                        {category.description}
-                      </p>
+                      <div
+                        className="text-sm sm:text-base lg:text-lg text-neutral-300 leading-relaxed max-w-4xl font-light [&>p]:mb-3 [&>p:last-child]:mb-0"
+                        dangerouslySetInnerHTML={{ __html: category.description }}
+                      />
                     )}
                   </div>
                 </div>

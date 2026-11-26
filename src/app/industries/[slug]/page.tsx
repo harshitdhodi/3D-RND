@@ -301,11 +301,11 @@ export default async function IndustryDetailPage({
     works_tagline: industryDetail?.works_tagline,
     works_heading: industryDetail?.works_heading,
     works_description: industryDetail?.works_description,
-    works: (industryWorks && industryWorks.length > 0)
+    works: ((industryWorks && industryWorks.length > 0)
       ? industryWorks
       : (staticIndustry?.works && staticIndustry.works.length > 0)
       ? staticIndustry.works
-      : [{ title: industry.featured_project || industry.title, image: industry.image }],
+      : [{ title: industry.featured_project || industry.title, image: industry.image }]).slice(0, 5),
 
     // Section 5: Process
     process_tagline: industryDetail?.process_tagline,

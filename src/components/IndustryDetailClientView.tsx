@@ -547,8 +547,8 @@ export default function IndustryDetailClientView({
                         <ScrollReveal delay={0.15}>
                             <p className="text-xs font-mono text-neutral-400">
                                 {industry.works_description || (industry.slug === "healthcare"
-                                    ? `${industry.works?.length || 0} Digital Solutions`
-                                    : `Showing ${industry.works?.length || 0} Solution Concepts`
+                                    ? `${(industry.works || []).slice(0, 5).length} Digital Solutions`
+                                    : `Showing ${(industry.works || []).slice(0, 5).length} Solution Concepts`
                                 )}
                             </p>
                         </ScrollReveal>
@@ -556,7 +556,7 @@ export default function IndustryDetailClientView({
 
                     {/* Project Cards */}
                     <div className="space-y-10">
-                        {industry.works?.map((work: any, wIdx: number) => (
+                        {industry.works?.slice(0, 5).map((work: any, wIdx: number) => (
                             <article
                                 key={work.id || `work-${wIdx}`}
                                 className="group bg-[#0c0e14]/60 backdrop-blur-md border border-white/10 hover:border-[#FFD400]/50 transition-all duration-500 shadow-xl overflow-hidden flex flex-col"

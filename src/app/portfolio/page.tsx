@@ -386,9 +386,10 @@ export default function PortfolioPage() {
                               {pillar.title}
                             </h3>
 
-                            <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light mb-4">
-                              {pillar.desc}
-                            </p>
+                            <div
+                              className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light mb-4 line-clamp-3 [&>p]:m-0 [&>p]:inline"
+                              dangerouslySetInnerHTML={{ __html: pillar.desc }}
+                            />
 
                             {/* Feature Tags */}
                             <div className="flex flex-wrap gap-1.5 pt-1">

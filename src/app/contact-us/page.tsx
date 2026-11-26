@@ -8,6 +8,8 @@ import { getPageMetadata, toNextJsMetadata } from "@/lib/getPageMetadata";
 import { getPageComponents, isSectionActive, getSectionStyle, isPageHidden } from "@/lib/getPageComponents";
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata(): Promise<Metadata> {
   const metadata = await getPageMetadata("contact");
   return toNextJsMetadata(metadata);

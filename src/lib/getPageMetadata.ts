@@ -228,8 +228,11 @@ export async function getPageMetadata(pageKey: string): Promise<PageMetadata> {
       created_at: doc.created_at,
       updated_at: doc.updated_at,
     };
-  } catch (err) {
-    console.warn(`Error fetching page metadata for ${pageKey}:`, err);
+  } catch (err: any) {
+    if (err?.digest === "DYNAMIC_SERVER_USAGE") {
+      throw err;
+    }
+    console.warn(`Error fetching page metadata for ${pageKey}:`, err?.message || err);
     return DEFAULT_PAGE_METADATA[pageKey] || getDefaultMetadata(pageKey);
   }
 }

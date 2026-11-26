@@ -3,6 +3,8 @@ import { getPolicyData } from "@/lib/getPoliciesData";
 import { getPageComponents, isPageHidden } from "@/lib/getPageComponents";
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 export default async function CookiesPolicyPage() {
   const [policyData, pageComponents, hidden] = await Promise.all([
     getPolicyData("cookies-policy"),

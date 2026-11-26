@@ -40,8 +40,11 @@ export async function getPolicyData(slug: string): Promise<PolicyData> {
       content: doc.content || fallback.content,
       sections: Array.isArray(doc.sections) && doc.sections.length > 0 ? doc.sections : fallback.sections,
     };
-  } catch (err) {
-    console.warn(`[getPolicyData] Error fetching policy for "${slug}", using fallback:`, err);
+  } catch (err: any) {
+    if (err?.digest === "DYNAMIC_SERVER_USAGE") {
+      throw err;
+    }
+    console.warn(`[getPolicyData] Error fetching policy for "${slug}", using fallback:`, err?.message || err);
     return fallback;
   }
 }

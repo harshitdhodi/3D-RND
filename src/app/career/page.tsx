@@ -41,6 +41,7 @@ import PageBanner from "@/components/PageBanner";
 import PrintRevealImage from "@/components/PrintRevealImage";
 import WaveText from "@/components/WaveText";
 import { getJobDescriptions, JobDescription, submitCareerInquiry, getCareerHeroData, CareerHeroData } from "@/lib/getCareerData";
+import { getPageComponents, PageComponent, DEFAULT_PAGE_COMPONENTS, isSectionActive, getSectionStyle } from "@/lib/getPageComponents";
 
 const defaultServiceCategories = [
     "All Roles",
@@ -64,6 +65,7 @@ export default function CareerPage() {
     const [selectedRole, setSelectedRole] = useState<JobDescription | null>(null);
     const [expandedRoleId, setExpandedRoleId] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
+    const [pageComponents, setPageComponents] = useState<PageComponent[]>(DEFAULT_PAGE_COMPONENTS["career"] || []);
 
     // Application Modal / Drawer state for quick application
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -144,13 +146,17 @@ export default function CareerPage() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const [jobs, hero] = await Promise.all([
+                const [jobs, hero, comps] = await Promise.all([
                     getJobDescriptions(),
                     getCareerHeroData(),
+                    getPageComponents("career"),
                 ]);
                 setCareerRoles(jobs);
                 if (hero) {
                     setHeroData(hero);
+                }
+                if (comps && comps.length > 0) {
+                    setPageComponents(comps);
                 }
                 if (jobs.length > 0) {
                     setSelectedRole(jobs[0]);
@@ -340,18 +346,23 @@ export default function CareerPage() {
             <Navbar />
 
             {/* Page Banner with Typewriter Title */}
-            <PageBanner
-                title="CAREER OPPORTUNITIES"
-                breadcrumb="CAREERS"
-                imageSrc="/banner/career.png"
-            />
+            {isSectionActive(pageComponents, "banner") && (
+                <div style={getSectionStyle(pageComponents, "banner")}>
+                    <PageBanner
+                        title="CAREER OPPORTUNITIES"
+                        breadcrumb="CAREERS"
+                        imageSrc="/banner/career.png"
+                    />
+                </div>
+            )}
 
             {/* Main Content (Directly below banner without overlap) */}
             <main className="relative z-10 w-full">
                 {/* =========================================================================
             1. ENGINEERING ATELIER PHILOSOPHY HERO BAR
             ========================================================================= */}
-                <section className="max-w-7xl mx-auto px-6 md:px-12 pt-8 sm:pt-12 pb-8">
+                {isSectionActive(pageComponents, "philosophy_hero") && (
+                <section className="max-w-7xl mx-auto px-6 md:px-12 pt-8 sm:pt-12 pb-8" style={getSectionStyle(pageComponents, "philosophy_hero")}>
                     <div className="p-8 sm:p-12 bg-gradient-to-r from-[#0c0e14] via-[#121520] to-[#0c0e14] border border-white/10 shadow-2xl relative overflow-hidden">
                         <div className="relative z-10 max-w-3xl space-y-4">
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase">
@@ -387,11 +398,13 @@ export default function CareerPage() {
                         </div>
                     </div>
                 </section>
+                )}
 
                 {/* =========================================================================
             2. SERVICE CATEGORY FILTER & SEARCH BAR
             ========================================================================= */}
-                <section className="career-filter-bar max-w-7xl mx-auto px-6 md:px-12 pt-8 pb-6 border-b border-white/10">
+                {isSectionActive(pageComponents, "filter_search") && (
+                <section className="career-filter-bar max-w-7xl mx-auto px-6 md:px-12 pt-8 pb-6 border-b border-white/10" style={getSectionStyle(pageComponents, "filter_search")}>
                     <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
 
                         {/* Service Typology Filters */}
@@ -428,11 +441,13 @@ export default function CareerPage() {
                         </div>
                     </div>
                 </section>
+                )}
 
                 {/* =========================================================================
             3. JOB ROLES LISTING SECTION (With Right-to-Left Printer Reveal Images)
             ========================================================================= */}
-                <section className="career-jobs-grid max-w-7xl mx-auto px-6 md:px-12 py-12">
+                {isSectionActive(pageComponents, "jobs_listing") && (
+                <section className="career-jobs-grid max-w-7xl mx-auto px-6 md:px-12 py-12" style={getSectionStyle(pageComponents, "jobs_listing")}>
                     {loading ? (
                         <div className="space-y-6">
                             {[1, 2, 3].map((i) => (
@@ -649,14 +664,17 @@ export default function CareerPage() {
                         </div>
                     )}
                 </section>
+                )}
 
                 {/* =========================================================================
             4. APPLICATION FORM SECTION (Prefilled with Specific Role)
             ========================================================================= */}
+                {isSectionActive(pageComponents, "application_form") && (
                 <section
                     ref={formSectionRef}
                     id="apply-section"
                     className="max-w-7xl mx-auto px-6 md:px-12 py-16 scroll-mt-24 border-t border-white/10"
+                    style={getSectionStyle(pageComponents, "application_form")}
                 >
                     <div className="bg-[#0c0e14] border border-white/15 p-8 sm:p-12 shadow-2xl relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
 
@@ -1081,6 +1099,7 @@ export default function CareerPage() {
                         </div>
                     </div>
                 </section>
+                )}
             </main>
 
             {/* Global RnDFooter */}

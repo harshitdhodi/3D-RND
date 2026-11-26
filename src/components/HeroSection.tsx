@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, Sparkles } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CyberButton from "@/components/CyberButton";
 import HeroScrollFrames from "@/components/HeroScrollFrames";
 import { HeroData, DEFAULT_HERO_DATA } from "@/lib/getHeroData";
@@ -13,13 +15,14 @@ export interface HeroSectionProps {
 export default function HeroSection({ initialData = DEFAULT_HERO_DATA }: HeroSectionProps) {
   const hero = initialData || DEFAULT_HERO_DATA;
   const containerRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
 
   // Mouse spotlight & reticle cursor tracking
   const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
   const [isHovered, setIsHovered] = useState(false);
 
-  // Scroll tracking state
+  // Scroll tracking state [0, 1] representing the entire hero container scroll journey
   const [scrollProgress, setScrollProgress] = useState(0);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -31,26 +34,56 @@ export default function HeroSection({ initialData = DEFAULT_HERO_DATA }: HeroSec
     });
   };
 
-  // Scroll listener for sticky video frame scrubbing
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const totalScroll = containerRef.current.offsetHeight - window.innerHeight;
-      if (totalScroll <= 0) return;
-
-      const currentScroll = -rect.top;
-      const progress = Math.max(0, Math.min(1, currentScroll / totalScroll));
-      setScrollProgress(progress);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   const accentColor = hero.accent_color || "#FFD400";
   const scrollHeight = hero.scroll_height_vh || 600;
+
+  // Setup GSAP ScrollTrigger pinning & progress scrubbing
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const container = containerRef.current;
+    const stage = stageRef.current;
+    if (!container || !stage) return;
+
+    // Pin the hero stage across the entire container scroll journey until the bottom reaches the top of the viewport.
+    // pinSpacing: false ensures that the next component (AboutUsSection) naturally scrolls directly OVER the pinned hero!
+    const trigger = ScrollTrigger.create({
+      trigger: container,
+      start: "top top",
+      end: "bottom top",
+      pin: stage,
+      pinSpacing: false,
+      anticipatePin: 1,
+      scrub: true,
+      onUpdate: (self) => {
+        setScrollProgress(self.progress);
+      },
+    });
+
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+
+    return () => {
+      clearTimeout(refreshTimer);
+      trigger.kill();
+    };
+  }, [scrollHeight]);
+
+  // Compute frameProgress from scrollProgress:
+  // 1. Scrub phase (0 to scrubEnd): Smooth scrubbing of frames 1 -> totalFrames (239)
+  // 2. Hold / pause phase (scrubEnd to overlapStart): Hero stays frozen on frame 239 ("taking few moments")
+  // 3. Overlap phase (overlapStart to 1.0): Next component (AboutUsSection) smoothly slides over the frozen hero
+  const overlapStart = Math.max(0.65, (scrollHeight - 100) / scrollHeight);
+  // Dedicate ~16% of the pre-overlap journey to holding on the completed final frame
+  const scrubEnd = overlapStart * 0.84;
+
+  const frameProgress =
+    scrollProgress <= 0
+      ? 0
+      : scrollProgress >= scrubEnd
+      ? 1
+      : scrollProgress / scrubEnd;
 
   return (
     <div
@@ -59,12 +92,15 @@ export default function HeroSection({ initialData = DEFAULT_HERO_DATA }: HeroSec
       style={{ height: `${scrollHeight}vh` }}
       className="relative w-full bg-transparent z-10"
     >
-      {/* Pinned Sticky Stage during the entire scroll journey */}
-      <div className="sticky top-0 h-[100dvh] w-full max-w-full overflow-hidden flex flex-col justify-between">
+      {/* Pinned Stage during the entire scroll journey */}
+      <div
+        ref={stageRef}
+        className="sticky top-0 h-[100dvh] w-full max-w-full overflow-hidden flex flex-col justify-between z-10 will-change-transform"
+      >
         {/* Full-width Video Canvas with dark overlay and height scale */}
         <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-auto w-full h-full">
           <HeroScrollFrames
-            scrollProgress={scrollProgress}
+            scrollProgress={frameProgress}
             className="w-full h-full opacity-100"
             totalFrames={hero.total_frames || 239}
             framePathPrefix={hero.frame_path_prefix || "/hero-frames/frame_"}

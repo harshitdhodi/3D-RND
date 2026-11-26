@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import {
   getPortfolioProjectBySlug,
   getPortfolioProjects,
+  getPortfolioChildPageData,
   PortfolioProject,
 } from "@/lib/getPortfolioData";
 import PortfolioProjectCaseStudyView from "@/components/PortfolioProjectCaseStudyView";
@@ -26,9 +27,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const title = `${project.title} | Case Study & Engineering Showcase`;
-  const description = project.summary || project.tagline || project.subtitle;
+  // Try to load child page SEO overrides
+  const childPage = await getPortfolioChildPageData(project);
+
+  const title =
+    childPage.seo_title ||
+    `${project.title} | Case Study & Engineering Showcase`;
+  const description =
+    childPage.seo_description ||
+    project.summary ||
+    project.tagline ||
+    project.subtitle;
   const pageUrl = `https://rndtechnosoft.com/portfolio/${slug}/${portfolio_slug}`;
+  const ogImage =
+    childPage.banner_image || project.image || "/banner/service.png";
 
   return {
     title,
@@ -52,7 +64,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       type: "article",
       images: [
         {
-          url: project.image || "/banner/service.png",
+          url: ogImage,
           width: 1200,
           height: 630,
           alt: `${project.title} Case Study | RND Technosoft`,
@@ -63,7 +75,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       card: "summary_large_image",
       title,
       description,
-      images: [project.image || "/banner/service.png"],
+      images: [ogImage],
     },
   };
 }
@@ -91,12 +103,17 @@ export default async function PortfolioNestedCaseStudyPage({ params }: PageProps
     .filter((p) => p.slug !== project.slug)
     .slice(0, 3);
 
+  // Fetch child-page-specific CMS data (before/after, process steps, telemetry etc.)
+  // Falls back gracefully to static defaults when no CMS record exists yet.
+  const childPageData = await getPortfolioChildPageData(project);
+
   return (
     <PortfolioProjectCaseStudyView
       project={project}
       relatedProjects={relatedProjects}
       prevProject={prevProject}
       nextProject={nextProject}
+      childPageData={childPageData}
     />
   );
 }

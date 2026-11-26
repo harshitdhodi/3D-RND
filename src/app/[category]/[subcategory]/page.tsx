@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { getServiceSubcategoryBySlug, getServiceItems, ServiceSubcategory, ServiceItem } from "@/lib/getServiceData";
 import { getSectionHeading } from "@/lib/getSectionHeading";
 import ServiceDetailsView from "@/components/ServiceDetailsView";
-import { getPortfolioProjectBySlug, getPortfolioProjects } from "@/lib/getPortfolioData";
+import { getPortfolioProjectBySlug, getPortfolioProjects, getPortfolioChildPageData } from "@/lib/getPortfolioData";
 import PortfolioProjectCaseStudyView from "@/components/PortfolioProjectCaseStudyView";
 
 // Enable dynamic rendering so all subcategories from CMS are rendered live
@@ -123,6 +123,7 @@ async function resolveService(
     category: catMeta.categoryName,
     categorySlug: category,
     image: sub.image || base.image || "/images/service_webdev.jpg",
+    banner_image: sub.banner_image || base.banner_image || sub.banner || base.banner || sub.bannerImg || base.bannerImg || "",
     gallery: (sub.gallery && sub.gallery.length > 0) ? sub.gallery : (base.gallery || []),
     sla: sub.sla || base.sla || "SPECIALIZED",
     avatarIcon: base.avatarIcon || base.avatar_icon || "",
@@ -173,9 +174,11 @@ export async function generateMetadata({
     // Check if it's a portfolio project case study (/[slug]/:portfolio_slug)
     const portfolioProject = await getPortfolioProjectBySlug(subcategory);
     if (portfolioProject) {
-      const title = `${portfolioProject.title} | Case Study & Engineering Showcase`;
-      const description = portfolioProject.summary || portfolioProject.tagline || portfolioProject.subtitle;
+      const childPage = await getPortfolioChildPageData(portfolioProject);
+      const title = childPage.seo_title || `${portfolioProject.title} | Case Study & Engineering Showcase`;
+      const description = childPage.seo_description || portfolioProject.summary || portfolioProject.tagline || portfolioProject.subtitle;
       const pageUrl = `https://rndtechnosoft.com/${category}/${subcategory}`;
+      const ogImage = childPage.banner_image || portfolioProject.banner_image || portfolioProject.image || "/banner/service.png";
 
       return {
         title,
@@ -199,7 +202,7 @@ export async function generateMetadata({
           type: "article",
           images: [
             {
-              url: portfolioProject.image || "/banner/service.png",
+              url: ogImage,
               width: 1200,
               height: 630,
               alt: `${portfolioProject.title} Case Study | RND Technosoft`,
@@ -210,7 +213,7 @@ export async function generateMetadata({
           card: "summary_large_image",
           title,
           description,
-          images: [portfolioProject.image || "/banner/service.png"],
+          images: [ogImage],
         },
       };
     }
@@ -275,7 +278,10 @@ export default async function CategorySubcategoryServicePage({
     // Check if it's a portfolio project case study (/[slug]/:portfolio_slug)
     const portfolioProject = await getPortfolioProjectBySlug(subcategory);
     if (portfolioProject) {
-      const categoryProjects = await getPortfolioProjects(portfolioProject.category_slug || category);
+      const [categoryProjects, childPageData] = await Promise.all([
+        getPortfolioProjects(portfolioProject.category_slug || category),
+        getPortfolioChildPageData(portfolioProject),
+      ]);
       const currentIndex = categoryProjects.findIndex((p) => p.slug === portfolioProject.slug);
 
       const prevProject =
@@ -295,6 +301,7 @@ export default async function CategorySubcategoryServicePage({
           relatedProjects={relatedProjects}
           prevProject={prevProject}
           nextProject={nextProject}
+          childPageData={childPageData}
         />
       );
     }

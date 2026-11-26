@@ -218,7 +218,12 @@ export default function IndustryDetailClientView({
                     { label: "INDUSTRIES", href: "/industries" },
                     { label: industry.title.toUpperCase(), href: `/industries/${industry.slug}` },
                 ]}
-                imageSrc="/NewBanner/Industry page banner.png"
+                imageSrc={
+                    (industry as any).banner_image ||
+                    (industry as any).bannerImg ||
+                    (industry as any).banner ||
+                    "/NewBanner/Industry page banner.png"
+                }
             />
 
             {/* Main Content (Directly below banner without overlap) */}

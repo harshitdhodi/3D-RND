@@ -35,8 +35,10 @@ import {
   getPortfolioHeroByCategory,
   getPortfolioFaqs,
   getPortfolioCta,
+  getPortfolioChildPageData,
   PortfolioCategory,
   PortfolioProject,
+  PortfolioChildPageData,
   PortfolioHeroData,
   PortfolioFaqItem,
   PortfolioCtaData,
@@ -218,6 +220,7 @@ export default function PortfolioSlugPage() {
   // Project State
   const [project, setProject] = useState<PortfolioProject | null>(null);
   const [relatedProjects, setRelatedProjects] = useState<PortfolioProject[]>([]);
+  const [childPageData, setChildPageData] = useState<PortfolioChildPageData | null>(null);
 
   // Shared Dynamic CMS Data
   const [faqs, setFaqs] = useState<PortfolioFaqItem[]>([]);
@@ -282,8 +285,12 @@ export default function PortfolioSlugPage() {
             })
             .slice(0, 3);
           setRelatedProjects(related);
-          const faqsData = await getPortfolioFaqs(projectData.category_slug);
+          const [faqsData, childData] = await Promise.all([
+            getPortfolioFaqs(projectData.category_slug),
+            getPortfolioChildPageData(projectData),
+          ]);
           setFaqs(faqsData);
+          setChildPageData(childData);
           setViewType("project");
           return;
         }
@@ -386,7 +393,7 @@ export default function PortfolioSlugPage() {
             { label: "PORTFOLIO", href: "/portfolio" },
             { label: (categoryHero?.banner_title || categoryHero?.Title || category.title).toUpperCase(), href: `/portfolio/${category.slug}` },
           ]}
-          imageSrc={categoryHero?.bannerImg || categoryHero?.banner_image || category.banner_image}
+          imageSrc={category.banner_image || categoryHero?.bannerImg || categoryHero?.banner_image || "/banner/portfolio.png"}
           imgtitle={categoryHero?.imgtitle || category.imgtitle || `${category.title} Banner`}
           altname={categoryHero?.altname || category.altname || `${category.title} - RND Technosoft`}
         />
@@ -640,6 +647,7 @@ export default function PortfolioSlugPage() {
         relatedProjects={relatedProjects}
         prevProject={prevProject}
         nextProject={nextProject}
+        childPageData={childPageData}
       />
     );
   }

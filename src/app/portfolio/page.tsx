@@ -30,6 +30,13 @@ import { getSectionHeading, SectionHeading, DEFAULT_SECTION_HEADINGS } from "@/l
 import PageBanner from "@/components/PageBanner";
 import CyberButton from "@/components/CyberButton";
 import ServiceConversionCTA from "@/components/ServiceConversionCTA";
+import {
+  getPageComponents,
+  PageComponent,
+  DEFAULT_PAGE_COMPONENTS,
+  isSectionActive,
+  getSectionStyle,
+} from "@/lib/getPageComponents";
 
 export default function PortfolioPage() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -38,23 +45,26 @@ export default function PortfolioPage() {
   const [heading, setHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.portfolio_categories);
   const [inquiryHeading, setInquiryHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.portfolio_inquiries);
   const [heroData, setHeroData] = useState<PortfolioHeroData>(DEFAULT_PORTFOLIO_HERO);
+  const [pageComponents, setPageComponents] = useState<PageComponent[]>(DEFAULT_PAGE_COMPONENTS["portfolio"]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
       try {
-        const [catsData, projectsData, headingData, inquiryHeadingData, heroRes] = await Promise.all([
+        const [catsData, projectsData, headingData, inquiryHeadingData, heroRes, comps] = await Promise.all([
           getPortfolioCategories(),
           getPortfolioProjects(),
           getSectionHeading("portfolio_categories"),
           getSectionHeading("portfolio_inquiries"),
           getPortfolioHero(),
+          getPageComponents("portfolio"),
         ]);
         setCategories(catsData);
         setProjects(projectsData);
         setHeading(headingData);
         setInquiryHeading(inquiryHeadingData);
         setHeroData(heroRes);
+        setPageComponents(comps);
       } catch (error) {
         console.error("Failed to load portfolio data:", error);
       } finally {
@@ -83,7 +93,7 @@ export default function PortfolioPage() {
       default: Layers,
     };
     const Icon = iconMap[category.icon] || iconMap.default;
-    
+
     return {
       number: category.number,
       tag: category.tag,
@@ -175,37 +185,21 @@ export default function PortfolioPage() {
       <Navbar />
 
       {/* Page Banner */}
-      <PageBanner
-        title={heroData.banner_title || "PORTFOLIO ARCHIVE"}
-        breadcrumb={heroData.banner_breadcrumb || "PORTFOLIO"}
-        imageSrc={heroData.bannerImg || heroData.banner_image || "/NewBanner/protfolio page banner.png"}
-        imgtitle={heroData.imgtitle || heroData.banner_imgtitle}
-        altname={heroData.altname || heroData.banner_altname}
-      />
+      {isSectionActive(pageComponents, "banner") && (
+        <div style={getSectionStyle(pageComponents, "banner")}>
+          <PageBanner
+            title={heroData.banner_title || "PORTFOLIO ARCHIVE"}
+            breadcrumb={heroData.banner_breadcrumb || "PORTFOLIO"}
+            imageSrc={heroData.bannerImg || heroData.banner_image || "/NewBanner/protfolio page banner.png"}
+            imgtitle={heroData.imgtitle || heroData.banner_imgtitle}
+            altname={heroData.altname || heroData.banner_altname}
+          />
+        </div>
+      )}
 
       {/* Main Content (Directly below banner without overlap) */}
       <main className="relative z-10 w-full">
-        {/* Top Header Section */}
-        <section className="bg-black w-full px-4 sm:px-8 lg:px-12 pt-8 sm:pt-12 pb-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-[0.25em] uppercase mb-4 bg-black/60 border border-[#FFD400]/40 text-[#FFD400] backdrop-blur-md">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>{heroData.badge || "PORTFOLIO CATEGORIES // EXPLORE BY EXPERTISE"}</span>
-                </div>
-                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-[family-name:var(--font-archia-local)] font-bold tracking-tight uppercase leading-[1.02] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
-                  {heroData.title || "Explore Our Expertise"}
-                </h1>
-                <p className="text-sm sm:text-base font-normal max-w-2xl mt-3 leading-relaxed text-neutral-300">
-                  {heroData.description || `Browse our portfolio by category to discover ${totalProjects}+ successful projects across web development, mobile apps, marketing, branding, and media production.`}
-                </p>
-              </div>
 
-            
-            </div>
-          </div>
-        </section>
 
         {/* =========================================================================
             INTEGRATED CORE AGENCY DISCIPLINES
@@ -213,254 +207,259 @@ export default function PortfolioPage() {
             - Right: Expanded Single-Column Multi-Row Cards with hover glow & image preview (8 cols)
             - Background: Cyber Architectural & Circuit SVGs with Soft Radial Flares
             ========================================================================= */}
-        <section
-          id="disciplines-section"
-          ref={sectionRef}
-          className="py-[50px] relative px-4 sm:px-8 lg:px-12"
-        >
-          {/* Background Architectural & Circuit SVGs */}
-          <div className="absolute inset-0 pointer-events-none select-none -z-10 overflow-hidden">
-            {/* Tech Blueprint Grid SVG (Top Right) */}
-            <svg
-              className="portfolio-blueprint-svg absolute -top-10 -right-10 w-[550px] h-[550px] opacity-15 will-change-transform"
-              viewBox="0 0 600 600"
-              fill="none"
-            >
-              <defs>
-                <pattern
-                  id="portfolio-pillar-grid"
-                  width="40"
-                  height="40"
-                  patternUnits="userSpaceOnUse"
-                >
-                  <path
-                    d="M 40 0 L 0 0 0 40"
-                    fill="none"
-                    stroke="#FFD400"
-                    strokeWidth="0.5"
-                    strokeOpacity="0.4"
-                  />
-                  <circle
-                    cx="40"
-                    cy="40"
-                    r="1"
-                    fill="#FFD400"
-                    fillOpacity="0.6"
-                  />
-                </pattern>
-              </defs>
-              <rect
-                width="600"
-                height="600"
-                fill="url(#portfolio-pillar-grid)"
-              />
-              <circle
-                cx="300"
-                cy="300"
-                r="180"
-                stroke="#FFD400"
-                strokeWidth="1"
-                strokeDasharray="6 8"
-                strokeOpacity="0.3"
-              />
-              <circle
-                cx="300"
-                cy="300"
-                r="260"
-                stroke="#FFD400"
-                strokeWidth="0.75"
-                strokeOpacity="0.15"
-              />
-              <line
-                x1="300"
-                y1="0"
-                x2="300"
-                y2="600"
-                stroke="#FFD400"
-                strokeWidth="0.5"
-                strokeDasharray="4 6"
-                strokeOpacity="0.2"
-              />
-              <line
-                x1="0"
-                y1="300"
-                x2="600"
-                y2="300"
-                stroke="#FFD400"
-                strokeWidth="0.5"
-                strokeDasharray="4 6"
-                strokeOpacity="0.2"
-              />
-            </svg>
+        {isSectionActive(pageComponents, "agency_disciplines") && (
+          <section
+            id="disciplines-section"
+            ref={sectionRef}
+            className="py-[50px] relative px-4 sm:px-8 lg:px-12"
+            style={getSectionStyle(pageComponents, "agency_disciplines")}
+          >
+            {/* Background Architectural & Circuit SVGs */}
+            <div className="absolute inset-0 pointer-events-none select-none -z-10 overflow-hidden">
+              {/* Tech Blueprint Grid SVG (Top Right) */}
+              <svg
+                className="portfolio-blueprint-svg absolute -top-10 -right-10 w-[550px] h-[550px] opacity-15 will-change-transform"
+                viewBox="0 0 600 600"
+                fill="none"
+              >
+                <defs>
+                  <pattern
+                    id="portfolio-pillar-grid"
+                    width="40"
+                    height="40"
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <path
+                      d="M 40 0 L 0 0 0 40"
+                      fill="none"
+                      stroke="#FFD400"
+                      strokeWidth="0.5"
+                      strokeOpacity="0.4"
+                    />
+                    <circle
+                      cx="40"
+                      cy="40"
+                      r="1"
+                      fill="#FFD400"
+                      fillOpacity="0.6"
+                    />
+                  </pattern>
+                </defs>
+                <rect
+                  width="600"
+                  height="600"
+                  fill="url(#portfolio-pillar-grid)"
+                />
+                <circle
+                  cx="300"
+                  cy="300"
+                  r="180"
+                  stroke="#FFD400"
+                  strokeWidth="1"
+                  strokeDasharray="6 8"
+                  strokeOpacity="0.3"
+                />
+                <circle
+                  cx="300"
+                  cy="300"
+                  r="260"
+                  stroke="#FFD400"
+                  strokeWidth="0.75"
+                  strokeOpacity="0.15"
+                />
+                <line
+                  x1="300"
+                  y1="0"
+                  x2="300"
+                  y2="600"
+                  stroke="#FFD400"
+                  strokeWidth="0.5"
+                  strokeDasharray="4 6"
+                  strokeOpacity="0.2"
+                />
+                <line
+                  x1="0"
+                  y1="300"
+                  x2="600"
+                  y2="300"
+                  stroke="#FFD400"
+                  strokeWidth="0.5"
+                  strokeDasharray="4 6"
+                  strokeOpacity="0.2"
+                />
+              </svg>
 
-            {/* Circuit Track Vectors (Bottom Left) */}
-            <svg
-              className="portfolio-circuit-svg absolute -bottom-16 -left-16 w-[520px] h-[520px] opacity-15 will-change-transform"
-              viewBox="0 0 500 500"
-              fill="none"
-            >
-              <path
-                d="M 40 460 L 140 460 L 210 390 L 340 390 L 390 340 L 480 340"
-                stroke="#FFD400"
-                strokeWidth="1.5"
-                strokeDasharray="8 6"
-                strokeOpacity="0.5"
-              />
-              <path
-                d="M 70 490 L 170 490 L 240 420 L 370 420 L 430 360 L 500 360"
-                stroke="#FFD400"
-                strokeWidth="1"
-                strokeOpacity="0.3"
-              />
-              <circle cx="210" cy="390" r="4" fill="#FFD400" />
-              <circle cx="340" cy="390" r="3" fill="#FFD400" />
-              <circle cx="390" cy="340" r="4" fill="#FFD400" />
-              <circle cx="170" cy="490" r="3" fill="#FFD400" />
-              <circle cx="240" cy="420" r="4" fill="#FFD400" />
-            </svg>
+              {/* Circuit Track Vectors (Bottom Left) */}
+              <svg
+                className="portfolio-circuit-svg absolute -bottom-16 -left-16 w-[520px] h-[520px] opacity-15 will-change-transform"
+                viewBox="0 0 500 500"
+                fill="none"
+              >
+                <path
+                  d="M 40 460 L 140 460 L 210 390 L 340 390 L 390 340 L 480 340"
+                  stroke="#FFD400"
+                  strokeWidth="1.5"
+                  strokeDasharray="8 6"
+                  strokeOpacity="0.5"
+                />
+                <path
+                  d="M 70 490 L 170 490 L 240 420 L 370 420 L 430 360 L 500 360"
+                  stroke="#FFD400"
+                  strokeWidth="1"
+                  strokeOpacity="0.3"
+                />
+                <circle cx="210" cy="390" r="4" fill="#FFD400" />
+                <circle cx="340" cy="390" r="3" fill="#FFD400" />
+                <circle cx="390" cy="340" r="4" fill="#FFD400" />
+                <circle cx="170" cy="490" r="3" fill="#FFD400" />
+                <circle cx="240" cy="420" r="4" fill="#FFD400" />
+              </svg>
 
-            {/* Ambient Radial Nebula Glows */}
-            <div className="absolute top-1/4 -left-20 w-[420px] h-[420px] bg-[#FFD400]/8 rounded-full blur-[140px]" />
-            <div className="absolute bottom-1/4 -right-20 w-[420px] h-[420px] bg-[#FFD400]/6 rounded-full blur-[140px]" />
-          </div>
+              {/* Ambient Radial Nebula Glows */}
+              <div className="absolute top-1/4 -left-20 w-[420px] h-[420px] bg-[#FFD400]/8 rounded-full blur-[140px]" />
+              <div className="absolute bottom-1/4 -right-20 w-[420px] h-[420px] bg-[#FFD400]/6 rounded-full blur-[140px]" />
+            </div>
 
-          <div className="max-w-7xl mx-auto">
-            {/* Grid: Sticky Left Overview (4 cols) + Expanded Scrolling Right Column (8 cols) */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-              {/* Left Column: Sticky Overview & Capabilities (4 cols) */}
-              <div className="lg:col-span-4 lg:sticky lg:top-28 z-20 self-start">
-                <div className="portfolio-who-card rounded-[32px] border border-white/10 hover:border-[#FFD400]/50 bg-[#0d0e13]/90 backdrop-blur-2xl p-6 sm:p-7 shadow-2xl relative overflow-hidden group transition-all duration-500 hover:shadow-[0_0_50px_rgba(255,212,0,0.15)]">
-                  {/* Ambient subtle glow */}
-                  <div className="absolute top-0 right-0 w-44 h-44 bg-[#FFD400]/10 rounded-full blur-[50px] pointer-events-none group-hover:scale-125 transition-transform duration-700" />
-                  {/* Hover Shimmer Light Sweep */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#FFD400]/8 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
+            <div className="max-w-7xl mx-auto">
+              {/* Grid: Sticky Left Overview (4 cols) + Expanded Scrolling Right Column (8 cols) */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+                {/* Left Column: Sticky Overview & Capabilities (4 cols) */}
+                <div className="lg:col-span-4 lg:sticky lg:top-28 z-20 self-start">
+                  <div className="portfolio-who-card rounded-[32px] border border-white/10 hover:border-[#FFD400]/50 bg-[#0d0e13]/90 backdrop-blur-2xl p-6 sm:p-7 shadow-2xl relative overflow-hidden group transition-all duration-500 hover:shadow-[0_0_50px_rgba(255,212,0,0.15)]">
+                    {/* Ambient subtle glow */}
+                    <div className="absolute top-0 right-0 w-44 h-44 bg-[#FFD400]/10 rounded-full blur-[50px] pointer-events-none group-hover:scale-125 transition-transform duration-700" />
+                    {/* Hover Shimmer Light Sweep */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#FFD400]/8 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
 
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-bold tracking-widest text-[#FFD400] uppercase mb-4 bg-[#FFD400]/10 border border-[#FFD400]/30 shadow-[0_0_20px_rgba(255,212,0,0.15)] group-hover:border-[#FFD400]/60 transition-colors relative z-10">
-                    <Layers className="w-3.5 h-3.5 animate-pulse" />
-                    <span>{heading?.badge || "◈ THE RND DIFFERENCE"}</span>
-                  </div>
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-bold tracking-widest text-[#FFD400] uppercase mb-4 bg-[#FFD400]/10 border border-[#FFD400]/30 shadow-[0_0_20px_rgba(255,212,0,0.15)] group-hover:border-[#FFD400]/60 transition-colors relative z-10">
+                      <Layers className="w-3.5 h-3.5 animate-pulse" />
+                      <span>{heading?.badge || "◈ THE RND DIFFERENCE"}</span>
+                    </div>
 
-                  <h2 className="text-2xl sm:text-3xl font-[family-name:var(--font-archia-local)] font-bold uppercase tracking-tight text-white mb-4 leading-tight relative z-10">
-                    {heading?.title || "WHERE TECHNOLOGY MEETS CREATIVITY. WHERE IDEAS BECOME IMPACT."}
-                  </h2>
+                    <h2 className="text-2xl sm:text-3xl font-[family-name:var(--font-archia-local)] font-bold uppercase tracking-tight text-white mb-4 leading-tight relative z-10">
+                      {heading?.title || "WHERE TECHNOLOGY MEETS CREATIVITY. WHERE IDEAS BECOME IMPACT."}
+                    </h2>
 
-                  <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light mb-6 relative z-10">
-                    {heading?.subtitle || "RND Technosoft brings technology, digital marketing, branding and media production together under one roof. We combine technical expertise, strategic thinking and creative execution to help businesses build stronger brands, smarter digital experiences and meaningful connections with their audiences."}
-                  </p>
+                    <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light mb-6 relative z-10">
+                      {heading?.subtitle || "RND Technosoft brings technology, digital marketing, branding and media production together under one roof. We combine technical expertise, strategic thinking and creative execution to help businesses build stronger brands, smarter digital experiences and meaningful connections with their audiences."}
+                    </p>
 
-                  <div className="pt-2 relative z-10">
-                    <CyberButton
-                      href={heading?.button_link || "/services"}
-                      variant="gold"
-                      size="md"
-                      fullWidth
-                    >
-                      {heading?.tagline || "EXPLORE OUR CAPABILITIES"}
-                    </CyberButton>
+                    <div className="pt-2 relative z-10">
+                      <CyberButton
+                        href={heading?.button_link || "/services"}
+                        variant="gold"
+                        size="md"
+                        fullWidth
+                      >
+                        {heading?.tagline || "EXPLORE OUR CAPABILITIES"}
+                      </CyberButton>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Right Column: Expanded Single Column Multi-Row Cards (8 cols) */}
-              <div className="lg:col-span-8 flex flex-col space-y-6">
-                {agencyPillars.map((pillar, idx) => {
-                  const Icon = pillar.icon;
-                  return (
-                    <Link
-                      key={idx}
-                      href={pillar.href}
-                      className="portfolio-pillar-card rounded-[28px] border border-white/10 hover:border-[#FFD400]/70 bg-[#0d0e13]/90 backdrop-blur-xl overflow-hidden transition-all duration-500 hover:-translate-y-1 group shadow-xl hover:shadow-[0_0_45px_rgba(255,212,0,0.22)] flex flex-col md:flex-row items-stretch relative block cursor-pointer"
-                    >
-                      {/* Hover Light Sweep Beam */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#FFD400]/8 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none z-20" />
+                {/* Right Column: Expanded Single Column Multi-Row Cards (8 cols) */}
+                <div className="lg:col-span-8 flex flex-col space-y-6">
+                  {agencyPillars.map((pillar, idx) => {
+                    const Icon = pillar.icon;
+                    return (
+                      <Link
+                        key={idx}
+                        href={pillar.href}
+                        className="portfolio-pillar-card rounded-[28px] border border-white/10 hover:border-[#FFD400]/70 bg-[#0d0e13]/90 backdrop-blur-xl overflow-hidden transition-all duration-500 hover:-translate-y-1 group shadow-xl hover:shadow-[0_0_45px_rgba(255,212,0,0.22)] flex flex-col md:flex-row items-stretch relative block cursor-pointer"
+                      >
+                        {/* Hover Light Sweep Beam */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#FFD400]/8 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none z-20" />
 
-                      {/* Left Card Content (50% width on desktop) */}
-                      <div className="p-6 sm:p-8 md:w-1/2 flex flex-col justify-between relative z-10">
-                        <div>
-                          <div className="flex items-center justify-between mb-4">
-                            <div className="w-11 h-11 rounded-xl bg-[#FFD400]/10 border border-[#FFD400]/30 flex items-center justify-center text-[#FFD400] group-hover:bg-[#FFD400] group-hover:text-black transition-all group-hover:scale-110 group-hover:rotate-6 shrink-0 shadow-[0_0_15px_rgba(255,212,0,0.15)]">
-                              <Icon className="w-5 h-5" />
-                            </div>
-                            <span className="text-[10px] font-mono tracking-widest text-[#FFD400] font-bold uppercase px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 group-hover:border-[#FFD400]/40 transition-colors">
-                              {pillar.number} {"//"} {pillar.tag}
-                            </span>
-                          </div>
-
-                          <h3 className="text-xl sm:text-2xl font-[family-name:var(--font-archia-local)] font-bold uppercase text-white mb-2 group-hover:text-[#FFD400] transition-colors leading-snug">
-                            {pillar.title}
-                          </h3>
-
-                          <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light mb-4">
-                            {pillar.desc}
-                          </p>
-
-                          {/* Feature Tags */}
-                          <div className="flex flex-wrap gap-1.5 pt-1">
-                            {pillar.features.map((feat, fIdx) => (
-                              <span
-                                key={fIdx}
-                                className="text-[10px] font-mono px-2.5 py-0.5 rounded-md bg-white/[0.04] text-neutral-300 border border-white/5 group-hover:border-[#FFD400]/30 group-hover:text-white transition-colors"
-                              >
-                                #{feat}
+                        {/* Left Card Content (50% width on desktop) */}
+                        <div className="p-6 sm:p-8 md:w-1/2 flex flex-col justify-between relative z-10">
+                          <div>
+                            <div className="flex items-center justify-between mb-4">
+                              <div className="w-11 h-11 rounded-xl bg-[#FFD400]/10 border border-[#FFD400]/30 flex items-center justify-center text-[#FFD400] group-hover:bg-[#FFD400] group-hover:text-black transition-all group-hover:scale-110 group-hover:rotate-6 shrink-0 shadow-[0_0_15px_rgba(255,212,0,0.15)]">
+                                <Icon className="w-5 h-5" />
+                              </div>
+                              <span className="text-[10px] font-mono tracking-widest text-[#FFD400] font-bold uppercase px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 group-hover:border-[#FFD400]/40 transition-colors">
+                                {pillar.number} {"//"} {pillar.tag}
                               </span>
-                            ))}
-                          </div>
-                        </div>
+                            </div>
 
-                        <div className="pt-4 border-t border-white/10 mt-5 flex items-center justify-between">
-                          <span className="text-[10px] font-mono text-[#FFD400] uppercase font-bold tracking-wider">
-                            EXPLORE ↗
-                          </span>
-                          <div className="flex items-center gap-2">
-                            <span className="text-[11px] font-mono text-neutral-400 group-hover:text-white transition-colors">
-                              {pillar.count} Projects
+                            <h3 className="text-xl sm:text-2xl font-[family-name:var(--font-archia-local)] font-bold uppercase text-white mb-2 group-hover:text-[#FFD400] transition-colors leading-snug">
+                              {pillar.title}
+                            </h3>
+
+                            <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light mb-4">
+                              {pillar.desc}
+                            </p>
+
+                            {/* Feature Tags */}
+                            <div className="flex flex-wrap gap-1.5 pt-1">
+                              {pillar.features.map((feat, fIdx) => (
+                                <span
+                                  key={fIdx}
+                                  className="text-[10px] font-mono px-2.5 py-0.5 rounded-md bg-white/[0.04] text-neutral-300 border border-white/5 group-hover:border-[#FFD400]/30 group-hover:text-white transition-colors"
+                                >
+                                  #{feat}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div className="pt-4 border-t border-white/10 mt-5 flex items-center justify-between">
+                            <span className="text-[10px] font-mono text-[#FFD400] uppercase font-bold tracking-wider">
+                              EXPLORE ↗
                             </span>
-                            <ArrowUpRight className="w-4 h-4 text-neutral-400 group-hover:text-[#FFD400] group-hover:translate-x-1.5 group-hover:-translate-y-1.5 transition-transform duration-300" />
+                            <div className="flex items-center gap-2">
+                              <span className="text-[11px] font-mono text-neutral-400 group-hover:text-white transition-colors">
+                                {pillar.count} Projects
+                              </span>
+                              <ArrowUpRight className="w-4 h-4 text-neutral-400 group-hover:text-[#FFD400] group-hover:translate-x-1.5 group-hover:-translate-y-1.5 transition-transform duration-300" />
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      {/* Center to Right Side Image Showcase (50% width on desktop) */}
-                      <div className="relative md:w-1/2 min-h-[240px] md:min-h-auto overflow-hidden rounded-2xl md:rounded-r-[26px] md:rounded-l-none m-3 md:m-0 border border-white/10 md:border-0 md:border-l md:border-white/10 group-hover:border-[#FFD400]/40 transition-colors">
-                        {/* Gradient Mask: Fades smoothly from center/left into image */}
-                        <div className="absolute inset-0 z-10 bg-gradient-to-t md:bg-gradient-to-r from-[#0d0e13] via-[#0d0e13]/30 to-transparent pointer-events-none group-hover:opacity-40 transition-opacity duration-500" />
+                        {/* Center to Right Side Image Showcase (50% width on desktop) */}
+                        <div className="relative md:w-1/2 min-h-[240px] md:min-h-auto overflow-hidden rounded-2xl md:rounded-r-[26px] md:rounded-l-none m-3 md:m-0 border border-white/10 md:border-0 md:border-l md:border-white/10 group-hover:border-[#FFD400]/40 transition-colors">
+                          {/* Gradient Mask: Fades smoothly from center/left into image */}
+                          <div className="absolute inset-0 z-10 bg-gradient-to-t md:bg-gradient-to-r from-[#0d0e13] via-[#0d0e13]/30 to-transparent pointer-events-none group-hover:opacity-40 transition-opacity duration-500" />
 
-                        {/* Image with zoom and color transition on hover */}
-                        <Image
-                          src={pillar.image}
-                          alt={pillar.title}
-                          fill
-                          className="object-cover object-center grayscale contrast-125 group-hover:grayscale-0 group-hover:contrast-100 opacity-65 group-hover:opacity-100 group-hover:scale-110 group-hover:rotate-0.5 transition-all duration-700 ease-out"
-                        />
+                          {/* Image with zoom and color transition on hover */}
+                          <Image
+                            src={pillar.image}
+                            alt={pillar.title}
+                            fill
+                            className="object-cover object-center grayscale contrast-125 group-hover:grayscale-0 group-hover:contrast-100 opacity-65 group-hover:opacity-100 group-hover:scale-110 group-hover:rotate-0.5 transition-all duration-700 ease-out"
+                          />
 
-                        {/* Hover Overlay Tag */}
-                        <div className="absolute top-3 right-3 z-20 px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[9px] font-mono text-white/70 group-hover:text-[#FFD400] group-hover:border-[#FFD400]/40 uppercase tracking-widest transition-colors shadow-lg">
-                          DISCIPLINE {"//"} PREVIEW
+                          {/* Hover Overlay Tag */}
+                          <div className="absolute top-3 right-3 z-20 px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[9px] font-mono text-white/70 group-hover:text-[#FFD400] group-hover:border-[#FFD400]/40 uppercase tracking-widest transition-colors shadow-lg">
+                            DISCIPLINE {"//"} PREVIEW
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  );
-                })}
+                      </Link>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* Bottom Conversion CTA Form */}
-        <div className="px-4 sm:px-8 lg:px-12 pb-16">
-          <div className="max-w-7xl mx-auto">
-            <ServiceConversionCTA
-              id="portfolio-cta"
-              title={inquiryHeading?.title || "Have an Ambitious Project Vision?"}
-              subtitle={
-                inquiryHeading?.subtitle ||
-                "Whether you need a custom web platform, native mobile app, high-converting digital marketing engine, or commercial media production, our engineering directors are ready to scope your build."
-              }
-              badge={inquiryHeading?.badge || "✦ COMMISSION AN ENTERPRISE SYSTEM"}
-              sourcePage="/portfolio"
-            />
+        {isSectionActive(pageComponents, "conversion_cta") && (
+          <div className="px-4 sm:px-8 lg:px-12 pb-16" style={getSectionStyle(pageComponents, "conversion_cta")}>
+            <div className="max-w-7xl mx-auto">
+              <ServiceConversionCTA
+                id="portfolio-cta"
+                title={inquiryHeading?.title || "Have an Ambitious Project Vision?"}
+                subtitle={
+                  inquiryHeading?.subtitle ||
+                  "Whether you need a custom web platform, native mobile app, high-converting digital marketing engine, or commercial media production, our engineering directors are ready to scope your build."
+                }
+                badge={inquiryHeading?.badge || "✦ COMMISSION AN ENTERPRISE SYSTEM"}
+                sourcePage="/portfolio"
+              />
+            </div>
           </div>
-        </div>
+        )}
       </main>
 
       {/* Global RnD Footer */}

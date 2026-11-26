@@ -1,8 +1,18 @@
 import PolicyPageLayout from "@/components/PolicyPageLayout";
 import { getPolicyData } from "@/lib/getPoliciesData";
+import { getPageComponents, isPageHidden } from "@/lib/getPageComponents";
+import { notFound } from "next/navigation";
 
 export default async function PrivacyPolicyPage() {
-  const policyData = await getPolicyData("privacy-policy");
+  const [policyData, pageComponents, hidden] = await Promise.all([
+    getPolicyData("privacy-policy"),
+    getPageComponents("privacy-policy"),
+    isPageHidden("privacy-policy"),
+  ]);
 
-  return <PolicyPageLayout data={policyData} />;
+  if (hidden) {
+    notFound();
+  }
+
+  return <PolicyPageLayout data={policyData} pageComponents={pageComponents} />;
 }

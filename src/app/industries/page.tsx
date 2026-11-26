@@ -44,6 +44,13 @@ import {
     SectionHeading,
     DEFAULT_SECTION_HEADINGS,
 } from "@/lib/getSectionHeading";
+import {
+    getPageComponents,
+    PageComponent,
+    DEFAULT_PAGE_COMPONENTS,
+    isSectionActive,
+    getSectionStyle,
+} from "@/lib/getPageComponents";
 import { industriesList as staticIndustriesList } from "@/data/industriesData";
 
 const INITIAL_INDUSTRIES: IndustryItemData[] = staticIndustriesList.map((item, idx) => ({
@@ -69,10 +76,12 @@ export default function IndustriesIndexPage() {
     const [heroData, setHeroData] = useState<IndustryHeroData>(DEFAULT_INDUSTRY_HERO);
     const [sectionHeading, setSectionHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.industries);
     const [consultationData, setConsultationData] = useState<IndustryConsultationData>(DEFAULT_INDUSTRY_CONSULTATION);
+    const [pageComponents, setPageComponents] = useState<PageComponent[]>(DEFAULT_PAGE_COMPONENTS["industries"]);
     const mainRef = useRef<HTMLElement>(null);
 
     // Fetch industries data, hero section data, parent heading, and consultation CTA
     useEffect(() => {
+        getPageComponents("industries").then(setPageComponents);
         getIndustriesData().then((data) => {
             setIndustriesList(data);
         });
@@ -337,11 +346,15 @@ export default function IndustriesIndexPage() {
             <Navbar />
 
             {/* Page Banner with Typewriter Title, Slow Cinematic Zoom & Parallax */}
-            <PageBanner
-                title="INDUSTRIES WE SERVE"
-                breadcrumb="INDUSTRIES"
-                imageSrc="/NewBanner/Industry page banner.png"
-            />
+            {isSectionActive(pageComponents, "banner") && (
+                <div style={getSectionStyle(pageComponents, "banner")}>
+                    <PageBanner
+                        title="INDUSTRIES WE SERVE"
+                        breadcrumb="INDUSTRIES"
+                        imageSrc="/NewBanner/Industry page banner.png"
+                    />
+                </div>
+            )}
 
             {/* Main Content (Directly below banner without overlap) */}
             <main
@@ -351,47 +364,50 @@ export default function IndustriesIndexPage() {
                 {/* =========================================================================
             1. INDUSTRIES HERO BAR
             ========================================================================= */}
-                <section className="max-w-7xl mx-auto px-6 md:px-12 pt-8 sm:pt-12 pb-8">
-                    <div className="industry-hero-card p-8 sm:p-12 bg-gradient-to-r from-[#0c0e14]/40 via-[#121520]/40 to-[#0c0e14]/40 backdrop-blur-sm border border-white/10 shadow-2xl relative overflow-hidden">
-                        <div className="relative z-10 max-w-3xl space-y-4">
-                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase">
-                                <Sparkles className="w-3.5 h-3.5" />
-                                <span>{heroData?.tagline || DEFAULT_INDUSTRY_HERO.tagline}</span>
+                {isSectionActive(pageComponents, "hero_bar") && (
+                    <section className="max-w-7xl mx-auto px-6 md:px-12 pt-8 sm:pt-12 pb-8" style={getSectionStyle(pageComponents, "hero_bar")}>
+                        <div className="industry-hero-card p-8 sm:p-12 bg-gradient-to-r from-[#0c0e14]/40 via-[#121520]/40 to-[#0c0e14]/40 backdrop-blur-sm border border-white/10 shadow-2xl relative overflow-hidden">
+                            <div className="relative z-10 max-w-3xl space-y-4">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase">
+                                    <Sparkles className="w-3.5 h-3.5" />
+                                    <span>{heroData?.tagline || DEFAULT_INDUSTRY_HERO.tagline}</span>
+                                </div>
+                                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold text-white uppercase tracking-tight leading-tight">
+                                    {renderHighlightedHeading(heroData?.heading || DEFAULT_INDUSTRY_HERO.heading)}
+                                </h1>
+                                <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed whitespace-pre-line">
+                                    {heroData?.description || DEFAULT_INDUSTRY_HERO.description}
+                                </p>
                             </div>
-                            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-syne)] font-bold text-white uppercase tracking-tight leading-tight">
-                                {renderHighlightedHeading(heroData?.heading || DEFAULT_INDUSTRY_HERO.heading)}
-                            </h1>
-                            <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed whitespace-pre-line">
-                                {heroData?.description || DEFAULT_INDUSTRY_HERO.description}
-                            </p>
-                        </div>
 
-                        {/* Quick Metrics */}
-                        <div className="mt-8 pt-6 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center sm:text-left">
-                            {heroMetrics.map((metric, mIdx) => {
-                                const isYellow = mIdx % 2 === 0;
-                                return (
-                                    <div key={mIdx} className="industry-metric-item">
-                                        <span className={`text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold ${isYellow ? "text-[#FFD400]" : "text-white"}`}>
-                                            {metric.value}
-                                        </span>
-                                        <p className="text-xs font-mono text-[#FFD400]/80 uppercase tracking-wider font-semibold mt-0.5">
-                                            {metric.label}
-                                        </p>
-                                        <p className="text-[11px] font-mono text-neutral-400 mt-0.5">
-                                            {metric.description}
-                                        </p>
-                                    </div>
-                                );
-                            })}
+                            {/* Quick Metrics */}
+                            <div className="mt-8 pt-6 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center sm:text-left">
+                                {heroMetrics.map((metric, mIdx) => {
+                                    const isYellow = mIdx % 2 === 0;
+                                    return (
+                                        <div key={mIdx} className="industry-metric-item">
+                                            <span className={`text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold ${isYellow ? "text-[#FFD400]" : "text-white"}`}>
+                                                {metric.value}
+                                            </span>
+                                            <p className="text-xs font-mono text-[#FFD400]/80 uppercase tracking-wider font-semibold mt-0.5">
+                                                {metric.label}
+                                            </p>
+                                            <p className="text-[11px] font-mono text-neutral-400 mt-0.5">
+                                                {metric.description}
+                                            </p>
+                                        </div>
+                                    );
+                                })}
+                            </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                )}
 
                 {/* =========================================================================
             2. INDUSTRIES DIRECTORY LISTING
             ========================================================================= */}
-                <section className="max-w-7xl mx-auto px-6 md:px-12 py-12">
+                {isSectionActive(pageComponents, "directory_listing") && (
+                    <section className="max-w-7xl mx-auto px-6 md:px-12 py-12" style={getSectionStyle(pageComponents, "directory_listing")}>
                     <div className="industry-section-header mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
                         <div>
                             <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
@@ -521,24 +537,27 @@ export default function IndustriesIndexPage() {
                         })}
                     </div>
                 </section>
+                )}
 
                 {/* =========================================================================
             3. CROSS-INDUSTRY ARCHITECTURAL CONSULTATION SECTION
             ========================================================================= */}
-                <section className="industry-consult-section max-w-7xl mx-auto px-6 md:px-12 py-16 border-t border-white/10">
-                    <div className="bg-[#0c0e14]/60 backdrop-blur-md border border-white/15 p-8 sm:p-12 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-                        <IndustryConsultationHeading
-                            data={consultationData}
-                            className="lg:col-span-5"
-                        />
-                        <IndustryConsultationForm
-                            industries={industriesList.map(ind => ind.title)}
-                            formTitle={consultationData.form_title}
-                            formDescription={consultationData.form_description}
-                            className="lg:col-span-7"
-                        />
-                    </div>
-                </section>
+                {isSectionActive(pageComponents, "consultation_cta") && (
+                    <section className="industry-consult-section max-w-7xl mx-auto px-6 md:px-12 py-16 border-t border-white/10" style={getSectionStyle(pageComponents, "consultation_cta")}>
+                        <div className="bg-[#0c0e14]/60 backdrop-blur-md border border-white/15 p-8 sm:p-12 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+                            <IndustryConsultationHeading
+                                data={consultationData}
+                                className="lg:col-span-5"
+                            />
+                            <IndustryConsultationForm
+                                industries={industriesList.map(ind => ind.title)}
+                                formTitle={consultationData.form_title}
+                                formDescription={consultationData.form_description}
+                                className="lg:col-span-7"
+                            />
+                        </div>
+                    </section>
+                )}
             </main>
 
             <RnDFooter />

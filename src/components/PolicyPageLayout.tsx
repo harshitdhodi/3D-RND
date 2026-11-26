@@ -34,6 +34,7 @@ import RnDFooter from "@/components/RnDFooter";
 import SpaceBackground from "@/components/SpaceBackground";
 import PageBanner from "@/components/PageBanner";
 import { PolicyData, PolicySection } from "@/data/policiesData";
+import { PageComponent, isSectionActive, getSectionStyle } from "@/lib/getPageComponents";
 
 const ICON_MAP: Record<string, LucideIcon> = {
   ShieldCheck,
@@ -135,9 +136,10 @@ function parseHtmlToSections(html?: string): ParsedHtmlSection[] {
 
 interface PolicyPageLayoutProps {
   data: PolicyData;
+  pageComponents?: PageComponent[];
 }
 
-export default function PolicyPageLayout({ data }: PolicyPageLayoutProps) {
+export default function PolicyPageLayout({ data, pageComponents }: PolicyPageLayoutProps) {
   // Check if content from Editor is available
   const parsedSections = useMemo(() => {
     if (data.content && data.content.trim()) {
@@ -198,15 +200,20 @@ export default function PolicyPageLayout({ data }: PolicyPageLayoutProps) {
       <SpaceBackground />
       <Navbar />
 
-      <PageBanner
-        title={data.title}
-        breadcrumb={data.breadcrumb || data.title}
-        size="default"
-        imageSrc={data.bannerImage || "/banner/legal.png"}
-      />
+      {isSectionActive(pageComponents, "banner") && (
+        <div style={getSectionStyle(pageComponents, "banner")}>
+          <PageBanner
+            title={data.title}
+            breadcrumb={data.breadcrumb || data.title}
+            size="default"
+            imageSrc={data.bannerImage || "/banner/legal.png"}
+          />
+        </div>
+      )}
 
       {/* Main Content (Directly below banner without overlap) */}
-      <main className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 py-16 sm:py-20">
+      {isSectionActive(pageComponents, "content") && (
+      <main className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 py-16 sm:py-20" style={getSectionStyle(pageComponents, "content")}>
         {/* Top Header Card */}
         <div className="mb-12 p-6 sm:p-8 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#FFD400]/5 blur-[120px] rounded-full pointer-events-none" />
@@ -455,6 +462,7 @@ export default function PolicyPageLayout({ data }: PolicyPageLayoutProps) {
           </div>
         </div>
       </main>
+      )}
 
       <RnDFooter />
     </div>

@@ -1,6 +1,10 @@
 "use client";
 
-function getCategoryBanner(parentPath: string | undefined, type: string | undefined): string {
+function getCategoryBanner(parentPath: string | undefined, type: string | undefined, item?: any): string {
+    if (item?.banner_image) return item.banner_image;
+    if (item?.bannerImage) return item.bannerImage;
+    if (item?.banner) return item.banner;
+    if (item?.bannerImg) return item.bannerImg;
     if (parentPath?.includes("technology-solution")) return "/NewBanner/service.png";
     if (parentPath?.includes("digital-marketing")) return "/NewBanner/service.png";
     if (parentPath?.includes("branding-design")) return "/NewBanner/service.png";
@@ -263,7 +267,7 @@ export default function UnifiedDetailsView({
                     { label: parentLabel.toUpperCase(), href: parentPath },
                     { label: item.title.toUpperCase(), href: `${parentPath}/${(item as any).slug || item.id}` }
                 ]}
-                imageSrc={getCategoryBanner(parentPath, type)}
+                imageSrc={getCategoryBanner(parentPath, type, item)}
             />
 
             {/* Main Content (Directly below banner without overlap) */}

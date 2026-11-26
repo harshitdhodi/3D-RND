@@ -56,6 +56,13 @@ import {
   LeaderData,
   TeamMemberData,
 } from "@/lib/getTeamData";
+import {
+  getPageComponents,
+  PageComponent,
+  DEFAULT_PAGE_COMPONENTS,
+  isSectionActive,
+  getSectionStyle,
+} from "@/lib/getPageComponents";
 
 const PILLAR_ICON_MAP: Record<string, LucideIcon> = {
   Code2,
@@ -81,8 +88,10 @@ export default function AboutUsPage() {
   const [teamMembers, setTeamMembers] = useState<TeamMemberData[]>([]);
   const [leadershipHeading, setLeadershipHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.about_page_leader);
   const [teamHeading, setTeamHeading] = useState<SectionHeading>(DEFAULT_SECTION_HEADINGS.team_members);
+  const [pageComponents, setPageComponents] = useState<PageComponent[]>(DEFAULT_PAGE_COMPONENTS["about-us"]);
 
   useEffect(() => {
+    getPageComponents("about-us").then(setPageComponents);
     getAboutHeroData().then(setAboutHero);
     getAboutMissionVisionData().then(setAboutMissionVision);
     getPortfolioCategories().then(setPortfolioCategories);
@@ -255,15 +264,17 @@ export default function AboutUsPage() {
       {/* Global Navbar */}
       <Navbar />
 
-      {/* Standard Page Banner matching Career & Service page size & animation */}
-      <PageBanner
-        title={aboutHero.banner_title || "ABOUT RND"}
-        breadcrumb={aboutHero.banner_breadcrumb || "ABOUT US"}
-        imageSrc={aboutHero.banner_image || "/NewBanner/about.png"}
-      />
-
-      {/* Dynamic Rocket Scroll Experience (Below Banner) */}
-      <AboutRocketScrollBanner data={aboutHero} />
+      {/* Standard Page Banner & Rocket Scroll Experience */}
+      {isSectionActive(pageComponents, "banner") && (
+        <div style={getSectionStyle(pageComponents, "banner")}>
+          <PageBanner
+            title={aboutHero.banner_title || "ABOUT RND"}
+            breadcrumb={aboutHero.banner_breadcrumb || "ABOUT US"}
+            imageSrc={aboutHero.banner_image || "/NewBanner/about.png"}
+          />
+          <AboutRocketScrollBanner data={aboutHero} />
+        </div>
+      )}
 
       {/* =========================================================================
           POST-BANNER OVERLAPPING CONTENT SECTION
@@ -275,24 +286,16 @@ export default function AboutUsPage() {
         {/* <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-[#FFD400]/6 blur-[160px] rounded-full pointer-events-none" /> */}
 
         <main className="relative z-10 w-full">
-          {/* =========================================================================
-              CONCEPT 2: THE "CONSTELLATION / ORBITAL" STORYBOARD
-              - Full-width immersive section with sticky telemetry sidebar & floating canvas
-              - Vision as the Core Sun (North Star with soft radial glow)
-              - Mission as the Trajectory (dynamic connecting bridge line)
-              - Core Values as Orbiting Nodes (interactive planetary pills & glassmorphism cards)
-              ========================================================================= */}
-          <ConstellationMissionVision data={aboutMissionVision} className="py-[50px]" />
+          {/* 1. Constellation Mission & Vision */}
+          {isSectionActive(pageComponents, "mission_vision") && (
+            <div style={getSectionStyle(pageComponents, "mission_vision")}>
+              <ConstellationMissionVision data={aboutMissionVision} className="py-[50px]" />
+            </div>
+          )}
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-
-        {/* =========================================================================
-                3. INTEGRATED CORE AGENCY DISCIPLINES
-                - Left: Sticky Agency Overview & Capabilities Checklist (4 cols)
-                - Right: Expanded Single-Column Multi-Row Cards ending aligned with Navbar Button (8 cols)
-                - Background: Cyber Architectural & Circuit SVGs with Soft Radial Flares
-                ========================================================================= */}
-        <section id="pillars" className="py-[50px] relative">
+          {/* 2. Core Agency Pillars & Capabilities */}
+          {isSectionActive(pageComponents, "pillars") && (
+            <div id="pillars" className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-[50px] relative" style={getSectionStyle(pageComponents, "pillars")}>
           {/* Background Architectural & Circuit SVGs */}
           <div className="absolute inset-0 pointer-events-none select-none -z-10 overflow-hidden">
             {/* Tech Blueprint Grid SVG (Top Right) */}
@@ -444,47 +447,61 @@ export default function AboutUsPage() {
             </div>
 
           </div>
-        </section>
         </div>
+        )}
 
         {/* 4. Cosmic Process Section */}
-        <CosmicProcessSection className="py-[50px]" />
+        {isSectionActive(pageComponents, "cosmic_process") && (
+          <div style={getSectionStyle(pageComponents, "cosmic_process")}>
+            <CosmicProcessSection className="py-[50px]" />
+          </div>
+        )}
 
         {/* 5. Team & Culture Section */}
-        <TeamCultureSection 
-          initialLeaders={leaders} 
-          initialMembers={teamMembers} 
-          leadershipHeading={leadershipHeading}
-          teamHeading={teamHeading}
-          className="py-[50px]" />
+        {isSectionActive(pageComponents, "team_culture") && (
+          <div style={getSectionStyle(pageComponents, "team_culture")}>
+            <TeamCultureSection 
+              initialLeaders={leaders} 
+              initialMembers={teamMembers} 
+              leadershipHeading={leadershipHeading}
+              teamHeading={teamHeading}
+              className="py-[50px]" />
+          </div>
+        )}
 
         {/* 6. Why Choose RnD Section */}
-        <WhyChooseSection className="py-[50px]" />
+        {isSectionActive(pageComponents, "why_choose") && (
+          <div style={getSectionStyle(pageComponents, "why_choose")}>
+            <WhyChooseSection className="py-[50px]" />
+          </div>
+        )}
 
         {/* 7. Partnership CTA */}
-        <section className="py-[50px]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-            <div className="about-cta-card rounded-[28px] border border-[#FFD400]/30 bg-gradient-to-r from-[#12141c] via-[#090a0f] to-[#12141c] p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-[0_0_50px_rgba(255,212,0,0.1)]">
-              <div>
-                <span className="text-[10px] font-mono font-bold tracking-widest text-[#FFD400] uppercase block mb-1">
-                  {partnershipCta.cta_badge || "READY FOR WHAT'S NEXT?"}
-                </span>
-                <h3 className="text-xl sm:text-2xl font-[family-name:var(--font-archia-local)] font-bold uppercase text-white tracking-tight">
-                  {partnershipCta.cta_title || "GREAT IDEAS DESERVE GREAT PARTNERS."}
-                </h3>
-                <p className="text-xs sm:text-sm text-neutral-300 font-light mt-2 max-w-xl leading-relaxed">
-                  {partnershipCta.cta_desc}
-                </p>
-              </div>
+        {isSectionActive(pageComponents, "partnership_cta") && (
+          <section className="py-[50px]" style={getSectionStyle(pageComponents, "partnership_cta")}>
+            <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+              <div className="about-cta-card rounded-[28px] border border-[#FFD400]/30 bg-gradient-to-r from-[#12141c] via-[#090a0f] to-[#12141c] p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-[0_0_50px_rgba(255,212,0,0.1)]">
+                <div>
+                  <span className="text-[10px] font-mono font-bold tracking-widest text-[#FFD400] uppercase block mb-1">
+                    {partnershipCta.cta_badge || "READY FOR WHAT'S NEXT?"}
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-[family-name:var(--font-archia-local)] font-bold uppercase text-white tracking-tight">
+                    {partnershipCta.cta_title || "GREAT IDEAS DESERVE GREAT PARTNERS."}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-neutral-300 font-light mt-2 max-w-xl leading-relaxed">
+                    {partnershipCta.cta_desc}
+                  </p>
+                </div>
 
-              <div className="flex items-center gap-3 shrink-0">
-                <CyberButton href={partnershipCta.cta_button_link || "/contact-us"} variant="gold" size="md">
-                  {partnershipCta.cta_button_text || "INITIATE PARTNERSHIP"}
-                </CyberButton>
+                <div className="flex items-center gap-3 shrink-0">
+                  <CyberButton href={partnershipCta.cta_button_link || "/contact-us"} variant="gold" size="md">
+                    {partnershipCta.cta_button_text || "INITIATE PARTNERSHIP"}
+                  </CyberButton>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
       </main>
     </div>
       {/* Showreel Modal */}

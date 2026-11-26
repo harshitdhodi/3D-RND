@@ -295,6 +295,9 @@ export interface PortfolioProject {
   project_type: string;
   industry: string;
   image: string;
+  banner_image?: string;
+  banner_imgtitle?: string;
+  banner_altname?: string;
   imgtitle?: string;
   altname?: string;
   gallery_images: string[];
@@ -930,6 +933,9 @@ export async function getPortfolioProjects(categorySlug?: string): Promise<Portf
             project_type: catTitle || "Project",
             industry: "Global",
             image: doc.image || "",
+            banner_image: doc.banner_image || doc.bannerImg || doc.banner || "",
+            banner_imgtitle: doc.banner_imgtitle || "",
+            banner_altname: doc.banner_altname || "",
             imgtitle: doc.imgtitle || `${doc.project_title || ""} Showcase`,
             altname: doc.altname || `${doc.project_title || ""}`,
             gallery_images: gallery,
@@ -1021,6 +1027,9 @@ export async function getPortfolioProjectBySlug(slug: string): Promise<Portfolio
           project_type: catTitle || "Project",
           industry: "Global",
           image: doc.image || "",
+          banner_image: doc.banner_image || doc.bannerImg || doc.banner || "",
+          banner_imgtitle: doc.banner_imgtitle || "",
+          banner_altname: doc.banner_altname || "",
           imgtitle: doc.imgtitle || `${doc.project_title || ""} Showcase`,
           altname: doc.altname || `${doc.project_title || ""}`,
           gallery_images: gallery,
@@ -1358,4 +1367,429 @@ export async function getPortfolioCta(): Promise<PortfolioCtaData> {
     console.warn("Failed to fetch portfolio CTA:", err);
     return DEFAULT_PORTFOLIO_CTA;
   }
+}
+
+// =========================================================================
+// PORTFOLIO CHILD PAGE (Case Study Sections)
+// /portfolio/[slug]/[portfolio_slug]
+//
+// Parent data (title, image, client, year, tech stack, brief, challenge,
+// solution, deliverables, results, category, video) comes from
+// `portfolio_project` and is NOT stored here. This collection only holds
+// the child-page-only sections, linked via project_slug.
+// =========================================================================
+export interface BeforeAfterConfig {
+  beforeTitle: string;
+  beforeDescription: string;
+  legacyPoints: string[];
+  afterTitle: string;
+  afterDescription: string;
+  modernPoints: string[];
+  metrics: ComparisonMetric[];
+}
+
+export interface ComparisonMetric {
+  label: string;
+  before: string;
+  after: string;
+  improvement: string;
+  subtext: string;
+}
+
+export interface ProcessStep {
+  number: string;
+  title: string;
+  duration: string;
+  image: string;
+  desc: string;
+  deliverables: string[];
+}
+
+export interface TelemetryMetric {
+  metric: string;
+  label: string;
+  verified: string;
+}
+
+export interface GalleryItem {
+  image: string;
+  caption?: string;
+}
+
+export interface TestimonialData {
+  quote: string;
+  author: string;
+  role: string;
+  avatar: string;
+}
+
+export interface PortfolioChildPageData {
+  project_slug: string;
+  published: boolean;
+  banner_image?: string;
+  banner_imgtitle?: string;
+  banner_altname?: string;
+  before_after: BeforeAfterConfig;
+  process_steps: ProcessStep[];
+  telemetry_metrics: TelemetryMetric[];
+  gallery_extra: GalleryItem[];
+  testimonial: TestimonialData | null;
+  seo_title?: string;
+  seo_description?: string;
+}
+
+// ---------------------------------------------------------------------------
+// Normalization helpers (ArrayObject fields may arrive as arrays of objects,
+// comma-separated strings, or JSON strings depending on how they were saved)
+// ---------------------------------------------------------------------------
+function toStringArray(value: any): string[] {
+  if (Array.isArray(value)) return value.map((v) => String(v)).filter(Boolean);
+  if (typeof value === "string" && value.trim()) {
+    return value
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+  }
+  return [];
+}
+
+function toPointList(value: any): string[] {
+  // Supports: [{point:"..."}, "direct string", "a,b,c"]
+  if (Array.isArray(value)) {
+    return value
+      .map((v: any) => (typeof v === "object" && v !== null ? String(v.point || v.text || v.value || "") : String(v)))
+      .filter(Boolean);
+  }
+  if (typeof value === "string" && value.trim()) {
+    try {
+      const parsed = JSON.parse(value);
+      if (Array.isArray(parsed)) return toPointList(parsed);
+    } catch {
+      /* plain string */
+    }
+    return value.split("\n").map((s) => s.trim()).filter(Boolean);
+  }
+  return [];
+}
+
+function toMetrics(value: any): ComparisonMetric[] {
+  if (Array.isArray(value)) {
+    return value.map((m: any) => ({
+      label: String(m?.label || ""),
+      before: String(m?.before || ""),
+      after: String(m?.after || ""),
+      improvement: String(m?.improvement || ""),
+      subtext: String(m?.subtext || ""),
+    })).filter((m) => m.label);
+  }
+  return [];
+}
+
+function toTelemetry(value: any): TelemetryMetric[] {
+  if (Array.isArray(value)) {
+    return value.map((m: any) => ({
+      metric: String(m?.metric || ""),
+      label: String(m?.label || ""),
+      verified: String(m?.verified || ""),
+    })).filter((m) => m.metric);
+  }
+  return [];
+}
+
+function toProcessSteps(value: any, project: PortfolioProject | null): ProcessStep[] {
+  let steps: ProcessStep[] = [];
+  if (Array.isArray(value)) {
+    steps = value.map((s: any) => ({
+      number: String(s?.number || ""),
+      title: String(s?.title || ""),
+      duration: String(s?.duration || ""),
+      image: String(s?.image || ""),
+      desc: String(s?.desc || s?.description || ""),
+      deliverables: toStringArray(s?.deliverables),
+    })).filter((s) => s.title);
+  }
+  return steps;
+}
+
+function toGallery(value: any): GalleryItem[] {
+  if (Array.isArray(value)) {
+    return value
+      .map((g: any) =>
+        typeof g === "string"
+          ? { image: g, caption: "" }
+          : { image: String(g?.image || ""), caption: String(g?.caption || "") }
+      )
+      .filter((g) => g.image);
+  }
+  return [];
+}
+
+// ---------------------------------------------------------------------------
+// DEFAULTS derived from parent project (used when no child doc exists)
+// These mirror the category-based defaults previously hardcoded in the view.
+// ---------------------------------------------------------------------------
+export function getDefaultChildPageData(project: PortfolioProject): PortfolioChildPageData {
+  const cat = (project.category_slug || "").toLowerCase();
+  const gallery = project.gallery_images?.length
+    ? project.gallery_images
+    : project.image
+      ? [project.image]
+      : ["/images/service_cloud_color.jpg"];
+
+  let before_after: BeforeAfterConfig;
+  if (cat.includes("mobile")) {
+    before_after = {
+      beforeTitle: "Manual Hospital Logs & Fragmented Dispatch",
+      beforeDescription:
+        "Prior to the mobile logistics suite, orthopedic implant tracking relied on paper manifests, phone calls, and manual spreadsheet entries with severe hospital dispatch delays.",
+      legacyPoints: [
+        "Surgical cases delayed up to 45 minutes due to missing implant telemetry",
+        "Zero real-time barcode reconciliation at hospital scrub stations",
+        "Distributors relying on unverified manual WhatsApp dispatch messages",
+        "No offline sync in subterranean hospital OT basement wings",
+      ],
+      afterTitle: "Edge-First Native Mobile Architecture",
+      afterDescription:
+        "RND engineered a resilient cross-platform mobile suite with offline-first barcode scanning, automated scrub nurse dispatch, and HIPAA-compliant delivery verification.",
+      modernPoints: [
+        "99.98% on-time surgical case implant deliveries verified across hospitals",
+        "Sub-100ms camera barcode decoding with offline Bluetooth buffer sync",
+        "Instant surgeon schedule synchronization and push telemetry dispatch",
+        "End-to-end encrypted medical chain of custody audit logging",
+      ],
+      metrics: [
+        { label: "Case Delivery Accuracy", before: "84.2%", after: "99.98%", improvement: "+18.7% Lift", subtext: "Live surgical cases" },
+        { label: "Implant Dispatch Latency", before: "45 min", after: "3.2 min", improvement: "93% Faster", subtext: "Dispatch to OT arrival" },
+        { label: "Offline Sync Reliability", before: "0%", after: "100%", improvement: "Subterranean OT Ready", subtext: "Bluetooth local cache" },
+        { label: "Inventory Shrinkage", before: "12.4%", after: "0.1%", improvement: "-99% Shrinkage", subtext: "Automated RFID ledger" },
+      ],
+    };
+  } else if (cat.includes("branding") || cat.includes("design")) {
+    before_after = {
+      beforeTitle: "Fragmented Visuals & Low Brand Recall",
+      beforeDescription:
+        "The legacy corporate presence had disjointed typography scales, inconsistent packaging specifications, and lacked a unified premium design language.",
+      legacyPoints: [
+        "Fragmented typography scales across web, packaging, and retail collateral",
+        "Flat, static 2D visuals with zero luxury or spatial depth presence",
+        "Disjointed color palette lacking modern dark-mode accessibility",
+        "Unstandardized packaging dielines causing costly printing misalignments",
+      ],
+      afterTitle: "Sculptural Brand Architecture & Packaging",
+      afterDescription:
+        "RND engineered a comprehensive luxury brand architecture, precision typography system, tactile stainless steel merchandise specs, and retail display assets.",
+      modernPoints: [
+        "Sculptural avant-garde typography system built for luxury hydration products",
+        "Unified atomic design tokens harmonizing web, packaging, and store displays",
+        "Custom 3D bottle rendering pipeline delivering tactile material finishes",
+        "Flawless print-ready dieline specifications reducing factory waste to zero",
+      ],
+      metrics: [
+        { label: "Brand Recall Score", before: "18%", after: "82%", improvement: "+355% Lift", subtext: "Consumer survey index" },
+        { label: "Visual Cohesion Index", before: "38 / 100", after: "98 / 100", improvement: "+157% Cohesion", subtext: "Cross-channel audit" },
+        { label: "Packaging Production Waste", before: "14.8%", after: "0.4%", improvement: "-97% Waste", subtext: "CAD dieline precision" },
+        { label: "Retail Shelf Conversion", before: "2.3%", after: "8.7%", improvement: "+278% Sales", subtext: "In-store POS lift" },
+      ],
+    };
+  } else if (cat.includes("video") || cat.includes("photo")) {
+    before_after = {
+      beforeTitle: "Unscripted Footage & Low Production Value",
+      beforeDescription:
+        "The company's industrial infrastructure was documented using basic handheld cameras, poor warehouse lighting, and zero cinematic storytelling.",
+      legacyPoints: [
+        "Shaky non-stabilized footage failing to communicate manufacturing scale",
+        "Muffled industrial audio with harsh reverberation and machine noise",
+        "Uncalibrated color profiles looking dull on high-end 4K commercial screens",
+        "No structured narrative explaining the high-speed packaging machinery",
+      ],
+      afterTitle: "Cinematic 4K Commercial & Drone Telemetry",
+      afterDescription:
+        "RND deployed cinema-grade camera rigs, precision drone flythroughs, post-production color mastering, and sound design to capture industrial engineering marvels.",
+      modernPoints: [
+        "4K ProRes cinema footage with smooth dynamic gimbal & drone flythroughs",
+        "Multi-track spatial audio design enhancing machine rhythms and punch",
+        "Precision DaVinci Resolve color grading matching the enterprise brand tone",
+        "Compelling narrative arc positioning the facility as an international leader",
+      ],
+      metrics: [
+        { label: "Viewer Retention Rate", before: "14 sec", after: "2 min 18 sec", improvement: "+885% Dwell", subtext: "Social & B2B platforms" },
+        { label: "Client Inquiries Generated", before: "2 / month", after: "28 / month", improvement: "+1300% Lift", subtext: "B2B RFP conversions" },
+        { label: "Color Gamut Precision", before: "Rec.709 Basic", after: "DCI-P3 Master", improvement: "Cinema Grade", subtext: "10-bit color grading" },
+        { label: "Brand Authority Rating", before: "42 / 100", after: "96 / 100", improvement: "+128% Authority", subtext: "Industry stakeholder audit" },
+      ],
+    };
+  } else {
+    // Default: Web & Web Applications
+    before_after = {
+      beforeTitle: "Static Legacy Catalog & 4.8s Page Lag",
+      beforeDescription:
+        "The legacy machinery web portal relied on static PDF downloads, outdated layouts, and slow server response times that failed to engage international B2B buyers.",
+      legacyPoints: [
+        "Sluggish 4.8s page load times leading to >65% mobile bounce rates",
+        "Static product catalogs requiring users to download heavy PDF brochures",
+        "Zero 3D visualization or interactive conveyor throughput calculation",
+        "Manual email inquiries trapped in unmonitored inboxes with 48h response delay",
+      ],
+      afterTitle: "Next.js 15 Sub-Second 3D Web Platform",
+      afterDescription:
+        "RND engineered a sub-second, edge-rendered Next.js 15 web platform featuring real-time 3D machinery visualization, dynamic conveyor matrices, and automated RFQ routing.",
+      modernPoints: [
+        "Sub-800ms global LCP load speed powered by multi-region edge caching",
+        "Interactive 3D WebGL machinery exploration running at a smooth 60 FPS",
+        "Automated B2B RFQ configurator calculating machinery specs in real time",
+        "Instant CRM pipeline synchronization reducing lead response time to seconds",
+      ],
+      metrics: [
+        { label: "Global LCP Speed", before: "4.82s", after: "0.78s", improvement: "84% Faster", subtext: "Multi-region edge SSR" },
+        { label: "B2B Qualified RFQs", before: "8 / month", after: "48 / month", improvement: "+500% Lift", subtext: "Interactive configurator" },
+        { label: "Mobile Bounce Rate", before: "68%", after: "16%", improvement: "-76% Bounce", subtext: "Mobile-first parity" },
+        { label: "Average Session Dwell", before: "42 sec", after: "3 min 40 sec", improvement: "+423% Time", subtext: "3D interactive engagement" },
+      ],
+    };
+  }
+
+  const process_steps: ProcessStep[] = [
+    {
+      number: "01",
+      title: "Discovery & Architectural Audit",
+      duration: "Weeks 1 - 2",
+      image: gallery[0] || "/images/service_cloud_color.jpg",
+      desc: "Comprehensive diagnostic of the legacy ecosystem, stakeholder interviews, competitor benchmarking, and mapping technical API bottlenecks to formulate the project roadmap.",
+      deliverables: ["Legacy Bottleneck Audit Report", "Technical Feasibility Matrix", "User Persona Telemetry Profile", "Architecture Blueprint Document"],
+    },
+    {
+      number: "02",
+      title: "Information Architecture & UX Wireframing",
+      duration: "Weeks 3 - 4",
+      image: gallery[1] || "/images/nebula_cloud_os_3d.jpg",
+      desc: "Constructing user journey maps, wireframing responsive viewports, defining atomic design tokens, and validating user navigation paths for frictionless conversion velocity.",
+      deliverables: ["Low & High-Fidelity Wireframes", "User Navigation Flowcharts", "Interactive Clickable Prototype", "Atomic Design Token Hierarchy"],
+    },
+    {
+      number: "03",
+      title: "3D Spatial & UI/UX Design Immersion",
+      duration: "Weeks 5 - 7",
+      image: gallery[2] || "/images/service_mobile_color.jpg",
+      desc: "Crafting the visual identity, modeling 3D assets/renderings, establishing the cosmic dark aesthetic with high-contrast gold accents, and fine-tuning micro-interactions.",
+      deliverables: ["Full Component Design System (Figma)", "3D WebGL Optimized Asset Models", "Fluid Kinetic Animation Curves", "Multi-Viewport Design Signoff"],
+    },
+    {
+      number: "04",
+      title: "Full-Stack Engineering & API Mesh",
+      duration: "Weeks 8 - 10",
+      image: gallery[3] || "/images/service_branding.jpg",
+      desc: "Developing with Next.js App Router, TailwindCSS, MongoDB schema design, automated email/CRM dispatchers, and state-of-the-art WebGL interactive shaders.",
+      deliverables: ["Serverless Edge API Endpoints", "Responsive Component Codebase", "CRM & Inquiry Automation Hookups", "Real-Time Database Schema Integration"],
+    },
+    {
+      number: "05",
+      title: "Rigorous QA, Speed & Security Audit",
+      duration: "Weeks 11 - 12",
+      image: gallery[4] || "/images/service_marketing.jpg",
+      desc: "Comprehensive stress testing, cross-browser/device validation, Lighthouse 98+ score optimization, image asset compression (WebP/AVIF), and security audits.",
+      deliverables: ["Lighthouse 98+ Performance Signoff", "Cross-Browser Device Compatibility Matrix", "Zero-Vulnerability Security Audit", "Edge Cache Invalidation Protocol"],
+    },
+    {
+      number: "06",
+      title: "Production Deployment & Live Telemetry",
+      duration: "Weeks 13 - 14",
+      image: gallery[5] || gallery[0] || "/images/service_cloud_color.jpg",
+      desc: "Zero-downtime deployment to AWS/Vercel Edge, DNS routing, Google Search Console indexing, analytics telemetry monitoring, and client team handover.",
+      deliverables: ["Live Production Deployment", "Global CDN Edge Warmup", "Google Core Web Vitals Indexing", "Admin CMS Operations Handover"],
+    },
+  ];
+
+  const telemetry_metrics: TelemetryMetric[] = [
+    { metric: project.results_metric || "<0.8s", label: project.results_label || "Global Edge Velocity", verified: "Lighthouse Audit" },
+    { metric: "99.99%", label: "Production Availability SLA", verified: "Cloudflare Edge" },
+    { metric: "+340%", label: "B2B Inquiry Funnel Conversion", verified: "Google Analytics" },
+    { metric: "100%", label: "Deliverables Handover Verified", verified: "Client Approved" },
+  ];
+
+  return {
+    project_slug: project.slug,
+    published: true,
+    banner_image: project.banner_image || (project as any).bannerImg || (project as any).banner || "",
+    banner_imgtitle: project.banner_imgtitle || "",
+    banner_altname: project.banner_altname || "",
+    before_after,
+    process_steps,
+    telemetry_metrics,
+    gallery_extra: [],
+    testimonial: null,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Fetch + merge child page data with parent project data
+// ---------------------------------------------------------------------------
+export async function getPortfolioChildPageData(
+  project: PortfolioProject
+): Promise<PortfolioChildPageData> {
+  const defaults = getDefaultChildPageData(project);
+
+  try {
+    const res = await fetch(
+      `${API_BASE_URL}/api/data/portfolio_child_page?project_slug=${encodeURIComponent(project.slug)}`,
+      { cache: "no-store", signal: AbortSignal.timeout(2000) }
+    );
+
+    if (res.ok) {
+      const json = await res.json();
+      const list = Array.isArray(json?.data) ? json.data : json?.data ? [json.data] : [];
+      const doc = list.find(
+        (d: any) =>
+          d.project_slug === project.slug ||
+          d.slug === project.slug ||
+          d._id === project.slug
+      );
+
+      if (doc && doc.published !== false) {
+        return {
+          project_slug: project.slug,
+          published: true,
+          banner_image: doc.banner_image || "",
+          banner_imgtitle: doc.banner_imgtitle || "",
+          banner_altname: doc.banner_altname || "",
+          before_after: {
+            beforeTitle: doc.before_title || defaults.before_after.beforeTitle,
+            beforeDescription: doc.before_description || defaults.before_after.beforeDescription,
+            legacyPoints: toPointList(doc.legacy_points).length
+              ? toPointList(doc.legacy_points)
+              : defaults.before_after.legacyPoints,
+            afterTitle: doc.after_title || defaults.before_after.afterTitle,
+            afterDescription: doc.after_description || defaults.before_after.afterDescription,
+            modernPoints: toPointList(doc.modern_points).length
+              ? toPointList(doc.modern_points)
+              : defaults.before_after.modernPoints,
+            metrics: toMetrics(doc.comparison_metrics).length
+              ? toMetrics(doc.comparison_metrics)
+              : defaults.before_after.metrics,
+          },
+          process_steps: toProcessSteps(doc.process_steps, project).length
+            ? toProcessSteps(doc.process_steps, project)
+            : defaults.process_steps,
+          telemetry_metrics: toTelemetry(doc.telemetry_metrics).length
+            ? toTelemetry(doc.telemetry_metrics)
+            : defaults.telemetry_metrics,
+          gallery_extra: toGallery(doc.gallery_extra),
+          testimonial:
+            doc.testimonial_quote && String(doc.testimonial_quote).trim()
+              ? {
+                  quote: String(doc.testimonial_quote),
+                  author: String(doc.testimonial_author || ""),
+                  role: String(doc.testimonial_role || ""),
+                  avatar: String(doc.testimonial_avatar || ""),
+                }
+              : null,
+          seo_title: doc.seo_title || "",
+          seo_description: doc.seo_description || "",
+        };
+      }
+    }
+  } catch (err) {
+    console.warn("Failed to fetch portfolio_child_page data, using defaults:", err);
+  }
+
+  return defaults;
 }

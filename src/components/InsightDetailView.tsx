@@ -251,7 +251,12 @@ export default function InsightDetailView({
           { label: "INSIGHTS", href: "/insights" },
           { label: bannerTitle.toUpperCase(), href: `/insights/${article.slug}` },
         ]}
-        imageSrc="/NewBanner/blogs banner.png"
+        imageSrc={
+          (article as any).banner_image ||
+          (article as any).bannerImg ||
+          (article as any).banner ||
+          "/NewBanner/blogs banner.png"
+        }
       />
 
       {/* Main Content (Directly below banner without overlap) */}

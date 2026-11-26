@@ -44,13 +44,14 @@ import ServiceConversionCTA from "@/components/ServiceConversionCTA";
 import BeforeAfterSection, { BeforeAfterData } from "@/components/BeforeAfterSection";
 import WaveText from "@/components/WaveText";
 import ScrollReveal from "@/components/ScrollReveal";
-import { PortfolioProject } from "@/lib/getPortfolioData";
+import { PortfolioProject, PortfolioChildPageData, getDefaultChildPageData } from "@/lib/getPortfolioData";
 
 export interface PortfolioCaseStudyProps {
   project: PortfolioProject;
   relatedProjects?: PortfolioProject[];
   prevProject?: PortfolioProject | null;
   nextProject?: PortfolioProject | null;
+  childPageData?: PortfolioChildPageData | null;
 }
 
 export default function PortfolioProjectCaseStudyView({
@@ -58,6 +59,7 @@ export default function PortfolioProjectCaseStudyView({
   relatedProjects = [],
   prevProject = null,
   nextProject = null,
+  childPageData = null,
 }: PortfolioCaseStudyProps) {
   const [selectedGalleryImg, setSelectedGalleryImg] = useState<string | null>(null);
   const [showVideoModal, setShowVideoModal] = useState(false);
@@ -66,10 +68,13 @@ export default function PortfolioProjectCaseStudyView({
   const catTitle = project.category_title || project.category_slug.replace(/-/g, " ").toUpperCase();
   const catSlug = project.category_slug;
 
-  // Derive specialized Before vs After data for this specific project
-  const beforeAfterConfig = getProjectBeforeAfter(project);
-  const processSteps = getProjectProcessSteps(project);
-  const telemetryMetrics = getProjectTelemetry(project);
+  // CMS-driven child page sections (fall back to category-aware defaults)
+  const pageData: PortfolioChildPageData =
+    childPageData || getDefaultChildPageData(project);
+
+  const beforeAfterConfig = pageData.before_after;
+  const processSteps = pageData.process_steps;
+  const telemetryMetrics = pageData.telemetry_metrics;
 
   const roadmapSectionRef = useRef<HTMLElement>(null);
 
@@ -131,9 +136,15 @@ export default function PortfolioProjectCaseStudyView({
           { label: catTitle.toUpperCase(), href: `/portfolio/${catSlug}` },
           { label: project.title.toUpperCase(), href: `/portfolio/${catSlug}/${project.slug}` },
         ]}
-        imageSrc={(project as any).banner_image || (project as any).bannerImg || "/NewBanner/protfolio page banner.png"}
-        imgtitle={project.imgtitle || `${project.title} Case Study`}
-        altname={project.altname || `${project.title} - RND Technosoft Case Study`}
+        imageSrc={
+          pageData?.banner_image ||
+          (project as any)?.banner_image ||
+          (project as any)?.bannerImg ||
+          (project as any)?.banner ||
+          "/NewBanner/protfolio page banner.png"
+        }
+        imgtitle={pageData.banner_imgtitle || project.imgtitle || `${project.title} Case Study`}
+        altname={pageData.banner_altname || project.altname || `${project.title} - RND Technosoft Case Study`}
       />
 
       {/* Main Content (Directly below banner without overlap) */}
@@ -450,7 +461,7 @@ export default function PortfolioProjectCaseStudyView({
                       : "text-neutral-400 hover:text-white"
                   }`}
                 >
-                  ⚡ Side-by-Side Split
+                  âš¡ Side-by-Side Split
                 </button>
                 <button
                   type="button"
@@ -461,7 +472,7 @@ export default function PortfolioProjectCaseStudyView({
                       : "text-neutral-400 hover:text-white"
                   }`}
                 >
-                  🔴 Before (Legacy State)
+                  ðŸ”´ Before (Legacy State)
                 </button>
                 <button
                   type="button"
@@ -472,7 +483,7 @@ export default function PortfolioProjectCaseStudyView({
                       : "text-neutral-400 hover:text-white"
                   }`}
                 >
-                  🟢 By RND (Improvised)
+                  ðŸŸ¢ By RND (Improvised)
                 </button>
               </div>
             </div>
@@ -505,7 +516,7 @@ export default function PortfolioProjectCaseStudyView({
                     {beforeAfterConfig.legacyPoints.map((point, idx) => (
                       <div key={idx} className="flex items-start gap-3 p-3.5 rounded-xl bg-red-950/20 border border-red-500/20 text-xs sm:text-sm text-neutral-300">
                         <span className="w-4 h-4 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center shrink-0 mt-0.5 text-xs font-mono">
-                          ✕
+                          âœ•
                         </span>
                         <span>{point}</span>
                       </div>
@@ -540,7 +551,7 @@ export default function PortfolioProjectCaseStudyView({
                     {beforeAfterConfig.modernPoints.map((point, idx) => (
                       <div key={idx} className="flex items-start gap-3 p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-500/20 text-xs sm:text-sm text-neutral-200">
                         <span className="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5 text-xs font-mono">
-                          ✓
+                          âœ“
                         </span>
                         <span>{point}</span>
                       </div>
@@ -549,6 +560,40 @@ export default function PortfolioProjectCaseStudyView({
                 </div>
               )}
             </div>
+
+            {/* Comparison Metrics Grid (before vs after numbers) */}
+            {beforeAfterConfig.metrics && beforeAfterConfig.metrics.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                {beforeAfterConfig.metrics.map((metric, idx) => (
+                  <div
+                    key={idx}
+                    className="p-6 rounded-2xl bg-gradient-to-b from-[#0F131D]/95 to-[#05070B] border border-white/10 hover:border-[#FFD400]/50 transition-all duration-300 group"
+                  >
+                    <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-400 mb-3 block">
+                      {metric.label}
+                    </div>
+                    <div className="flex items-baseline gap-2 mb-2">
+                      <span className="text-sm font-mono text-red-400 line-through/80 opacity-70">
+                        {metric.before}
+                      </span>
+                      <span className="text-xs text-neutral-500">â†’</span>
+                      <span className="text-2xl font-bold text-white group-hover:text-[#FFD400] transition-colors">
+                        {metric.after}
+                      </span>
+                    </div>
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-[10px] font-mono font-bold uppercase tracking-wide">
+                      <TrendingUp className="w-3 h-3" />
+                      <span>{metric.improvement}</span>
+                    </div>
+                    {metric.subtext && (
+                      <div className="mt-2 text-[10px] font-mono text-neutral-500">
+                        {metric.subtext}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
         </div>
 
@@ -570,7 +615,7 @@ export default function PortfolioProjectCaseStudyView({
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#FFD400] shadow-[0_0_8px_#FFD400] animate-pulse" />
                   <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.22em] text-[#FFD400] font-semibold">
-                    CHRONOLOGICAL PIPELINE • WEEKS 01 TO 14
+                    CHRONOLOGICAL PIPELINE â€¢ WEEKS 01 TO 14
                   </span>
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold uppercase text-white font-[family-name:var(--font-syne)] tracking-tight">
@@ -717,6 +762,81 @@ export default function PortfolioProjectCaseStudyView({
         </section>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-8 pb-20">
+          {/* =========================================================================
+              6b. PERFORMANCE TELEMETRY KPI GRID
+              ========================================================================= */}
+          {telemetryMetrics && telemetryMetrics.length > 0 && (
+            <div className="py-14 border-b border-white/10">
+              <div className="text-center mb-10">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-wider mb-3 bg-white/5 border border-[#FFD400]/30 text-[#FFD400]">
+                  <Gauge className="w-4 h-4" />
+                  <span>Verified Production Telemetry</span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-bold uppercase text-white">
+                  Performance Outcomes
+                </h2>
+              </div>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+                {telemetryMetrics.map((tm, idx) => (
+                  <div
+                    key={idx}
+                    className="p-6 rounded-2xl bg-gradient-to-b from-[#0F131D]/95 to-[#05070B] border border-white/10 hover:border-[#FFD400]/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(255,212,0,0.08)] text-center group"
+                  >
+                    <div className="text-3xl sm:text-4xl font-bold text-white group-hover:text-[#FFD400] transition-colors mb-2 font-[family-name:var(--font-archia)]">
+                      {tm.metric}
+                    </div>
+                    <div className="text-xs sm:text-sm font-semibold text-white/80 uppercase tracking-wider mb-1">
+                      {tm.label}
+                    </div>
+                    <div className="inline-flex items-center gap-1 text-[10px] font-mono text-neutral-500 px-2 py-0.5 rounded-full bg-white/[0.04] border border-white/10 mt-1">
+                      <ShieldCheck className="w-3 h-3 text-[#FFD400]" />
+                      <span>{tm.verified}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* =========================================================================
+              6c. CLIENT TESTIMONIAL (shown only when child-page data has a quote)
+              ========================================================================= */}
+          {pageData.testimonial?.quote && (
+            <div className="py-14 border-b border-white/10">
+              <div className="max-w-3xl mx-auto text-center">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-wider mb-6 bg-white/5 border border-[#FFD400]/30 text-[#FFD400]">
+                  <Award className="w-4 h-4" />
+                  <span>Client Testimonial</span>
+                </div>
+                <div className="relative p-8 sm:p-12 rounded-3xl bg-gradient-to-b from-white/[0.03] to-transparent border border-white/10">
+                  <Quote className="w-10 h-10 text-[#FFD400]/20 absolute top-6 left-6" />
+                  <blockquote className="relative z-10 text-base sm:text-lg text-white font-light leading-relaxed italic mb-8">
+                    "{pageData.testimonial.quote}"
+                  </blockquote>
+                  <div className="flex items-center justify-center gap-4">
+                    {pageData.testimonial.avatar && (
+                      <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-[#FFD400]/40 shrink-0">
+                        <Image
+                          src={pageData.testimonial.avatar}
+                          alt={pageData.testimonial.author}
+                          fill
+                          className="object-cover"
+                          sizes="48px"
+                        />
+                      </div>
+                    )}
+                    <div className="text-left">
+                      <div className="text-sm font-bold text-white">{pageData.testimonial.author}</div>
+                      {pageData.testimonial.role && (
+                        <div className="text-xs font-mono text-neutral-400">{pageData.testimonial.role}</div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* =========================================================================
               7. PREVIOUS / NEXT MISSION NAVIGATION
               ========================================================================= */}
@@ -909,349 +1029,3 @@ export default function PortfolioProjectCaseStudyView({
   );
 }
 
-// =========================================================================
-// HELPER: Specialized Before vs After Data Generator
-// =========================================================================
-function getProjectBeforeAfter(project: PortfolioProject) {
-  const cat = (project.category_slug || "").toLowerCase();
-
-  if (cat.includes("mobile")) {
-    return {
-      beforeTitle: "Manual Hospital Logs & Fragmented Dispatch",
-      beforeDescription:
-        "Prior to the mobile logistics suite, orthopedic implant tracking relied on paper manifests, phone calls, and manual spreadsheet entries with severe hospital dispatch delays.",
-      legacyPoints: [
-        "Surgical cases delayed up to 45 minutes due to missing implant telemetry",
-        "Zero real-time barcode reconciliation at hospital scrub stations",
-        "Distributors relying on unverified manual WhatsApp dispatch messages",
-        "No offline sync in subterranean hospital OT basement wings",
-      ],
-      afterTitle: "Edge-First Native Mobile Architecture",
-      afterDescription:
-        "RND engineered a resilient cross-platform mobile suite with offline-first barcode scanning, automated scrub nurse dispatch, and HIPAA-compliant delivery verification.",
-      modernPoints: [
-        "99.98% on-time surgical case implant deliveries verified across hospitals",
-        "Sub-100ms camera barcode decoding with offline Bluetooth buffer sync",
-        "Instant surgeon schedule synchronization and push telemetry dispatch",
-        "End-to-end encrypted medical chain of custody audit logging",
-      ],
-      metrics: [
-        {
-          label: "Case Delivery Accuracy",
-          before: "84.2%",
-          after: "99.98%",
-          improvement: "+18.7% Lift",
-          subtext: "Live surgical cases",
-        },
-        {
-          label: "Implant Dispatch Latency",
-          before: "45 min",
-          after: "3.2 min",
-          improvement: "93% Faster",
-          subtext: "Dispatch to OT arrival",
-        },
-        {
-          label: "Offline Sync Reliability",
-          before: "0%",
-          after: "100%",
-          improvement: "Subterranean OT Ready",
-          subtext: "Bluetooth local cache",
-        },
-        {
-          label: "Inventory Shrinkage",
-          before: "12.4%",
-          after: "0.1%",
-          improvement: "-99% Shrinkage",
-          subtext: "Automated RFID ledger",
-        },
-      ],
-    };
-  }
-
-  if (cat.includes("branding") || cat.includes("design")) {
-    return {
-      beforeTitle: "Fragmented Visuals & Low Brand Recall",
-      beforeDescription:
-        "The legacy corporate presence had disjointed typography scales, inconsistent packaging specifications, and lacked a unified premium design language.",
-      legacyPoints: [
-        "Fragmented typography scales across web, packaging, and retail collateral",
-        "Flat, static 2D visuals with zero luxury or spatial depth presence",
-        "Disjointed color palette lacking modern dark-mode accessibility",
-        "Unstandardized packaging dielines causing costly printing misalignments",
-      ],
-      afterTitle: "Sculptural Brand Architecture & Packaging",
-      afterDescription:
-        "RND engineered a comprehensive luxury brand architecture, precision typography system, tactile stainless steel merchandise specs, and retail display assets.",
-      modernPoints: [
-        "Sculptural avant-garde typography system built for luxury hydration products",
-        "Unified atomic design tokens harmonizing web, packaging, and store displays",
-        "Custom 3D bottle rendering pipeline delivering tactile material finishes",
-        "Flawless print-ready dieline specifications reducing factory waste to zero",
-      ],
-      metrics: [
-        {
-          label: "Brand Recall Score",
-          before: "18%",
-          after: "82%",
-          improvement: "+355% Lift",
-          subtext: "Consumer survey index",
-        },
-        {
-          label: "Visual Cohesion Index",
-          before: "38 / 100",
-          after: "98 / 100",
-          improvement: "+157% Cohesion",
-          subtext: "Cross-channel audit",
-        },
-        {
-          label: "Packaging Production Waste",
-          before: "14.8%",
-          after: "0.4%",
-          improvement: "-97% Waste",
-          subtext: "CAD dieline precision",
-        },
-        {
-          label: "Retail Shelf Conversion",
-          before: "2.3%",
-          after: "8.7%",
-          improvement: "+278% Sales",
-          subtext: "In-store POS lift",
-        },
-      ],
-    };
-  }
-
-  if (cat.includes("video") || cat.includes("photo")) {
-    return {
-      beforeTitle: "Unscripted Footage & Low Production Value",
-      beforeDescription:
-        "The company's industrial infrastructure was documented using basic handheld cameras, poor warehouse lighting, and zero cinematic storytelling.",
-      legacyPoints: [
-        "Shaky non-stabilized footage failing to communicate manufacturing scale",
-        "Muffled industrial audio with harsh reverberation and machine noise",
-        "Uncalibrated color profiles looking dull on high-end 4K commercial screens",
-        "No structured narrative explaining the high-speed packaging machinery",
-      ],
-      afterTitle: "Cinematic 4K Commercial & Drone Telemetry",
-      afterDescription:
-        "RND deployed cinema-grade camera rigs, precision drone flythroughs, post-production color mastering, and sound design to capture industrial engineering marvels.",
-      modernPoints: [
-        "4K ProRes cinema footage with smooth dynamic gimbal & drone flythroughs",
-        "Multi-track spatial audio design enhancing machine rhythms and punch",
-        "Precision DaVinci Resolve color grading matching the enterprise brand tone",
-        "Compelling narrative arc that positions the facility as an international leader",
-      ],
-      metrics: [
-        {
-          label: "Viewer Retention Rate",
-          before: "14 sec",
-          after: "2 min 18 sec",
-          improvement: "+885% Dwell",
-          subtext: "Social & B2B platforms",
-        },
-        {
-          label: "Client Inquiries Generated",
-          before: "2 / month",
-          after: "28 / month",
-          improvement: "+1300% Lift",
-          subtext: "B2B RFP conversions",
-        },
-        {
-          label: "Color Gamut Precision",
-          before: "Rec.709 Basic",
-          after: "DCI-P3 Master",
-          improvement: "Cinema Grade",
-          subtext: "10-bit color grading",
-        },
-        {
-          label: "Brand Authority Rating",
-          before: "42 / 100",
-          after: "96 / 100",
-          improvement: "+128% Authority",
-          subtext: "Industry stakeholder audit",
-        },
-      ],
-    };
-  }
-
-  // Default: Web & Web Applications (e.g. OSTech, Shanti Patra)
-  return {
-    beforeTitle: "Static Legacy Catalog & 4.8s Page Lag",
-    beforeDescription:
-      "The legacy machinery web portal relied on static PDF downloads, outdated layouts, and slow server response times that failed to engage international B2B buyers.",
-    legacyPoints: [
-      "Sluggish 4.8s page load times leading to >65% mobile bounce rates",
-      "Static product catalogs requiring users to download heavy PDF brochures",
-      "Zero 3D visualization or interactive conveyor throughput calculation",
-      "Manual email inquiries trapped in unmonitored inboxes with 48h response delay",
-    ],
-    afterTitle: "Next.js 15 Sub-Second 3D Web Platform",
-    afterDescription:
-      "RND engineered a sub-second, edge-rendered Next.js 15 web platform featuring real-time 3D machinery visualization, dynamic conveyor matrices, and automated RFQ routing.",
-    modernPoints: [
-      "Sub-800ms global LCP load speed powered by multi-region edge caching",
-      "Interactive 3D WebGL machinery exploration running at a smooth 60 FPS",
-      "Automated B2B RFQ configurator calculating machinery specs in real time",
-      "Instant CRM pipeline synchronization reducing lead response time to seconds",
-    ],
-    metrics: [
-      {
-        label: "Global LCP Speed",
-        before: "4.82s",
-        after: "0.78s",
-        improvement: "84% Faster",
-        subtext: "Multi-region edge SSR",
-      },
-      {
-        label: "B2B Qualified RFQs",
-        before: "8 / month",
-        after: "48 / month",
-        improvement: "+500% Lift",
-        subtext: "Interactive configurator",
-      },
-      {
-        label: "Mobile Bounce Rate",
-        before: "68%",
-        after: "16%",
-        improvement: "-76% Bounce",
-        subtext: "Mobile-first parity",
-      },
-      {
-        label: "Average Session Dwell",
-        before: "42 sec",
-        after: "3 min 40 sec",
-        improvement: "+423% Time",
-        subtext: "3D interactive engagement",
-      },
-    ],
-  };
-}
-
-// =========================================================================
-// HELPER: 6-Phase Step-by-Step Engineering Process Generator
-// =========================================================================
-function getProjectProcessSteps(project: PortfolioProject) {
-  const images = [
-    project.gallery_images?.[0] || project.image || "/images/service_cloud_color.jpg",
-    project.gallery_images?.[1] || "/images/nebula_cloud_os_3d.jpg",
-    project.gallery_images?.[2] || "/images/service_mobile_color.jpg",
-    project.gallery_images?.[3] || "/images/service_branding.jpg",
-    project.gallery_images?.[4] || "/images/service_marketing.jpg",
-    project.image || "/images/service_cloud_color.jpg",
-  ];
-
-  return [
-    {
-      number: "01",
-      title: "Discovery & Architectural Audit",
-      shortTitle: "Discovery & Audit",
-      duration: "Weeks 1 - 2",
-      image: images[0],
-      desc: "Comprehensive diagnostic of the legacy ecosystem, stakeholder interviews, competitor benchmarking, and mapping technical API bottlenecks to formulate the project roadmap.",
-      deliverables: [
-        "Legacy Bottleneck Audit Report",
-        "Technical Feasibility Matrix",
-        "User Persona Telemetry Profile",
-        "Architecture Blueprint Document",
-      ],
-    },
-    {
-      number: "02",
-      title: "Information Architecture & UX Wireframing",
-      shortTitle: "UX Wireframing",
-      duration: "Weeks 3 - 4",
-      image: images[1],
-      desc: "Constructing user journey maps, wireframing responsive viewports, defining atomic design tokens, and validating user navigation paths for frictionless conversion velocity.",
-      deliverables: [
-        "Low-Fidelity & High-Fidelity Wireframes",
-        "User Navigation Flowcharts",
-        "Interactive Clickable Prototype",
-        "Atomic Design Token Hierarchy",
-      ],
-    },
-    {
-      number: "03",
-      title: "3D Spatial & UI/UX Design Immersion",
-      shortTitle: "3D & UI Design",
-      duration: "Weeks 5 - 7",
-      image: images[2],
-      desc: "Crafting the visual identity, modeling 3D assets/renderings, establishing the cosmic dark aesthetic with high-contrast gold accents, and fine-tuning micro-interactions.",
-      deliverables: [
-        "Full Component Design System (Figma)",
-        "3D WebGL Optimized Asset Models",
-        "Fluid Kinetic Animation Curves",
-        "Multi-Viewport Design Signoff",
-      ],
-    },
-    {
-      number: "04",
-      title: "Full-Stack Engineering & API Mesh",
-      shortTitle: "Engineering",
-      duration: "Weeks 8 - 10",
-      image: images[3],
-      desc: "Developing with Next.js App Router, TailwindCSS, MongoDB schema design, automated email/CRM dispatchers, and state-of-the-art WebGL interactive shaders.",
-      deliverables: [
-        "Serverless Edge API Endpoints",
-        "Responsive Component Codebase",
-        "CRM & Inquiry Automation Hookups",
-        "Real-Time Database Schema Integration",
-      ],
-    },
-    {
-      number: "05",
-      title: "Rigorous QA, Speed & Security Audit",
-      shortTitle: "QA & Hardening",
-      duration: "Weeks 11 - 12",
-      image: images[4],
-      desc: "Comprehensive stress testing, cross-browser/device validation, Lighthouse 98+ score optimization, image asset compression (WebP/AVIF), and security audits.",
-      deliverables: [
-        "Lighthouse 98+ Performance Signoff",
-        "Cross-Browser Device Compatibility Matrix",
-        "Zero-Vulnerability Security Audit",
-        "Edge Cache Invalidation Protocol",
-      ],
-    },
-    {
-      number: "06",
-      title: "Production Deployment & Live Telemetry",
-      shortTitle: "Deployment & Scaling",
-      duration: "Weeks 13 - 14",
-      image: images[5],
-      desc: "Zero-downtime deployment to AWS/Vercel Edge, DNS routing, Google Search Console indexing, analytics telemetry monitoring, and client team handover.",
-      deliverables: [
-        "Live Production Deployment",
-        "Global CDN Edge Warmup",
-        "Google Core Web Vitals Indexing",
-        "Admin CMS Operations Handover",
-      ],
-    },
-  ];
-}
-
-// =========================================================================
-// HELPER: Performance Telemetry KPIs
-// =========================================================================
-function getProjectTelemetry(project: PortfolioProject) {
-  return [
-    {
-      metric: project.results_metric || "<0.8s",
-      label: project.results_label || "Global Edge Velocity",
-      verified: "Lighthouse Audit",
-    },
-    {
-      metric: "99.99%",
-      label: "Production Availability SLA",
-      verified: "Cloudflare Edge",
-    },
-    {
-      metric: "+340%",
-      label: "B2B Inquiry Funnel Conversion",
-      verified: "Google Analytics",
-    },
-    {
-      metric: "100%",
-      label: "Deliverables Handover Verified",
-      verified: "Client Approved",
-    },
-  ];
-}

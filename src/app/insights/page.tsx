@@ -27,6 +27,13 @@ import {
   InsightsBannerData,
   InsightsBriefingData,
 } from "@/lib/cms";
+import {
+  getPageComponents,
+  PageComponent,
+  DEFAULT_PAGE_COMPONENTS,
+  isSectionActive,
+  getSectionStyle,
+} from "@/lib/getPageComponents";
 
 export default function InsightsPage() {
   const pageRef = useRef<HTMLDivElement>(null);
@@ -35,6 +42,7 @@ export default function InsightsPage() {
   const [loading, setLoading] = useState(true);
   const [banner, setBanner] = useState<InsightsBannerData>(DEFAULT_BANNER);
   const [briefing, setBriefing] = useState<InsightsBriefingData>(DEFAULT_BRIEFING);
+  const [pageComponents, setPageComponents] = useState<PageComponent[]>(DEFAULT_PAGE_COMPONENTS["insights"]);
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -43,17 +51,19 @@ export default function InsightsPage() {
     let isMounted = true;
     async function loadDynamicContent() {
       try {
-        const [dynBanner, dynBriefing, dynCategories, dynArticles] = await Promise.all([
+        const [dynBanner, dynBriefing, dynCategories, dynArticles, comps] = await Promise.all([
           fetchInsightsBanner(),
           fetchInsightsBriefing(),
           fetchBlogCategories(),
           fetchBlogs(),
+          getPageComponents("insights"),
         ]);
         if (isMounted) {
           if (dynBanner) setBanner(dynBanner);
           if (dynBriefing) setBriefing(dynBriefing);
           if (dynCategories && dynCategories.length > 0) setCategories(dynCategories);
           if (dynArticles && dynArticles.length > 0) setArticles(dynArticles);
+          if (comps && comps.length > 0) setPageComponents(comps);
         }
       } catch (err) {
         console.warn("Failed to load dynamic CMS data for insights:", err);
@@ -215,20 +225,25 @@ export default function InsightsPage() {
       <Navbar />
 
       {/* Page Banner with Typewriter Title */}
-      <PageBanner
-        title={banner.title}
-        breadcrumb={banner.breadcrumb}
-        imageSrc={banner.image}
-        imgtitle={banner.imgtitle}
-        altname={banner.altname}
-      />
+      {isSectionActive(pageComponents, "PageBanner") && (
+        <div style={getSectionStyle(pageComponents, "PageBanner")}>
+          <PageBanner
+            title={banner.title}
+            breadcrumb={banner.breadcrumb}
+            imageSrc={banner.image}
+            imgtitle={banner.imgtitle}
+            altname={banner.altname}
+          />
+        </div>
+      )}
 
       <main className="relative z-20 w-full mt-[50px]  bg-transparent  shadow-[0_-25px_60px_rgba(0,0,0,0.85)]">
 
         {/* =========================================================================
             2. FILTER & SEARCH BAR SECTION (Matching Reference Page with + Suffix)
             ========================================================================= */}
-        <section className="insight-filters-bar max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-12 pb-6 ">
+        {isSectionActive(pageComponents, "FilterBar") && (
+        <section className="insight-filters-bar max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-12 pb-6 " style={getSectionStyle(pageComponents, "FilterBar")}>
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             {/* Category Filter Buttons with '+' suffix */}
             <div className="flex flex-wrap gap-2">
@@ -265,89 +280,93 @@ export default function InsightsPage() {
             </div>
           </div>
         </section>
+        )}
 
         {/* =========================================================================
             3. FEATURED EDITORIAL SPOTLIGHT (With Right-to-Left Printer Reveal)
             ========================================================================= */}
-        {loading ? (
-          <section className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-12 pb-6">
-            <div className="p-8 md:p-12 bg-[#0c0e14] border border-white/10 animate-pulse">
-              <div className="h-96 bg-white/5 rounded" />
-            </div>
-          </section>
-        ) : featuredArticle && (
-          <section className="featured-editorial-section max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-12 pb-6">
-            <div className="featured-editorial-card p-8 md:p-12 bg-[#0c0e14] border border-white/10 hover:border-[#FFD400]/40 transition-colors shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center group">
-              {/* Left Column (7 cols): Printer Print Reveal Right-to-Left */}
-              <div className="lg:col-span-7 relative w-full overflow-hidden">
-                <Link href={`/insights/${featuredArticle.id}`} className="block w-full">
-                  <PrintRevealImage
-                    src={featuredArticle.image}
-                    alt={featuredArticle.altname || featuredArticle.title}
-                    title={featuredArticle.imgtitle || featuredArticle.title}
-                    priority
-                    aspectClass="aspect-[78/50] w-full"
-                    direction="left"
-                  />
-                </Link>
+        {isSectionActive(pageComponents, "FeaturedEditorial") && (
+          loading ? (
+            <section className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-12 pb-6" style={getSectionStyle(pageComponents, "FeaturedEditorial")}>
+              <div className="p-8 md:p-12 bg-[#0c0e14] border border-white/10 animate-pulse">
+                <div className="h-96 bg-white/5 rounded" />
               </div>
-
-              {/* Right Column (5 cols): Metadata, Title, Excerpt, Author */}
-              <div className="lg:col-span-5 space-y-5">
-                <div className="featured-content-item flex items-center space-x-3 text-xs font-mono uppercase tracking-wider text-neutral-400">
-                  <span className="px-2 py-0.5 bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] font-bold text-[10px] tracking-widest">
-                    FEATURED EDITORIAL
-                  </span>
-                  <span className="text-[#FFD400] font-semibold">
-                    {featuredArticle.category}
-                  </span>
-                  <span>•</span>
-                  <span>{featuredArticle.readTime}</span>
+            </section>
+          ) : featuredArticle && (
+            <section className="featured-editorial-section max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-12 pb-6" style={getSectionStyle(pageComponents, "FeaturedEditorial")}>
+              <div className="featured-editorial-card p-8 md:p-12 bg-[#0c0e14] border border-white/10 hover:border-[#FFD400]/40 transition-colors shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center group">
+                {/* Left Column (7 cols): Printer Print Reveal Right-to-Left */}
+                <div className="lg:col-span-7 relative w-full overflow-hidden">
+                  <Link href={`/insights/${featuredArticle.id}`} className="block w-full">
+                    <PrintRevealImage
+                      src={featuredArticle.image}
+                      alt={featuredArticle.altname || featuredArticle.title}
+                      title={featuredArticle.imgtitle || featuredArticle.title}
+                      priority
+                      aspectClass="aspect-[78/50] w-full"
+                      direction="left"
+                    />
+                  </Link>
                 </div>
 
-                <h2 className="font-[family-name:var(--font-syne)] text-xl sm:text-2xl md:text-3xl text-white group-hover:text-[#FFD400] transition-colors leading-snug font-bold uppercase">
-                  <Link href={`/insights/${featuredArticle.id}`} className="block">
-                    <WaveText text={featuredArticle.title} />
-                  </Link>
-                </h2>
-
-                <p className="featured-content-item text-xs sm:text-sm text-neutral-300 font-light leading-relaxed line-clamp-3">
-                  {featuredArticle.tagline}
-                </p>
-
-                {/* Author Info & Read Article Link */}
-                <div className="featured-content-item pt-4 border-t border-white/10 flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-9 h-9 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/40 flex items-center justify-center shrink-0 text-[#FFD400]">
-                      <User className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <p className="text-xs sm:text-sm font-semibold text-white">
-                        {featuredArticle.author}
-                      </p>
-                      <p className="text-[10px] text-neutral-400 font-mono">
-                        {featuredArticle.authorRole}
-                      </p>
-                    </div>
+                {/* Right Column (5 cols): Metadata, Title, Excerpt, Author */}
+                <div className="lg:col-span-5 space-y-5">
+                  <div className="featured-content-item flex items-center space-x-3 text-xs font-mono uppercase tracking-wider text-neutral-400">
+                    <span className="px-2 py-0.5 bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] font-bold text-[10px] tracking-widest">
+                      FEATURED EDITORIAL
+                    </span>
+                    <span className="text-[#FFD400] font-semibold">
+                      {featuredArticle.category}
+                    </span>
+                    <span>•</span>
+                    <span>{featuredArticle.readTime}</span>
                   </div>
 
-                  <Link
-                    href={`/insights/${featuredArticle.id}`}
-                    className="inline-flex items-center space-x-1.5 text-xs sm:text-sm font-mono uppercase tracking-widest text-[#FFD400] hover:text-white font-bold group/btn"
-                  >
-                    <span>Read Article</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-                  </Link>
+                  <h2 className="font-[family-name:var(--font-syne)] text-xl sm:text-2xl md:text-3xl text-white group-hover:text-[#FFD400] transition-colors leading-snug font-bold uppercase">
+                    <Link href={`/insights/${featuredArticle.id}`} className="block">
+                      <WaveText text={featuredArticle.title} />
+                    </Link>
+                  </h2>
+
+                  <p className="featured-content-item text-xs sm:text-sm text-neutral-300 font-light leading-relaxed line-clamp-3">
+                    {featuredArticle.tagline}
+                  </p>
+
+                  {/* Author Info & Read Article Link */}
+                  <div className="featured-content-item pt-4 border-t border-white/10 flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-9 h-9 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/40 flex items-center justify-center shrink-0 text-[#FFD400]">
+                        <User className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <p className="text-xs sm:text-sm font-semibold text-white">
+                          {featuredArticle.author}
+                        </p>
+                        <p className="text-[10px] text-neutral-400 font-mono">
+                          {featuredArticle.authorRole}
+                        </p>
+                      </div>
+                    </div>
+
+                    <Link
+                      href={`/insights/${featuredArticle.id}`}
+                      className="inline-flex items-center space-x-1.5 text-xs sm:text-sm font-mono uppercase tracking-widest text-[#FFD400] hover:text-white font-bold group/btn"
+                    >
+                      <span>Read Article</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
+          )
         )}
 
         {/* =========================================================================
             4. MAIN ARTICLES 3-COLUMN GRID (With Right-to-Left Printer Reveal)
             ========================================================================= */}
-        <section className="insight-grid-section max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
+        {isSectionActive(pageComponents, "ArticlesGrid") && (
+          <section className="insight-grid-section max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12" style={getSectionStyle(pageComponents, "ArticlesGrid")}>
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
               {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -445,11 +464,13 @@ export default function InsightsPage() {
             </div>
           )}
         </section>
+        )}
 
         {/* =========================================================================
             5. FORTNIGHTLY RESEARCH BRIEFING NEWSLETTER BANNER
             ========================================================================= */}
-        <section className="research-briefing-section max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pb-24">
+        {isSectionActive(pageComponents, "ResearchBriefing") && (
+        <section className="research-briefing-section max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pb-24" style={getSectionStyle(pageComponents, "ResearchBriefing")}>
           <div className="research-briefing-card rounded-3xl bg-gradient-to-r from-[#0c0e14] via-[#141724] to-[#0c0e14] border border-white/15 p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl relative overflow-hidden">
             <div className="relative z-10">
               <div className="briefing-anim-item inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase mb-3">
@@ -472,6 +493,7 @@ export default function InsightsPage() {
             </div>
           </div>
         </section>
+        )}
       </main>
 
       {/* Global RnDFooter */}

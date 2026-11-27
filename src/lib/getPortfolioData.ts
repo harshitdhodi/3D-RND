@@ -1104,7 +1104,6 @@ export async function getPortfolioProjects(categorySlug?: string): Promise<Portf
   try {
     const res = await fetch(`${API_BASE_URL}/api/data/portfolio_project`, {
       cache: "no-store",
-      signal: AbortSignal.timeout(2000),
     });
 
     if (res.ok) {
@@ -1122,63 +1121,75 @@ export async function getPortfolioProjects(categorySlug?: string): Promise<Portf
           )
           : list;
 
-        return filtered.map((doc: any, idx: number) => {
+        const mapped = filtered.map((doc: any, idx: number) => {
           const catSlug = doc.category_populated?.slug || doc.category_slug || "";
-          const catTitle = doc.category_populated?.title || doc.category_label || "";
+          const catTitle = doc.category_populated?.title || doc.category_title || doc.category_label || "";
           const cleanSlug =
             doc.p_link?.replace(/^\/portfolio\//, "") ||
             doc.slug ||
             doc.project_title?.toLowerCase().replace(/[^a-z0-9]+/g, "-") ||
             String(idx);
 
-          const gallery = doc.image ? [doc.image] : [];
-          const techStack = doc.category_populated?.features
-            ? doc.category_populated.features.split(",").map((s: string) => s.trim())
-            : [catTitle || "Full-Stack"];
+          const gallery = Array.isArray(doc.gallery_images) && doc.gallery_images.length > 0
+            ? doc.gallery_images
+            : (doc.image ? [doc.image] : []);
+
+          const techStack = Array.isArray(doc.tech_stack) && doc.tech_stack.length > 0
+            ? doc.tech_stack
+            : Array.isArray(doc.tags) && doc.tags.length > 0
+              ? doc.tags
+              : doc.category_populated?.features
+                ? doc.category_populated.features.split(",").map((s: string) => s.trim())
+                : [catTitle || "Full-Stack"];
 
           return {
             slug: cleanSlug,
             category_slug: catSlug,
             category_title: catTitle,
-            index: String(idx + 1).padStart(2, "0"),
-            title: doc.project_title || "",
-            subtitle: doc.vertical_title || "",
-            summary: doc.tagline || "",
-            tagline: doc.tagline || "",
-            project_type: catTitle || "Project",
-            industry: "Global",
+            index: String(doc.order || idx + 1).padStart(2, "0"),
+            title: doc.project_title || doc.title || "",
+            subtitle: doc.vertical_title || doc.subtitle || "",
+            summary: doc.summary || doc.tagline || "",
+            tagline: doc.tagline || doc.summary || "",
+            project_type: doc.project_type || catTitle || "Project",
+            industry: doc.industry || "Global",
             image: doc.image || "",
             banner_image: doc.banner_image || doc.bannerImg || doc.banner || "",
             banner_imgtitle: doc.banner_imgtitle || "",
             banner_altname: doc.banner_altname || "",
-            imgtitle: doc.imgtitle || `${doc.project_title || ""} Showcase`,
-            altname: doc.altname || `${doc.project_title || ""}`,
+            imgtitle: doc.imgtitle || `${doc.project_title || doc.title || ""} Showcase`,
+            altname: doc.altname || `${doc.project_title || doc.title || ""}`,
             gallery_images: gallery,
-            video_url: doc.video || "",
-            client: doc.project_title || "",
-            client_approved: true,
-            project_date: String(doc.year || "2026"),
+            video_url: doc.video || doc.video_url || "",
+            client: doc.client || doc.project_title || doc.title || "",
+            client_approved: doc.client_approved !== undefined ? Boolean(doc.client_approved) : true,
+            project_date: String(doc.year || doc.project_date || "2026"),
             year: String(doc.year || "2026"),
-            duration: "Q1 2026",
-            sla: "99.9%",
-            badge: "FEATURED CASE STUDY",
+            duration: doc.duration || "Q1 2026",
+            sla: doc.sla || "99.9%",
+            badge: doc.badge || "FEATURED CASE STUDY",
             tags: techStack,
-            brief: doc.tagline || "",
-            challenge: doc.tagline || "",
-            solution: "Engineered with modern architecture, resilient infrastructure, and high-performance design standards.",
-            deliverables: [
-              doc.vertical_title || "Enterprise Platform",
-              catTitle || "Digital Solution",
-              "Production Deployment"
-            ],
-            results_metric: "100%",
-            results_label: "Delivered",
+            brief: doc.brief || doc.tagline || "",
+            challenge: doc.challenge || doc.tagline || "",
+            solution: doc.solution || "Engineered with modern architecture, resilient infrastructure, and high-performance design standards.",
+            deliverables: Array.isArray(doc.deliverables) && doc.deliverables.length > 0
+              ? doc.deliverables
+              : [
+                  doc.vertical_title || "Enterprise Platform",
+                  catTitle || "Digital Solution",
+                  "Production Deployment"
+                ],
+            results_metric: doc.results_metric || "100%",
+            results_label: doc.results_label || "Delivered",
             tech_stack: techStack,
-            is_featured: idx < 5,
-            published: true,
-            order: idx + 1,
+            is_featured: doc.is_featured !== undefined ? Boolean(doc.is_featured) : idx < 6,
+            published: doc.published !== undefined ? Boolean(doc.published) : true,
+            order: doc.order !== undefined ? Number(doc.order) : idx + 1,
           };
         });
+
+        // Sort by order so 1..6 appear first
+        return mapped.sort((a: any, b: any) => (Number(a.order) || 999) - (Number(b.order) || 999));
       }
     }
   } catch (err) {
@@ -1195,7 +1206,6 @@ export async function getPortfolioProjectBySlug(slug: string): Promise<Portfolio
   try {
     const res = await fetch(`${API_BASE_URL}/api/data/portfolio_project`, {
       cache: "no-store",
-      signal: AbortSignal.timeout(2000),
     });
 
     if (res.ok) {
@@ -1218,59 +1228,68 @@ export async function getPortfolioProjectBySlug(slug: string): Promise<Portfolio
 
       if (doc) {
         const catSlug = doc.category_populated?.slug || doc.category_slug || "";
-        const catTitle = doc.category_populated?.title || doc.category_label || "";
+        const catTitle = doc.category_populated?.title || doc.category_title || doc.category_label || "";
         const cleanSlug =
           doc.p_link?.replace(/^\/portfolio\//, "") ||
           doc.slug ||
           doc.project_title?.toLowerCase().replace(/[^a-z0-9]+/g, "-") ||
           slug;
 
-        const gallery = doc.image ? [doc.image] : [];
-        const techStack = doc.category_populated?.features
-          ? doc.category_populated.features.split(",").map((s: string) => s.trim())
-          : [catTitle || "Full-Stack"];
+        const gallery = Array.isArray(doc.gallery_images) && doc.gallery_images.length > 0
+          ? doc.gallery_images
+          : (doc.image ? [doc.image] : []);
+
+        const techStack = Array.isArray(doc.tech_stack) && doc.tech_stack.length > 0
+          ? doc.tech_stack
+          : Array.isArray(doc.tags) && doc.tags.length > 0
+            ? doc.tags
+            : doc.category_populated?.features
+              ? doc.category_populated.features.split(",").map((s: string) => s.trim())
+              : [catTitle || "Full-Stack"];
 
         return {
           slug: cleanSlug,
           category_slug: catSlug,
           category_title: catTitle,
-          index: "01",
-          title: doc.project_title || "",
-          subtitle: doc.vertical_title || "",
-          summary: doc.tagline || "",
-          tagline: doc.tagline || "",
-          project_type: catTitle || "Project",
-          industry: "Global",
+          index: String(doc.order || "01").padStart(2, "0"),
+          title: doc.project_title || doc.title || "",
+          subtitle: doc.vertical_title || doc.subtitle || "",
+          summary: doc.summary || doc.tagline || "",
+          tagline: doc.tagline || doc.summary || "",
+          project_type: doc.project_type || catTitle || "Project",
+          industry: doc.industry || "Global",
           image: doc.image || "",
           banner_image: doc.banner_image || doc.bannerImg || doc.banner || "",
           banner_imgtitle: doc.banner_imgtitle || "",
           banner_altname: doc.banner_altname || "",
-          imgtitle: doc.imgtitle || `${doc.project_title || ""} Showcase`,
-          altname: doc.altname || `${doc.project_title || ""}`,
+          imgtitle: doc.imgtitle || `${doc.project_title || doc.title || ""} Showcase`,
+          altname: doc.altname || `${doc.project_title || doc.title || ""}`,
           gallery_images: gallery,
-          video_url: doc.video || "",
-          client: doc.client || doc.project_title || "",
-          client_approved: true,
-          project_date: String(doc.year || "2026"),
+          video_url: doc.video || doc.video_url || "",
+          client: doc.client || doc.project_title || doc.title || "",
+          client_approved: doc.client_approved !== undefined ? Boolean(doc.client_approved) : true,
+          project_date: String(doc.year || doc.project_date || "2026"),
           year: String(doc.year || "2026"),
-          duration: "Q1 2026",
-          sla: "99.9%",
-          badge: "FEATURED CASE STUDY",
+          duration: doc.duration || "Q1 2026",
+          sla: doc.sla || "99.9%",
+          badge: doc.badge || "FEATURED CASE STUDY",
           tags: techStack,
-          brief: doc.tagline || "",
+          brief: doc.brief || doc.tagline || "",
           challenge: doc.challenge || doc.tagline || "",
-          solution: "Engineered with modern architecture, resilient infrastructure, and high-performance design standards.",
-          deliverables: [
-            doc.vertical_title || "Enterprise Platform",
-            catTitle || "Digital Solution",
-            "Production Deployment"
-          ],
-          results_metric: "100%",
-          results_label: "Delivered",
+          solution: doc.solution || "Engineered with modern architecture, resilient infrastructure, and high-performance design standards.",
+          deliverables: Array.isArray(doc.deliverables) && doc.deliverables.length > 0
+            ? doc.deliverables
+            : [
+                doc.vertical_title || "Enterprise Platform",
+                catTitle || "Digital Solution",
+                "Production Deployment"
+              ],
+          results_metric: doc.results_metric || "100%",
+          results_label: doc.results_label || "Delivered",
           tech_stack: techStack,
-          is_featured: true,
-          published: true,
-          order: 1,
+          is_featured: doc.is_featured !== undefined ? Boolean(doc.is_featured) : true,
+          published: doc.published !== undefined ? Boolean(doc.published) : true,
+          order: doc.order !== undefined ? Number(doc.order) : 1,
         };
       }
     }
@@ -1946,7 +1965,7 @@ export async function getPortfolioChildPageData(
   try {
     const res = await fetch(
       `${API_BASE_URL}/api/data/portfolio_child_page?project_slug=${encodeURIComponent(project.slug)}`,
-      { cache: "no-store", signal: AbortSignal.timeout(2000) }
+      { cache: "no-store" }
     );
 
     if (res.ok) {

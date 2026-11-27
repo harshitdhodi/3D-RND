@@ -26,7 +26,7 @@ export default function ServiceCardsSection({
   return (
     <section
       id="services"
-      className="py-20 sm:py-24 lg:py-28 bg-[#06070a] text-white overflow-visible relative border-t border-white/5 px-4 sm:px-8 lg:px-12"
+      className="pt-4 sm:pt-6 lg:pt-8 pb-16 sm:pb-20 lg:pb-24 bg-[#06070a] text-white overflow-visible relative border-t border-white/5 px-4 sm:px-8 lg:px-12"
     >
       {/* Background Ambient Glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[900px] h-[450px] bg-[#FFD400]/4 blur-[180px] rounded-full pointer-events-none" />

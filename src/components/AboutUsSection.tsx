@@ -32,9 +32,8 @@ function WaveText({
       {words.map((word, wordIdx) => (
         <span
           key={wordIdx}
-          className={`inline-block whitespace-nowrap ${
-            wordIdx < words.length - 1 ? "mr-[0.35em]" : ""
-          }`}
+          className={`inline-block whitespace-nowrap ${wordIdx < words.length - 1 ? "mr-[0.35em]" : ""
+            }`}
         >
           {word.split("").map((char, charIdx) => (
             <span
@@ -125,7 +124,7 @@ export default function AboutUsSection({ initialData = DEFAULT_ABOUT_DATA }: Abo
       label: about.stat_2_label,
       subLabel: about.stat_2_sublabel,
       highlight: "SLA Guaranteed",
-    }, 
+    },
     {
       numericValue: about.stat_3_value,
       decimals: 0,
@@ -186,35 +185,28 @@ export default function AboutUsSection({ initialData = DEFAULT_ABOUT_DATA }: Abo
     <section
       id="about"
       ref={sectionRef}
-      className="relative z-20 mt-0 min-h-screen text-white py-20 sm:py-24 lg:py-28 px-4 sm:px-8 lg:px-12 overflow-hidden selection:bg-[#FFD400] selection:text-black shadow-[0_-50px_140px_rgba(0,0,0,0.99)] flex items-center border-t border-white/10"
+      className="relative z-20 mt-0 text-white pt-8 sm:pt-10 lg:pt-12 pb-2 sm:pb-3 lg:pb-4 px-4 sm:px-8 lg:px-12 overflow-hidden selection:bg-[#FFD400] selection:text-black shadow-[0_-50px_140px_rgba(0,0,0,0.99)] border-t border-white/10"
       style={{
-        backgroundColor: "#060812",
-        backgroundImage:
-          "radial-gradient(ellipse 90% 70% at 75% 50%, rgba(20, 29, 54, 0.55) 0%, rgba(8, 11, 22, 0.98) 55%, #04060b 100%)",
+        backgroundColor: "#000000",
       }}
     >
-      {/* ----------------- FULL SECTION BACKGROUND: SPACE ATMOSPHERE & NEBULA ----------------- */}
+      {/* ----------------- FULL SECTION BACKGROUND: PURE SPACE BLACK ----------------- */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
-        {/* Solid Space-Dark Base to eliminate any canvas bleed-through */}
-        <div className="absolute inset-0 bg-[#060812]/98" />
+        {/* Solid Pure Black Base */}
+        <div className="absolute inset-0 bg-[#000000]" />
 
-        {/* Ambient Space Glows & Nebula */}
-        <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[750px] h-[750px] bg-[#1a2544]/35 blur-[180px] rounded-full pointer-events-none" />
-        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-[#FFD400]/6 blur-[150px] rounded-full pointer-events-none" />
-        <div className="absolute -bottom-24 right-10 w-[600px] h-[350px] bg-[#00d2ff]/5 blur-[160px] rounded-full pointer-events-none" />
-
-        {/* Top & Bottom Seamless Space Edge Feathering */}
-        <div className="absolute top-0 inset-x-0 h-28 bg-gradient-to-b from-[#04060b] to-transparent z-[3] pointer-events-none" />
-        <div className="absolute bottom-0 inset-x-0 h-28 bg-gradient-to-t from-[#04060b] to-transparent z-[3] pointer-events-none" />
+        {/* Top & Bottom Seamless Edge Feathering */}
+        <div className="absolute top-0 inset-x-0 h-16 bg-gradient-to-b from-[#000000] to-transparent z-[3] pointer-events-none" />
+        <div className="absolute bottom-0 inset-x-0 h-8 bg-gradient-to-t from-[#000000] to-transparent z-[3] pointer-events-none" />
       </div>
 
       {/* ----------------- MAIN ABOUT US CONTENT ----------------- */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full">
-        
+      <div className="relative z-10 max-w-7xl xl:max-w-[1320px] 2xl:max-w-[1440px] mx-auto w-full">
+
         {/* ================= UPPER TITLE HEADER ================= */}
-        <div className="mb-8 sm:mb-10">
+        <div className="mb-3 sm:mb-4 lg:mb-5">
           {/* Category Indicator Tag */}
-          <div className="inline-flex items-center gap-3 text-xs font-mono font-medium tracking-[0.25em] text-neutral-400 uppercase mb-3 sm:mb-4">
+          <div className="inline-flex items-center gap-3 text-xs font-mono font-medium tracking-[0.25em] text-neutral-400 uppercase mb-2 sm:mb-2.5">
             <span className="w-6 h-[1px] bg-[#FFD400]" />
             <span className="text-[#FFD400] tracking-[0.3em]">{about.badge_text}</span>
           </div>
@@ -223,8 +215,8 @@ export default function AboutUsSection({ initialData = DEFAULT_ABOUT_DATA }: Abo
           <h2
             ref={headlineRef}
             data-no-gsap
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] xl:text-[52px] font-light text-white tracking-tight leading-[1.15] font-[family-name:var(--font-archia)]"
-          >  
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-[44px] xl:text-[50px] font-light text-white tracking-tight leading-[1.15] font-[family-name:var(--font-archia)] max-w-5xl"
+          >
             <span className="block mb-1 sm:mb-2">
               <WaveText text={about.headline_line_1} delayOffset={0} />
             </span>
@@ -236,24 +228,24 @@ export default function AboutUsSection({ initialData = DEFAULT_ABOUT_DATA }: Abo
         </div>
 
         {/* ================= SIDE-BY-SIDE GRID: DESCRIPTION (LEFT) & LARGER IMAGE (RIGHT) ================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-center">
-          
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-12 items-start">
+
           {/* ================= LEFT COLUMN: DESCRIPTION, STATS & CTA ================= */}
-          <div className="lg:col-span-6 xl:col-span-5 flex flex-col justify-between space-y-5 sm:space-y-6">
-            
+          <div className="lg:col-span-6 xl:col-span-6 flex flex-col justify-between space-y-5 sm:space-y-6 relative z-10">
+
             {/* Body Paragraphs */}
-            <div className="space-y-3 sm:space-y-4">
+            <div className="space-y-3 sm:space-y-4 max-w-xl">
               <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed">
                 {about.paragraph_1}
               </p>
-              
+
               <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed">
                 {about.paragraph_2}
               </p>
             </div>
 
             {/* Key Metrics (3 Columns with Counters) */}
-            <div className="pt-4 sm:pt-5 border-t border-white/[0.12]">
+            <div className="pt-4 sm:pt-5 border-t border-white/[0.12] max-w-xl">
               <div className="grid grid-cols-3 divide-x divide-white/[0.12] -mx-2 sm:-mx-4">
                 {stats.map((stat, idx) => (
                   <div
@@ -261,7 +253,7 @@ export default function AboutUsSection({ initialData = DEFAULT_ABOUT_DATA }: Abo
                     className="px-2 sm:px-4 group cursor-default transition-all duration-300"
                   >
                     {/* Number Metric with Scroll Counter */}
-                    <div className="text-2xl sm:text-3xl lg:text-[34px] xl:text-[40px] font-bold text-white tracking-tight leading-none mb-1.5 group-hover:text-[#FFD400] transition-colors duration-300 font-mono">
+                    <div className="text-2xl sm:text-3xl lg:text-[34px] xl:text-[38px] font-bold text-white tracking-tight leading-none mb-1.5 group-hover:text-[#FFD400] transition-colors duration-300 font-mono">
                       <ScrollCounter
                         target={stat.numericValue}
                         decimals={stat.decimals}
@@ -290,22 +282,23 @@ export default function AboutUsSection({ initialData = DEFAULT_ABOUT_DATA }: Abo
 
           </div>
 
-          {/* ================= RIGHT COLUMN: ASTRONAUT & WORKSTATION IMAGE (INCREASED SIZE) ================= */}
-          <div className="lg:col-span-6 xl:col-span-7 flex items-center justify-center lg:justify-end relative">
-            <div className="relative w-full max-w-[580px] sm:max-w-[640px] lg:max-w-[720px] xl:max-w-[800px] aspect-[512/408] transition-transform duration-500 hover:scale-[1.03] lg:scale-105 xl:scale-110 origin-center lg:origin-right">
+          {/* ================= RIGHT COLUMN: ASTRONAUT & WORKSTATION IMAGE ================= */}
+          <div className="lg:col-span-6 xl:col-span-6 flex items-center justify-center lg:justify-center relative min-w-0 mt-4 sm:mt-6 lg:-mt-14 xl:-mt-20 2xl:-mt-24">
+            <div className="relative w-full max-w-[520px] sm:max-w-[580px] lg:max-w-[640px] xl:max-w-[720px] 2xl:max-w-[780px] flex items-center justify-center">
               <Image
                 src={about.image || "/office/about.png"}
                 alt={about.altname || "RnD Technosoft Astronaut Workstation"}
                 title={about.imgtitle || undefined}
-                fill
+                width={1141}
+                height={1378}
                 priority
-                className="object-contain object-center lg:object-right filter drop-shadow-[0_25px_60px_rgba(0,0,0,0.9)]"
-                sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 720px, 800px"
+                className="w-full h-auto object-contain filter drop-shadow-[0_25px_60px_rgba(0,0,0,0.9)] transition-transform duration-500 hover:scale-[1.02]"
+                sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 640px, 780px"
               />
               {/* Soft Ambient Radial Glow Behind Workstation */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[460px] h-[280px] bg-[#FFD400]/8 blur-[85px] rounded-full pointer-events-none" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[460px] lg:w-[540px] xl:w-[620px] h-[280px] lg:h-[340px] bg-[#FFD400]/8 blur-[85px] rounded-full pointer-events-none" />
               {/* Subtle Neon Floor Reflection */}
-              <div className="absolute -bottom-4 right-1/4 w-[380px] h-16 bg-[#FFD400]/25 blur-[50px] rounded-full pointer-events-none" />
+              <div className="absolute -bottom-4 right-1/4 w-[380px] lg:w-[440px] xl:w-[500px] h-16 bg-[#FFD400]/25 blur-[50px] rounded-full pointer-events-none" />
             </div>
           </div>
 

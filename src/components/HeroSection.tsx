@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from "react";
 import { ChevronDown, Sparkles } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import CyberButton from "@/components/CyberButton";
 import HeroScrollFrames from "@/components/HeroScrollFrames";
 import { HeroData, DEFAULT_HERO_DATA } from "@/lib/getHeroData";
 
@@ -208,30 +207,6 @@ export default function HeroSection({ initialData = DEFAULT_HERO_DATA }: HeroSec
                 </h1>
               </div>
             </div>
-
-            {/* Bottom Row: Optional Primary CTA & Secondary CTA */}
-            {(hero.primary_btn_text || hero.secondary_btn_text) && (
-              <div className="flex flex-col sm:flex-row items-center justify-center w-full pb-6 sm:pb-8 z-30 pointer-events-auto gap-4">
-                {hero.primary_btn_text && (
-                  <CyberButton
-                    href={hero.primary_btn_link || "/contact-us"}
-                    variant="gold"
-                    size="md"
-                  >
-                    {hero.primary_btn_text}
-                  </CyberButton>
-                )}
-                {hero.secondary_btn_text && (
-                  <CyberButton
-                    href={hero.secondary_btn_link || "/portfolio"}
-                    variant="dark"
-                    size="md"
-                  >
-                    {hero.secondary_btn_text}
-                  </CyberButton>
-                )}
-              </div>
-            )}
           </div>
 
           {/* SCROLL HINT (Only visible at initial top state, fades immediately on scroll) */}

@@ -178,7 +178,7 @@ export default function IndustriesIndexPage() {
             : industriesList.filter((item) =>
                 item.title.toLowerCase().includes(selectedCategory.toLowerCase())
             );
-        return list.slice(0, 5);
+        return list;
     }, [selectedCategory, industriesList]);
 
     // GSAP ScrollTrigger Animations for Content
@@ -369,7 +369,7 @@ export default function IndustriesIndexPage() {
                 {isSectionActive(pageComponents, "hero_bar") && (
                     <section className="max-w-7xl mx-auto px-6 md:px-12 pt-8 sm:pt-12 pb-8" style={getSectionStyle(pageComponents, "hero_bar")}>
                         <div className="industry-hero-card p-8 sm:p-12 bg-gradient-to-r from-[#0c0e14]/40 via-[#121520]/40 to-[#0c0e14]/40 backdrop-blur-sm border border-white/10 shadow-2xl relative overflow-hidden">
-                            <div className="relative z-10 max-w-3xl space-y-4">
+                            <div className="relative z-10 w-full space-y-4">
                                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-medium tracking-[0.25em] uppercase">
                                     <Sparkles className="w-3.5 h-3.5" />
                                     <span>{heroData?.tagline || DEFAULT_INDUSTRY_HERO.tagline}</span>
@@ -410,135 +410,135 @@ export default function IndustriesIndexPage() {
             ========================================================================= */}
                 {isSectionActive(pageComponents, "directory_listing") && (
                     <section className="max-w-7xl mx-auto px-6 md:px-12 py-12" style={getSectionStyle(pageComponents, "directory_listing")}>
-                    <div className="industry-section-header mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
-                        <div>
-                            <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
-                                {sectionHeading?.badge || "INDUSTRIES WE SERVEs"}
-                            </span>
-                            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-1">
-                                {renderSectionTitle(sectionHeading?.title || "SOLUTIONS BUILT AROUND YOUR WORLD.")}
-                            </h2>
-                            {sectionHeading?.subtitle && (
-                                <p className="text-xs sm:text-sm text-neutral-300 font-light mt-1">
-                                    {sectionHeading.subtitle}
-                                </p>
-                            )}
+                        <div className="industry-section-header mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                            <div>
+                                <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
+                                    {sectionHeading?.badge || "INDUSTRIES WE SERVEs"}
+                                </span>
+                                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-1">
+                                    {renderSectionTitle(sectionHeading?.title || "SOLUTIONS BUILT AROUND YOUR WORLD.")}
+                                </h2>
+                                {sectionHeading?.subtitle && (
+                                    <p className="text-xs sm:text-sm text-neutral-300 font-light mt-1">
+                                        {sectionHeading.subtitle}
+                                    </p>
+                                )}
+                            </div>
+                            <p className="text-xs font-mono text-neutral-400">
+                                Showing {filteredIndustries.length} Industry Hubs
+                            </p>
                         </div>
-                        <p className="text-xs font-mono text-neutral-400">
-                            Showing {filteredIndustries.length} Industry Hubs
-                        </p>
-                    </div>
 
-                    {/* Industry Cards Grid */}
-                    <div className="space-y-10">
-                        {filteredIndustries.map((ind, idx) => {
-                            const Icon = getIndustryIcon(ind.slug);
-                            const previewWork = ind.works?.[0] || { title: ind.featured_project || "Flagship Solution" };
-                            const cardImage = ind.image || INDUSTRY_CARD_IMAGES[ind.slug] || previewWork?.image || "/Industries/manufacturing_mockup.png";
-                            const showcaseTitle = ind.featured_project || previewWork?.title || "Flagship Architecture Solution";
+                        {/* Industry Cards Grid */}
+                        <div className="space-y-10">
+                            {filteredIndustries.map((ind, idx) => {
+                                const Icon = getIndustryIcon(ind.slug);
+                                const previewWork = ind.works?.[0] || { title: ind.featured_project || "Flagship Solution" };
+                                const cardImage = ind.image || INDUSTRY_CARD_IMAGES[ind.slug] || previewWork?.image || "/Industries/manufacturing_mockup.png";
+                                const showcaseTitle = ind.featured_project || previewWork?.title || "Flagship Architecture Solution";
 
-                            return (
-                                <article
-                                    key={ind.slug || ind.id || idx}
-                                    className="industry-card-item group bg-[#0c0e14]/60 backdrop-blur-md border border-white/10 hover:border-[#FFD400]/50 transition-all duration-500 shadow-xl overflow-hidden flex flex-col"
-                                >
-                                    <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch min-h-[360px]">
+                                return (
+                                    <article
+                                        key={ind.slug || ind.id || idx}
+                                        className="industry-card-item group bg-[#0c0e14]/60 backdrop-blur-md border border-white/10 hover:border-[#FFD400]/50 transition-all duration-500 shadow-xl overflow-hidden flex flex-col"
+                                    >
+                                        <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch min-h-[360px]">
 
-                                        {/* Left: Project Image with Multi-Directional Glide & Settle Animation */}
-                                        <div className="lg:col-span-5 xl:col-span-5 relative w-full h-[280px] sm:h-[340px] lg:h-auto min-h-full flex flex-col justify-stretch self-stretch overflow-hidden">
-                                            <PrintRevealImage
-                                                src={cardImage}
-                                                alt={showcaseTitle || ind.title}
-                                                badge={ind.badge}
-                                                aspectClass="w-full h-full min-h-full"
-                                                className="w-full h-full border-0 lg:border-r border-white/10"
-                                                index={idx}
-                                                objectFit="cover"
-                                            />
-                                        </div>
+                                            {/* Left: Project Image with Multi-Directional Glide & Settle Animation */}
+                                            <div className="lg:col-span-5 xl:col-span-5 relative w-full h-[280px] sm:h-[340px] lg:h-auto min-h-full flex flex-col justify-stretch self-stretch overflow-hidden">
+                                                <PrintRevealImage
+                                                    src={cardImage}
+                                                    alt={showcaseTitle || ind.title}
+                                                    badge={ind.badge}
+                                                    aspectClass="w-full h-full min-h-full"
+                                                    className="w-full h-full border-0 lg:border-r border-white/10"
+                                                    index={idx}
+                                                    objectFit="cover"
+                                                />
+                                            </div>
 
-                                        {/* Right: Industry Blueprint Details */}
-                                        <div className="lg:col-span-7 xl:col-span-7 p-6 sm:p-8 lg:p-9 space-y-5 flex flex-col justify-between">
-                                            <div className="space-y-4">
+                                            {/* Right: Industry Blueprint Details */}
+                                            <div className="lg:col-span-7 xl:col-span-7 p-6 sm:p-8 lg:p-9 space-y-5 flex flex-col justify-between">
+                                                <div className="space-y-4">
 
-                                                {/* Meta Tags: Number • Category • Standard */}
-                                                <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-neutral-400">
-                                                    {/* <span className="px-2.5 py-0.5 bg-[#FFD400]/15 text-[#FFD400] border border-[#FFD400]/30 font-bold flex items-center gap-1.5">
+                                                    {/* Meta Tags: Number • Category • Standard */}
+                                                    <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-neutral-400">
+                                                        {/* <span className="px-2.5 py-0.5 bg-[#FFD400]/15 text-[#FFD400] border border-[#FFD400]/30 font-bold flex items-center gap-1.5">
                                                         <Icon className="w-3 h-3" />
                                                         <span>VERTICAL {ind.number}</span>
                                                     </span> */}
-                                                    {/* <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10">
+                                                        {/* <span className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10">
                                                         {ind.category}
                                                     </span>
                                                     <span className="flex items-center gap-1 px-2.5 py-0.5 bg-white/[0.04] border border-white/10 text-white">
                                                         <Shield className="w-3 h-3 text-[#FFD400]" />
                                                         <span>{ind.badge}</span>
                                                     </span> */}
-                                                </div>
-
-                                                {/* Title with Smooth Wave Animation */}
-                                                <h3 className="font-[family-name:var(--font-syne)] text-2xl sm:text-3xl font-bold text-white group-hover:text-[#FFD400] transition-colors uppercase leading-snug">
-                                                    <Link href={`/industries/${ind.slug}`}>
-                                                        <WaveText text={ind.title} />
-                                                    </Link>
-                                                </h3>
-
-                                                {/* Tagline */}
-                                                <p className="text-xs sm:text-sm text-[#FFD400] font-mono font-medium tracking-wide">
-                                                    {ind.tagline}
-                                                </p>
-
-                                                {/* Short Info */}
-                                                {ind.shortInfo && (
-                                                    <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed line-clamp-3 sm:line-clamp-4">
-                                                        {ind.shortInfo}
-                                                    </p>
-                                                )}
-
-                                                {/* Key Metrics Pills with Animated Counter */}
-                                                {ind.heroMetrics && ind.heroMetrics.length > 0 && (
-                                                    <div className="flex flex-wrap items-center gap-2 pt-1">
-                                                        {ind.heroMetrics.map((m, mIdx) => (
-                                                            <div
-                                                                key={mIdx}
-                                                                className="px-3 py-1 bg-white/[0.03] border border-white/10 text-xs font-mono"
-                                                            >
-                                                                <span className="text-neutral-400">{m.label}: </span>
-                                                                <strong className="text-[#FFD400]">
-                                                                    <AnimatedCounter text={m.value} duration={1.6} />
-                                                                </strong>
-                                                            </div>
-                                                        ))}
                                                     </div>
-                                                )}
-                                            </div>
 
-                                            {/* Featured Project Snapshot & Action Button */}
-                                            <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                                                <div className="space-y-0.5">
-                                                    <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">
-                                                        Showcase Project
-                                                    </span>
-                                                    <p className="text-xs font-mono text-white font-medium line-clamp-1">
-                                                        {showcaseTitle}
+                                                    {/* Title with Smooth Wave Animation */}
+                                                    <h3 className="font-[family-name:var(--font-syne)] text-2xl sm:text-3xl font-bold text-white group-hover:text-[#FFD400] transition-colors uppercase leading-snug">
+                                                        <Link href={`/industries/${ind.slug}`}>
+                                                            <WaveText text={ind.title} />
+                                                        </Link>
+                                                    </h3>
+
+                                                    {/* Tagline */}
+                                                    <p className="text-xs sm:text-sm text-[#FFD400] font-mono font-medium tracking-wide">
+                                                        {ind.tagline}
                                                     </p>
+
+                                                    {/* Short Info */}
+                                                    {ind.shortInfo && (
+                                                        <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed line-clamp-3 sm:line-clamp-4">
+                                                            {ind.shortInfo}
+                                                        </p>
+                                                    )}
+
+                                                    {/* Key Metrics Pills with Animated Counter */}
+                                                    {ind.heroMetrics && ind.heroMetrics.length > 0 && (
+                                                        <div className="flex flex-wrap items-center gap-2 pt-1">
+                                                            {ind.heroMetrics.map((m, mIdx) => (
+                                                                <div
+                                                                    key={mIdx}
+                                                                    className="px-3 py-1 bg-white/[0.03] border border-white/10 text-xs font-mono"
+                                                                >
+                                                                    <span className="text-neutral-400">{m.label}: </span>
+                                                                    <strong className="text-[#FFD400]">
+                                                                        <AnimatedCounter text={m.value} duration={1.6} />
+                                                                    </strong>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    )}
                                                 </div>
 
-                                                <Link
-                                                    href={`/industries/${ind.slug}`}
-                                                    className="px-6 py-2.5 bg-[#FFD400] hover:bg-[#ffe34d] text-black text-xs font-mono uppercase tracking-widest font-bold flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(255,212,0,0.3)] transition-all cursor-pointer group/btn"
-                                                >
-                                                    <span>Explore Industry Hub</span>
-                                                    <ArrowUpRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-                                                </Link>
+                                                {/* Featured Project Snapshot & Action Button */}
+                                                <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                                    <div className="space-y-0.5">
+                                                        <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">
+                                                            Showcase Project
+                                                        </span>
+                                                        <p className="text-xs font-mono text-white font-medium line-clamp-1">
+                                                            {showcaseTitle}
+                                                        </p>
+                                                    </div>
+
+                                                    <Link
+                                                        href={`/industries/${ind.slug}`}
+                                                        className="px-6 py-2.5 bg-[#FFD400] hover:bg-[#ffe34d] text-black text-xs font-mono uppercase tracking-widest font-bold flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(255,212,0,0.3)] transition-all cursor-pointer group/btn"
+                                                    >
+                                                        <span>Explore Industry Hub</span>
+                                                        <ArrowUpRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                                                    </Link>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </article>
-                            );
-                        })}
-                    </div>
-                </section>
+                                    </article>
+                                );
+                            })}
+                        </div>
+                    </section>
                 )}
 
                 {/* =========================================================================

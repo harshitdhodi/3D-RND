@@ -100,7 +100,7 @@ export default function Navbar() {
     },
     {
       num: "04",
-      title: "Retail & E-commerce",
+      title: "Retail & E-Commerce",
       category: "Digital Commerce",
       href: "/industries/retail-ecommerce",
       icon: ShoppingBag,
@@ -118,7 +118,35 @@ export default function Navbar() {
       category: "Education & Learning",
       href: "/industries/education",
       icon: GraduationCap,
-    }
+    },
+    {
+      num: "07",
+      title: "Real Estate & Construction",
+      category: "Property & Infrastructure",
+      href: "/industries/real-estate",
+      icon: Building2,
+    },
+    {
+      num: "08",
+      title: "Startups & Professional Services",
+      category: "Growth & SaaS",
+      href: "/industries/startups-professional-services",
+      icon: Rocket,
+    },
+    {
+      num: "09",
+      title: "Travel & Tourism",
+      category: "Travel & Hospitality Tech",
+      href: "/industries/travel-tourism",
+      icon: Plane,
+    },
+    {
+      num: "10",
+      title: "Finance & FinTech",
+      category: "Financial Technology",
+      href: "/industries/finance-fintech",
+      icon: Landmark,
+    },
   ];
 
   const navLinks = [

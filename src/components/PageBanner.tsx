@@ -213,8 +213,8 @@ export default function PageBanner({
   const titleSizeClass = isCompact
     ? "text-base sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl"
     : isLong
-    ? "text-base sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl"
-    : "text-lg sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl";
+      ? "text-base sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl"
+      : "text-lg sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl";
 
   const heightClass = isCompact
     ? "mt-[56px] sm:mt-[72px] md:mt-0 aspect-[2.3/1] sm:aspect-auto sm:min-h-[240px] md:h-[55vh] lg:h-[60vh] pb-2 sm:pb-[55px] md:pb-[65px] pt-0 md:pt-20"
@@ -346,19 +346,17 @@ export default function PageBanner({
                 {crumb.href ? (
                   <Link
                     href={crumb.href}
-                    className={`transition-colors truncate max-w-[280px] sm:max-w-md ${
-                      isLast
-                        ? "text-[#FFD400] font-bold hover:text-white"
-                        : "text-white/70 hover:text-[#FFD400]"
-                    }`}
+                    className={`transition-colors truncate max-w-[280px] sm:max-w-md ${isLast
+                      ? "text-[#FFD400] font-bold hover:text-white"
+                      : "text-white/70 hover:text-[#FFD400]"
+                      }`}
                   >
                     {crumb.label}
                   </Link>
                 ) : (
                   <span
-                    className={`truncate max-w-[280px] sm:max-w-md ${
-                      isLast ? "text-[#FFD400] font-bold" : "text-white/70"
-                    }`}
+                    className={`truncate max-w-[280px] sm:max-w-md ${isLast ? "text-[#FFD400] font-bold" : "text-white/70"
+                      }`}
                   >
                     {crumb.label}
                   </span>

@@ -5,7 +5,7 @@ import { industriesList } from "@/data/industriesData";
 import IndustryDetailClientView from "@/components/IndustryDetailClientView";
 
 export const dynamic = 'force-dynamic';
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const dbIndustries = await getIndustries();
@@ -41,6 +41,8 @@ export async function generateMetadata({
   const isRetail = industry.slug === "retail-ecommerce";
   const isHospitality = industry.slug === "hospitality";
   const isEducation = industry.slug === "education";
+  const isPharma = industry.slug === "pharmaceuticals-life-sciences";
+  const isAgri = industry.slug === "agriculture-agritech";
 
   const metaTitle = isManufacturing
     ? "Manufacturing Software & Digital Solutions | RND Technosoft"
@@ -54,7 +56,11 @@ export async function generateMetadata({
             ? "Hospitality Website & Digital Solutions | RND Technosoft"
             : isEducation
               ? "Education Website & Digital Solutions | RND Technosoft"
-              : `${industry.title} Digital Solutions | RND Technosoft`;
+              : isPharma
+                ? "Pharmaceutical & Life Sciences Digital Solutions | RND Technosoft"
+                : isAgri
+                  ? "Agriculture & Agritech Digital Solutions | RND Technosoft"
+                  : `${industry.title} Digital Solutions | RND Technosoft`;
 
   const metaDescription = isManufacturing
     ? "Explore manufacturing and industrial digital solutions by RND Technosoft, including custom software development, business applications, website development, digital marketing and branding."
@@ -68,7 +74,11 @@ export async function generateMetadata({
             ? "Explore hospitality digital solutions by RND Technosoft, including hotel website development, booking platforms, digital marketing, branding, photography and videography."
             : isEducation
               ? "Explore education and training digital solutions by RND Technosoft, including educational website development, LMS platforms, custom software, digital marketing, branding and media production."
-              : `${((industry as any).short_info || (industry as any).shortInfo || (industry as any).description || "").slice(0, 155)}...`;
+              : isPharma
+                ? "Explore pharmaceutical and life sciences digital solutions by RND Technosoft, including website development, custom software, digital marketing, branding and corporate media production."
+                : isAgri
+                  ? "Explore agriculture and agritech digital solutions by RND Technosoft, including agricultural website development, custom software, farm management platforms, digital marketing and branding."
+                  : `${((industry as any).short_info || (industry as any).shortInfo || (industry as any).description || "").slice(0, 155)}...`;
 
   return {
     title: metaTitle,
@@ -276,9 +286,12 @@ export default async function IndustryDetailPage({
     hero_tagline: industryDetail?.hero_tagline || industry.badge || staticIndustry?.badge || "INDUSTRY SOLUTIONS",
     tagline: industryDetail?.hero_heading || industry.tagline || staticIndustry?.tagline || industry.title,
     shortInfo: industryDetail?.hero_description || industry.short_info || staticIndustry?.shortInfo || industry.description || "",
-    heroMetrics: (industry.hero_metrics && industry.hero_metrics.length > 0)
-      ? industry.hero_metrics
-      : (staticIndustry?.heroMetrics || []),
+    heroMetrics: (industryDetail?.hero_metrics && industryDetail.hero_metrics.length > 0)
+      ? industryDetail.hero_metrics
+      : (industry.hero_metrics && industry.hero_metrics.length > 0)
+        ? industry.hero_metrics
+        : (staticIndustry?.heroMetrics || []),
+    hero_metrics_title: industryDetail?.hero_metrics_title || (industry.title ? `${industry.title.split('&')[0].trim()} Growth Priorities` : "Growth Priorities"),
 
     // Section 1: Pillars
     pillars_heading: industryDetail?.pillars_heading,

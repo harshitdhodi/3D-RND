@@ -240,10 +240,6 @@ export default function IndustryDetailClientView({
                         {/* Top Micro-Telemetry Header Bar */}
                         <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-white/10">
                             <div className="flex items-center gap-3">
-                                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-bold tracking-wider uppercase">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-[#FFD400] animate-ping" />
-                                    <span>SECTOR SPEC // {industry.number || "01"}</span>
-                                </span>
                                 <span className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-neutral-300 text-xs font-mono">
                                     {industry.category}
                                 </span>
@@ -272,27 +268,35 @@ export default function IndustryDetailClientView({
 
                                 {/* Telemetry HUD Metrics Strip */}
                                 {industry.heroMetrics && industry.heroMetrics.length > 0 && (
-                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                                        {industry.heroMetrics.map((metric: any, mIdx: number) => (
-                                            <div
-                                                key={mIdx}
-                                                className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[#FFD400]/40 transition-all duration-300 flex flex-col justify-between group/metric"
-                                            >
-                                                <div className="flex items-center justify-between mb-1.5">
-                                                    <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-400">
-                                                        {metric.label}
-                                                    </span>
-                                                    <Activity className="w-3.5 h-3.5 text-[#FFD400]/70 group-hover/metric:text-[#FFD400] transition-colors" />
+                                    <div className="pt-2">
+                                        <div className="flex items-center gap-2 mb-3 text-[11px] font-mono uppercase tracking-wider text-[#FFD400] font-semibold">
+                                            <Activity className="w-3.5 h-3.5 text-[#FFD400]" />
+                                            <span>
+                                                {industry.hero_metrics_title || (industry.title ? `${industry.title.split('&')[0].trim()} Growth Priorities` : "Growth Priorities")}
+                                            </span>
+                                        </div>
+                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                            {industry.heroMetrics.map((metric: any, mIdx: number) => (
+                                                <div
+                                                    key={mIdx}
+                                                    className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[#FFD400]/40 transition-all duration-300 flex flex-col justify-between group/metric"
+                                                >
+                                                    <div className="flex items-center justify-between mb-1.5">
+                                                        <span className="text-[10px] font-mono uppercase tracking-widest text-[#FFD400] font-semibold">
+                                                            {metric.label}
+                                                        </span>
+                                                        <Activity className="w-3.5 h-3.5 text-[#FFD400]/70 group-hover/metric:text-[#FFD400] transition-colors" />
+                                                    </div>
+                                                    <div className="text-xs sm:text-sm text-neutral-300 font-light leading-snug group-hover/metric:text-white transition-colors">
+                                                        {metric.value}
+                                                    </div>
+                                                    <div className="mt-2 pt-2 border-t border-white/5 flex items-center gap-1.5 text-[9px] font-mono text-neutral-500">
+                                                        <span className="w-1 h-1 rounded-full bg-emerald-400" />
+                                                        <span>ACTIVE PRIORITY</span>
+                                                    </div>
                                                 </div>
-                                                <div className="font-[family-name:var(--font-syne)] text-sm sm:text-base font-bold text-white group-hover/metric:text-[#FFD400] transition-colors">
-                                                    {metric.value}
-                                                </div>
-                                                <div className="mt-2 pt-2 border-t border-white/5 flex items-center gap-1.5 text-[9px] font-mono text-neutral-500">
-                                                    <span className="w-1 h-1 rounded-full bg-emerald-400" />
-                                                    <span>ACTIVE METRIC</span>
-                                                </div>
-                                            </div>
-                                        ))}
+                                            ))}
+                                        </div>
                                     </div>
                                 )}
                             </div>
@@ -414,6 +418,86 @@ export default function IndustryDetailClientView({
 
 
                 {/* =========================================================================
+            2. INDUSTRY CHALLENGES (Section 2 from CMS / Doc)
+            ========================================================================= */}
+                {industry.challenges && industry.challenges.length > 0 && (
+                    <section className="max-w-7xl mx-auto px-6 md:px-12 py-16 border-t border-white/10">
+                        {/* Header Row with Title & Tagline */}
+                        <div className="max-w-4xl space-y-3 mb-12">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-semibold tracking-wider uppercase">
+                                <AlertTriangle className="w-3.5 h-3.5 text-[#FFD400]" />
+                                <span>
+                                    {industry.challenges_tagline || "INDUSTRY CHALLENGES // OPERATIONAL COMPLEXITIES"}
+                                </span>
+                            </div>
+                            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-[family-name:var(--font-syne)] font-bold text-white uppercase tracking-tight leading-snug">
+                                <WaveText text={industry.challenges_heading || "THE CHALLENGES SHAPING MODERN INDUSTRY."} />
+                            </h2>
+                            {industry.challenges_description && (
+                                <ScrollReveal delay={0.15}>
+                                    <p className="text-xs sm:text-sm text-neutral-400 font-light leading-relaxed max-w-2xl">
+                                        {industry.challenges_description}
+                                    </p>
+                                </ScrollReveal>
+                            )}
+                        </div>
+
+                        {/* Challenges Cards Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {industry.challenges.map((challenge: any, cIdx: number) => {
+                                const IconComponent = getChallengeIcon(challenge.title, cIdx);
+                                return (
+                                    <div
+                                        key={cIdx}
+                                        className="group relative p-6 rounded-2xl bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/10 hover:border-[#FFD400]/50 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-lg hover:shadow-[0_0_25px_rgba(255,212,0,0.15)]"
+                                    >
+                                        {/* Watermark Number */}
+                                        <div className="absolute -top-3 -right-2 text-6xl font-black font-[family-name:var(--font-syne)] text-white/[0.03] group-hover:text-[#FFD400]/10 transition-colors select-none pointer-events-none">
+                                            {challenge.impactMetric || String(cIdx + 1).padStart(2, "0")}
+                                        </div>
+
+                                        <div className="space-y-4 relative z-10">
+                                            <div className="flex items-center justify-between">
+                                                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#FFD400]/20 to-[#FFD400]/5 border border-[#FFD400]/40 text-[#FFD400] flex items-center justify-center shadow-[0_0_15px_rgba(255,212,0,0.2)] group-hover:scale-110 transition-transform duration-300">
+                                                    <IconComponent className="w-5 h-5" />
+                                                </div>
+                                                <span className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-white/[0.05] border border-white/10 text-neutral-400 group-hover:text-[#FFD400] transition-colors">
+                                                    CHALLENGE {challenge.impactMetric || String(cIdx + 1).padStart(2, "0")}
+                                                </span>
+                                            </div>
+
+                                            <h3 className="font-[family-name:var(--font-syne)] text-base sm:text-lg font-bold text-white group-hover:text-[#FFD400] transition-colors uppercase leading-snug">
+                                                {challenge.title}
+                                            </h3>
+
+                                            <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
+                                                {challenge.description}
+                                            </p>
+                                        </div>
+
+                                        {/* Bottom Impact Badge */}
+                                        <div className="pt-4 mt-4 border-t border-white/5 relative z-10 flex items-center justify-between text-[10px] font-mono text-neutral-400">
+                                            <span className="flex items-center gap-1.5 text-neutral-400 group-hover:text-white transition-colors">
+                                                <span className="w-1.5 h-1.5 rounded-full bg-red-400/80" />
+                                                <span>OPERATIONAL IMPACT</span>
+                                            </span>
+                                            <span className="text-[#FFD400]/80 font-semibold group-hover:translate-x-1 transition-transform">
+                                                →
+                                            </span>
+                                        </div>
+
+                                        {/* Hover bottom expanding gold line */}
+                                        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD400] to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center" />
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </section>
+                )}
+
+
+
+                {/* =========================================================================
             3. RELEVANT SERVICE COMBINATIONS (Services Split Layout with Hover Reveal)
             ========================================================================= */}
                 <section className="max-w-7xl mx-auto px-6 md:px-12 py-16 border-t border-white/10">
@@ -422,37 +506,15 @@ export default function IndustryDetailClientView({
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] text-xs font-mono font-semibold tracking-wider uppercase">
                             <Zap className="w-3.5 h-3.5 text-[#FFD400]" />
                             <span>
-                                {industry.solutions_tagline || (industry.slug === "healthcare" ? "OUR SOLUTIONS" : "INTEGRATED SOLUTIONS // INDUSTRY-FOCUSED CAPABILITIES")}
+                                {industry.solutions_tagline || "INTEGRATED SOLUTIONS // INDUSTRY-FOCUSED CAPABILITIES"}
                             </span>
                         </div>
                         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-[family-name:var(--font-syne)] font-bold text-white uppercase tracking-tight leading-snug">
-                            <WaveText text={industry.solutions_heading || (industry.slug === "healthcare"
-                                ? "TECHNOLOGY AND CREATIVITY, WORKING FOR BETTER HEALTHCARE."
-                                : industry.slug === "food-fmcg"
-                                    ? "POWERING FOOD & FMCG BRANDS THROUGH DIGITAL INNOVATION."
-                                    : industry.slug === "retail-ecommerce"
-                                        ? "ENGINEERING BETTER SHOPPING EXPERIENCES. BUILDING STRONGER RETAIL BRANDS."
-                                        : industry.slug === "hospitality"
-                                            ? "TECHNOLOGY MEETS HOSPITALITY. EXPERIENCES MEET EXPECTATIONS."
-                                            : industry.slug === "education"
-                                                ? "TECHNOLOGY THAT EMPOWERS LEARNING. CREATIVITY THAT INSPIRES GROWTH."
-                                                : "THE RIGHT TECHNOLOGY. THE RIGHT STRATEGY. THE RIGHT IMPACT."
-                            )} />
+                            <WaveText text={industry.solutions_heading || "THE RIGHT TECHNOLOGY. THE RIGHT STRATEGY. THE RIGHT IMPACT."} />
                         </h2>
                         <ScrollReveal delay={0.15}>
                             <p className="text-xs sm:text-sm text-neutral-400 font-light leading-relaxed max-w-2xl">
-                                {industry.solutions_description || (industry.slug === "healthcare"
-                                    ? "We combine digital expertise across four key service areas to help healthcare organisations strengthen their operations, improve communication and build a more effective digital presence."
-                                    : industry.slug === "food-fmcg"
-                                        ? "From e-commerce platforms to product campaigns, we bring technology and creativity together to help food and FMCG businesses strengthen their digital presence and create meaningful consumer experiences."
-                                        : industry.slug === "retail-ecommerce"
-                                            ? "We combine e-commerce development, digital marketing, creative design and visual storytelling to help retail businesses create better product experiences, reach relevant customers and build stronger brand connections."
-                                            : industry.slug === "hospitality"
-                                                ? "From direct booking experiences to destination storytelling, we combine technology and creativity to help hospitality businesses connect with guests and build stronger digital experiences."
-                                                : industry.slug === "education"
-                                                    ? "From educational websites and learning platforms to student-focused campaigns and institutional branding, we combine technology and creativity to help education businesses move forward."
-                                                    : "We bring multiple capabilities together to help manufacturing businesses strengthen their operations, improve digital visibility and build a competitive market presence."
-                                )}
+                                {industry.solutions_description || "We bring multiple capabilities together to help businesses strengthen their operations, improve digital visibility and build a competitive market presence."}
                             </p>
                         </ScrollReveal>
                     </div>
@@ -669,36 +731,14 @@ export default function IndustryDetailClientView({
                     <div className="mb-10 max-w-3xl">
                         <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold flex items-center gap-2">
                             <Clock className="w-4 h-4 text-[#FFD400]" />
-                            <span>{industry.process_tagline || (industry.slug === "healthcare" ? "PROJECT ROADMAP" : "OUR APPROACH // FROM VISION TO EXECUTION")}</span>
+                            <span>{industry.process_tagline || "OUR APPROACH // FROM VISION TO EXECUTION"}</span>
                         </span>
                         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-2">
-                            <WaveText text={industry.process_heading || (industry.slug === "healthcare"
-                                ? "FROM UNDERSTANDING YOUR NEEDS TO DELIVERING THE RIGHT SOLUTION."
-                                : industry.slug === "food-fmcg"
-                                    ? "FROM PRODUCT VISION TO MARKET-READY DIGITAL EXPERIENCES."
-                                    : industry.slug === "retail-ecommerce"
-                                        ? "FROM SHOPPING CONCEPT TO CONNECTED COMMERCE."
-                                        : industry.slug === "hospitality"
-                                            ? "FROM FIRST DISCOVERY TO A MEMORABLE DIGITAL EXPERIENCE."
-                                            : industry.slug === "education"
-                                                ? "FROM LEARNING REQUIREMENTS TO DIGITAL IMPLEMENTATION."
-                                                : "A CLEARER PATH FROM CHALLENGE TO SOLUTION."
-                            )} />
+                            <WaveText text={industry.process_heading || "A CLEARER PATH FROM CHALLENGE TO SOLUTION."} />
                         </h2>
                         <ScrollReveal delay={0.15}>
                             <p className="text-xs sm:text-sm text-neutral-400 font-mono mt-2">
-                                {industry.process_description || (industry.slug === "healthcare"
-                                    ? "Every healthcare organisation has different goals. Our process begins with understanding your requirements and shaping a solution that aligns with your business, audience and long-term vision."
-                                    : industry.slug === "food-fmcg"
-                                        ? "Every food and FMCG business has a different market, audience and operating model. Our process aligns the right technology and creative services with your business objectives."
-                                        : industry.slug === "retail-ecommerce"
-                                            ? "Every retail business has different products, customers and operational requirements. Our process helps define the right platform, design approach and integrations to create engaging shopping experiences."
-                                            : industry.slug === "hospitality"
-                                                ? "Every hospitality brand has its own personality, audience and service expectations. Our process begins with understanding your property and business goals before shaping the right digital and creative solution."
-                                                : industry.slug === "education"
-                                                    ? "Every educational organisation has different learners, teaching methods and operational requirements. Our process focuses on understanding your objectives and delivering a digital solution that supports your educational vision."
-                                                    : "Every manufacturing business has unique requirements. Our collaborative approach ensures that every project starts with understanding your business and ends with a solution aligned with your goals."
-                                )}
+                                {industry.process_description || "Our collaborative approach ensures that every project starts with understanding your business and ends with a solution aligned with your goals."}
                             </p>
                         </ScrollReveal>
                     </div>
@@ -763,21 +803,10 @@ export default function IndustryDetailClientView({
                                     <div>
                                         <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold flex items-center gap-2">
                                             <Sparkles className="w-4 h-4" />
-                                            <span>{industry.case_study_tagline || industry.caseStudy?.tagline || (industry.slug === "healthcare" ? "SUCCESS STORY" : "INDUSTRY SPOTLIGHT // BUSINESS TRANSFORMATION")}</span>
+                                            <span>{industry.case_study_tagline || industry.caseStudy?.tagline || "SUCCESS STORY // BUSINESS TRANSFORMATION"}</span>
                                         </span>
                                         <h2 className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-1">
-                                            <WaveText text={industry.case_study_title || industry.caseStudy?.title || (industry.slug === "healthcare"
-                                                ? "TRANSFORMING HEALTHCARE EXPERIENCES THROUGH DIGITAL INNOVATION."
-                                                : industry.slug === "food-fmcg"
-                                                    ? "HELPING A FOOD BRAND GROW BEYOND ITS SHELVES."
-                                                    : industry.slug === "retail-ecommerce"
-                                                        ? "TURNING DIGITAL SHOPPING INTO A MORE ENGAGING EXPERIENCE."
-                                                        : industry.slug === "hospitality"
-                                                            ? "TURNING HOSPITALITY BRANDS INTO DESTINATIONS GUESTS DISCOVER."
-                                                            : industry.slug === "education"
-                                                                ? "TRANSFORMING THE WAY EDUCATION CONNECTS WITH LEARNERS."
-                                                                : "TURNING COMPLEX OPERATIONS INTO CONNECTED POSSIBILITIES."
-                                            )} />
+                                            <WaveText text={industry.case_study_title || industry.caseStudy?.title || "TURNING COMPLEX OPERATIONS INTO CONNECTED POSSIBILITIES."} />
                                         </h2>
                                     </div>
                                     {industry.caseStudy.period && (
@@ -877,21 +906,10 @@ export default function IndustryDetailClientView({
                 <section className="max-w-7xl mx-auto px-6 md:px-12 py-14 border-t border-white/10">
                     <div className="mb-8">
                         <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FFD400] font-semibold">
-                            {industry.faq_tagline || (industry.slug === "healthcare" ? "EVERYTHING YOU NEED TO KNOW" : "MANUFACTURING & INDUSTRIAL // KNOW BEFORE YOU BEGIN")}
+                            {industry.faq_tagline || "EVERYTHING YOU NEED TO KNOW"}
                         </span>
                         <h2 className="text-2xl sm:text-3xl font-[family-name:var(--font-syne)] font-bold text-white uppercase mt-1">
-                            <WaveText text={industry.faq_heading || (industry.slug === "healthcare"
-                                ? "EVERYTHING YOU NEED TO KNOW ABOUT OUR HEALTHCARE SOLUTIONS."
-                                : industry.slug === "food-fmcg"
-                                    ? "YOUR QUESTIONS. OUR DIGITAL EXPERTISE."
-                                    : industry.slug === "retail-ecommerce"
-                                        ? "EVERYTHING YOU NEED TO KNOW ABOUT OUR RETAIL SOLUTIONS."
-                                        : industry.slug === "hospitality"
-                                            ? "EVERYTHING YOU NEED TO KNOW ABOUT OUR HOSPITALITY SOLUTIONS."
-                                            : industry.slug === "education"
-                                                ? "EVERYTHING YOU NEED TO KNOW ABOUT OUR EDUCATION SOLUTIONS."
-                                                : "FREQUENTLY ASKED QUESTIONS"
-                            )} />
+                            <WaveText text={industry.faq_heading || "FREQUENTLY ASKED QUESTIONS"} />
                         </h2>
                     </div>
 

@@ -133,10 +133,13 @@ export default function Navbar() {
   return (
     <header
       id="navbar"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out px-3 sm:px-6 md:px-8 lg:px-12 w-full max-w-full ${isSticky
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out px-3 sm:px-6 md:px-8 lg:px-12 w-full max-w-full ${
+        isSticky
           ? "bg-[#06080e]/95 backdrop-blur-2xl border-b border-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.85)] py-2.5 sm:py-3"
+          : pathname !== "/"
+          ? "max-md:bg-[#06080e]/98 max-md:backdrop-blur-xl max-md:border-b max-md:border-white/10 bg-transparent border-b border-transparent shadow-none py-3.5 sm:py-5"
           : "bg-transparent border-b border-transparent shadow-none py-3.5 sm:py-5"
-        }`}
+      }`}
     >
       <div className="w-full max-w-7xl mx-auto flex items-center justify-between relative">
         {/* Brand Logo in crisp white pill capsule */}

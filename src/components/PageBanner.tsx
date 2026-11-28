@@ -86,7 +86,9 @@ export default function PageBanner({
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      // 1. Slow, ultra-smooth cinematic zoom out on open (starts at 1.08 and zooms out to 1.0)
+      const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+      // 1. Slow, ultra-smooth cinematic zoom out on open
       if (imageRef.current) {
         const isRightAligned =
           imagePosition.includes("right") ||
@@ -96,19 +98,36 @@ export default function PageBanner({
         gsap.fromTo(
           imageRef.current,
           {
-            scale: 1.08,
+            scale: isMobile ? 1.0 : 1.08,
             transformOrigin: isRightAligned ? "92% 50%" : "center bottom",
           },
           {
             scale: 1.0,
-            duration: 8,
+            duration: isMobile ? 1 : 8,
             ease: "power1.out",
           }
         );
 
         // 2. Parallax effect on scroll
-        gsap.to(imageRef.current, {
-          yPercent: 20,
+        if (!isMobile) {
+          gsap.to(imageRef.current, {
+            yPercent: 20,
+            ease: "none",
+            scrollTrigger: {
+              trigger: bannerRef.current,
+              start: "top top",
+              end: "bottom top",
+              scrub: true,
+            },
+          });
+        }
+      }
+
+      // 3. Foreground Content gentle upward float on scroll (Desktop only)
+      if (!isMobile) {
+        gsap.to(".banner-content-wrap", {
+          y: -40,
+          opacity: 0.55,
           ease: "none",
           scrollTrigger: {
             trigger: bannerRef.current,
@@ -119,95 +138,66 @@ export default function PageBanner({
         });
       }
 
-      // 3. Foreground Content gentle upward float on scroll
-      gsap.to(".banner-content-wrap", {
-        y: -40,
-        opacity: 0.55,
-        ease: "none",
-        scrollTrigger: {
-          trigger: bannerRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: bannerRef.current,
-          start: "top 85%",
-          toggleActions: "play none none none",
-        },
-      });
+      const tl = gsap.timeline({ delay: isMobile ? 0 : 0.1 });
 
       // 4. Breadcrumb nav fade-in
-      tl.fromTo(
+      tl.from(
         ".banner-nav-anim",
-        { opacity: 0, y: 18 },
-        { opacity: 1, y: 0, duration: 0.6, ease: "power3.out", delay: 0.2 }
+        { opacity: 0, y: isMobile ? 6 : 12, duration: isMobile ? 0.2 : 0.4, ease: "power3.out" },
+        0.05
       );
 
       // 5. Typewriter Caret appears with a soft glow
-      tl.fromTo(
+      tl.from(
         ".typewriter-caret",
-        { opacity: 0, scaleY: 0 },
-        { opacity: 1, scaleY: 1, duration: 0.25, ease: "power2.out" },
-        "-=0.1"
+        { opacity: 0, scaleY: 0, duration: 0.2, ease: "power2.out" },
+        0.15
       );
 
       // 6. First line letters smooth typewriter effect with soft blur & gentle lift
-      if (firstLine) {
-        tl.fromTo(
+      if (firstLine && !isMobile) {
+        tl.from(
           ".typewriter-char-1",
           {
             opacity: 0,
-            y: 18,
-            filter: "blur(6px)",
-            scale: 0.92,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            filter: "blur(0px)",
-            scale: 1,
-            duration: 0.32,
-            stagger: 0.08,
+            y: 12,
+            filter: "blur(4px)",
+            scale: 0.95,
+            duration: 0.25,
+            stagger: 0.05,
             ease: "power2.out",
-          }
+          },
+          0.15
         );
       }
 
       // 7. Yellow line laser expands smoothly
-      tl.fromTo(
+      tl.from(
         ".banner-line-anim",
-        { scaleX: 0, transformOrigin: "left" },
-        { scaleX: 1, duration: 0.6, ease: "power3.inOut" },
-        firstLine ? "+=0.1" : "0"
+        { scaleX: 0, transformOrigin: "left", duration: isMobile ? 0.25 : 0.4, ease: "power3.inOut" },
+        firstLine && !isMobile ? 0.35 : 0.1
       );
 
       // 8. Second line letters smooth typewriter effect
-      tl.fromTo(
-        ".typewriter-char-2",
-        {
-          opacity: 0,
-          y: 18,
-          filter: "blur(6px)",
-          scale: 0.92,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          scale: 1,
-          duration: 0.32,
-          stagger: 0.08,
-          ease: "power2.out",
-        }
-      );
+      if (!isMobile) {
+        tl.from(
+          ".typewriter-char-2",
+          {
+            opacity: 0,
+            y: 12,
+            filter: "blur(4px)",
+            scale: 0.95,
+            duration: 0.25,
+            stagger: 0.05,
+            ease: "power2.out",
+          },
+          firstLine ? 0.45 : 0.25
+        );
+      }
 
       // 9. Caret smooth breathing pulse loop
       tl.to(".typewriter-caret", {
-        opacity: 0.15,
+        opacity: 0.2,
         repeat: -1,
         yoyo: true,
         duration: 0.65,
@@ -221,14 +211,14 @@ export default function PageBanner({
   const isCompact = size === "compact";
   const isLong = secondLine.length > 22;
   const titleSizeClass = isCompact
-    ? "text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl"
+    ? "text-base sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl"
     : isLong
-    ? "text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl"
-    : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl";
+    ? "text-base sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl"
+    : "text-lg sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl";
 
   const heightClass = isCompact
-    ? "h-[54vh] sm:h-[60vh] pb-[50px] sm:pb-[65px] pt-20"
-    : "h-[80vh] pb-[60px] sm:pb-[85px] pt-24";
+    ? "mt-[56px] sm:mt-[72px] md:mt-0 aspect-[2.3/1] sm:aspect-auto sm:min-h-[240px] md:h-[55vh] lg:h-[60vh] pb-2 sm:pb-[55px] md:pb-[65px] pt-0 md:pt-20"
+    : "mt-[56px] sm:mt-[72px] md:mt-0 aspect-[2.2/1] sm:aspect-auto sm:min-h-[280px] md:h-[65vh] lg:h-[80vh] pb-2 sm:pb-[65px] md:pb-[85px] pt-0 md:pt-24";
 
   // Normalize breadcrumbs & resolve links with deduplication
   const normalizedCrumbs: BreadcrumbItem[] = [];
@@ -325,21 +315,21 @@ export default function PageBanner({
             fill
             priority
             unoptimized
-            className={`object-cover ${imagePosition} ${imageClassName}`}
+            className={`object-cover object-center md:${imagePosition} ${imageClassName}`}
             style={imageStyle}
           />
         </div>
       </div>
 
       {/* Smooth Bottom Dissolve into Galactic Space Background */}
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#050608] via-[#050608]/50 to-transparent pointer-events-none z-[2]" />
+      <div className="absolute inset-x-0 bottom-0 h-6 sm:h-16 md:h-32 bg-gradient-to-t from-[#050608] via-[#050608]/40 to-transparent pointer-events-none z-[2]" />
 
       {/* Foreground Content: Main Heading and Breadcrumb Only */}
       <div className="banner-content-wrap relative z-10 w-full max-w-7xl mx-auto flex flex-col items-start will-change-transform">
         {/* Breadcrumb */}
         <nav
           aria-label="Breadcrumb"
-          className="banner-nav-anim flex flex-wrap items-center gap-2 text-xs font-mono uppercase tracking-widest text-white/80 mb-3 sm:mb-4 pb-2 border-b border-white/20 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]"
+          className="banner-nav-anim flex flex-wrap items-center gap-1 sm:gap-2 text-[9px] sm:text-xs font-mono uppercase tracking-widest text-white/80 mb-1 sm:mb-4 pb-0.5 sm:pb-2 border-b border-white/20 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]"
         >
           <Link
             href="/"
@@ -386,44 +376,44 @@ export default function PageBanner({
                 {firstLine.split("").map((char, idx) => (
                   <span
                     key={idx}
-                    className="typewriter-char-1 opacity-0 inline-block"
+                    className="typewriter-char-1 inline-block"
                   >
                     {char === " " ? "\u00A0" : char}
                   </span>
                 ))}
               </h1>
-              <div className="flex items-center gap-3 sm:gap-4 mt-2 sm:mt-3">
-                <span className="banner-line-anim w-12 sm:w-16 h-[2.5px] bg-[#FFD400] block shrink-0 shadow-[0_0_14px_rgba(255,212,0,0.9)]" />
+              <div className="flex items-center gap-1.5 sm:gap-4 mt-1 sm:mt-3">
+                <span className="banner-line-anim w-5 sm:w-12 md:w-16 h-[2px] sm:h-[2.5px] bg-[#FFD400] block shrink-0 shadow-[0_0_14px_rgba(255,212,0,0.9)]" />
                 <div className="flex items-center">
                   <span className={`${titleSizeClass} font-[family-name:var(--font-syne)] font-bold tracking-tight text-white leading-[0.88] uppercase`}>
                     {secondLine.split("").map((char, idx) => (
                       <span
                         key={idx}
-                        className="typewriter-char-2 opacity-0 inline-block"
+                        className="typewriter-char-2 inline-block"
                       >
                         {char === " " ? "\u00A0" : char}
                       </span>
                     ))}
                   </span>
-                  <span className="typewriter-caret inline-block w-[4px] sm:w-[6px] h-[0.7em] sm:h-[0.75em] bg-[#FFD400] ml-2 align-middle shadow-[0_0_12px_rgba(255,212,0,0.95)] opacity-0" />
+                  <span className="typewriter-caret inline-block w-[2.5px] sm:w-[4px] md:w-[6px] h-[0.7em] sm:h-[0.75em] bg-[#FFD400] ml-1 sm:ml-2 align-middle shadow-[0_0_12px_rgba(255,212,0,0.95)]" />
                 </div>
               </div>
             </>
           ) : (
-            <div className="flex items-center gap-3 sm:gap-4">
-              <span className="banner-line-anim w-12 sm:w-16 h-[2.5px] bg-[#FFD400] block shrink-0 shadow-[0_0_14px_rgba(255,212,0,0.9)]" />
+            <div className="flex items-center gap-1.5 sm:gap-4">
+              <span className="banner-line-anim w-5 sm:w-12 md:w-16 h-[2px] sm:h-[2.5px] bg-[#FFD400] block shrink-0 shadow-[0_0_14px_rgba(255,212,0,0.9)]" />
               <div className="flex items-center">
                 <h1 className={`${titleSizeClass} font-[family-name:var(--font-syne)] font-bold tracking-tight text-white leading-[0.88] uppercase`}>
                   {secondLine.split("").map((char, idx) => (
                     <span
                       key={idx}
-                      className="typewriter-char-2 opacity-0 inline-block"
+                      className="typewriter-char-2 inline-block"
                     >
                       {char === " " ? "\u00A0" : char}
                     </span>
                   ))}
                 </h1>
-                <span className="typewriter-caret inline-block w-[4px] sm:w-[6px] h-[0.7em] sm:h-[0.75em] bg-[#FFD400] ml-2 align-middle shadow-[0_0_12px_rgba(255,212,0,0.95)] opacity-0" />
+                <span className="typewriter-caret inline-block w-[2.5px] sm:w-[4px] md:w-[6px] h-[0.7em] sm:h-[0.75em] bg-[#FFD400] ml-1 sm:ml-2 align-middle shadow-[0_0_12px_rgba(255,212,0,0.95)]" />
               </div>
             </div>
           )}
